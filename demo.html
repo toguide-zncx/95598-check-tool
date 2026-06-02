@@ -1900,6 +1900,55 @@ a { text-decoration:none; color:inherit; }
       </div>
     </div>
 
+
+    <!-- ==================== 项目管理 ==================== -->
+    <div class="page-section" id="page-project">
+      <div class="page-header">
+        <h1>项目管理</h1>
+        <p>运营项目全生命周期管理 · 规划→执行→监控→交付</p>
+      </div>
+      <div class="page-body">
+        <!-- 项目统计KPI -->
+        <div class="kpi-row">
+          <div class="kpi-card green"><div class="kpi-label">📁 项目总数</div><div class="kpi-value" id="pm-total">8</div></div>
+          <div class="kpi-card blue"><div class="kpi-label">🔄 进行中</div><div class="kpi-value" id="pm-active">5</div></div>
+          <div class="kpi-card orange"><div class="kpi-label">⏳ 待启动</div><div class="kpi-value" id="pm-pending">1</div></div>
+          <div class="kpi-card green"><div class="kpi-label">✅ 已完成</div><div class="kpi-value" id="pm-done">2</div></div>
+          <div class="kpi-card red"><div class="kpi-label">⚠️ 逾期项目</div><div class="kpi-value" id="pm-overdue">1</div><div class="kpi-badge">!</div></div>
+        </div>
+        <!-- 视图切换 + 操作 -->
+        <div class="card">
+          <div class="filter-bar">
+            <select id="pm-filter-status"><option value="">全部状态</option><option value="进行中">进行中</option><option value="待启动">待启动</option><option value="已完成">已完成</option><option value="已暂停">已暂停</option></select>
+            <select id="pm-filter-line"><option value="">全部主线</option><option value="应用迭代">应用迭代</option><option value="数据供给">数据供给</option><option value="知识更新">知识更新</option><option value="模型调优">模型调优</option><option value="风控兜底">风控兜底</option></select>
+            <input type="text" id="pm-filter-search" placeholder="搜索项目名称...">
+            <button class="btn btn-primary btn-sm" onclick="pmFilter()">🔍 筛选</button>
+            <button class="btn btn-outline btn-sm" onclick="pmResetFilter()">重置</button>
+            <div style="flex:1"></div>
+            <button class="btn btn-outline btn-sm" id="btn-pm-card-view" onclick="pmToggleView('card')">📊 卡片</button>
+            <button class="btn btn-outline btn-sm" id="btn-pm-gantt-view" onclick="pmToggleView('gantt')">📅 甘特图</button>
+            <button class="btn btn-primary btn-sm" onclick="pmShowCreate()">➕ 新建项目</button>
+          </div>
+          <!-- 卡片视图 -->
+          <div id="pm-card-view">
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px" id="pm-project-cards"></div>
+          </div>
+          <!-- 甘特图视图 -->
+          <div id="pm-gantt-view" style="display:none">
+            <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px">
+              <span style="font-size:12px;color:var(--text-light)">项目时间线（2026年）</span>
+              <div style="flex:1"></div>
+              <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:12px;height:8px;background:var(--primary);border-radius:2px;display:inline-block"></span>应用迭代</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:12px;height:8px;background:var(--info);border-radius:2px;display:inline-block"></span>数据供给</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:12px;height:8px;background:var(--gold);border-radius:2px;display:inline-block"></span>知识更新</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:12px;height:8px;background:var(--purple);border-radius:2px;display:inline-block"></span>模型调优</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:12px;height:8px;background:var(--danger);border-radius:2px;display:inline-block"></span>风控兜底</span>
+            </div>
+            <div id="pm-gantt-chart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div><!-- main end -->
 </div><!-- layout end -->
 
