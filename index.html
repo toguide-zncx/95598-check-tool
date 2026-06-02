@@ -1331,14 +1331,16 @@ function afIdentifyAppeal(customerMsgs, msgs, entryIdx) {
   if (!customerMsgs || customerMsgs.length === 0) return "无明显意图";
   var joined = customerMsgs.join(' ');
   var intents = [];
-  // 检查坐席是否询问了"请问您想问的是停电信息查询吗"且客户回答"是"
-  if (msgs && entryIdx !== null) {
-    for (var i = entryIdx || 0; i < msgs.length; i++) {
+  // 检查坐席是否询问了"请问您想问的是停电信息查询吗"且客户回答肯定
+  // 从会话开头搜索（可能出现在entryIdx之前）
+  if (msgs) {
+    for (var i = 0; i < msgs.length; i++) {
       if (msgs[i].role === 'a' && /请问您想问的是.*停电信息查询/.test(msgs[i].content)) {
         // 找到客户回复
         for (var j = i + 1; j < msgs.length; j++) {
           if (msgs[j].role === 'c') {
-            if (/是/.test(msgs[j].content) && intents.indexOf("查停电信息") < 0) {
+            var cResp = msgs[j].content.trim();
+            if ((/是|对|嗯|好|可以|没错|对的|是的|要|想/.test(cResp)) && intents.indexOf("查停电信息") < 0) {
               intents.push("查停电信息");
             }
             break;
