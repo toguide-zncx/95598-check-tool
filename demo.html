@@ -3040,6 +3040,7 @@ function initPageCharts(page) {
     case 'analysis': initAnalysisCharts(); break;
     case 'optimize': initOptimizeCharts(); break;
     case 'ai-toolbox': renderAIHistory(); break;
+    case 'project': setTimeout(pmRenderMaster, 200); break;
   }
 }
 
@@ -6936,17 +6937,10 @@ function pmShowDetail(idx) {
   document.getElementById("pm-close-btn").onclick = function() { modal.remove(); };
 }
 
-// Init on page load
-pmRenderMaster();
-// Also init when switching to project page
-var origInitPageCharts = initPageCharts;
-initPageCharts = function(page) {
-  origInitPageCharts(page);
-  if (page === "project") setTimeout(pmRenderMaster, 200);
-};
+// Init on page load — project page renders on demand via initPageCharts
 
 
-pmRenderGantt();
+
 
 </script>
 </body>
