@@ -1905,50 +1905,30 @@ a { text-decoration:none; color:inherit; }
 
     <!-- ==================== 项目管理 ==================== -->
     <div class="page-section" id="page-project">
-      <div class="page-header">
+      <div class="page-header" style="background:linear-gradient(135deg,#004D3A,#006B54,#008667)">
         <h1>项目管理</h1>
-        <p>运营项目全生命周期管理 · 规划→执行→监控→交付</p>
+        <p>运营项目全景一览 · 多项目进度·时间线·里程碑一图尽览</p>
       </div>
-      <div class="page-body">
-        <!-- 项目统计KPI -->
-        <div class="kpi-row">
-          <div class="kpi-card green"><div class="kpi-label">📁 项目总数</div><div class="kpi-value" id="pm-total">8</div></div>
-          <div class="kpi-card blue"><div class="kpi-label">🔄 进行中</div><div class="kpi-value" id="pm-active">5</div></div>
-          <div class="kpi-card orange"><div class="kpi-label">⏳ 待启动</div><div class="kpi-value" id="pm-pending">1</div></div>
-          <div class="kpi-card green"><div class="kpi-label">✅ 已完成</div><div class="kpi-value" id="pm-done">2</div></div>
-          <div class="kpi-card red"><div class="kpi-label">⚠️ 逾期项目</div><div class="kpi-value" id="pm-overdue">1</div><div class="kpi-badge">!</div></div>
-        </div>
-        <!-- 视图切换 + 操作 -->
-        <div class="card">
-          <div class="filter-bar">
-            <select id="pm-filter-status"><option value="">全部状态</option><option value="进行中">进行中</option><option value="待启动">待启动</option><option value="已完成">已完成</option><option value="已暂停">已暂停</option></select>
-            <select id="pm-filter-line"><option value="">全部主线</option><option value="应用迭代">应用迭代</option><option value="数据供给">数据供给</option><option value="知识更新">知识更新</option><option value="模型调优">模型调优</option><option value="风控兜底">风控兜底</option></select>
-            <input type="text" id="pm-filter-search" placeholder="搜索项目名称...">
-            <button class="btn btn-primary btn-sm" onclick="pmFilter()">🔍 筛选</button>
-            <button class="btn btn-outline btn-sm" onclick="pmResetFilter()">重置</button>
+      <div class="page-body" style="padding:16px 20px">
+
+        <!-- 全景一图：项目组合视图 -->
+        <div class="card" style="padding:0;overflow:hidden">
+          <!-- 顶部统计条 -->
+          <div style="display:flex;background:linear-gradient(90deg,#f8faf9,#f0f5f2);border-bottom:1px solid #e0e8e4;padding:12px 20px;gap:24px;align-items:center">
+            <div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#1976D2"></span><span style="font-size:12px;color:#666">进行中 <b style="color:#1976D2">5</b></span></div>
+            <div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#9E9E9E"></span><span style="font-size:12px;color:#666">待启动 <b style="color:#9E9E9E">1</b></span></div>
+            <div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#2E7D32"></span><span style="font-size:12px;color:#666">已完成 <b style="color:#2E7D32">2</b></span></div>
+            <div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#C62828"></span><span style="font-size:12px;color:#666">逾期 <b style="color:#C62828">1</b></span></div>
             <div style="flex:1"></div>
-            <button class="btn btn-outline btn-sm" id="btn-pm-card-view" onclick="pmToggleView('card')">📊 卡片</button>
-            <button class="btn btn-outline btn-sm" id="btn-pm-gantt-view" onclick="pmToggleView('gantt')">📅 甘特图</button>
-            <button class="btn btn-primary btn-sm" onclick="pmShowCreate()">➕ 新建项目</button>
+            <span style="font-size:11px;color:#999">2026年度 · 8个项目 · 5条主线</span>
           </div>
-          <!-- 卡片视图 -->
-          <div id="pm-card-view">
-            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px" id="pm-project-cards"></div>
-          </div>
-          <!-- 甘特图视图 -->
-          <div id="pm-gantt-view" style="display:none">
-            <div style="margin-bottom:12px;display:flex;align-items:center;gap:8px">
-              <span style="font-size:12px;color:var(--text-light)">项目时间线（2026年）</span>
-              <div style="flex:1"></div>
-              <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:12px;height:8px;background:var(--primary);border-radius:2px;display:inline-block"></span>应用迭代</span>
-              <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:12px;height:8px;background:var(--info);border-radius:2px;display:inline-block"></span>数据供给</span>
-              <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:12px;height:8px;background:var(--gold);border-radius:2px;display:inline-block"></span>知识更新</span>
-              <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:12px;height:8px;background:var(--purple);border-radius:2px;display:inline-block"></span>模型调优</span>
-              <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px"><span style="width:12px;height:8px;background:var(--danger);border-radius:2px;display:inline-block"></span>风控兜底</span>
-            </div>
-            <div id="pm-gantt-chart"></div>
-          </div>
+
+          <!-- 主图：时间线+项目泳道 -->
+          <div id="pm-master-view" style="position:relative;padding:0 0 12px 0"></div>
         </div>
+
+        <!-- 项目详情弹窗触发区 -->
+        <div id="pm-detail-area"></div>
       </div>
     </div>
   </div><!-- main end -->
@@ -6760,149 +6740,183 @@ startApp();
 // ========== 项目管理 ==========
 var pmProjects = [
   { id:'P001', name:'智能客服V3.0全面升级', line:'应用迭代', status:'进行中', priority:'高', owner:'张明', team:['陈磊','赵琳'], start:'2026-03-01', end:'2026-09-30', progress:62, milestones:[
-    {name:'需求评审完成',date:'2026-03-15',status:'done'},
-    {name:'核心功能开发',date:'2026-05-30',status:'done'},
+    {name:'需求评审',date:'2026-03-15',status:'done'},
+    {name:'核心开发',date:'2026-05-30',status:'done'},
     {name:'灰度测试',date:'2026-07-31',status:'current'},
     {name:'全量上线',date:'2026-09-30',status:'future'}
-  ], desc:'95598智能客服系统V3.0全面升级，含意图识别增强、多轮对话优化、知识图谱集成'},
-  { id:'P002', name:'数据标注平台2.0建设', line:'数据供给', status:'进行中', priority:'高', owner:'赵琳', team:['王丽','李娜'], start:'2026-04-01', end:'2026-08-31', progress:48, milestones:[
+  ], desc:'95598智能客服V3.0全面升级'},
+  { id:'P002', name:'数据标注平台2.0', line:'数据供给', status:'进行中', priority:'高', owner:'赵琳', team:['王丽','李娜'], start:'2026-04-01', end:'2026-08-31', progress:48, milestones:[
     {name:'平台选型',date:'2026-04-15',status:'done'},
     {name:'功能开发',date:'2026-06-30',status:'current'},
     {name:'试运行',date:'2026-08-01',status:'future'},
     {name:'正式上线',date:'2026-08-31',status:'future'}
-  ], desc:'建设统一数据标注平台，支持多类型标注任务管理、质检、样本库管理'},
+  ], desc:'统一数据标注平台建设'},
   { id:'P003', name:'知识库智能化改造', line:'知识更新', status:'进行中', priority:'中', owner:'刘洋', team:['杨帆'], start:'2026-05-01', end:'2026-10-31', progress:35, milestones:[
     {name:'知识梳理',date:'2026-05-31',status:'done'},
     {name:'智能采编',date:'2026-08-15',status:'current'},
     {name:'效果验证',date:'2026-10-01',status:'future'},
     {name:'全面切换',date:'2026-10-31',status:'future'}
-  ], desc:'知识库从手动维护向智能采编转变，引入AI辅助知识提取与校验'},
+  ], desc:'知识库从手动维护向智能采编转变'},
   { id:'P004', name:'大模型评测与调优', line:'模型调优', status:'进行中', priority:'高', owner:'陈磊', team:['赵琳','吴强'], start:'2026-01-01', end:'2026-12-31', progress:40, milestones:[
-    {name:'评测体系建立',date:'2026-02-28',status:'done'},
-    {name:'基线模型评测',date:'2026-04-30',status:'done'},
-    {name:'Prompt/Skill调优',date:'2026-08-31',status:'current'},
-    {name:'模型版本迭代',date:'2026-10-31',status:'future'},
-    {name:'年度效果评估',date:'2026-12-31',status:'future'}
-  ], desc:'年度大模型全链路评测与调优项目，涵盖意图识别、对话生成、合规验证'},
+    {name:'评测体系',date:'2026-02-28',status:'done'},
+    {name:'基线评测',date:'2026-04-30',status:'done'},
+    {name:'Prompt调优',date:'2026-08-31',status:'current'},
+    {name:'版本迭代',date:'2026-10-31',status:'future'},
+    {name:'年度评估',date:'2026-12-31',status:'future'}
+  ], desc:'年度大模型全链路评测调优'},
   { id:'P005', name:'智能风控体系2期', line:'风控兜底', status:'进行中', priority:'高', owner:'马超', team:['周琳','吴强','陈芳'], start:'2026-02-01', end:'2026-11-30', progress:55, milestones:[
-    {name:'风控策略设计',date:'2026-03-15',status:'done'},
-    {name:'规则引擎开发',date:'2026-06-30',status:'current'},
+    {name:'策略设计',date:'2026-03-15',status:'done'},
+    {name:'规则引擎',date:'2026-06-30',status:'current'},
     {name:'灰度验证',date:'2026-09-30',status:'future'},
     {name:'全面投产',date:'2026-11-30',status:'future'}
-  ], desc:'2期风控体系升级：数据/合规/舆情/操作四维防控，含智能预警与自动化处置'},
+  ], desc:'2期风控体系升级，四维防控'},
   { id:'P006', name:'运营指标体系落地', line:'应用迭代', status:'已完成', priority:'中', owner:'刘洋', team:['张明','郑华'], start:'2026-01-01', end:'2026-04-30', progress:100, milestones:[
-    {name:'指标体系设计',date:'2026-01-31',status:'done'},
-    {name:'数据采集对接',date:'2026-03-15',status:'done'},
-    {name:'看板开发上线',date:'2026-04-30',status:'done'}
-  ], desc:'95598运营指标体系设计与落地，四阶五线41个指标全覆盖'},
+    {name:'指标设计',date:'2026-01-31',status:'done'},
+    {name:'数据对接',date:'2026-03-15',status:'done'},
+    {name:'看板上线',date:'2026-04-30',status:'done'}
+  ], desc:'四阶五线41指标全覆盖'},
   { id:'P007', name:'跨渠道知识复用', line:'知识更新', status:'待启动', priority:'中', owner:'杨帆', team:[], start:'2026-07-01', end:'2026-12-31', progress:0, milestones:[
-    {name:'渠道知识盘点',date:'2026-07-31',status:'future'},
-    {name:'复用方案设计',date:'2026-09-30',status:'future'},
-    {name:'复用平台建设',date:'2026-12-31',status:'future'}
-  ], desc:'推动知识跨渠道复用，实现电话/互联网/App知识统一管理与分发'},
+    {name:'知识盘点',date:'2026-07-31',status:'future'},
+    {name:'方案设计',date:'2026-09-30',status:'future'},
+    {name:'平台建设',date:'2026-12-31',status:'future'}
+  ], desc:'知识跨渠道统一管理与分发'},
   { id:'P008', name:'会话抽检工具优化', line:'应用迭代', status:'已完成', priority:'低', owner:'张明', team:['郑华'], start:'2026-04-01', end:'2026-06-02', progress:100, milestones:[
-    {name:'业务逻辑完善',date:'2026-05-15',status:'done'},
-    {name:'GitHub部署',date:'2026-05-30',status:'done'},
-    {name:'技术文档归档',date:'2026-06-02',status:'done'}
-  ], desc:'95598会话抽检自动填充工具优化完善，含skipIdentity、R列逻辑、D列肯定话术等'}
+    {name:'业务完善',date:'2026-05-15',status:'done'},
+    {name:'部署上线',date:'2026-05-30',status:'done'},
+    {name:'文档归档',date:'2026-06-02',status:'done'}
+  ], desc:'95598会话抽检自动填充工具'}
 ];
 
-var pmLineColors = {'应用迭代':'var(--primary)','数据供给':'var(--info)','知识更新':'var(--gold)','模型调优':'var(--purple)','风控兜底':'var(--danger)'};
-var pmLineBgColors = {'应用迭代':'#006B54','数据供给':'#1976D2','知识更新':'#F9A825','模型调优':'#7B1FA2','风控兜底':'#C62828'};
-var pmStatusTags = {'进行中':'tag-blue','待启动':'tag-gray','已完成':'tag-green','已暂停':'tag-orange'};
+var pmLineColors = {1:"#006B54",2:"#1976D2",3:"#F9A825",4:"#7B1FA2",5:"#C62828"};
+var pmLineNames = ["","应用迭代","数据供给","知识更新","模型调优","风控兜底"];
+var pmLineMap = {"应用迭代":1,"数据供给":2,"知识更新":3,"模型调优":4,"风控兜底":5};
 
-function pmRenderCards(data) {
-  var container = document.getElementById('pm-project-cards');
-  if (!data) data = pmProjects;
-  var html = '';
-  data.forEach(function(p) {
-    var msHtml = '';
-    p.milestones.forEach(function(m, i) {
-      var cls = m.status === 'done' ? 'done' : m.status === 'current' ? 'current' : 'future';
-      if (i > 0) msHtml += '<div class="milestone-connector' + (p.milestones[i-1].status === 'done' ? ' done' : '') + '"></div>';
-      msHtml += '<div class="milestone-dot ' + cls + '" title="' + m.name + '(' + m.date + ')"></div>';
-    });
-    var progressColor = p.progress >= 80 ? 'linear-gradient(90deg,#2E7D32,#66BB6A)' : p.progress >= 40 ? 'linear-gradient(90deg,#1976D2,#42A5F5)' : 'linear-gradient(90deg,#E65100,#FF9800)';
-    var overdue = p.status !== '已完成' && new Date(p.end) < new Date() ? '<span style="color:var(--danger);font-weight:600;font-size:11px;margin-left:4px">⚠逾期</span>' : '';
-    html += '<div class="project-card" data-pid="' + p.id + '" onclick="pmShowDetail(this.dataset.pid)">' +
-      '<div class="proj-status"><span class="tag ' + pmStatusTags[p.status] + '">' + p.status + '</span></div>' +
-      '<div class="proj-title"><span style="width:4px;height:16px;background:' + pmLineColors[p.line] + ';border-radius:2px;display:inline-block"></span>' + p.name + overdue + '</div>' +
-      '<div class="proj-meta"><span>📋 ' + p.id + '</span><span>🏷️ ' + p.line + '</span><span>👤 ' + p.owner + '</span><span>📅 ' + p.start.slice(5) + '~' + p.end.slice(5) + '</span></div>' +
-      '<div class="proj-progress"><div class="proj-progress-bar" style="width:' + p.progress + '%;background:' + progressColor + '"></div></div>' +
-      '<div class="proj-footer"><div class="proj-milestones">' + msHtml + '</div><span style="font-weight:600;color:' + (p.progress >= 80 ? 'var(--success)' : p.progress >= 40 ? 'var(--info)' : 'var(--warning)') + '">' + p.progress + '%</span></div>' +
-      '</div>';
-  });
-  container.innerHTML = html;
-}
+function pmRenderMaster() {
+  var container = document.getElementById("pm-master-view");
+  if (!container) return;
+  var W = container.offsetWidth || 860;
+  var leftW = 160;
+  var rightW = W - leftW - 20;
+  var rowH = 56;
+  var headerH = 32;
+  var totalH = headerH + pmProjects.length * rowH + 40;
 
-function pmRenderGantt(data) {
-  if (!data) data = pmProjects;
-  var container = document.getElementById('pm-gantt-chart');
-  // Timeline: 2026-01 to 2026-12
-  var months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-  var html = '<div class="gantt-row"><div class="gantt-label" style="font-weight:600;color:var(--text)">项目</div><div class="gantt-bar-container" style="height:20px">';
-  months.forEach(function(m) { html += '<span style="flex:1;text-align:center;font-size:10px;color:var(--text-light);border-left:1px solid #eee">' + m + '</span>'; });
-  html += '</div></div>';
+  var months = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
   var today = new Date();
-  var todayMonth = (today.getFullYear() === 2026) ? today.getMonth() : -1;
-  data.forEach(function(p) {
-    var startM = parseInt(p.start.split('-')[1]) - 1;
-    var endM = parseInt(p.end.split('-')[1]) - 1;
-    var leftPct = (startM / 12 * 100).toFixed(1);
-    var widthPct = ((endM - startM + 1) / 12 * 100).toFixed(1);
-    var bgC = pmLineBgColors[p.line] || '#006B54';
-    var barOpacity = p.status === '已完成' ? '0.6' : '1';
-    html += '<div class="gantt-row"><div class="gantt-label" title="' + p.name + '">' + p.name.slice(0,8) + (p.name.length > 8 ? '...' : '') + '</div><div class="gantt-bar-container">';
-    html += '<div class="gantt-bar" style="left:' + leftPct + '%;width:' + widthPct + '%;background:' + bgC + ';opacity:' + barOpacity + '">' + p.progress + '%</div>';
-    if (todayMonth >= 0) {
-      var todayPct = (todayMonth / 12 * 100 + (today.getDate()/30/12*100)).toFixed(1);
-      html += '<div class="gantt-today" style="left:' + todayPct + '%" title="今日"></div>';
+  var todayFrac = (today.getFullYear()===2026) ? (today.getMonth()+today.getDate()/30)/12 : 0.5;
+
+  var h = "";
+  // SVG
+  h += "<svg width=\"" + W + "\" height=\"" + totalH + "\" viewBox=\"0 0 " + W + " " + totalH + "\" xmlns=\"http://www.w3.org/2000/svg\" style=\"font-family:-apple-system,Microsoft YaHei,PingFang SC,sans-serif\">";
+
+  // Month header
+  for (var m = 0; m < 12; m++) {
+    var x = leftW + (m / 12) * rightW;
+    var x2 = leftW + ((m + 1) / 12) * rightW;
+    h += "<rect x=\"" + x + "\" y=\"0\" width=\"" + (x2 - x) + "\" height=\"" + headerH + "\" fill=\"" + (m % 2 === 0 ? "#f8faf9" : "#f0f5f2") + "\"/>";
+    h += "<text x=\"" + ((x + x2) / 2) + "\" y=\"21\" text-anchor=\"middle\" font-size=\"11\" fill=\"#999\">" + months[m] + "</text>";
+  }
+
+  // Today line
+  var todayX = leftW + todayFrac * rightW;
+  h += "<line x1=\"" + todayX + "\" y1=\"0\" x2=\"" + todayX + "\" y2=\"" + totalH + "\" stroke=\"#C62828\" stroke-width=\"1.5\" stroke-dasharray=\"4,3\"/>";
+  h += "<rect x=\"" + (todayX - 16) + "\" y=\"0\" width=\"32\" height=\"14\" rx=\"3\" fill=\"#C62828\"/>";
+  h += "<text x=\"" + todayX + "\" y=\"10\" text-anchor=\"middle\" font-size=\"8\" fill=\"#fff\">今日</text>";
+
+  // Project rows
+  pmProjects.forEach(function(p, i) {
+    var y = headerH + i * rowH;
+    var lineIdx = pmLineMap[p.line] || 1;
+    var lineColor = pmLineColors[lineIdx];
+
+    // Alternating row background
+    h += "<rect x=\"0\" y=\"" + y + "\" width=\"" + W + "\" height=\"" + rowH + "\" fill=\"" + (i % 2 === 0 ? "#fff" : "#fafcfa") + "\"/>";
+
+    // Left: project info
+    var statusIcon = p.status === "已完成" ? "✅" : p.status === "待启动" ? "⏳" : "🔄";
+    var overdue = p.status !== "已完成" && new Date(p.end) < today;
+    var overdueMark = overdue ? " ⚠" : "";
+    h += "<text x=\"12\" y=\"" + (y + 20) + "\" font-size=\"12\" font-weight=\"600\" fill=\"#333\">" + statusIcon + " " + p.name.slice(0, 8) + (p.name.length > 8 ? "…" : "") + overdueMark + "</text>";
+    h += "<text x=\"12\" y=\"" + (y + 36) + "\" font-size=\"10\" fill=\"#999\">" + p.owner + " · " + p.start.slice(5) + "~" + p.end.slice(5) + "</text>";
+
+    // Line color indicator
+    h += "<rect x=\"0\" y=\"" + y + "\" width=\"4\" height=\"" + rowH + "\" fill=\"" + lineColor + "\"/>";
+
+    // Right: project bar
+    var startM = (parseInt(p.start.split("-")[1]) - 1 + parseInt(p.start.split("-")[2]) / 30) / 12;
+    var endM = (parseInt(p.end.split("-")[1]) - 1 + parseInt(p.end.split("-")[2]) / 30) / 12;
+    var barX = leftW + startM * rightW;
+    var barW = (endM - startM) * rightW;
+    var barY = y + 14;
+    var barH = 28;
+
+    // Background bar
+    h += "<rect x=\"" + barX + "\" y=\"" + barY + "\" width=\"" + barW + "\" height=\"" + barH + "\" rx=\"4\" fill=\"#f0f0f0\"/>";
+
+    // Progress bar
+    var progW = barW * p.progress / 100;
+    var barOpacity = p.status === "已完成" ? "0.5" : "1";
+    if (p.status === "待启动") {
+      h += "<rect x=\"" + barX + "\" y=\"" + barY + "\" width=\"" + barW + "\" height=\"" + barH + "\" rx=\"4\" fill=\"none\" stroke=\"" + lineColor + "\" stroke-width=\"1\" stroke-dasharray=\"4,3\" opacity=\"0.5\"/>";
+    } else {
+      h += "<rect x=\"" + barX + "\" y=\"" + barY + "\" width=\"" + Math.max(4, progW) + "\" height=\"" + barH + "\" rx=\"4\" fill=\"" + lineColor + "\" opacity=\"" + barOpacity + "\"/>";
     }
-    // Milestone markers
-    p.milestones.forEach(function(m) {
-      var mDate = new Date(m.date);
-      var mMonth = mDate.getMonth();
-      var mPct = (mMonth / 12 * 100 + (mDate.getDate()/30/12*100)).toFixed(1);
-      var mColor = m.status === 'done' ? '#2E7D32' : m.status === 'current' ? '#E65100' : '#9E9E9E';
-      html += '<div style="position:absolute;left:' + mPct + '%;top:-2px;width:8px;height:8px;border-radius:50%;background:' + mColor + ';border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.2);z-index:3" title="' + m.name + '(' + m.date + ')"></div>';
+
+    // Progress text on bar
+    h += "<text x=\"" + (barX + barW / 2) + "\" y=\"" + (barY + barH / 2 + 4) + "\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"600\" fill=\"" + (p.status === "待启动" ? "#999" : "#fff") + "\">" + p.progress + "%</text>";
+
+    // Priority badge
+    if (p.priority === "高") {
+      h += "<rect x=\"" + (barX + barW - 2) + "\" y=\"" + (barY - 4) + "\" width=\"18\" height=\"12\" rx=\"3\" fill=\"#E65100\"/>";
+      h += "<text x=\"" + (barX + barW + 7) + "\" y=\"" + (barY + 5) + "\" text-anchor=\"middle\" font-size=\"7\" fill=\"#fff\">高</text>";
+    }
+
+    // Milestones on bar
+    p.milestones.forEach(function(ms) {
+      var msDate = new Date(ms.date);
+      var msFrac = (msDate.getMonth() + msDate.getDate() / 30) / 12;
+      var msX = leftW + msFrac * rightW;
+      var msColor = ms.status === "done" ? "#2E7D32" : ms.status === "current" ? "#E65100" : "#BDBDBD";
+      var msSize = ms.status === "current" ? 6 : 5;
+      h += "<circle cx=\"" + msX + "\" cy=\"" + (barY + barH / 2) + "\" r=\"" + msSize + "\" fill=\"#fff\" stroke=\"" + msColor + "\" stroke-width=\"2\"/>";
+      if (ms.status === "done") {
+        h += "<circle cx=\"" + msX + "\" cy=\"" + (barY + barH / 2) + "\" r=\"2\" fill=\"" + msColor + "\"/>";
+      }
+      // Milestone name tooltip (only for current/done)
+      if (ms.status !== "future") {
+        h += "<text x=\"" + msX + "\" y=\"" + (barY - 2) + "\" text-anchor=\"middle\" font-size=\"8\" fill=\"" + msColor + "\">" + ms.name.slice(0, 4) + "</text>";
+      }
     });
-    html += '</div></div>';
+
+    // Click area (transparent overlay)
+    h += "<rect x=\"0\" y=\"" + y + "\" width=\"" + W + "\" height=\"" + rowH + "\" fill=\"transparent\" style=\"cursor:pointer\" onclick=\"pmShowDetail(" + i + ")\"/>";
   });
-  container.innerHTML = html;
+
+  // Legend
+  var legendY = headerH + pmProjects.length * rowH + 8;
+  h += "<text x=\"" + leftW + "\" y=\"" + (legendY + 12) + "\" font-size=\"10\" fill=\"#999\">主线图例：</text>";
+  var lx = leftW + 60;
+  for (var li = 1; li <= 5; li++) {
+    h += "<rect x=\"" + lx + "\" y=\"" + legendY + "\" width=\"12\" height=\"10\" rx=\"2\" fill=\"" + pmLineColors[li] + "\"/>";
+    h += "<text x=\"" + (lx + 16) + "\" y=\"" + (legendY + 9) + "\" font-size=\"10\" fill=\"#666\">" + pmLineNames[li] + "</text>";
+    lx += 72;
+  }
+  // Milestone legend
+  h += "<circle cx=\"" + (lx + 8) + "\" cy=\"" + (legendY + 5) + "\" r=\"4\" fill=\"#fff\" stroke=\"#2E7D32\" stroke-width=\"2\"/>";
+  h += "<text x=\"" + (lx + 16) + "\" y=\"" + (legendY + 9) + "\" font-size=\"10\" fill=\"#666\">已完成</text>";
+  lx += 52;
+  h += "<circle cx=\"" + (lx + 8) + "\" cy=\"" + (legendY + 5) + "\" r=\"5\" fill=\"#fff\" stroke=\"#E65100\" stroke-width=\"2\"/>";
+  h += "<text x=\"" + (lx + 18) + "\" y=\"" + (legendY + 9) + "\" font-size=\"10\" fill=\"#666\">进行中</text>";
+  lx += 52;
+  h += "<circle cx=\"" + (lx + 8) + "\" cy=\"" + (legendY + 5) + "\" r=\"4\" fill=\"#fff\" stroke=\"#BDBDBD\" stroke-width=\"2\"/>";
+  h += "<text x=\"" + (lx + 16) + "\" y=\"" + (legendY + 9) + "\" font-size=\"10\" fill=\"#666\">待完成</text>";
+
+  h += "</svg>";
+  container.innerHTML = h;
 }
 
-function pmToggleView(view) {
-  document.getElementById('pm-card-view').style.display = view === 'card' ? '' : 'none';
-  document.getElementById('pm-gantt-view').style.display = view === 'gantt' ? '' : 'none';
-  document.getElementById('btn-pm-card-view').className = 'btn btn-' + (view === 'card' ? 'primary' : 'outline') + ' btn-sm';
-  document.getElementById('btn-pm-gantt-view').className = 'btn btn-' + (view === 'gantt' ? 'primary' : 'outline') + ' btn-sm';
-  if (view === 'gantt') pmRenderGantt();
-}
-
-function pmFilter() {
-  var status = document.getElementById('pm-filter-status').value;
-  var line = document.getElementById('pm-filter-line').value;
-  var search = document.getElementById('pm-filter-search').value.toLowerCase();
-  var filtered = pmProjects.filter(function(p) {
-    if (status && p.status !== status) return false;
-    if (line && p.line !== line) return false;
-    if (search && p.name.toLowerCase().indexOf(search) === -1 && p.id.toLowerCase().indexOf(search) === -1) return false;
-    return true;
-  });
-  pmRenderCards(filtered);
-  pmRenderGantt(filtered);
-}
-
-function pmResetFilter() {
-  document.getElementById('pm-filter-status').value = '';
-  document.getElementById('pm-filter-line').value = '';
-  document.getElementById('pm-filter-search').value = '';
-  pmRenderCards();
-  pmRenderGantt();
-}
-
-function pmShowDetail(id) {
-  var p = pmProjects.find(function(x) { return x.id === id; });
+function pmShowDetail(idx) {
+  var p = pmProjects[idx];
   if (!p) return;
   var msHtml = "";
   p.milestones.forEach(function(m) {
@@ -6913,21 +6927,25 @@ function pmShowDetail(id) {
   var progressColor = p.progress >= 80 ? "#2E7D32" : p.progress >= 40 ? "#1976D2" : "#E65100";
   var overdue = p.status !== "已完成" && new Date(p.end) < new Date() ? " ⚠逾期" : "";
   var teamStr = p.team.length > 0 ? p.team.join("、") : "-";
+  var statusTag = {"进行中":"tag-blue","待启动":"tag-gray","已完成":"tag-green"}[p.status] || "";
   var modal = document.createElement("div");
   modal.className = "proj-detail-modal";
   modal.onclick = function() { modal.remove(); };
-  var statusTag = pmStatusTags[p.status] || "";
-  modal.innerHTML = "<div class=\"proj-detail-content\" onclick=\"event.stopPropagation()\"><div class=\"proj-detail-header\"><div><div style=\"font-size:18px;font-weight:700\">" + p.name + overdue + "</div><div style=\"font-size:12px;color:#666;margin-top:4px\">" + p.id + " · " + p.line + " · " + p.owner + "</div></div><button class=\"btn btn-outline btn-sm\" id=\"pm-close-btn\">✕ 关闭</button></div><div class=\"proj-detail-body\"><div style=\"display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px\"><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">状态</div><div style=\"margin-top:4px\"><span class=\"tag " + statusTag + "\">" + p.status + "</span></div></div><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">优先级</div><div style=\"margin-top:4px;font-weight:600\">" + p.priority + "</div></div><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">时间</div><div style=\"margin-top:4px;font-size:13px\">" + p.start.slice(5) + " ~ " + p.end.slice(5) + "</div></div><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">团队</div><div style=\"margin-top:4px;font-size:13px\">" + teamStr + "</div></div></div><div style=\"margin-bottom:20px\"><div style=\"font-size:13px;font-weight:600;margin-bottom:8px\">项目描述</div><div style=\"font-size:13px;color:#666;line-height:1.6\">" + p.desc + "</div></div><div style=\"margin-bottom:20px\"><div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:8px\"><span style=\"font-size:13px;font-weight:600\">项目进度</span><span style=\"font-size:14px;font-weight:700;color:" + progressColor + "\"><span>" + p.progress + "</span>%</span></div><div style=\"height:10px;background:#E8E8E8;border-radius:5px;overflow:hidden\"><div style=\"height:100%;width:" + p.progress + "%;background:" + progressColor + ";border-radius:5px\"></div></div></div><div><div style=\"font-size:13px;font-weight:600;margin-bottom:12px\">里程碑</div>" + msHtml + "</div></div></div>";
+  modal.innerHTML = "<div class=\"proj-detail-content\" onclick=\"event.stopPropagation()\"><div class=\"proj-detail-header\"><div><div style=\"font-size:18px;font-weight:700\">" + p.name + overdue + "</div><div style=\"font-size:12px;color:#666;margin-top:4px\">" + p.id + " · " + p.line + " · " + p.owner + "</div></div><button class=\"btn btn-outline btn-sm\" id=\"pm-close-btn\">✕ 关闭</button></div><div class=\"proj-detail-body\"><div style=\"display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px\"><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">状态</div><div style=\"margin-top:4px\"><span class=\"tag " + statusTag + "\">" + p.status + "</span></div></div><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">优先级</div><div style=\"margin-top:4px;font-weight:600\">" + p.priority + "</div></div><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">时间</div><div style=\"margin-top:4px;font-size:13px\">" + p.start.slice(5) + " ~ " + p.end.slice(5) + "</div></div><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">团队</div><div style=\"margin-top:4px;font-size:13px\">" + teamStr + "</div></div></div><div style=\"margin-bottom:20px\"><div style=\"font-size:13px;font-weight:600;margin-bottom:8px\">项目描述</div><div style=\"font-size:13px;color:#666;line-height:1.6\">" + p.desc + "</div></div><div style=\"margin-bottom:20px\"><div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:8px\"><span style=\"font-size:13px;font-weight:600\">项目进度</span><span style=\"font-size:14px;font-weight:700;color:" + progressColor + "\">" + p.progress + "%</span></div><div style=\"height:10px;background:#E8E8E8;border-radius:5px;overflow:hidden\"><div style=\"height:100%;width:" + p.progress + "%;background:" + progressColor + ";border-radius:5px\"></div></div></div><div><div style=\"font-size:13px;font-weight:600;margin-bottom:12px\">里程碑</div>" + msHtml + "</div></div></div>";
   document.body.appendChild(modal);
   document.getElementById("pm-close-btn").onclick = function() { modal.remove(); };
 }
 
-function pmShowCreate() {
-  alert('新建项目功能（Demo展示）');
-}
+// Init on page load
+pmRenderMaster();
+// Also init when switching to project page
+var origInitPageCharts = initPageCharts;
+initPageCharts = function(page) {
+  origInitPageCharts(page);
+  if (page === "project") setTimeout(pmRenderMaster, 200);
+};
 
-// Init project management on page load
-pmRenderCards();
+
 pmRenderGantt();
 
 </script>
