@@ -1219,7 +1219,7 @@ function afRuleBasedFill(wb) {
 
       // D列：客户业务诉求
       if (!getVal('appeal')) {
-        writes.push({c: colMap.appeal, v: afIdentifyAppeal(allCMsgs)});
+        writes.push({c: colMap.appeal, v: afIdentifyAppeal(allCMsgs, msgs, entryIdx)});
       }
 
       // E列：意图识别是否准确
@@ -1301,7 +1301,7 @@ function afRuleBasedFill(wb) {
 
       // R列：转人工原因
       if (!oStop && getVal('hasTransfer') === "是" && !getVal('transferReasonR')) {
-        writes.push({c: colMap.transferReasonR, v: afTransferReason(msgs, entryIdx, bCol)});
+        writes.push({c: colMap.transferReasonR, v: afTransferReason(msgs, entryIdx, getVal('hasBroadcast'), getVal('hasTransfer'), bCol)});
       }
 
       writes.forEach(function(w) {
@@ -1327,14 +1327,31 @@ function afRuleBasedFill(wb) {
 }
 
 // ========== D列：客户业务诉求 ==========
-function afIdentifyAppeal(customerMsgs) {
+function afIdentifyAppeal(customerMsgs, msgs, entryIdx) {
   if (!customerMsgs || customerMsgs.length === 0) return "无明显意图";
   var joined = customerMsgs.join(' ');
   var intents = [];
-  if (/故障报修|报修故障|报修/.test(joined)) intents.push("故障报修");
-  if (/查欠费|查电费|缴费|欠费/.test(joined)) intents.push("查欠费");
-  if (/查户号|查户/.test(joined)) intents.push("查户号");
-  if (/停电|停电信|没电|断电/.test(joined)) intents.push("查停电信息");
+  // 检查坐席是否询问了"请问您想问的是停电信息查询吗"且客户回答"是"
+  if (msgs && entryIdx !== null) {
+    for (var i = entryIdx || 0; i < msgs.length; i++) {
+      if (msgs[i].role === 'a' && /请问您想问的是.*停电信息查询/.test(msgs[i].content)) {
+        // 找到客户回复
+        for (var j = i + 1; j < msgs.length; j++) {
+          if (msgs[j].role === 'c') {
+            if (/是/.test(msgs[j].content) && intents.indexOf("查停电信息") < 0) {
+              intents.push("查停电信息");
+            }
+            break;
+          }
+        }
+        break;
+      }
+    }
+  }
+  if (/故障报修|报修故障|报修/.test(joined) && intents.indexOf("故障报修") < 0) intents.push("故障报修");
+  if (/查欠费|查电费|缴费|欠费/.test(joined) && intents.indexOf("查欠费") < 0) intents.push("查欠费");
+  if (/查户号|查户/.test(joined) && intents.indexOf("查户号") < 0) intents.push("查户号");
+  if (/停电|停电信|没电|断电/.test(joined) && intents.indexOf("查停电信息") < 0) intents.push("查停电信息");
   if (intents.length === 0) {
     if (/转人工|人工服务|人工/.test(joined)) return "无明显意图";
     return "查停电信息";
@@ -1359,7 +1376,7 @@ function afIdentifyIntentNext(msgs, entryIdx) {
     var hasFollowUp = /查到\d+个户号|号码查到|您的来电号码查到|说出.*地址|提供.*地址|提供.*信息|请您提供|停电信息|未查询到|故障停电|计划停电/.test(allAgent);
     if (!hasFollowUp) return "挂机";
   }
-  if (/查到\d+个户号|号码查到|您的来电号码查到/.test(allAgent)) return "关系库选择";
+  if (/查到\d+个户号|号码查到|您的来电号码查到|您是要反映尾号/.test(allAgent)) return "关系库选择";
   if (/说出.*地址|提供.*地址|提供.*信息|请您提供/.test(allAgent)) return "身份验证";
   if (/为您转接人工|转接人工服务/.test(allAgent)) return "转人工";
   if (/停电信息|未查询到|故障停电|计划停电/.test(allAgent)) return "结果播报";
@@ -1633,9 +1650,11 @@ function afHasTransferAgent(msgs, entryIdx, bCol) {
 }
 
 // ========== R列：转人工原因 ==========
-function afTransferReason(msgs, entryIdx, bCol) {
+function afTransferReason(msgs, entryIdx, pVal, qVal, bCol) {
   if (/其他原因转人工|系统异常转人工/.test(bCol)) return "其他原因转人工";
   if (/直接转人工/.test(bCol)) return "直接转人工";
+  // P='是'且Q='是'时，R=B列内容
+  if (pVal === "是" && qVal === "是" && bCol && String(bCol).trim()) return String(bCol).trim();
   var allAgent = afGetAllAgentMsgs(msgs);
   if (/查到.*户号.*转人工|选了户号.*转人工/.test(allAgent)) return "其他原因转人工";
   return "直接转人工";
@@ -1671,7 +1690,7 @@ function afComputeSummary(originalRows) {
     var allCJoined = allCMsgs.join(' ');
     var allAgentJoined = afGetAllAgentMsgs(msgs);
 
-    var dVal = !row[colMap.appeal] || String(row[colMap.appeal]).trim() === "" ? afIdentifyAppeal(allCMsgs) : String(row[colMap.appeal]);
+    var dVal = !row[colMap.appeal] || String(row[colMap.appeal]).trim() === "" ? afIdentifyAppeal(allCMsgs, msgs, entryIdx) : String(row[colMap.appeal]);
     var eVal = !row[colMap.intentAcc] || String(row[colMap.intentAcc]).trim() === "" ? afJudgeIntentAccurate(allCJoined, dVal) : String(row[colMap.intentAcc]);
     var fVal = !row[colMap.intentNext] || String(row[colMap.intentNext]).trim() === "" ? afIdentifyIntentNext(msgs, entryIdx) : String(row[colMap.intentNext]);
     var fStop = (fVal === "转人工" || fVal === "挂机");
@@ -1813,7 +1832,7 @@ function afRenderSummary(originalRows) {
     var allCJoined = allCMsgs.join(' ');
     var allAgentJoined = afGetAllAgentMsgs(msgs);
 
-    var dVal = !row[colMap.appeal] || String(row[colMap.appeal]).trim() === "" ? afIdentifyAppeal(allCMsgs) : String(row[colMap.appeal]);
+    var dVal = !row[colMap.appeal] || String(row[colMap.appeal]).trim() === "" ? afIdentifyAppeal(allCMsgs, msgs, entryIdx) : String(row[colMap.appeal]);
     var eVal = !row[colMap.intentAcc] || String(row[colMap.intentAcc]).trim() === "" ? afJudgeIntentAccurate(allCJoined, dVal) : String(row[colMap.intentAcc]);
     var fVal = !row[colMap.intentNext] || String(row[colMap.intentNext]).trim() === "" ? afIdentifyIntentNext(msgs, entryIdx) : String(row[colMap.intentNext]);
     var fStop = (fVal === "转人工" || fVal === "挂机");
@@ -1857,7 +1876,7 @@ function afRenderSummary(originalRows) {
     }
     var rVal = "";
     if (qVal === "是") {
-      rVal = !row[colMap.transferReasonR] || String(row[colMap.transferReasonR]).trim() === "" ? afTransferReason(msgs, entryIdx, bCol) : (String(row[colMap.transferReasonR]) || "");
+      rVal = !row[colMap.transferReasonR] || String(row[colMap.transferReasonR]).trim() === "" ? afTransferReason(msgs, entryIdx, pVal, qVal, bCol) : (String(row[colMap.transferReasonR]) || "");
     }
 
     eTotal++;
