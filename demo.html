@@ -6822,7 +6822,7 @@ function pmRenderCards(data) {
     });
     var progressColor = p.progress >= 80 ? 'linear-gradient(90deg,#2E7D32,#66BB6A)' : p.progress >= 40 ? 'linear-gradient(90deg,#1976D2,#42A5F5)' : 'linear-gradient(90deg,#E65100,#FF9800)';
     var overdue = p.status !== '已完成' && new Date(p.end) < new Date() ? '<span style="color:var(--danger);font-weight:600;font-size:11px;margin-left:4px">⚠逾期</span>' : '';
-    html += '<div class="project-card" onclick="pmShowDetail('' + p.id + '')">' +
+    html += '<div class="project-card" onclick="pmShowDetail(\'' + p.id + '\')">' +
       '<div class="proj-status"><span class="tag ' + pmStatusTags[p.status] + '">' + p.status + '</span></div>' +
       '<div class="proj-title"><span style="width:4px;height:16px;background:' + pmLineColors[p.line] + ';border-radius:2px;display:inline-block"></span>' + p.name + overdue + '</div>' +
       '<div class="proj-meta"><span>📋 ' + p.id + '</span><span>🏷️ ' + p.line + '</span><span>👤 ' + p.owner + '</span><span>📅 ' + p.start.slice(5) + '~' + p.end.slice(5) + '</span></div>' +
@@ -6902,32 +6902,22 @@ function pmResetFilter() {
 function pmShowDetail(id) {
   var p = pmProjects.find(function(x) { return x.id === id; });
   if (!p) return;
-  var msHtml = '';
+  var msHtml = "";
   p.milestones.forEach(function(m) {
-    var iconCls = m.status === 'done' ? 'done' : m.status === 'current' ? 'current' : 'future';
-    var icon = m.status === 'done' ? '✓' : m.status === 'current' ? '●' : '○';
-    msHtml += '<div class="milestone-item ' + iconCls + '">' +
-      '<div class="milestone-icon ' + iconCls + '">' + icon + '</div>' +
-      '<div class="milestone-info"><div class="ms-title">' + m.name + '</div><div class="ms-date">' + m.date + '</div></div></div>';
+    var iconCls = m.status === "done" ? "done" : m.status === "current" ? "current" : "future";
+    var icon = m.status === "done" ? "✓" : m.status === "current" ? "●" : "○";
+    msHtml += "<div class=\"milestone-item " + iconCls + "\"><div class=\"milestone-icon " + iconCls + "\"><span>" + icon + "</span></div><div class=\"milestone-info\"><div class=\"ms-title\">" + m.name + "</div><div class=\"ms-date\">" + m.date + "</div></div></div>";
   });
-  var progressColor = p.progress >= 80 ? '#2E7D32' : p.progress >= 40 ? '#1976D2' : '#E65100';
-  var html = '<div class="proj-detail-modal" onclick="this.remove()">' +
-    '<div class="proj-detail-content" onclick="event.stopPropagation()">' +
-    '<div class="proj-detail-header"><div><div style="font-size:18px;font-weight:700">' + p.name + '</div>' +
-    '<div style="font-size:12px;color:var(--text-light);margin-top:4px">' + p.id + ' · ' + p.line + ' · ' + p.owner + '</div></div>' +
-    '<button class="btn btn-outline btn-sm" onclick="this.closest('.proj-detail-modal').remove()">✕ 关闭</button></div>' +
-    '<div class="proj-detail-body">' +
-    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">' +
-    '<div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:var(--text-light)">状态</div><div style="margin-top:4px"><span class="tag ' + pmStatusTags[p.status] + '">' + p.status + '</span></div></div>' +
-    '<div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:var(--text-light)">优先级</div><div style="margin-top:4px;font-weight:600">' + p.priority + '</div></div>' +
-    '<div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:var(--text-light)">时间</div><div style="margin-top:4px;font-size:13px;font-weight:500">' + p.start.slice(5) + ' ~ ' + p.end.slice(5) + '</div></div>' +
-    '<div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:var(--text-light)">团队</div><div style="margin-top:4px;font-size:13px">' + (p.team.length > 0 ? p.team.join('、') : '-') + '</div></div></div>' +
-    '<div style="margin-bottom:20px"><div style="font-size:13px;font-weight:600;margin-bottom:8px">项目描述</div><div style="font-size:13px;color:var(--text-light);line-height:1.6">' + p.desc + '</div></div>' +
-    '<div style="margin-bottom:20px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:13px;font-weight:600">项目进度</span><span style="font-size:14px;font-weight:700;color:' + progressColor + '">' + p.progress + '%</span></div>' +
-    '<div style="height:10px;background:#E8E8E8;border-radius:5px;overflow:hidden"><div style="height:100%;width:' + p.progress + '%;background:' + progressColor + ';border-radius:5px;transition:width .6s"></div></div></div>' +
-    '<div><div style="font-size:13px;font-weight:600;margin-bottom:12px">里程碑</div>' + msHtml + '</div>' +
-    '</div></div></div>';
-  document.body.insertAdjacentHTML('beforeend', html);
+  var progressColor = p.progress >= 80 ? "#2E7D32" : p.progress >= 40 ? "#1976D2" : "#E65100";
+  var overdue = p.status !== "已完成" && new Date(p.end) < new Date() ? " ⚠逾期" : "";
+  var teamStr = p.team.length > 0 ? p.team.join("、") : "-";
+  var modal = document.createElement("div");
+  modal.className = "proj-detail-modal";
+  modal.onclick = function() { modal.remove(); };
+  var statusTag = pmStatusTags[p.status] || "";
+  modal.innerHTML = "<div class=\"proj-detail-content\" onclick=\"event.stopPropagation()\"><div class=\"proj-detail-header\"><div><div style=\"font-size:18px;font-weight:700\">" + p.name + overdue + "</div><div style=\"font-size:12px;color:#666;margin-top:4px\">" + p.id + " · " + p.line + " · " + p.owner + "</div></div><button class=\"btn btn-outline btn-sm\" id=\"pm-close-btn\">✕ 关闭</button></div><div class=\"proj-detail-body\"><div style=\"display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px\"><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">状态</div><div style=\"margin-top:4px\"><span class=\"tag " + statusTag + "\">" + p.status + "</span></div></div><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">优先级</div><div style=\"margin-top:4px;font-weight:600\">" + p.priority + "</div></div><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">时间</div><div style=\"margin-top:4px;font-size:13px\">" + p.start.slice(5) + " ~ " + p.end.slice(5) + "</div></div><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">团队</div><div style=\"margin-top:4px;font-size:13px\">" + teamStr + "</div></div></div><div style=\"margin-bottom:20px\"><div style=\"font-size:13px;font-weight:600;margin-bottom:8px\">项目描述</div><div style=\"font-size:13px;color:#666;line-height:1.6\">" + p.desc + "</div></div><div style=\"margin-bottom:20px\"><div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:8px\"><span style=\"font-size:13px;font-weight:600\">项目进度</span><span style=\"font-size:14px;font-weight:700;color:" + progressColor + "\"><span>" + p.progress + "</span>%</span></div><div style=\"height:10px;background:#E8E8E8;border-radius:5px;overflow:hidden\"><div style=\"height:100%;width:" + p.progress + "%;background:" + progressColor + ";border-radius:5px\"></div></div></div><div><div style=\"font-size:13px;font-weight:600;margin-bottom:12px\">里程碑</div>" + msHtml + "</div></div></div>";
+  document.body.appendChild(modal);
+  document.getElementById("pm-close-btn").onclick = function() { modal.remove(); };
 }
 
 function pmShowCreate() {
