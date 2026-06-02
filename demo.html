@@ -340,6 +340,47 @@ a { text-decoration:none; color:inherit; }
 .wr-v2 .wr-footer { text-align:center; color:rgba(255,255,255,0.7); padding:16px; font-size:12px; }
 .wr-v2 .wr-detail-link { color:#667eea; font-size:13px; cursor:pointer; }
 .wr-v2 .wr-detail-link:hover { text-decoration:underline; }
+
+/* ========== 项目管理 ========== */
+.project-card { background:var(--card-bg); border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); padding:20px; border:1px solid #f0f2f0; transition:all .2s; cursor:pointer; position:relative; }
+.project-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.12); transform:translateY(-2px); }
+.project-card .proj-status { position:absolute; top:16px; right:16px; }
+.project-card .proj-title { font-size:15px; font-weight:700; color:var(--text); margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+.project-card .proj-meta { font-size:12px; color:var(--text-light); margin-bottom:12px; display:flex; gap:12px; flex-wrap:wrap; }
+.project-card .proj-progress { height:8px; background:#E8E8E8; border-radius:4px; overflow:hidden; margin-bottom:10px; }
+.project-card .proj-progress-bar { height:100%; border-radius:4px; transition:width .6s; }
+.project-card .proj-footer { display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--text-light); }
+.project-card .proj-milestones { display:flex; gap:4px; align-items:center; }
+.project-card .milestone-dot { width:10px; height:10px; border-radius:50%; border:2px solid #ccc; }
+.project-card .milestone-dot.done { background:var(--primary-bright); border-color:var(--primary); }
+.project-card .milestone-dot.current { background:#FFF; border-color:var(--primary); box-shadow:0 0 0 3px rgba(76,175,80,0.2); }
+.project-card .milestone-dot.future { background:#FFF; border-color:#ddd; }
+.milestone-connector { width:16px; height:2px; background:#ddd; }
+.milestone-connector.done { background:var(--primary-bright); }
+.gantt-row { display:flex; align-items:center; margin-bottom:6px; font-size:12px; }
+.gantt-label { width:140px; min-width:140px; padding-right:10px; text-align:right; color:var(--text-light); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.gantt-bar-container { flex:1; height:24px; position:relative; background:#f5f5f5; border-radius:4px; }
+.gantt-bar { position:absolute; height:100%; border-radius:4px; min-width:4px; display:flex; align-items:center; padding:0 6px; font-size:10px; color:#fff; font-weight:600; white-space:nowrap; overflow:hidden; }
+.gantt-today { position:absolute; top:0; bottom:0; width:2px; background:var(--danger); z-index:2; }
+.gantt-header { display:flex; align-items:center; margin-bottom:4px; font-size:10px; color:var(--text-light); }
+.gantt-header .gantt-label { font-weight:600; color:var(--text); }
+.gantt-header .gantt-bar-container { font-size:10px; display:flex; }
+.gantt-header .gantt-bar-container span { flex:1; text-align:center; }
+.proj-detail-modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:1000; display:flex; align-items:center; justify-content:center; }
+.proj-detail-content { background:#fff; border-radius:12px; width:90%; max-width:900px; max-height:85vh; overflow-y:auto; box-shadow:0 8px 32px rgba(0,0,0,0.2); }
+.proj-detail-header { padding:20px 24px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+.proj-detail-body { padding:24px; }
+.milestone-item { display:flex; align-items:flex-start; gap:12px; padding:8px 0; position:relative; }
+.milestone-item:not(:last-child)::before { content:''; position:absolute; left:11px; top:28px; bottom:-8px; width:2px; background:#e0e0e0; }
+.milestone-item.done:not(:last-child)::before { background:var(--primary-bright); }
+.milestone-icon { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
+.milestone-icon.done { background:var(--primary-pale); color:var(--primary); }
+.milestone-icon.current { background:#FFF3E0; color:#E65100; animation:pulse 2s infinite; }
+.milestone-icon.future { background:#f5f5f5; color:#bbb; }
+.milestone-info { flex:1; }
+.milestone-info .ms-title { font-size:13px; font-weight:600; color:var(--text); }
+.milestone-info .ms-date { font-size:11px; color:var(--text-light); margin-top:2px; }
+.milestone-info .ms-desc { font-size:12px; color:var(--text-light); margin-top:4px; }
 </style>
 </head>
 <body>
@@ -365,6 +406,7 @@ a { text-decoration:none; color:inherit; }
       <div class="nav-item" data-page="optimize"><span class="nav-icon">🔧</span><span>优化规范</span></div>
       <div class="nav-item" data-page="asset"><span class="nav-icon">🗄️</span><span>资产沉淀</span></div>
       <div class="nav-item" data-page="ai-toolbox"><span class="nav-icon">🤖</span><span>AI 工具箱</span></div>
+      <div class="nav-item" data-page="project"><span class="nav-icon">📁</span><span>项目管理</span></div>
     </div>
     <div class="sidebar-footer">智能服务运营管理平台 v2.0<br>工单化运营驱动</div>
   </div>
@@ -6662,6 +6704,191 @@ function init() {
 } // end startApp
 
 startApp();
+
+
+// ========== 项目管理 ==========
+var pmProjects = [
+  { id:'P001', name:'智能客服V3.0全面升级', line:'应用迭代', status:'进行中', priority:'高', owner:'张明', team:['陈磊','赵琳'], start:'2026-03-01', end:'2026-09-30', progress:62, milestones:[
+    {name:'需求评审完成',date:'2026-03-15',status:'done'},
+    {name:'核心功能开发',date:'2026-05-30',status:'done'},
+    {name:'灰度测试',date:'2026-07-31',status:'current'},
+    {name:'全量上线',date:'2026-09-30',status:'future'}
+  ], desc:'95598智能客服系统V3.0全面升级，含意图识别增强、多轮对话优化、知识图谱集成'},
+  { id:'P002', name:'数据标注平台2.0建设', line:'数据供给', status:'进行中', priority:'高', owner:'赵琳', team:['王丽','李娜'], start:'2026-04-01', end:'2026-08-31', progress:48, milestones:[
+    {name:'平台选型',date:'2026-04-15',status:'done'},
+    {name:'功能开发',date:'2026-06-30',status:'current'},
+    {name:'试运行',date:'2026-08-01',status:'future'},
+    {name:'正式上线',date:'2026-08-31',status:'future'}
+  ], desc:'建设统一数据标注平台，支持多类型标注任务管理、质检、样本库管理'},
+  { id:'P003', name:'知识库智能化改造', line:'知识更新', status:'进行中', priority:'中', owner:'刘洋', team:['杨帆'], start:'2026-05-01', end:'2026-10-31', progress:35, milestones:[
+    {name:'知识梳理',date:'2026-05-31',status:'done'},
+    {name:'智能采编',date:'2026-08-15',status:'current'},
+    {name:'效果验证',date:'2026-10-01',status:'future'},
+    {name:'全面切换',date:'2026-10-31',status:'future'}
+  ], desc:'知识库从手动维护向智能采编转变，引入AI辅助知识提取与校验'},
+  { id:'P004', name:'大模型评测与调优', line:'模型调优', status:'进行中', priority:'高', owner:'陈磊', team:['赵琳','吴强'], start:'2026-01-01', end:'2026-12-31', progress:40, milestones:[
+    {name:'评测体系建立',date:'2026-02-28',status:'done'},
+    {name:'基线模型评测',date:'2026-04-30',status:'done'},
+    {name:'Prompt/Skill调优',date:'2026-08-31',status:'current'},
+    {name:'模型版本迭代',date:'2026-10-31',status:'future'},
+    {name:'年度效果评估',date:'2026-12-31',status:'future'}
+  ], desc:'年度大模型全链路评测与调优项目，涵盖意图识别、对话生成、合规验证'},
+  { id:'P005', name:'智能风控体系2期', line:'风控兜底', status:'进行中', priority:'高', owner:'马超', team:['周琳','吴强','陈芳'], start:'2026-02-01', end:'2026-11-30', progress:55, milestones:[
+    {name:'风控策略设计',date:'2026-03-15',status:'done'},
+    {name:'规则引擎开发',date:'2026-06-30',status:'current'},
+    {name:'灰度验证',date:'2026-09-30',status:'future'},
+    {name:'全面投产',date:'2026-11-30',status:'future'}
+  ], desc:'2期风控体系升级：数据/合规/舆情/操作四维防控，含智能预警与自动化处置'},
+  { id:'P006', name:'运营指标体系落地', line:'应用迭代', status:'已完成', priority:'中', owner:'刘洋', team:['张明','郑华'], start:'2026-01-01', end:'2026-04-30', progress:100, milestones:[
+    {name:'指标体系设计',date:'2026-01-31',status:'done'},
+    {name:'数据采集对接',date:'2026-03-15',status:'done'},
+    {name:'看板开发上线',date:'2026-04-30',status:'done'}
+  ], desc:'95598运营指标体系设计与落地，四阶五线41个指标全覆盖'},
+  { id:'P007', name:'跨渠道知识复用', line:'知识更新', status:'待启动', priority:'中', owner:'杨帆', team:[], start:'2026-07-01', end:'2026-12-31', progress:0, milestones:[
+    {name:'渠道知识盘点',date:'2026-07-31',status:'future'},
+    {name:'复用方案设计',date:'2026-09-30',status:'future'},
+    {name:'复用平台建设',date:'2026-12-31',status:'future'}
+  ], desc:'推动知识跨渠道复用，实现电话/互联网/App知识统一管理与分发'},
+  { id:'P008', name:'会话抽检工具优化', line:'应用迭代', status:'已完成', priority:'低', owner:'张明', team:['郑华'], start:'2026-04-01', end:'2026-06-02', progress:100, milestones:[
+    {name:'业务逻辑完善',date:'2026-05-15',status:'done'},
+    {name:'GitHub部署',date:'2026-05-30',status:'done'},
+    {name:'技术文档归档',date:'2026-06-02',status:'done'}
+  ], desc:'95598会话抽检自动填充工具优化完善，含skipIdentity、R列逻辑、D列肯定话术等'}
+];
+
+var pmLineColors = {'应用迭代':'var(--primary)','数据供给':'var(--info)','知识更新':'var(--gold)','模型调优':'var(--purple)','风控兜底':'var(--danger)'};
+var pmLineBgColors = {'应用迭代':'#006B54','数据供给':'#1976D2','知识更新':'#F9A825','模型调优':'#7B1FA2','风控兜底':'#C62828'};
+var pmStatusTags = {'进行中':'tag-blue','待启动':'tag-gray','已完成':'tag-green','已暂停':'tag-orange'};
+
+function pmRenderCards(data) {
+  var container = document.getElementById('pm-project-cards');
+  if (!data) data = pmProjects;
+  var html = '';
+  data.forEach(function(p) {
+    var msHtml = '';
+    p.milestones.forEach(function(m, i) {
+      var cls = m.status === 'done' ? 'done' : m.status === 'current' ? 'current' : 'future';
+      if (i > 0) msHtml += '<div class="milestone-connector' + (p.milestones[i-1].status === 'done' ? ' done' : '') + '"></div>';
+      msHtml += '<div class="milestone-dot ' + cls + '" title="' + m.name + '(' + m.date + ')"></div>';
+    });
+    var progressColor = p.progress >= 80 ? 'linear-gradient(90deg,#2E7D32,#66BB6A)' : p.progress >= 40 ? 'linear-gradient(90deg,#1976D2,#42A5F5)' : 'linear-gradient(90deg,#E65100,#FF9800)';
+    var overdue = p.status !== '已完成' && new Date(p.end) < new Date() ? '<span style="color:var(--danger);font-weight:600;font-size:11px;margin-left:4px">⚠逾期</span>' : '';
+    html += '<div class="project-card" onclick="pmShowDetail('' + p.id + '')">' +
+      '<div class="proj-status"><span class="tag ' + pmStatusTags[p.status] + '">' + p.status + '</span></div>' +
+      '<div class="proj-title"><span style="width:4px;height:16px;background:' + pmLineColors[p.line] + ';border-radius:2px;display:inline-block"></span>' + p.name + overdue + '</div>' +
+      '<div class="proj-meta"><span>📋 ' + p.id + '</span><span>🏷️ ' + p.line + '</span><span>👤 ' + p.owner + '</span><span>📅 ' + p.start.slice(5) + '~' + p.end.slice(5) + '</span></div>' +
+      '<div class="proj-progress"><div class="proj-progress-bar" style="width:' + p.progress + '%;background:' + progressColor + '"></div></div>' +
+      '<div class="proj-footer"><div class="proj-milestones">' + msHtml + '</div><span style="font-weight:600;color:' + (p.progress >= 80 ? 'var(--success)' : p.progress >= 40 ? 'var(--info)' : 'var(--warning)') + '">' + p.progress + '%</span></div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function pmRenderGantt(data) {
+  if (!data) data = pmProjects;
+  var container = document.getElementById('pm-gantt-chart');
+  // Timeline: 2026-01 to 2026-12
+  var months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  var html = '<div class="gantt-row"><div class="gantt-label" style="font-weight:600;color:var(--text)">项目</div><div class="gantt-bar-container" style="height:20px">';
+  months.forEach(function(m) { html += '<span style="flex:1;text-align:center;font-size:10px;color:var(--text-light);border-left:1px solid #eee">' + m + '</span>'; });
+  html += '</div></div>';
+  var today = new Date();
+  var todayMonth = (today.getFullYear() === 2026) ? today.getMonth() : -1;
+  data.forEach(function(p) {
+    var startM = parseInt(p.start.split('-')[1]) - 1;
+    var endM = parseInt(p.end.split('-')[1]) - 1;
+    var leftPct = (startM / 12 * 100).toFixed(1);
+    var widthPct = ((endM - startM + 1) / 12 * 100).toFixed(1);
+    var bgC = pmLineBgColors[p.line] || '#006B54';
+    var barOpacity = p.status === '已完成' ? '0.6' : '1';
+    html += '<div class="gantt-row"><div class="gantt-label" title="' + p.name + '">' + p.name.slice(0,8) + (p.name.length > 8 ? '...' : '') + '</div><div class="gantt-bar-container">';
+    html += '<div class="gantt-bar" style="left:' + leftPct + '%;width:' + widthPct + '%;background:' + bgC + ';opacity:' + barOpacity + '">' + p.progress + '%</div>';
+    if (todayMonth >= 0) {
+      var todayPct = (todayMonth / 12 * 100 + (today.getDate()/30/12*100)).toFixed(1);
+      html += '<div class="gantt-today" style="left:' + todayPct + '%" title="今日"></div>';
+    }
+    // Milestone markers
+    p.milestones.forEach(function(m) {
+      var mDate = new Date(m.date);
+      var mMonth = mDate.getMonth();
+      var mPct = (mMonth / 12 * 100 + (mDate.getDate()/30/12*100)).toFixed(1);
+      var mColor = m.status === 'done' ? '#2E7D32' : m.status === 'current' ? '#E65100' : '#9E9E9E';
+      html += '<div style="position:absolute;left:' + mPct + '%;top:-2px;width:8px;height:8px;border-radius:50%;background:' + mColor + ';border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.2);z-index:3" title="' + m.name + '(' + m.date + ')"></div>';
+    });
+    html += '</div></div>';
+  });
+  container.innerHTML = html;
+}
+
+function pmToggleView(view) {
+  document.getElementById('pm-card-view').style.display = view === 'card' ? '' : 'none';
+  document.getElementById('pm-gantt-view').style.display = view === 'gantt' ? '' : 'none';
+  document.getElementById('btn-pm-card-view').className = 'btn btn-' + (view === 'card' ? 'primary' : 'outline') + ' btn-sm';
+  document.getElementById('btn-pm-gantt-view').className = 'btn btn-' + (view === 'gantt' ? 'primary' : 'outline') + ' btn-sm';
+  if (view === 'gantt') pmRenderGantt();
+}
+
+function pmFilter() {
+  var status = document.getElementById('pm-filter-status').value;
+  var line = document.getElementById('pm-filter-line').value;
+  var search = document.getElementById('pm-filter-search').value.toLowerCase();
+  var filtered = pmProjects.filter(function(p) {
+    if (status && p.status !== status) return false;
+    if (line && p.line !== line) return false;
+    if (search && p.name.toLowerCase().indexOf(search) === -1 && p.id.toLowerCase().indexOf(search) === -1) return false;
+    return true;
+  });
+  pmRenderCards(filtered);
+  pmRenderGantt(filtered);
+}
+
+function pmResetFilter() {
+  document.getElementById('pm-filter-status').value = '';
+  document.getElementById('pm-filter-line').value = '';
+  document.getElementById('pm-filter-search').value = '';
+  pmRenderCards();
+  pmRenderGantt();
+}
+
+function pmShowDetail(id) {
+  var p = pmProjects.find(function(x) { return x.id === id; });
+  if (!p) return;
+  var msHtml = '';
+  p.milestones.forEach(function(m) {
+    var iconCls = m.status === 'done' ? 'done' : m.status === 'current' ? 'current' : 'future';
+    var icon = m.status === 'done' ? '✓' : m.status === 'current' ? '●' : '○';
+    msHtml += '<div class="milestone-item ' + iconCls + '">' +
+      '<div class="milestone-icon ' + iconCls + '">' + icon + '</div>' +
+      '<div class="milestone-info"><div class="ms-title">' + m.name + '</div><div class="ms-date">' + m.date + '</div></div></div>';
+  });
+  var progressColor = p.progress >= 80 ? '#2E7D32' : p.progress >= 40 ? '#1976D2' : '#E65100';
+  var html = '<div class="proj-detail-modal" onclick="this.remove()">' +
+    '<div class="proj-detail-content" onclick="event.stopPropagation()">' +
+    '<div class="proj-detail-header"><div><div style="font-size:18px;font-weight:700">' + p.name + '</div>' +
+    '<div style="font-size:12px;color:var(--text-light);margin-top:4px">' + p.id + ' · ' + p.line + ' · ' + p.owner + '</div></div>' +
+    '<button class="btn btn-outline btn-sm" onclick="this.closest('.proj-detail-modal').remove()">✕ 关闭</button></div>' +
+    '<div class="proj-detail-body">' +
+    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">' +
+    '<div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:var(--text-light)">状态</div><div style="margin-top:4px"><span class="tag ' + pmStatusTags[p.status] + '">' + p.status + '</span></div></div>' +
+    '<div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:var(--text-light)">优先级</div><div style="margin-top:4px;font-weight:600">' + p.priority + '</div></div>' +
+    '<div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:var(--text-light)">时间</div><div style="margin-top:4px;font-size:13px;font-weight:500">' + p.start.slice(5) + ' ~ ' + p.end.slice(5) + '</div></div>' +
+    '<div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:var(--text-light)">团队</div><div style="margin-top:4px;font-size:13px">' + (p.team.length > 0 ? p.team.join('、') : '-') + '</div></div></div>' +
+    '<div style="margin-bottom:20px"><div style="font-size:13px;font-weight:600;margin-bottom:8px">项目描述</div><div style="font-size:13px;color:var(--text-light);line-height:1.6">' + p.desc + '</div></div>' +
+    '<div style="margin-bottom:20px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:13px;font-weight:600">项目进度</span><span style="font-size:14px;font-weight:700;color:' + progressColor + '">' + p.progress + '%</span></div>' +
+    '<div style="height:10px;background:#E8E8E8;border-radius:5px;overflow:hidden"><div style="height:100%;width:' + p.progress + '%;background:' + progressColor + ';border-radius:5px;transition:width .6s"></div></div></div>' +
+    '<div><div style="font-size:13px;font-weight:600;margin-bottom:12px">里程碑</div>' + msHtml + '</div>' +
+    '</div></div></div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function pmShowCreate() {
+  alert('新建项目功能（Demo展示）');
+}
+
+// Init project management on page load
+pmRenderCards();
+pmRenderGantt();
+
 </script>
 </body>
 </html>
