@@ -1907,27 +1907,33 @@ a { text-decoration:none; color:inherit; }
     <div class="page-section" id="page-project">
       <div class="page-header" style="background:linear-gradient(135deg,#004D3A,#006B54,#008667)">
         <h1>项目管理</h1>
-        <p>运营项目全景一览 · 多项目进度·时间线·里程碑一图尽览</p>
+        <p>运营项目全景一览 · 项目清单与进度跟踪</p>
       </div>
       <div class="page-body" style="padding:16px 20px">
-
-        <!-- 全景一图：项目组合视图 -->
         <div class="card" style="padding:0;overflow:hidden">
-          <!-- 顶部统计条 -->
-          <div style="display:flex;background:linear-gradient(90deg,#f8faf9,#f0f5f2);border-bottom:1px solid #e0e8e4;padding:12px 20px;gap:24px;align-items:center">
-            <div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#1976D2"></span><span style="font-size:12px;color:#666">进行中 <b style="color:#1976D2">5</b></span></div>
-            <div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#9E9E9E"></span><span style="font-size:12px;color:#666">待启动 <b style="color:#9E9E9E">1</b></span></div>
-            <div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#2E7D32"></span><span style="font-size:12px;color:#666">已完成 <b style="color:#2E7D32">2</b></span></div>
-            <div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#C62828"></span><span style="font-size:12px;color:#666">逾期 <b style="color:#C62828">1</b></span></div>
-            <div style="flex:1"></div>
-            <span style="font-size:11px;color:#999">2026年度 · 8个项目 · 5条主线</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #e0e8e4;background:linear-gradient(90deg,#f8faf9,#f0f5f2)">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:15px;font-weight:700;color:#006B54">📋 项目清单</span>
+              <span id="pm-count-tag" style="font-size:11px;color:#999;background:#f0f5f2;padding:2px 8px;border-radius:4px"></span>
+            </div>
+            <div style="display:flex;gap:16px;align-items:center" id="pm-status-bar"></div>
           </div>
-
-          <!-- 主图：时间线+项目泳道 -->
-          <div id="pm-master-view" style="position:relative;padding:0 0 12px 0"><svg width="860" height="520" viewBox="0 0 860 520" xmlns="http://www.w3.org/2000/svg" style="font-family:-apple-system,Microsoft YaHei,PingFang SC,sans-serif;width:100%;height:auto"><rect x="160" y="0" width="56.66666666666666" height="32" fill="#f8faf9"/><text x="188.33333333333331" y="21" text-anchor="middle" font-size="11" fill="#999">1月</text><rect x="216.66666666666666" y="0" width="56.66666666666666" height="32" fill="#f0f5f2"/><text x="245" y="21" text-anchor="middle" font-size="11" fill="#999">2月</text><rect x="273.3333333333333" y="0" width="56.666666666666686" height="32" fill="#f8faf9"/><text x="301.66666666666663" y="21" text-anchor="middle" font-size="11" fill="#999">3月</text><rect x="330" y="0" width="56.66666666666663" height="32" fill="#f0f5f2"/><text x="358.3333333333333" y="21" text-anchor="middle" font-size="11" fill="#999">4月</text><rect x="386.66666666666663" y="0" width="56.66666666666674" height="32" fill="#f8faf9"/><text x="415" y="21" text-anchor="middle" font-size="11" fill="#999">5月</text><rect x="443.33333333333337" y="0" width="56.66666666666663" height="32" fill="#f0f5f2"/><text x="471.6666666666667" y="21" text-anchor="middle" font-size="11" fill="#999">6月</text><rect x="500" y="0" width="56.66666666666674" height="32" fill="#f8faf9"/><text x="528.3333333333334" y="21" text-anchor="middle" font-size="11" fill="#999">7月</text><rect x="556.6666666666667" y="0" width="56.666666666666515" height="32" fill="#f0f5f2"/><text x="585" y="21" text-anchor="middle" font-size="11" fill="#999">8月</text><rect x="613.3333333333333" y="0" width="56.66666666666674" height="32" fill="#f8faf9"/><text x="641.6666666666666" y="21" text-anchor="middle" font-size="11" fill="#999">9月</text><rect x="670" y="0" width="56.66666666666674" height="32" fill="#f0f5f2"/><text x="698.3333333333334" y="21" text-anchor="middle" font-size="11" fill="#999">10月</text><rect x="726.6666666666667" y="0" width="56.666666666666515" height="32" fill="#f8faf9"/><text x="755" y="21" text-anchor="middle" font-size="11" fill="#999">11月</text><rect x="783.3333333333333" y="0" width="56.66666666666674" height="32" fill="#f0f5f2"/><text x="811.6666666666666" y="21" text-anchor="middle" font-size="11" fill="#999">12月</text><line x1="449" y1="0" x2="449" y2="520" stroke="#C62828" stroke-width="1.5" stroke-dasharray="4,3"/><rect x="433" y="0" width="32" height="14" rx="3" fill="#C62828"/><text x="449" y="10" text-anchor="middle" font-size="8" fill="#fff">今日</text><rect x="0" y="32" width="860" height="56" fill="#fff"/><text x="12" y="52" font-size="12" font-weight="600" fill="#333">🔄 智能客服V3.0…</text><text x="12" y="68" font-size="10" fill="#999">张明 · 03-01~09-30</text><rect x="0" y="32" width="4" height="56" fill="#006B54"/><rect x="275.22222222222223" y="46" width="394.7777777777778" height="28" rx="4" fill="#f0f0f0"/><rect x="275.22222222222223" y="46" width="244.76222222222225" height="28" rx="4" fill="#006B54" opacity="1"/><text x="472.61111111111114" y="64" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">62%</text><circle cx="301.6666666666667" cy="60" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="301.6666666666667" cy="60" r="2" fill="#2E7D32"/><text x="301.6666666666667" y="44" text-anchor="middle" font-size="8" fill="#2E7D32">需求评审</text><circle cx="443.33333333333337" cy="60" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="443.33333333333337" cy="60" r="2" fill="#2E7D32"/><text x="443.33333333333337" y="44" text-anchor="middle" font-size="8" fill="#2E7D32">核心开发</text><circle cx="558.5555555555557" cy="60" r="6" fill="#fff" stroke="#E65100" stroke-width="2"/><text x="558.5555555555557" y="44" text-anchor="middle" font-size="8" fill="#E65100">灰度测试</text><circle cx="670" cy="60" r="5" fill="#fff" stroke="#BDBDBD" stroke-width="2"/><rect x="0" y="88" width="860" height="56" fill="#fafcfa"/><text x="12" y="108" font-size="12" font-weight="600" fill="#333">🔄 数据标注平台2.…</text><text x="12" y="124" font-size="10" fill="#999">赵琳 · 04-01~08-31</text><rect x="0" y="88" width="4" height="56" fill="#1976D2"/><rect x="331.8888888888889" y="102" width="283.3333333333333" height="28" rx="4" fill="#f0f0f0"/><rect x="331.8888888888889" y="102" width="136" height="28" rx="4" fill="#1976D2" opacity="1"/><text x="473.55555555555554" y="120" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">48%</text><circle cx="358.33333333333337" cy="116" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="358.33333333333337" cy="116" r="2" fill="#2E7D32"/><text x="358.33333333333337" y="100" text-anchor="middle" font-size="8" fill="#2E7D32">平台选型</text><circle cx="500" cy="116" r="6" fill="#fff" stroke="#E65100" stroke-width="2"/><text x="500" y="100" text-anchor="middle" font-size="8" fill="#E65100">功能开发</text><circle cx="558.5555555555557" cy="116" r="5" fill="#fff" stroke="#BDBDBD" stroke-width="2"/><circle cx="615.2222222222222" cy="116" r="5" fill="#fff" stroke="#BDBDBD" stroke-width="2"/><rect x="0" y="144" width="860" height="56" fill="#fff"/><text x="12" y="164" font-size="12" font-weight="600" fill="#333">🔄 知识库智能化改造</text><text x="12" y="180" font-size="10" fill="#999">刘洋 · 05-01~10-31</text><rect x="0" y="144" width="4" height="56" fill="#F9A825"/><rect x="388.55555555555554" y="158" width="340" height="28" rx="4" fill="#f0f0f0"/><rect x="388.55555555555554" y="158" width="119" height="28" rx="4" fill="#F9A825" opacity="1"/><text x="558.5555555555555" y="176" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">35%</text><circle cx="445.22222222222223" cy="172" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="445.22222222222223" cy="172" r="2" fill="#2E7D32"/><text x="445.22222222222223" y="156" text-anchor="middle" font-size="8" fill="#2E7D32">知识梳理</text><circle cx="585" cy="172" r="6" fill="#fff" stroke="#E65100" stroke-width="2"/><text x="585" y="156" text-anchor="middle" font-size="8" fill="#E65100">智能采编</text><circle cx="671.8888888888889" cy="172" r="5" fill="#fff" stroke="#BDBDBD" stroke-width="2"/><circle cx="728.5555555555555" cy="172" r="5" fill="#fff" stroke="#BDBDBD" stroke-width="2"/><rect x="0" y="200" width="860" height="56" fill="#fafcfa"/><text x="12" y="220" font-size="12" font-weight="600" fill="#333">🔄 大模型评测与调优</text><text x="12" y="236" font-size="10" fill="#999">陈磊 · 01-01~12-31</text><rect x="0" y="200" width="4" height="56" fill="#7B1FA2"/><rect x="161.88888888888889" y="214" width="680" height="28" rx="4" fill="#f0f0f0"/><rect x="161.88888888888889" y="214" width="272" height="28" rx="4" fill="#7B1FA2" opacity="1"/><text x="501.8888888888889" y="232" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">40%</text><circle cx="269.55555555555554" cy="228" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="269.55555555555554" cy="228" r="2" fill="#2E7D32"/><text x="269.55555555555554" y="212" text-anchor="middle" font-size="8" fill="#2E7D32">评测体系</text><circle cx="386.66666666666663" cy="228" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="386.66666666666663" cy="228" r="2" fill="#2E7D32"/><text x="386.66666666666663" y="212" text-anchor="middle" font-size="8" fill="#2E7D32">基线评测</text><circle cx="615.2222222222222" cy="228" r="6" fill="#fff" stroke="#E65100" stroke-width="2"/><text x="615.2222222222222" y="212" text-anchor="middle" font-size="8" fill="#E65100">Prom</text><circle cx="728.5555555555555" cy="228" r="5" fill="#fff" stroke="#BDBDBD" stroke-width="2"/><circle cx="841.8888888888889" cy="228" r="5" fill="#fff" stroke="#BDBDBD" stroke-width="2"/><rect x="0" y="256" width="860" height="56" fill="#fff"/><text x="12" y="276" font-size="12" font-weight="600" fill="#333">🔄 智能风控体系2期</text><text x="12" y="292" font-size="10" fill="#999">马超 · 02-01~11-30</text><rect x="0" y="256" width="4" height="56" fill="#C62828"/><rect x="218.55555555555557" y="270" width="564.7777777777777" height="28" rx="4" fill="#f0f0f0"/><rect x="218.55555555555557" y="270" width="310.62777777777774" height="28" rx="4" fill="#C62828" opacity="1"/><text x="500.94444444444446" y="288" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">55%</text><circle cx="301.6666666666667" cy="284" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="301.6666666666667" cy="284" r="2" fill="#2E7D32"/><text x="301.6666666666667" y="268" text-anchor="middle" font-size="8" fill="#2E7D32">策略设计</text><circle cx="500" cy="284" r="6" fill="#fff" stroke="#E65100" stroke-width="2"/><text x="500" y="268" text-anchor="middle" font-size="8" fill="#E65100">规则引擎</text><circle cx="670" cy="284" r="5" fill="#fff" stroke="#BDBDBD" stroke-width="2"/><circle cx="783.3333333333333" cy="284" r="5" fill="#fff" stroke="#BDBDBD" stroke-width="2"/><rect x="0" y="312" width="860" height="56" fill="#fafcfa"/><text x="12" y="332" font-size="12" font-weight="600" fill="#333">✅ 运营指标体系落地</text><text x="12" y="348" font-size="10" fill="#999">刘洋 · 01-01~04-30</text><rect x="0" y="312" width="4" height="56" fill="#006B54"/><rect x="161.88888888888889" y="326" width="224.77777777777777" height="28" rx="4" fill="#f0f0f0"/><rect x="161.88888888888889" y="326" width="224.77777777777777" height="28" rx="4" fill="#006B54" opacity="0.5"/><text x="274.27777777777777" y="344" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">100%</text><circle cx="218.55555555555557" cy="340" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="218.55555555555557" cy="340" r="2" fill="#2E7D32"/><text x="218.55555555555557" y="324" text-anchor="middle" font-size="8" fill="#2E7D32">指标设计</text><circle cx="301.6666666666667" cy="340" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="301.6666666666667" cy="340" r="2" fill="#2E7D32"/><text x="301.6666666666667" y="324" text-anchor="middle" font-size="8" fill="#2E7D32">数据对接</text><circle cx="386.66666666666663" cy="340" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="386.66666666666663" cy="340" r="2" fill="#2E7D32"/><text x="386.66666666666663" y="324" text-anchor="middle" font-size="8" fill="#2E7D32">看板上线</text><rect x="0" y="368" width="860" height="56" fill="#fff"/><text x="12" y="388" font-size="12" font-weight="600" fill="#333">⏳ 跨渠道知识复用</text><text x="12" y="404" font-size="10" fill="#999">杨帆 · 07-01~12-31</text><rect x="0" y="368" width="4" height="56" fill="#F9A825"/><rect x="501.88888888888886" y="382" width="340" height="28" rx="4" fill="#f0f0f0"/><rect x="501.88888888888886" y="382" width="340" height="28" rx="4" fill="none" stroke="#F9A825" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/><text x="671.8888888888889" y="400" text-anchor="middle" font-size="10" font-weight="600" fill="#999">0%</text><circle cx="558.5555555555557" cy="396" r="5" fill="#fff" stroke="#BDBDBD" stroke-width="2"/><circle cx="670" cy="396" r="5" fill="#fff" stroke="#BDBDBD" stroke-width="2"/><circle cx="841.8888888888889" cy="396" r="5" fill="#fff" stroke="#BDBDBD" stroke-width="2"/><rect x="0" y="424" width="860" height="56" fill="#fafcfa"/><text x="12" y="444" font-size="12" font-weight="600" fill="#333">✅ 会话抽检工具优化</text><text x="12" y="460" font-size="10" fill="#999">张明 · 04-01~06-02</text><rect x="0" y="424" width="4" height="56" fill="#006B54"/><rect x="331.8888888888889" y="438" width="115.22222222222223" height="28" rx="4" fill="#f0f0f0"/><rect x="331.8888888888889" y="438" width="115.22222222222223" height="28" rx="4" fill="#006B54" opacity="0.5"/><text x="389.5" y="456" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">100%</text><circle cx="415" cy="452" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="415" cy="452" r="2" fill="#2E7D32"/><text x="415" y="436" text-anchor="middle" font-size="8" fill="#2E7D32">业务完善</text><circle cx="443.33333333333337" cy="452" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="443.33333333333337" cy="452" r="2" fill="#2E7D32"/><text x="443.33333333333337" y="436" text-anchor="middle" font-size="8" fill="#2E7D32">部署上线</text><circle cx="447.1111111111111" cy="452" r="5" fill="#fff" stroke="#2E7D32" stroke-width="2"/><circle cx="447.1111111111111" cy="452" r="2" fill="#2E7D32"/><text x="447.1111111111111" y="436" text-anchor="middle" font-size="8" fill="#2E7D32">文档归档</text><text x="160" y="500" font-size="10" fill="#999">主线图例：</text><rect x="220" y="488" width="12" height="10" rx="2" fill="#006B54"/><text x="236" y="497" font-size="10" fill="#666">应用迭代</text><rect x="292" y="488" width="12" height="10" rx="2" fill="#1976D2"/><text x="308" y="497" font-size="10" fill="#666">数据供给</text><rect x="364" y="488" width="12" height="10" rx="2" fill="#F9A825"/><text x="380" y="497" font-size="10" fill="#666">知识更新</text><rect x="436" y="488" width="12" height="10" rx="2" fill="#7B1FA2"/><text x="452" y="497" font-size="10" fill="#666">模型调优</text><rect x="508" y="488" width="12" height="10" rx="2" fill="#C62828"/><text x="524" y="497" font-size="10" fill="#666">风控兜底</text></svg></div>
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead>
+              <tr style="background:#f5f8f6;border-bottom:2px solid #d4e4dc">
+                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:50px">序号</th>
+                <th style="padding:10px 14px;text-align:left;color:#666;font-weight:600">项目名称</th>
+                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:80px">负责人</th>
+                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:100px">所属主线</th>
+                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:80px">项目阶段</th>
+                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:80px">优先级</th>
+                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:110px">计划周期</th>
+                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:120px">进度</th>
+              </tr>
+            </thead>
+            <tbody id="pm-table-body"></tbody>
+          </table>
         </div>
-
-        <!-- 项目详情弹窗触发区 -->
         <div id="pm-detail-area"></div>
       </div>
     </div>
@@ -6745,13 +6751,13 @@ var pmProjects = [
     {name:'核心开发',date:'2026-05-30',status:'done'},
     {name:'灰度测试',date:'2026-07-31',status:'current'},
     {name:'全量上线',date:'2026-09-30',status:'future'}
-  ], desc:'95598智能客服V3.0全面升级'},
+  ], desc:'95598智能客服V3.0全面升级，提升意图识别与多轮对话能力'},
   { id:'P002', name:'数据标注平台2.0', line:'数据供给', status:'进行中', priority:'高', owner:'赵琳', team:['王丽','李娜'], start:'2026-04-01', end:'2026-08-31', progress:48, milestones:[
     {name:'平台选型',date:'2026-04-15',status:'done'},
     {name:'功能开发',date:'2026-06-30',status:'current'},
     {name:'试运行',date:'2026-08-01',status:'future'},
     {name:'正式上线',date:'2026-08-31',status:'future'}
-  ], desc:'统一数据标注平台建设'},
+  ], desc:'统一数据标注平台建设，支持多类型标注与质检'},
   { id:'P003', name:'知识库智能化改造', line:'知识更新', status:'进行中', priority:'中', owner:'刘洋', team:['杨帆'], start:'2026-05-01', end:'2026-10-31', progress:35, milestones:[
     {name:'知识梳理',date:'2026-05-31',status:'done'},
     {name:'智能采编',date:'2026-08-15',status:'current'},
@@ -6762,158 +6768,68 @@ var pmProjects = [
     {name:'评测体系',date:'2026-02-28',status:'done'},
     {name:'基线评测',date:'2026-04-30',status:'done'},
     {name:'Prompt调优',date:'2026-08-31',status:'current'},
-    {name:'版本迭代',date:'2026-10-31',status:'future'},
-    {name:'年度评估',date:'2026-12-31',status:'future'}
-  ], desc:'年度大模型全链路评测调优'},
-  { id:'P005', name:'智能风控体系2期', line:'风控兜底', status:'进行中', priority:'高', owner:'马超', team:['周琳','吴强','陈芳'], start:'2026-02-01', end:'2026-11-30', progress:55, milestones:[
-    {name:'策略设计',date:'2026-03-15',status:'done'},
+    {name:'Skill优化',date:'2026-10-31',status:'future'},
+    {name:'全量部署',date:'2026-12-31',status:'future'}
+  ], desc:'大模型全链路评测与持续调优'},
+  { id:'P005', name:'智能风控体系2期', line:'风控兜底', status:'进行中', priority:'高', owner:'马超', team:['周磊','韩冰'], start:'2026-02-01', end:'2026-11-30', progress:55, milestones:[
+    {name:'策略设计',date:'2026-02-28',status:'done'},
     {name:'规则引擎',date:'2026-06-30',status:'current'},
-    {name:'灰度验证',date:'2026-09-30',status:'future'},
-    {name:'全面投产',date:'2026-11-30',status:'future'}
-  ], desc:'2期风控体系升级，四维防控'},
-  { id:'P006', name:'运营指标体系落地', line:'应用迭代', status:'已完成', priority:'中', owner:'刘洋', team:['张明','郑华'], start:'2026-01-01', end:'2026-04-30', progress:100, milestones:[
-    {name:'指标设计',date:'2026-01-31',status:'done'},
-    {name:'数据对接',date:'2026-03-15',status:'done'},
+    {name:'联调测试',date:'2026-09-30',status:'future'},
+    {name:'正式上线',date:'2026-11-30',status:'future'}
+  ], desc:'智能风控体系2期建设，覆盖合规与舆情'},
+  { id:'P006', name:'运营指标体系落地', line:'应用迭代', status:'已完成', priority:'中', owner:'刘洋', team:['张明'], start:'2026-01-01', end:'2026-04-30', progress:100, milestones:[
+    {name:'指标设计',date:'2026-02-15',status:'done'},
+    {name:'数据对接',date:'2026-03-31',status:'done'},
     {name:'看板上线',date:'2026-04-30',status:'done'}
-  ], desc:'四阶五线41指标全覆盖'},
-  { id:'P007', name:'跨渠道知识复用', line:'知识更新', status:'待启动', priority:'中', owner:'杨帆', team:[], start:'2026-07-01', end:'2026-12-31', progress:0, milestones:[
-    {name:'知识盘点',date:'2026-07-31',status:'future'},
-    {name:'方案设计',date:'2026-09-30',status:'future'},
-    {name:'平台建设',date:'2026-12-31',status:'future'}
-  ], desc:'知识跨渠道统一管理与分发'},
-  { id:'P008', name:'会话抽检工具优化', line:'应用迭代', status:'已完成', priority:'低', owner:'张明', team:['郑华'], start:'2026-04-01', end:'2026-06-02', progress:100, milestones:[
+  ], desc:'四阶五线运营指标体系设计与看板落地'},
+  { id:'P007', name:'跨渠道知识复用', line:'知识更新', status:'待启动', priority:'中', owner:'杨帆', team:['刘洋'], start:'2026-07-01', end:'2026-12-31', progress:0, milestones:[
+    {name:'复用规划',date:'2026-08-15',status:'future'},
+    {name:'渠道对接',date:'2026-10-31',status:'future'},
+    {name:'效果验证',date:'2026-12-31',status:'future'}
+  ], desc:'跨渠道知识共享与复用能力建设'},
+  { id:'P008', name:'会话抽检工具优化', line:'应用迭代', status:'已完成', priority:'中', owner:'张明', team:['陈磊'], start:'2026-04-01', end:'2026-06-02', progress:100, milestones:[
     {name:'业务完善',date:'2026-05-15',status:'done'},
     {name:'部署上线',date:'2026-05-30',status:'done'},
     {name:'文档归档',date:'2026-06-02',status:'done'}
-  ], desc:'95598会话抽检自动填充工具'}
+  ], desc:'95598会话抽检自动填充工具开发与部署'}
 ];
 
-var pmLineColors = {1:"#006B54",2:"#1976D2",3:"#F9A825",4:"#7B1FA2",5:"#C62828"};
-var pmLineNames = ["","应用迭代","数据供给","知识更新","模型调优","风控兜底"];
-var pmLineMap = {"应用迭代":1,"数据供给":2,"知识更新":3,"模型调优":4,"风控兜底":5};
+var pmLineColors = {"应用迭代":"#006B54","数据供给":"#1976D2","知识更新":"#F9A825","模型调优":"#7B1FA2","风控兜底":"#C62828"};
 
-function pmRenderMaster() {
-  var container = document.getElementById("pm-master-view");
-  if (!container) return;
-  var W = container.offsetWidth || container.parentElement && container.parentElement.offsetWidth || document.querySelector('.main-content') && document.querySelector('.main-content').offsetWidth || 860;
-  var leftW = 160;
-  var rightW = W - leftW - 20;
-  var rowH = 56;
-  var headerH = 32;
-  var totalH = headerH + pmProjects.length * rowH + 40;
-
-  var months = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
-  var today = new Date();
-  var todayFrac = (today.getFullYear()===2026) ? (today.getMonth()+today.getDate()/30)/12 : 0.5;
-
-  var h = "";
-  // SVG
-  h += "<svg width=\"" + W + "\" height=\"" + totalH + "\" viewBox=\"0 0 " + W + " " + totalH + "\" xmlns=\"http://www.w3.org/2000/svg\" style=\"font-family:-apple-system,Microsoft YaHei,PingFang SC,sans-serif\">";
-
-  // Month header
-  for (var m = 0; m < 12; m++) {
-    var x = leftW + (m / 12) * rightW;
-    var x2 = leftW + ((m + 1) / 12) * rightW;
-    h += "<rect x=\"" + x + "\" y=\"0\" width=\"" + (x2 - x) + "\" height=\"" + headerH + "\" fill=\"" + (m % 2 === 0 ? "#f8faf9" : "#f0f5f2") + "\"/>";
-    h += "<text x=\"" + ((x + x2) / 2) + "\" y=\"21\" text-anchor=\"middle\" font-size=\"11\" fill=\"#999\">" + months[m] + "</text>";
-  }
-
-  // Today line
-  var todayX = leftW + todayFrac * rightW;
-  h += "<line x1=\"" + todayX + "\" y1=\"0\" x2=\"" + todayX + "\" y2=\"" + totalH + "\" stroke=\"#C62828\" stroke-width=\"1.5\" stroke-dasharray=\"4,3\"/>";
-  h += "<rect x=\"" + (todayX - 16) + "\" y=\"0\" width=\"32\" height=\"14\" rx=\"3\" fill=\"#C62828\"/>";
-  h += "<text x=\"" + todayX + "\" y=\"10\" text-anchor=\"middle\" font-size=\"8\" fill=\"#fff\">今日</text>";
-
-  // Project rows
+function pmRenderTable() {
+  var tbody = document.getElementById("pm-table-body");
+  if (!tbody) return;
+  var statusMap = {"进行中":"tag-blue","待启动":"tag-gray","已完成":"tag-green"};
+  var priorityColors = {"高":"#E65100","中":"#1976D2","低":"#9E9E9E"};
+  var html = "";
   pmProjects.forEach(function(p, i) {
-    var y = headerH + i * rowH;
-    var lineIdx = pmLineMap[p.line] || 1;
-    var lineColor = pmLineColors[lineIdx];
-
-    // Alternating row background
-    h += "<rect x=\"0\" y=\"" + y + "\" width=\"" + W + "\" height=\"" + rowH + "\" fill=\"" + (i % 2 === 0 ? "#fff" : "#fafcfa") + "\"/>";
-
-    // Left: project info
-    var statusIcon = p.status === "已完成" ? "✅" : p.status === "待启动" ? "⏳" : "🔄";
-    var overdue = p.status !== "已完成" && new Date(p.end) < today;
-    var overdueMark = overdue ? " ⚠" : "";
-    h += "<text x=\"12\" y=\"" + (y + 20) + "\" font-size=\"12\" font-weight=\"600\" fill=\"#333\">" + statusIcon + " " + p.name.slice(0, 8) + (p.name.length > 8 ? "…" : "") + overdueMark + "</text>";
-    h += "<text x=\"12\" y=\"" + (y + 36) + "\" font-size=\"10\" fill=\"#999\">" + p.owner + " · " + p.start.slice(5) + "~" + p.end.slice(5) + "</text>";
-
-    // Line color indicator
-    h += "<rect x=\"0\" y=\"" + y + "\" width=\"4\" height=\"" + rowH + "\" fill=\"" + lineColor + "\"/>";
-
-    // Right: project bar
-    var startM = (parseInt(p.start.split("-")[1]) - 1 + parseInt(p.start.split("-")[2]) / 30) / 12;
-    var endM = (parseInt(p.end.split("-")[1]) - 1 + parseInt(p.end.split("-")[2]) / 30) / 12;
-    var barX = leftW + startM * rightW;
-    var barW = (endM - startM) * rightW;
-    var barY = y + 14;
-    var barH = 28;
-
-    // Background bar
-    h += "<rect x=\"" + barX + "\" y=\"" + barY + "\" width=\"" + barW + "\" height=\"" + barH + "\" rx=\"4\" fill=\"#f0f0f0\"/>";
-
-    // Progress bar
-    var progW = barW * p.progress / 100;
-    var barOpacity = p.status === "已完成" ? "0.5" : "1";
-    if (p.status === "待启动") {
-      h += "<rect x=\"" + barX + "\" y=\"" + barY + "\" width=\"" + barW + "\" height=\"" + barH + "\" rx=\"4\" fill=\"none\" stroke=\"" + lineColor + "\" stroke-width=\"1\" stroke-dasharray=\"4,3\" opacity=\"0.5\"/>";
-    } else {
-      h += "<rect x=\"" + barX + "\" y=\"" + barY + "\" width=\"" + Math.max(4, progW) + "\" height=\"" + barH + "\" rx=\"4\" fill=\"" + lineColor + "\" opacity=\"" + barOpacity + "\"/>";
-    }
-
-    // Progress text on bar
-    h += "<text x=\"" + (barX + barW / 2) + "\" y=\"" + (barY + barH / 2 + 4) + "\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"600\" fill=\"" + (p.status === "待启动" ? "#999" : "#fff") + "\">" + p.progress + "%</text>";
-
-    // Priority badge
-    if (p.priority === "高") {
-      h += "<rect x=\"" + (barX + barW - 2) + "\" y=\"" + (barY - 4) + "\" width=\"18\" height=\"12\" rx=\"3\" fill=\"#E65100\"/>";
-      h += "<text x=\"" + (barX + barW + 7) + "\" y=\"" + (barY + 5) + "\" text-anchor=\"middle\" font-size=\"7\" fill=\"#fff\">高</text>";
-    }
-
-    // Milestones on bar
-    p.milestones.forEach(function(ms) {
-      var msDate = new Date(ms.date);
-      var msFrac = (msDate.getMonth() + msDate.getDate() / 30) / 12;
-      var msX = leftW + msFrac * rightW;
-      var msColor = ms.status === "done" ? "#2E7D32" : ms.status === "current" ? "#E65100" : "#BDBDBD";
-      var msSize = ms.status === "current" ? 6 : 5;
-      h += "<circle cx=\"" + msX + "\" cy=\"" + (barY + barH / 2) + "\" r=\"" + msSize + "\" fill=\"#fff\" stroke=\"" + msColor + "\" stroke-width=\"2\"/>";
-      if (ms.status === "done") {
-        h += "<circle cx=\"" + msX + "\" cy=\"" + (barY + barH / 2) + "\" r=\"2\" fill=\"" + msColor + "\"/>";
-      }
-      // Milestone name tooltip (only for current/done)
-      if (ms.status !== "future") {
-        h += "<text x=\"" + msX + "\" y=\"" + (barY - 2) + "\" text-anchor=\"middle\" font-size=\"8\" fill=\"" + msColor + "\">" + ms.name.slice(0, 4) + "</text>";
-      }
-    });
-
-    // Click area (transparent overlay)
-    h += "<rect x=\"0\" y=\"" + y + "\" width=\"" + W + "\" height=\"" + rowH + "\" fill=\"transparent\" style=\"cursor:pointer\" onclick=\"pmShowDetail(" + i + ")\"/>";
+    var lc = pmLineColors[p.line] || "#006B54";
+    var stCls = statusMap[p.status] || "tag-gray";
+    var pc = priorityColors[p.priority] || "#9E9E9E";
+    var overdue = p.status !== "已完成" && new Date(p.end) < new Date();
+    var progressColor = p.progress >= 80 ? "#2E7D32" : p.progress >= 40 ? "#1976D2" : "#E65100";
+    html += '<tr style="border-bottom:1px solid #edf2ef;cursor:pointer;transition:background .15s" onmouseover="this.style.background=\'#f0f5f2\'" onmouseout="this.style.background=\'\'" onclick="pmShowDetail(' + i + ')">';
+    html += '<td style="padding:10px 14px;text-align:center;color:#999;font-size:12px">' + (i+1) + '</td>';
+    html += '<td style="padding:10px 14px"><div style="display:flex;align-items:center;gap:8px"><span style="display:inline-block;width:4px;height:28px;border-radius:2px;background:' + lc + ';flex-shrink:0"></span><div><div style="font-weight:600;color:#333">' + p.name + '</div><div style="font-size:11px;color:#999;margin-top:2px">' + p.id + (overdue ? ' <span style="color:#C62828">⚠逾期</span>' : '') + '</div></div></div></td>';
+    html += '<td style="padding:10px 14px;text-align:center;color:#333">' + p.owner + '</td>';
+    html += '<td style="padding:10px 14px;text-align:center"><span style="display:inline-block;font-size:11px;padding:2px 10px;border-radius:4px;background:' + lc + '18;color:' + lc + ';font-weight:600">' + p.line + '</span></td>';
+    html += '<td style="padding:10px 14px;text-align:center"><span class="tag ' + stCls + '">' + p.status + '</span></td>';
+    html += '<td style="padding:10px 14px;text-align:center"><span style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:3px;background:' + pc + '18;color:' + pc + ';font-weight:600">' + p.priority + '</span></td>';
+    html += '<td style="padding:10px 14px;text-align:center;font-size:12px;color:#666">' + p.start.slice(5) + ' ~ ' + p.end.slice(5) + '</td>';
+    html += '<td style="padding:10px 14px;text-align:center"><div style="display:flex;align-items:center;gap:6px;justify-content:center"><div style="width:52px;height:6px;background:#E8E8E8;border-radius:3px;overflow:hidden"><div style="height:100%;width:' + p.progress + '%;background:' + progressColor + ';border-radius:3px"></div></div><span style="font-size:11px;font-weight:600;color:' + progressColor + '">' + p.progress + '%</span></div></td>';
+    html += '</tr>';
   });
-
-  // Legend
-  var legendY = headerH + pmProjects.length * rowH + 8;
-  h += "<text x=\"" + leftW + "\" y=\"" + (legendY + 12) + "\" font-size=\"10\" fill=\"#999\">主线图例：</text>";
-  var lx = leftW + 60;
-  for (var li = 1; li <= 5; li++) {
-    h += "<rect x=\"" + lx + "\" y=\"" + legendY + "\" width=\"12\" height=\"10\" rx=\"2\" fill=\"" + pmLineColors[li] + "\"/>";
-    h += "<text x=\"" + (lx + 16) + "\" y=\"" + (legendY + 9) + "\" font-size=\"10\" fill=\"#666\">" + pmLineNames[li] + "</text>";
-    lx += 72;
+  tbody.innerHTML = html;
+  // Update header stats
+  var countTag = document.getElementById("pm-count-tag");
+  if (countTag) countTag.textContent = "共" + pmProjects.length + "个项目";
+  var statusBar = document.getElementById("pm-status-bar");
+  if (statusBar) {
+    var running = pmProjects.filter(function(p){return p.status==="进行中"}).length;
+    var pending = pmProjects.filter(function(p){return p.status==="待启动"}).length;
+    var done = pmProjects.filter(function(p){return p.status==="已完成"}).length;
+    statusBar.innerHTML = '<div style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#1976D2"></span><span style="font-size:11px;color:#666">进行中 ' + running + '</span></div><div style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#9E9E9E"></span><span style="font-size:11px;color:#666">待启动 ' + pending + '</span></div><div style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#2E7D32"></span><span style="font-size:11px;color:#666">已完成 ' + done + '</span></div>';
   }
-  // Milestone legend
-  h += "<circle cx=\"" + (lx + 8) + "\" cy=\"" + (legendY + 5) + "\" r=\"4\" fill=\"#fff\" stroke=\"#2E7D32\" stroke-width=\"2\"/>";
-  h += "<text x=\"" + (lx + 16) + "\" y=\"" + (legendY + 9) + "\" font-size=\"10\" fill=\"#666\">已完成</text>";
-  lx += 52;
-  h += "<circle cx=\"" + (lx + 8) + "\" cy=\"" + (legendY + 5) + "\" r=\"5\" fill=\"#fff\" stroke=\"#E65100\" stroke-width=\"2\"/>";
-  h += "<text x=\"" + (lx + 18) + "\" y=\"" + (legendY + 9) + "\" font-size=\"10\" fill=\"#666\">进行中</text>";
-  lx += 52;
-  h += "<circle cx=\"" + (lx + 8) + "\" cy=\"" + (legendY + 5) + "\" r=\"4\" fill=\"#fff\" stroke=\"#BDBDBD\" stroke-width=\"2\"/>";
-  h += "<text x=\"" + (lx + 16) + "\" y=\"" + (legendY + 9) + "\" font-size=\"10\" fill=\"#666\">待完成</text>";
-
-  h += "</svg>";
-  container.innerHTML = h;
 }
 
 function pmShowDetail(idx) {
@@ -6923,7 +6839,7 @@ function pmShowDetail(idx) {
   p.milestones.forEach(function(m) {
     var iconCls = m.status === "done" ? "done" : m.status === "current" ? "current" : "future";
     var icon = m.status === "done" ? "✓" : m.status === "current" ? "●" : "○";
-    msHtml += "<div class=\"milestone-item " + iconCls + "\"><div class=\"milestone-icon " + iconCls + "\"><span>" + icon + "</span></div><div class=\"milestone-info\"><div class=\"ms-title\">" + m.name + "</div><div class=\"ms-date\">" + m.date + "</div></div></div>";
+    msHtml += '<div class="milestone-item ' + iconCls + '"><div class="milestone-icon ' + iconCls + '"><span>' + icon + '</span></div><div class="milestone-info"><div class="ms-title">' + m.name + '</div><div class="ms-date">' + m.date + '</div></div></div>';
   });
   var progressColor = p.progress >= 80 ? "#2E7D32" : p.progress >= 40 ? "#1976D2" : "#E65100";
   var overdue = p.status !== "已完成" && new Date(p.end) < new Date() ? " ⚠逾期" : "";
@@ -6932,30 +6848,30 @@ function pmShowDetail(idx) {
   var modal = document.createElement("div");
   modal.className = "proj-detail-modal";
   modal.onclick = function() { modal.remove(); };
-  modal.innerHTML = "<div class=\"proj-detail-content\" onclick=\"event.stopPropagation()\"><div class=\"proj-detail-header\"><div><div style=\"font-size:18px;font-weight:700\">" + p.name + overdue + "</div><div style=\"font-size:12px;color:#666;margin-top:4px\">" + p.id + " · " + p.line + " · " + p.owner + "</div></div><button class=\"btn btn-outline btn-sm\" id=\"pm-close-btn\">✕ 关闭</button></div><div class=\"proj-detail-body\"><div style=\"display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px\"><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">状态</div><div style=\"margin-top:4px\"><span class=\"tag " + statusTag + "\">" + p.status + "</span></div></div><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">优先级</div><div style=\"margin-top:4px;font-weight:600\">" + p.priority + "</div></div><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">时间</div><div style=\"margin-top:4px;font-size:13px\">" + p.start.slice(5) + " ~ " + p.end.slice(5) + "</div></div><div style=\"text-align:center;padding:12px;background:#f8f9fa;border-radius:8px\"><div style=\"font-size:11px;color:#666\">团队</div><div style=\"margin-top:4px;font-size:13px\">" + teamStr + "</div></div></div><div style=\"margin-bottom:20px\"><div style=\"font-size:13px;font-weight:600;margin-bottom:8px\">项目描述</div><div style=\"font-size:13px;color:#666;line-height:1.6\">" + p.desc + "</div></div><div style=\"margin-bottom:20px\"><div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:8px\"><span style=\"font-size:13px;font-weight:600\">项目进度</span><span style=\"font-size:14px;font-weight:700;color:" + progressColor + "\">" + p.progress + "%</span></div><div style=\"height:10px;background:#E8E8E8;border-radius:5px;overflow:hidden\"><div style=\"height:100%;width:" + p.progress + "%;background:" + progressColor + ";border-radius:5px\"></div></div></div><div><div style=\"font-size:13px;font-weight:600;margin-bottom:12px\">里程碑</div>" + msHtml + "</div></div></div>";
+  modal.innerHTML = '<div class="proj-detail-content" onclick="event.stopPropagation()"><div class="proj-detail-header"><div><div style="font-size:18px;font-weight:700">' + p.name + overdue + '</div><div style="font-size:12px;color:#666;margin-top:4px">' + p.id + " · " + p.line + " · " + p.owner + '</div></div><button class="btn btn-outline btn-sm" id="pm-close-btn">✕ 关闭</button></div><div class="proj-detail-body"><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px"><div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:#666">状态</div><div style="margin-top:4px"><span class="tag ' + statusTag + '">' + p.status + '</span></div></div><div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:#666">优先级</div><div style="margin-top:4px;font-weight:600">' + p.priority + '</div></div><div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:#666">时间</div><div style="margin-top:4px;font-size:13px">' + p.start.slice(5) + " ~ " + p.end.slice(5) + '</div></div><div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:#666">团队</div><div style="margin-top:4px;font-size:13px">' + teamStr + '</div></div></div><div style="margin-bottom:20px"><div style="font-size:13px;font-weight:600;margin-bottom:8px">项目描述</div><div style="font-size:13px;color:#666;line-height:1.6">' + p.desc + '</div></div><div style="margin-bottom:20px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:13px;font-weight:600">项目进度</span><span style="font-size:14px;font-weight:700;color:' + progressColor + '">' + p.progress + '%</span></div><div style="height:10px;background:#E8E8E8;border-radius:5px;overflow:hidden"><div style="height:100%;width:' + p.progress + '%;background:' + progressColor + ';border-radius:5px"></div></div></div><div><div style="font-size:13px;font-weight:600;margin-bottom:12px">里程碑</div>' + msHtml + '</div></div></div>';
   document.body.appendChild(modal);
   document.getElementById("pm-close-btn").onclick = function() { modal.remove(); };
 }
 
-// Init on page load — project page renders on demand via initPageCharts
-// MutationObserver to auto-render when page-project becomes visible
+// Init project page on navigation
 (function() {
-  var projSection = document.getElementById('page-project');
-  if (!projSection) return;
-  var observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(m) {
-      if (m.type === 'attributes' && m.attributeName === 'class') {
-        if (projSection.classList.contains('active')) {
-          setTimeout(pmRenderMaster, 100);
-          setTimeout(pmRenderMaster, 400);
+  var origIPC = initPageCharts;
+  initPageCharts = function(page) {
+    origIPC(page);
+    if (page === "project") { pmRenderTable(); }
+  };
+  var projSection = document.getElementById("page-project");
+  if (projSection) {
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        if (m.type === "attributes" && m.attributeName === "class" && projSection.classList.contains("active")) {
+          pmRenderTable();
         }
-      }
+      });
     });
-  });
-  observer.observe(projSection, { attributes: true, attributeFilter: ['class'] });
+    observer.observe(projSection, { attributes: true, attributeFilter: ["class"] });
+  }
 })();
-
-
 
 
 </script>
