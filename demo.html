@@ -6822,7 +6822,7 @@ function pmRenderCards(data) {
     });
     var progressColor = p.progress >= 80 ? 'linear-gradient(90deg,#2E7D32,#66BB6A)' : p.progress >= 40 ? 'linear-gradient(90deg,#1976D2,#42A5F5)' : 'linear-gradient(90deg,#E65100,#FF9800)';
     var overdue = p.status !== '已完成' && new Date(p.end) < new Date() ? '<span style="color:var(--danger);font-weight:600;font-size:11px;margin-left:4px">⚠逾期</span>' : '';
-    html += '<div class="project-card" onclick="pmShowDetail(\'' + p.id + '\')">' +
+    html += '<div class="project-card" data-pid="' + p.id + '" onclick="pmShowDetail(this.dataset.pid)">' +
       '<div class="proj-status"><span class="tag ' + pmStatusTags[p.status] + '">' + p.status + '</span></div>' +
       '<div class="proj-title"><span style="width:4px;height:16px;background:' + pmLineColors[p.line] + ';border-radius:2px;display:inline-block"></span>' + p.name + overdue + '</div>' +
       '<div class="proj-meta"><span>📋 ' + p.id + '</span><span>🏷️ ' + p.line + '</span><span>👤 ' + p.owner + '</span><span>📅 ' + p.start.slice(5) + '~' + p.end.slice(5) + '</span></div>' +
