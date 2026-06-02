@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>95598会话抽检自动填充工具</title>
+<style>
+/* ========== 全局重置与基础样式 ========== */
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --primary: #006B54;
+  --primary-light: #008667;
+  --primary-bright: #4CAF50;
+  --primary-pale: #E8F5E9;
+  --info: #1976D2;
+  --warning: #E65100;
+  --danger: #C62828;
+  --success: #2E7D32;
+  --gold: #F9A825;
+  --purple: #7B1FA2;
+  --gray: #757575;
+  --blue-gray: #546E7A;
+  --bg: #f0f2f5;
+  --card-bg: #fff;
+  --text: #333;
+  --text-light: #666;
+  --border: #e0e0e0;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+html, body {
+  height: 100%;
+  font-family: -apple-system, "Microsoft YaHei", "PingFang SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+
+/* ========== 页面布局 ========== */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== 顶部标题栏 ========== */
+.header-bar {
+  background: linear-gradient(135deg, #004D3A, #006B54);
+  color: #fff;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 12px rgba(0,77,58,0.3);
+}
+.header-bar h1 {
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-bar h1::before {
+  content: "🔍";
+  font-size: 24px;
+}
+.header-bar .version {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ========== 主体内容区 ========== */
+.main-content {
+  flex: 1;
+  padding: 24px;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ========== 卡片 ========== */
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title .dot {
+  width: 4px;
+  height: 18px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+/* ========== 文件上传区 ========== */
+.upload-area {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  background: #fafcff;
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 16px;
+}
+.upload-area:hover {
+  border-color: var(--primary);
+  background: var(--primary-pale);
+}
+.upload-area.dragover {
+  border-color: var(--primary);
+  background: var(--primary-pale);
+  transform: scale(1.01);
+}
+.upload-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+.upload-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.upload-hint {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 14px;
+}
+.file-status {
+  margin-top: 12px;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: inline-block;
+}
+.file-status.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+.file-status.loading {
+  background: #fff8e1;
+  color: #e65100;
+}
+.file-status.error {
+  background: #ffebee;
+  color: #c62828;
+}
+
+/* ========== 按钮 ========== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,107,84,0.3);
+}
+.btn-outline {
+  background: #fff;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+.btn-outline:hover:not(:disabled) {
+  background: var(--primary-pale);
+}
+
+/* ========== 操作按钮区 ========== */
+.action-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+/* ========== 进度条 ========== */
+.progress-section {
+  display: none;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+.progress-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--primary-pale);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+.progress-text {
+  flex: 1;
+}
+.progress-status {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.progress-step {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+.progress-bar {
+  background: var(--primary-pale);
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* ========== 汇总表格 ========== */
+.summary-table-wrap {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: auto;
+  margin-bottom: 16px;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 0;
+}
+.data-table th {
+  background: #f7f8fa;
+  color: var(--text-light);
+  font-weight: 600;
+  padding: 12px;
+  text-align: center;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: center;
+  vertical-align: middle;
+}
+.data-table tr:hover td {
+  background: #f9fafb;
+}
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ========== 规则说明 ========== */
+.rule-box {
+  padding: 14px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 16px;
+}
+.rule-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rule-list {
+  font-size: 11px;
+  color: var(--text-light);
+  line-height: 1.9;
+}
+.rule-list li {
+  margin-bottom: 4px;
+}
+
+/* ========== KPI卡片 ========== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+@media (max-width: 768px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.kpi-card {
+  border-radius: 12px;
+  padding: 18px 14px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card.green {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+}
+.kpi-card.blue {
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+}
+.kpi-card.orange {
+  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+}
+.kpi-card.red {
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+}
+.kpi-label {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 6px;
+}
+.kpi-value {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--primary);
+}
+.kpi-value.blue { color: #1565c0; }
+.kpi-value.orange { color: #e65100; }
+.kpi-value.red { color: #c62828; }
+.kpi-unit {
+  font-size: 11px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* ========== 图表区 ========== */
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+@media (max-width: 768px) {
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.chart-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+}
+.chart-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.chart-container {
+  height: 280px;
+}
+
+/* ========== 明细区 ========== */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 768px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.detail-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.detail-header {
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+.detail-header.red { background: #ff7043; }
+.detail-header.green { background: #66bb6a; }
+.detail-content {
+  padding: 14px 16px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.reason-item {
+  margin-bottom: 12px;
+}
+.reason-item:last-child {
+  margin-bottom: 0;
+}
+.reason-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.reason-name {
+  color: var(--text);
+}
+.reason-count {
+  font-weight: 600;
+}
+.reason-bar {
+  background: #f1f5f9;
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+.reason-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s;
+}
+.suggestion-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #424242;
+}
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+.suggestion-item:first-child {
+  padding-top: 0;
+}
+
+/* ========== 底部说明 ========== */
+.footer-info {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-light);
+  font-size: 12px;
+}
+.footer-info a {
+  color: var(--primary);
+  text-decoration: none;
+}
+.footer-info a:hover {
+  text-decoration: underline;
+}
+
+/* ========== Toast通知 ========== */
+.toast {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: #2E7D32;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  z-index: 99999;
+  animation: fadeIn 0.3s;
+  max-width: 320px;
+}
+
+/* ========== 隐藏区 ========== */
+.hidden { display: none !important; }
+
+/* ========== 依赖状态条 ========== */
+.af-dep-status {
+  padding: 10px 24px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.af-dep-status.loading {
+  background: #fff8e1;
+  color: #e65100;
+  border-bottom: 1px solid #ffe0b2;
+}
+.af-dep-status.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-bottom: 1px solid #c8e6c9;
+}
+.af-dep-status.error {
+  background: #ffebee;
+  color: #c62828;
+  border-bottom: 1px solid #ffcdd2;
+}
+
+/* ========== 调试面板 ========== */
+.af-debug-panel {
+  margin: 16px auto;
+  max-width: 960px;
+  background: #263238;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.af-debug-header {
+  padding: 10px 16px;
+  background: #37474f;
+  color: #80cbc4;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+.af-debug-header:hover {
+  background: #455a64;
+}
+.af-debug-arrow {
+  transition: transform 0.2s;
+  font-size: 10px;
+}
+.af-debug-panel.expanded .af-debug-arrow {
+  transform: rotate(180deg);
+}
+.af-debug-content {
+  display: none;
+  padding: 14px 16px;
+  color: #b0bec5;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.af-debug-panel.expanded .af-debug-content {
+  display: block;
+}
+.af-debug-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+.af-debug-label {
+  min-width: 120px;
+  color: #90a4ae;
+}
+.af-debug-value {
+  color: #fff;
+  word-break: break-all;
+}
+.af-debug-value.ok { color: #69f0ae; }
+.af-debug-value.fail { color: #ff8a80; }
+</style>
+
+<!-- ========== 静态CDN依赖（ECharts优先因为是渲染用的） ========== -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+
+<!-- 备用加载检测脚本 -->
+<script>
+(function() {
+  var deps = [
+    { name: 'ECharts', check: function() { return typeof echarts !== 'undefined'; }, url: 'https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js' },
+    { name: 'SheetJS', check: function() { return typeof XLSX !== 'undefined'; }, url: 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js' },
+    { name: 'ExcelJS', check: function() { return typeof ExcelJS !== 'undefined'; }, url: 'https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js' }
+  ];
+  var failed = [];
+  deps.forEach(function(d) {
+    if (!d.check()) {
+      failed.push(d.name);
+      var s = document.createElement('script');
+      s.src = d.url;
+      s.onerror = function() { window.afDepLoadFailed = true; };
+      document.head.appendChild(s);
+    }
+  });
+  if (failed.length > 0) {
+    var warnDiv = document.createElement('div');
+    warnDiv.id = 'af-dep-fail-warn';
+    warnDiv.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#C62828;color:#fff;padding:10px 20px;text-align:center;font-size:14px;font-weight:600;z-index:999999';
+    warnDiv.textContent = '⚠️ Excel解析库加载失败，请检查网络连接后刷新页面（缺失：' + failed.join(', ') + '）';
+    document.body.insertBefore(warnDiv, document.body.firstChild);
+  }
+})();
+</script>
+</head>
+<body>
+<div class="page-wrapper">
+  <!-- 顶部标题栏 -->
+  <header class="header-bar">
+    <h1>95598会话抽检自动填充工具</h1>
+    <span class="version">v1.0 独立版</span>
+  </header>
+
+  <!-- 依赖加载状态条 -->
+  <div id="af-dep-status" class="af-dep-status loading">⏳ 正在加载依赖组件...</div>
+
+  <!-- 主体内容 -->
+  <main class="main-content">
+    <!-- 主卡片 -->
+    <div class="card">
+      <div class="card-title">
+        <span class="dot"></span>
+        上传会话记录文件
+      </div>
+
+      <!-- 文件上传区 -->
+      <div id="af-upload-area" class="upload-area" onclick="document.getElementById('af-file-input').click()" 
+           ondragover="event.preventDefault();this.classList.add('dragover')" 
+           ondragleave="this.classList.remove('dragover')" 
+           ondrop="event.preventDefault();this.classList.remove('dragover');afHandleDrop(event)">
+        <div class="upload-icon">📂</div>
+        <div class="upload-text">拖拽或点击上传Excel文件</div>
+        <div class="upload-hint">支持 .xlsx, .xls 格式</div>
+        <button class="btn btn-primary" onclick="event.stopPropagation();document.getElementById('af-file-input').click()">
+          选择文件
+        </button>
+        <input type="file" id="af-file-input" accept=".xlsx,.xls" style="display:none" onchange="afHandleFile(this.files[0])">
+        <div id="af-file-status" class="file-status" style="display:none"></div>
+      </div>
+
+      <!-- 操作按钮 -->
+      <div class="action-bar">
+        <button class="btn btn-primary" id="af-analyze-btn" disabled onclick="afAnalyze()">
+          🔍 AI分析并填充
+        </button>
+        <button class="btn btn-outline" id="af-download-btn" disabled onclick="afDownload()">
+          💾 下载填充结果
+        </button>
+      </div>
+
+      <!-- 分析进度 -->
+      <div id="af-progress" class="progress-section">
+        <div class="progress-header">
+          <div class="spinner"></div>
+          <div class="progress-text">
+            <div class="progress-status" id="af-status">正在解析会话数据...</div>
+            <div class="progress-step" id="af-step">步骤 1/4：读取Excel数据</div>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div id="af-bar" class="progress-bar-fill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- 分析结果 -->
+      <div id="af-result" class="hidden">
+        <!-- 汇总表格 -->
+        <div class="card-title">
+          <span class="dot"></span>
+          各环节客户流失率分析表（汇总统计）
+        </div>
+        <div class="summary-table-wrap">
+          <table class="data-table">
+            <thead id="af-table-header">
+              <tr>
+                <th rowspan="2">场景</th>
+                <th rowspan="2">意图识别<br>准确率</th>
+                <th colspan="5">各环节流失率</th>
+                <th rowspan="2">流程<br>完成率</th>
+              </tr>
+              <tr>
+                <th>诉求接入</th>
+                <th>故障范围采集</th>
+                <th>身份认证</th>
+                <th>停电判定</th>
+                <th>结果播报</th>
+              </tr>
+            </thead>
+            <tbody id="af-table-body">
+              <tr><td colspan="8" style="text-align:center;color:var(--text-light);padding:32px">请先上传Excel并点击"分析并填充"</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 规则说明 -->
+        <div class="rule-box">
+          <div class="rule-title">📌 填充规则说明（停电信息查询场景）</div>
+          <ul class="rule-list">
+            <li>• 意图识别准确率：E列中，填"是"的数量 / 样本总数</li>
+            <li>• 诉求接入流失率：F列中，（挂机数+转人工数）/ 样本总数</li>
+            <li>• 故障范围采集：停电信息查询场景不涉及</li>
+            <li>• 身份认证流失率：（I列中的挂机数+转人工数 + O列中的挂机数+转人工数）/ 样本总数</li>
+            <li>• 停电判定：停电信息查询场景不涉及</li>
+            <li>• 结果播报且未转人工：P列"是"且Q列"否"的总和</li>
+            <li>• 结果播报流失率：P列"是"且Q列"是"的数量 / 样本总数</li>
+            <li>• 流程完成率：P列"是"的数量 / 样本总数</li>
+          </ul>
+        </div>
+
+        <!-- 分析汇总结果 -->
+        <div id="af-summary" class="hidden">
+          <div class="card-title">
+            <span class="dot"></span>
+            分析汇总结果
+          </div>
+
+          <!-- KPI卡片 -->
+          <div class="kpi-grid">
+            <div class="kpi-card green">
+              <div class="kpi-label">总记录数</div>
+              <div class="kpi-value" id="af-s-total">0</div>
+              <div class="kpi-unit">条会话</div>
+            </div>
+            <div class="kpi-card blue">
+              <div class="kpi-label">意图识别准确率</div>
+              <div class="kpi-value blue" id="af-s-intent">0%</div>
+              <div class="kpi-unit">E列统计</div>
+            </div>
+            <div class="kpi-card green">
+              <div class="kpi-label">流程完成率</div>
+              <div class="kpi-value" id="af-s-complete">0%</div>
+              <div class="kpi-unit">P列"是"/总量</div>
+            </div>
+            <div class="kpi-card red">
+              <div class="kpi-label">转人工率</div>
+              <div class="kpi-value red" id="af-s-transfer">0%</div>
+              <div class="kpi-unit">Q列统计</div>
+            </div>
+          </div>
+
+          <!-- 图表区 -->
+          <div class="chart-grid">
+            <!-- 左：环节流转漏斗 -->
+            <div class="chart-box">
+              <div class="chart-title">🔄 环节流转漏斗</div>
+              <div class="chart-container" id="af-s-funnel"></div>
+            </div>
+            <!-- 右：流失原因分布 -->
+            <div class="chart-box">
+              <div class="chart-title">📉 流失原因分布</div>
+              <div class="chart-container" id="af-s-loss-chart"></div>
+            </div>
+          </div>
+
+          <!-- 明细区 -->
+          <div class="detail-grid">
+            <div class="detail-box">
+              <div class="detail-header red">🔴 转人工原因分布</div>
+              <div class="detail-content" id="af-s-reason-list">
+                <div style="text-align:center;color:var(--text-light);padding:20px">分析后自动填充</div>
+              </div>
+            </div>
+            <div class="detail-box">
+              <div class="detail-header green">💡 AI优化建议</div>
+              <div class="detail-content" id="af-s-suggestions">
+                <div style="text-align:center;color:var(--text-light);padding:20px">分析后自动填充</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 使用说明 -->
+    <div class="card">
+      <div class="card-title">
+        <span class="dot"></span>
+        使用说明
+      </div>
+      <div style="font-size:12px;color:var(--text-light);line-height:1.8">
+        <p style="margin-bottom:8px"><strong>功能说明：</strong>本工具可自动分析95598会话记录Excel文件，智能填充缺失的抽检标注列，生成各环节流失率统计。</p>
+        <p style="margin-bottom:8px"><strong>操作步骤：</strong></p>
+        <ol style="margin-left:20px;margin-bottom:8px">
+          <li>点击上传或拖拽Excel文件（.xlsx/.xls格式）</li>
+          <li>点击"AI分析并填充"按钮开始自动分析</li>
+          <li>查看分析结果、漏斗图和流失原因统计</li>
+          <li>点击"下载填充结果"导出带标注的Excel文件</li>
+        </ol>
+        <p><strong>注意事项：</strong>AI填充结果基于规则推断，建议人工校核关键列的准确性。</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- 底部 -->
+  <footer class="footer-info">
+    <p>95598会话抽检自动填充工具 · 完全独立版，无需服务器</p>
+    <p>依赖：SheetJS（Excel解析）、ExcelJS（样式保留）、ECharts（图表）</p>
+  </footer>
+</div>
+
+<!-- ========== 调试面板 ========== -->
+<div class="af-debug-panel" id="af-debug-panel">
+  <div class="af-debug-header" onclick="document.getElementById('af-debug-panel').classList.toggle('expanded')">
+    <span>🔧 调试信息</span>
+    <span class="af-debug-arrow">▼</span>
+  </div>
+  <div class="af-debug-content">
+    <div class="af-debug-item">
+      <span class="af-debug-label">ECharts:</span>
+      <span class="af-debug-value" id="af-dbg-echarts">检测中...</span>
+    </div>
+    <div class="af-debug-item">
+      <span class="af-debug-label">SheetJS (XLSX):</span>
+      <span class="af-debug-value" id="af-dbg-xlsx">检测中...</span>
+    </div>
+    <div class="af-debug-item">
+      <span class="af-debug-label">ExcelJS:</span>
+      <span class="af-debug-value" id="af-dbg-exceljs">检测中...</span>
+    </div>
+    <div class="af-debug-item">
+      <span class="af-debug-label">浏览器UserAgent:</span>
+      <span class="af-debug-value" id="af-dbg-ua"></span>
+    </div>
+    <div class="af-debug-item">
+      <span class="af-debug-label">协议:</span>
+      <span class="af-debug-value" id="af-dbg-protocol"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========== 会话抽检自动填充 - 完整独立版 ==========
+window.onerror = function(msg, url, line) { console.log("[ERROR] " + msg + " at line " + line); alert("JS错误: " + msg + " (行" + line + ")"); };
+
+var afOriginalWb = null;
+var afFilledWb = null;
+var afOriginalRows = null;
+var afFileName = '';
+var afHistoryRecords = [];
+var afColMap = null;
+var afDataStart = 1;
+var afAllWrites = [];
+var afOriginalRawData = null;
+
+// ========== Toast通知 ==========
+function showToast(msg, bg) {
+  var existingToasts = document.querySelectorAll('.toast');
+  existingToasts.forEach(function(t) {
+    t.style.opacity = '0';
+    t.style.transition = 'opacity .3s';
+    setTimeout(function() { t.remove(); }, 300);
+  });
+  var t = document.createElement('div');
+  t.className = 'toast';
+  t.style.background = bg || '#2E7D32';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function() {
+    t.style.opacity = '0';
+    t.style.transition = 'opacity .3s';
+    setTimeout(function() { t.remove(); }, 300);
+  }, 2500);
+}
+
+// ========== 列映射检测 ==========
+function afDetectColMap(rows) {
+  var dataStart = 1;
+  for (var ri = 0; ri < Math.min(5, rows.length); ri++) {
+    var riJoined = (rows[ri] || []).join('');
+    if (/客户业务诉求|业务意图|是否有关系库|身份验证|结果播报/.test(riJoined)) {
+      dataStart = ri + 1;
+    }
+  }
+  var colMap = {};
+  var intentNextCount = 0;
+  for (var ri2 = 0; ri2 < dataStart; ri2++) {
+    var hdrRow = rows[ri2] || [];
+    for (var ci = 0; ci < hdrRow.length; ci++) {
+      var hv = String(hdrRow[ci] || '').replace(/\n/g, '');
+      if (/聊天记录/.test(hv)) colMap.chatLog = ci;
+      if (/转人工原因/.test(hv) && ri2 === 0 && !colMap.transferReasonB && colMap.transferReasonB !== 0) colMap.transferReasonB = ci;
+      if (/客户业务诉求/.test(hv)) colMap.appeal = ci;
+      if (/意图.*识别.*准确|业务意图是否识别/.test(hv)) colMap.intentAcc = ci;
+      if (/客户后续/.test(hv)) {
+        intentNextCount++;
+        if (intentNextCount === 1) colMap.intentNext = ci;
+        else if (intentNextCount === 2) colMap.relationNext = ci;
+        else if (intentNextCount === 3) colMap.verifyNext = ci;
+      }
+      if (/是否有关系库/.test(hv)) colMap.hasRelation = ci;
+      if (/是否选择推送户号|客户是否选择/.test(hv)) colMap.selectedAcct = ci;
+      if (/是否进行身份验证/.test(hv)) colMap.hasVerify = ci;
+      if (/提供.*哪类信息|客户提供下面/.test(hv)) colMap.infoType = ci;
+      if (/是否提供地址/.test(hv)) colMap.hasAddr = ci;
+      if (/是否有查询到/.test(hv)) colMap.hasQueried = ci;
+      if (/核实地址.*准确|客户是否判断准确/.test(hv)) colMap.addrAcc = ci;
+      if (/是否结果播报/.test(hv)) colMap.hasBroadcast = ci;
+      if (/是否转人工处理/.test(hv)) colMap.hasTransfer = ci;
+      if (/转人工原因.*直接/.test(hv)) colMap.transferReasonR = ci;
+    }
+  }
+  if (!colMap.chatLog && colMap.chatLog !== 0) {
+    colMap = {
+      transferReasonB: 1, chatLog: 2, appeal: 3, intentAcc: 4, intentNext: 5,
+      hasRelation: 6, selectedAcct: 7, relationNext: 8, hasVerify: 9,
+      infoType: 10, hasAddr: 11, hasQueried: 12, addrAcc: 13, verifyNext: 14,
+      hasBroadcast: 15, hasTransfer: 16, transferReasonR: 17
+    };
+  }
+  return {colMap: colMap, dataStart: dataStart};
+}
+
+// ========== 文件处理 ==========
+function afHandleFile(file) {
+  console.log("[DEBUG] afHandleFile called, file:", file ? file.name : "null");
+  try {
+    if (!file) return;
+    // 先检查XLSX是否可用
+    if (typeof XLSX === 'undefined') {
+      showToast('⚠️ Excel解析库未加载，请刷新页面后重试', '#C62828');
+      return;
+    }
+    if (!/\.(xlsx|xls)$/i.test(file.name)) { showToast('⚠️ 请上传Excel文件(.xlsx/.xls)', '#E65100'); return; }
+    afFileName = file.name;
+    var statusEl = document.getElementById('af-file-status');
+    statusEl.textContent = '⏳ 正在解析：' + afFileName;
+    statusEl.style.display = 'inline-block';
+    statusEl.className = 'file-status loading';
+
+    var reader = new FileReader();
+    reader.onload = function(evt) {
+      try {
+        var data = new Uint8Array(evt.target.result);
+        afOriginalRawData = data;
+        afOriginalWb = XLSX.read(data, {type:'array'});
+        var sheet = afOriginalWb.Sheets[afOriginalWb.SheetNames[0]];
+        afOriginalRows = XLSX.utils.sheet_to_json(sheet, {header:1, defval:""});
+        var detected = afDetectColMap(afOriginalRows);
+        afColMap = detected.colMap;
+        afDataStart = detected.dataStart;
+        var totalRows = afOriginalRows.length - afDataStart;
+        statusEl.textContent = '✅ 已加载：' + afFileName + '（' + totalRows + '条记录）';
+        statusEl.className = 'file-status success';
+        document.getElementById('af-analyze-btn').disabled = false;
+        document.getElementById('af-download-btn').disabled = true;
+        showToast('✅ 解析成功，共 ' + totalRows + ' 条会话记录');
+      } catch(e) {
+        statusEl.textContent = '❌ 解析失败';
+        statusEl.className = 'file-status error';
+        showToast('⚠️ 文件解析失败：' + e.message, '#E65100');
+      }
+    };
+    reader.onerror = function() {
+      statusEl.textContent = '❌ 文件读取失败';
+      statusEl.className = 'file-status error';
+      showToast('⚠️ 文件读取失败，请重试', '#C62828');
+    };
+    reader.readAsArrayBuffer(file);
+  } catch(err) {
+    console.error("[ERROR] afHandleFile:", err);
+    showToast('⚠️ 文件处理出错：' + err.message, '#C62828');
+  }
+}
+
+function afHandleDrop(evt) {
+  var file = evt.dataTransfer.files[0];
+  if(file) afHandleFile(file);
+}
+
+// ========== 分析主流程 ==========
+function afAnalyze() {
+  if (!afOriginalWb || !afOriginalRows) { showToast('⚠️ 请先上传Excel文件', '#E65100'); return; }
+  document.getElementById('af-progress').style.display = 'block';
+  document.getElementById('af-result').classList.add('hidden');
+  document.getElementById('af-summary').classList.add('hidden');
+  document.getElementById('af-analyze-btn').disabled = true;
+  var totalRows = afOriginalRows.length - afDataStart;
+  var steps = [
+    {pct:20, status:'正在识别入口话术...', step:'步骤 1/4：定位停电信息查询场景对话'},
+    {pct:45, status:'AI分析各环节流转...', step:'步骤 2/4：填充意图识别/关系库/身份验证列'},
+    {pct:75, status:'填充结果播报与转人工列...', step:'步骤 3/4：填充播报/转人工/转人工原因列'},
+    {pct:92, status:'计算各环节流失率...', step:'步骤 4/4：生成汇总统计'}
+  ];
+  var idx = 0;
+  var timer = setInterval(function() {
+    if (idx < steps.length) {
+      document.getElementById('af-bar').style.width = steps[idx].pct + '%';
+      document.getElementById('af-status').textContent = steps[idx].status;
+      document.getElementById('af-step').textContent = steps[idx].step;
+      idx++;
+    } else {
+      clearInterval(timer);
+      document.getElementById('af-bar').style.width = '100%';
+      document.getElementById('af-status').textContent = '分析填充完成！';
+      document.getElementById('af-step').textContent = '共处理 ' + totalRows + ' 条记录';
+      afAllWrites = [];
+      afFilledWb = afRuleBasedFill(XLSX.read(afOriginalRawData, {type:'array'}));
+      var summary = afComputeSummary(afOriginalRows);
+      afRenderTable(summary);
+      document.getElementById('af-progress').style.display = 'none';
+      document.getElementById('af-result').classList.remove('hidden');
+      setTimeout(function() {
+        document.getElementById('af-summary').classList.remove('hidden');
+        afRenderSummary(afOriginalRows);
+      }, 150);
+      document.getElementById('af-download-btn').disabled = false;
+      document.getElementById('af-analyze-btn').disabled = false;
+      afHistoryRecords.unshift({time:new Date().toLocaleString(), file:afFileName, rows:totalRows, summary:summary});
+      showToast('✅ AI分析填充完成！共处理 ' + totalRows + ' 条记录');
+    }
+  }, 800);
+}
+
+// ========== 下载填充结果 ==========
+function afDownload() {
+  if (afAllWrites.length === 0) { showToast('⚠️ 请先执行AI分析填充', '#E65100'); return; }
+  try {
+    // 检查ExcelJS是否可用
+    if (typeof ExcelJS === 'undefined') {
+      showToast('⚠️ ExcelJS库未加载，请刷新页面后重试', '#C62828');
+      return;
+    }
+    var wb = new ExcelJS.Workbook();
+    var blob = new Blob([afOriginalRawData], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    wb.xlsx.load(blob).then(function() {
+      var ws = wb.worksheets[0];
+      afAllWrites.forEach(function(w) {
+        var row = ws.getRow(w.row);
+        var cell = row.getCell(w.col);
+        cell.value = w.val;
+      });
+      wb.xlsx.writeBuffer().then(function(buffer) {
+        var outBlob = new Blob([buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+        var url = URL.createObjectURL(outBlob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = afFileName ? afFileName.replace(/\.xlsx?$/i, '') + '_填充结果.xlsx' : '填充结果.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('✅ 填充结果已下载');
+      });
+    }).catch(function(err) {
+      showToast('❌ Excel处理失败: ' + err.message, '#C62828');
+    });
+  } catch(err) {
+    console.error("[ERROR] afDownload:", err);
+    showToast('❌ 下载失败: ' + err.message, '#C62828');
+  }
+}
+
+// ========== 聊天记录解析 ==========
+function afParseMessages(chatStr) {
+  var msgs = [];
+  if (!chatStr) return msgs;
+  var lines = chatStr.split('\n');
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i].trim();
+    if (line.length < 2) continue;
+    if (line.charAt(0) === 'c' && line.charAt(1) === ' ') {
+      msgs.push({role: 'c', content: line.substring(2).trim()});
+    } else if (line.charAt(0) === 'a' && line.charAt(1) === ' ') {
+      msgs.push({role: 'a', content: line.substring(2).trim()});
+    }
+  }
+  return msgs;
+}
+
+// ========== 找入口话术位置 ==========
+function afFindEntry(msgs) {
+  for (var i = 0; i < msgs.length; i++) {
+    if (msgs[i].role === 'a') {
+      var c = msgs[i].content;
+      if (c.indexOf('查一下停电') >= 0 && (c.indexOf('情况') >= 0 || c.indexOf('原因') >= 0)) {
+        return i;
+      }
+    }
+  }
+  return null;
+}
+
+// ========== 判断是否是信息收集话术 ==========
+function afIsInfoCollectMsg(role, content) {
+  if (role !== 'a') return false;
+  if (content.indexOf('未查询到相关停电信息') >= 0) return false;
+  if (content.indexOf('转接人工') >= 0 || content.indexOf('转人工') >= 0) return false;
+  if (content.indexOf('正确请按1井号') >= 0 || content.indexOf('正确请按1') >= 0) return false;
+  // "您是要反映尾号...说是或不是"是确认户号，属于关系库选择，不是身份验证
+  if (/您是要反映/.test(content) && /是或不是|说是|说不是/.test(content)) return false;
+  if ((content.indexOf('请您提供') >= 0 || content.indexOf('请您说出') >= 0 || content.indexOf('请输入') >= 0)
+      && (content.indexOf('地址') >= 0 || content.indexOf('详细') >= 0)) {
+    return true;
+  }
+  if (content.indexOf('请您') >= 0 && content.indexOf('地址') >= 0) return true;
+  if (content.indexOf('麻烦您') >= 0 && content.indexOf('地址') >= 0) return true;
+  return false;
+}
+
+// ========== 找信息收集位置 ==========
+function afFindInfoIdx(msgs, start) {
+  for (var i = start; i < msgs.length; i++) {
+    if (afIsInfoCollectMsg(msgs[i].role, msgs[i].content)) {
+      return i;
+    }
+  }
+  return null;
+}
+
+// ========== 找核实确认位置 ==========
+function afFindVerifyIdx(msgs) {
+  for (var i = 0; i < msgs.length; i++) {
+    if (msgs[i].role === 'a') {
+      var c = msgs[i].content;
+      if (c.indexOf('正确请按1井号') >= 0 || c.indexOf('正确请按1') >= 0) {
+        return i;
+      }
+    }
+  }
+  return null;
+}
+
+// ========== 找结果播报位置 ==========
+function afFindResultIdx(msgs, start) {
+  for (var i = start; i < msgs.length; i++) {
+    if (msgs[i].role === 'a') {
+      var c = msgs[i].content;
+      if (c.indexOf('未查询到相关停电信息') >= 0) return i;
+      if (c.indexOf('有故障停电') >= 0) return i;
+      if (c.indexOf('有计划停电') >= 0) return i;
+      if (c.indexOf('您的户号未查询到') >= 0) return i;
+      if (c.indexOf('当前') >= 0 && c.indexOf('停电') >= 0) return i;
+      if (c.indexOf('有') >= 0 && c.indexOf('停电') >= 0) return i;
+    }
+  }
+  return null;
+}
+
+// ========== 找转人工位置 ==========
+function afFindTransferIdx(msgs, start) {
+  for (var i = start; i < msgs.length; i++) {
+    if (msgs[i].role === 'a') {
+      var c = msgs[i].content;
+      if (c.indexOf('转接人工') >= 0 || c.indexOf('转人工') >= 0) {
+        return i;
+      }
+    }
+  }
+  return null;
+}
+
+// ========== 提取数字 ==========
+function afExtractDigits(text) {
+  return text.replace(/[^\d]/g, '');
+}
+
+// ========== 获取所有客户消息 ==========
+function afGetAllCustomerMsgs(msgs) {
+  var result = [];
+  for (var i = 0; i < msgs.length; i++) {
+    if (msgs[i].role === 'c') {
+      result.push(msgs[i].content);
+    }
+  }
+  return result;
+}
+
+// ========== 获取指定范围后的坐席消息 ==========
+function afGetAgentMsgsAfter(msgs, start) {
+  var result = [];
+  for (var i = start; i < msgs.length; i++) {
+    if (msgs[i].role === 'a') {
+      result.push(msgs[i].content);
+    }
+  }
+  return result.join(' ');
+}
+
+// ========== 获取所有坐席消息 ==========
+function afGetAllAgentMsgs(msgs) {
+  return afGetAgentMsgsAfter(msgs, 0);
+}
+
+// ========== 基于规则的智能填充 ==========
+function afRuleBasedFill(wb) {
+  var colMap = afColMap;
+  var dataStart = afDataStart;
+  for (var s = 0; s < wb.SheetNames.length; s++) {
+    var sheetName = wb.SheetNames[s];
+    var sheet = wb.Sheets[sheetName];
+    var rows = XLSX.utils.sheet_to_json(sheet, {header: 1, defval: ""});
+    var maxCol = Math.max.apply(null, Object.values(colMap).map(function(v){return v;}));
+
+    for (var i = dataStart; i < rows.length; i++) {
+      var row = rows[i];
+      while (row.length < maxCol + 1) row.push("");
+      var chatLog = String(row[colMap.chatLog] || "");
+      var bCol = String(row[colMap.transferReasonB] || "");
+      var msgs = afParseMessages(chatLog);
+      var entryIdx = afFindEntry(msgs);
+      var allCMsgs = afGetAllCustomerMsgs(msgs);
+      var allCJoined = allCMsgs.join(' ');
+      var allAgentJoined = afGetAllAgentMsgs(msgs);
+
+      var writes = [];
+
+      function getVal(colKey) {
+        var ci = colMap[colKey];
+        var orig = (ci !== undefined && row[ci] !== undefined) ? String(row[ci]).trim() : '';
+        if (orig) return orig;
+        var w = writes.find(function(x){return x.c === ci;});
+        return w ? String(w.v).trim() : '';
+      }
+
+      // D列：客户业务诉求
+      if (!getVal('appeal')) {
+        writes.push({c: colMap.appeal, v: afIdentifyAppeal(allCMsgs)});
+      }
+
+      // E列：意图识别是否准确
+      if (!getVal('intentAcc')) {
+        writes.push({c: colMap.intentAcc, v: afJudgeIntentAccurate(allCJoined, getVal('appeal'))});
+      }
+
+      // F列：意图识别后续环节
+      if (!getVal('intentNext')) {
+        writes.push({c: colMap.intentNext, v: afIdentifyIntentNext(msgs, entryIdx)});
+      }
+
+      var fStop = (getVal('intentNext') === "转人工" || getVal('intentNext') === "挂机");
+
+      // G列：是否有关系库
+      if (!fStop && !getVal('hasRelation')) {
+        writes.push({c: colMap.hasRelation, v: afHasRelationDB(allAgentJoined)});
+      }
+
+      // H列、I列
+      if (!fStop && getVal('hasRelation') === "是") {
+        var acctCount = 0;
+        var m = allAgentJoined.match(/查到(\d+)个户号/);
+        if (m) acctCount = parseInt(m[1], 10);
+        if (!getVal('selectedAcct')) {
+          writes.push({c: colMap.selectedAcct, v: afSelectedAccount(msgs, entryIdx, acctCount)});
+        }
+        if (!getVal('relationNext')) {
+          writes.push({c: colMap.relationNext, v: afRelationDBNext(msgs, entryIdx, getVal('selectedAcct'), acctCount)});
+        }
+      }
+
+      // I列="结果播报"时跳过身份验证环节(J-O列)，但P-R列继续填充
+      var iStop = fStop || (getVal('relationNext') === "转人工" || getVal('relationNext') === "挂机");
+      var skipIdentity = iStop || (getVal('relationNext') === "结果播报");
+
+      // J列：是否进行身份验证
+      if (!skipIdentity && !getVal('hasVerify')) {
+        writes.push({c: colMap.hasVerify, v: afHasIdentityVerify(msgs, entryIdx)});
+      }
+
+      var jVal = getVal('hasVerify');
+      // K列：客户提供信息类型
+      if (!skipIdentity && jVal === "是" && !getVal('infoType')) {
+        writes.push({c: colMap.infoType, v: afCustomerInfoType(msgs, entryIdx)});
+      }
+
+      // L列：是否提供地址信息
+      if (!skipIdentity && jVal === "是" && !getVal('hasAddr')) {
+        writes.push({c: colMap.hasAddr, v: afHasAddress(getVal('infoType'))});
+      }
+
+      // M列：是否有查询到
+      if (!skipIdentity && jVal === "是" && !getVal('hasQueried')) {
+        writes.push({c: colMap.hasQueried, v: afHasQueried(allAgentJoined, getVal('infoType'))});
+      }
+
+      // N列：客户判断是否准确
+      if (!skipIdentity && getVal('hasAddr') === "是" && !getVal('addrAcc')) {
+        writes.push({c: colMap.addrAcc, v: afAddressAccurate(msgs)});
+      }
+
+      // O列：身份验证后续
+      if (!skipIdentity && jVal === "是" && !getVal('verifyNext') && entryIdx !== null) {
+        writes.push({c: colMap.verifyNext, v: afIdentityVerifyNext(msgs, entryIdx)});
+      }
+
+      var oStop = iStop || (getVal('verifyNext') === "转人工" || getVal('verifyNext') === "挂机");
+
+      // P列：是否结果播报
+      if (!oStop && !getVal('hasBroadcast')) {
+        writes.push({c: colMap.hasBroadcast, v: afHasResultBroadcast(msgs, entryIdx)});
+      }
+
+      // Q列：是否转人工
+      if (!oStop && !getVal('hasTransfer')) {
+        writes.push({c: colMap.hasTransfer, v: afHasTransferAgent(msgs, entryIdx, bCol)});
+      }
+
+      // R列：转人工原因
+      if (!oStop && getVal('hasTransfer') === "是" && !getVal('transferReasonR')) {
+        writes.push({c: colMap.transferReasonR, v: afTransferReason(msgs, entryIdx, bCol)});
+      }
+
+      writes.forEach(function(w) {
+        var cellRef = XLSX.utils.encode_cell({r: i, c: w.c});
+        if (!sheet[cellRef]) {
+          sheet[cellRef] = {t: 's', v: String(w.v)};
+        } else {
+          sheet[cellRef].v = String(w.v);
+          sheet[cellRef].t = 's';
+        }
+        afAllWrites.push({row: i + 1, col: w.c + 1, val: String(w.v)});
+      });
+    }
+
+    if (sheet['!ref']) {
+      var range = XLSX.utils.decode_range(sheet['!ref']);
+      var maxC = Math.max.apply(null, Object.values(colMap).map(function(v){return v;}));
+      if (range.e.c < maxC) range.e.c = maxC;
+      sheet['!ref'] = XLSX.utils.encode_range(range);
+    }
+  }
+  return wb;
+}
+
+// ========== D列：客户业务诉求 ==========
+function afIdentifyAppeal(customerMsgs) {
+  if (!customerMsgs || customerMsgs.length === 0) return "无明显意图";
+  var joined = customerMsgs.join(' ');
+  var intents = [];
+  if (/故障报修|报修故障|报修/.test(joined)) intents.push("故障报修");
+  if (/查欠费|查电费|缴费|欠费/.test(joined)) intents.push("查欠费");
+  if (/查户号|查户/.test(joined)) intents.push("查户号");
+  if (/停电|停电信|没电|断电/.test(joined)) intents.push("查停电信息");
+  if (intents.length === 0) {
+    if (/转人工|人工服务|人工/.test(joined)) return "无明显意图";
+    return "查停电信息";
+  }
+  return intents.join("；");
+}
+
+// ========== E列：意图识别准确 ==========
+function afJudgeIntentAccurate(allCJoined, dCol) {
+  if (dCol === "无明显意图") return "否";
+  if (/转人工/.test(dCol) && !/停电|查/.test(allCJoined)) return "否";
+  if (/查电费|故障报修/.test(dCol) && !/停电|没电|断电/.test(allCJoined)) return "否";
+  return "是";
+}
+
+// ========== F列：意图识别后续 ==========
+function afIdentifyIntentNext(msgs, entryIdx) {
+  if (entryIdx === null) entryIdx = 0;
+  var allAgent = afGetAgentMsgsAfter(msgs, entryIdx);
+  var allJoined = msgs.map(function(m){return m.content;}).join('');
+  if (/您今天多次来电/.test(allJoined)) {
+    var hasFollowUp = /查到\d+个户号|号码查到|您的来电号码查到|说出.*地址|提供.*地址|提供.*信息|请您提供|停电信息|未查询到|故障停电|计划停电/.test(allAgent);
+    if (!hasFollowUp) return "挂机";
+  }
+  if (/查到\d+个户号|号码查到|您的来电号码查到/.test(allAgent)) return "关系库选择";
+  if (/说出.*地址|提供.*地址|提供.*信息|请您提供/.test(allAgent)) return "身份验证";
+  if (/为您转接人工|转接人工服务/.test(allAgent)) return "转人工";
+  if (/停电信息|未查询到|故障停电|计划停电/.test(allAgent)) return "结果播报";
+  if (/挂机|再见|拜拜/.test(allAgent)) return "挂机";
+  return "";
+}
+
+// ========== G列：是否有关系库 ==========
+function afHasRelationDB(allAgentJoined) {
+  // 1. 推送多个户号："查到N个户号"
+  if (/查到\d+个户号/.test(allAgentJoined)) return "是";
+  // 2. 来电号码直接查到户号："您是要反映尾号XXX"
+  if (/您是要反映尾号|请问您是要反映尾号/.test(allAgentJoined)) return "是";
+  return "";
+}
+
+// ========== H列：客户是否选择推送户号 ==========
+function afSelectedAccount(msgs, entryIdx, acctCount) {
+  // 情况1：推送多个户号，"查到N个户号"
+  var pushIdx = -1;
+  for (var i = entryIdx || 0; i < msgs.length; i++) {
+    if (msgs[i].role === 'a' && /查到/.test(msgs[i].content) && /个户号/.test(msgs[i].content)) {
+      pushIdx = i;
+      break;
+    }
+  }
+  // 情况2：来电号码直接查到户号，"您是要反映尾号XXX"
+  if (pushIdx === -1) {
+    var confirmIdx = -1;
+    for (var j = entryIdx || 0; j < msgs.length; j++) {
+      if (msgs[j].role === 'a' && /您是要反映尾号/.test(msgs[j].content) && /是或不是|说是|说不是/.test(msgs[j].content)) {
+        confirmIdx = j;
+        break;
+      }
+    }
+    if (confirmIdx >= 0) {
+      // 客户说了"是"确认了这个户号
+      for (var k = confirmIdx + 1; k < msgs.length; k++) {
+        if (msgs[k].role === 'c') {
+          var resp = msgs[k].content.trim();
+          if (/是/.test(resp)) return "是";
+          if (/不是|否/.test(resp)) return "否";
+          break;
+        }
+      }
+      return "否";
+    }
+    return "";
+  }
+  var effPress = null;
+  var i2 = pushIdx + 1;
+  while (i2 < msgs.length) {
+    if (msgs[i2].role === 'c') {
+      var clean = afExtractDigits(msgs[i2].content.trim());
+      if (clean === '7') {
+        i2++;
+        while (i2 < msgs.length) {
+          if (msgs[i2].role === 'a') {
+            if (/查到/.test(msgs[i2].content) && /个户号/.test(msgs[i2].content)) {
+              i2++;
+              while (i2 < msgs.length) {
+                if (msgs[i2].role === 'c') {
+                  var clean2 = afExtractDigits(msgs[i2].content.trim());
+                  if (clean2 === '0') { effPress = '0'; break; }
+                  if (clean2 === '9') { effPress = '9'; break; }
+                  if (acctCount > 0 && clean2.length > 0 && parseInt(clean2, 10) >= 1 && parseInt(clean2, 10) <= acctCount) {
+                    effPress = clean2; break;
+                  }
+                }
+                if (msgs[i2].role === 'a' && (/无效/.test(msgs[i2].content) || /已超时/.test(msgs[i2].content))) {
+                  break;
+                }
+                i2++;
+              }
+              if (effPress) break;
+            } else if (/无效/.test(msgs[i2].content)) {
+              break;
+            }
+          }
+          i2++;
+        }
+        if (effPress) break;
+        continue;
+      } else if (clean === '0') {
+        effPress = '0';
+        break;
+      } else if (clean === '9') {
+        effPress = '9';
+        break;
+      } else if (acctCount > 0 && clean.length > 0 && clean.length <= 2) {
+        var num = parseInt(clean, 10);
+        if (num >= 1 && num <= acctCount) {
+          effPress = clean;
+          break;
+        }
+      }
+    }
+    i2++;
+  }
+  if (!effPress) return "否";
+  if (effPress === '0') return "否";
+  if (effPress === '9') return "否";
+  return "是";
+}
+
+// ========== I列：关系库选择后续 ==========
+function afRelationDBNext(msgs, entryIdx, hCol, acctCount) {
+  var pushIdx = -1;
+  for (var i = entryIdx || 0; i < msgs.length; i++) {
+    if (msgs[i].role === 'a' && /查到/.test(msgs[i].content) && /个户号/.test(msgs[i].content)) {
+      pushIdx = i;
+      break;
+    }
+  }
+  if (pushIdx === -1) {
+    // 来电号码直接查到户号的情况：找"您是要反映尾号...说是或不是"的位置
+    var confirmIdx2 = -1;
+    for (var ci = entryIdx || 0; ci < msgs.length; ci++) {
+      if (msgs[ci].role === 'a' && /您是要反映尾号/.test(msgs[ci].content) && /是或不是|说是|说不是/.test(msgs[ci].content)) {
+        confirmIdx2 = ci;
+        break;
+      }
+    }
+    if (confirmIdx2 >= 0) {
+      // 从确认户号之后判断后续环节
+      var infoIdxAfter2 = afFindInfoIdx(msgs, confirmIdx2 + 1);
+      if (infoIdxAfter2 !== null) return "身份验证";
+      var resultIdx2 = afFindResultIdx(msgs, confirmIdx2 + 1);
+      if (resultIdx2 !== null) return "结果播报";
+      var transferIdx2 = afFindTransferIdx(msgs, confirmIdx2 + 1);
+      if (transferIdx2 !== null) return "转人工";
+      return "挂机";
+    }
+    // 没有推送也没有来电确认户号，按通用逻辑判断
+    var infoIdx = afFindInfoIdx(msgs, entryIdx || 0);
+    var resultIdx = afFindResultIdx(msgs, entryIdx || 0);
+    var transferIdx = afFindTransferIdx(msgs, entryIdx || 0);
+    if (infoIdx !== null) return "身份验证";
+    if (transferIdx !== null) return "转人工";
+    if (resultIdx !== null) return "结果播报";
+    return "挂机";
+  }
+  if (hCol === "是") {
+    // 选了户号后，还需判断是否走了身份验证环节
+    var infoIdxAfter = afFindInfoIdx(msgs, pushIdx + 1);
+    if (infoIdxAfter !== null) return "身份验证";
+    return "结果播报";
+  }
+  var afterPushAgent = afGetAgentMsgsAfter(msgs, pushIdx + 1);
+  if (/按0/.test(afterPushAgent)) return "转人工";
+  if (/按9/.test(afterPushAgent)) return "身份验证";
+  if (/为您转接人工|转接人工服务/.test(afterPushAgent)) return "转人工";
+  if (/说出.*地址|提供.*地址|提供.*详细地址/.test(afterPushAgent)) return "身份验证";
+  if (/挂机|再见/.test(afterPushAgent)) return "挂机";
+  return "挂机";
+}
+
+// ========== J列：是否进行身份验证 ==========
+function afHasIdentityVerify(msgs, entryIdx) {
+  var infoIdx = afFindInfoIdx(msgs, entryIdx || 0);
+  return infoIdx !== null ? "是" : "";
+}
+
+// ========== K列：客户提供信息类型 ==========
+function afCustomerInfoType(msgs, infoIdx) {
+  if (infoIdx === null) return "无";
+  var provided = [];
+  var addrKeywords = ['路', '街', '小区', '院', '栋', '楼', '室', '弄', '村', '镇', '县', '市', '省', '区', '街道', '花园', '园', '苑', '广场', '大厦', '公馆', '家园', '湾', '岛', '郡', '庄', '里', '巷', '大道'];
+  for (var i = infoIdx + 1; i < msgs.length; i++) {
+    if (msgs[i].role !== 'c') continue;
+    var content = msgs[i].content.trim();
+    var cleanDigits = afExtractDigits(content);
+    if (/^[\d#*]+$/.test(content) && content.length <= 2) continue;
+    var hasAddr = false;
+    for (var j = 0; j < addrKeywords.length; j++) {
+      if (content.indexOf(addrKeywords[j]) >= 0) {
+        hasAddr = true;
+        break;
+      }
+    }
+    var isPureNum = /^[\d\s,，.#*元栋单元]+$/.test(content);
+    if (hasAddr && !isPureNum && provided.indexOf('地址') < 0) {
+      if (!/什么时候|为什么|怎么|多久|多少|电话/.test(content)) {
+        provided.push('地址');
+      }
+    }
+    if (/^\d{13,16}$/.test(cleanDigits) && provided.indexOf('户号') < 0) {
+      provided.push('户号');
+    }
+    if (/^1\d{10}$/.test(cleanDigits) && provided.indexOf('手机号') < 0) {
+      provided.push('手机号');
+    }
+    if (/^\d{17}[\dXx]$/.test(content) && provided.indexOf('身份证号') < 0) {
+      provided.push('身份证号');
+    }
+    if (/^\d{6,12}$/.test(cleanDigits) && provided.indexOf('表号') < 0 && provided.indexOf('户号') < 0) {
+      provided.push('表号');
+    }
+  }
+  return provided.length > 0 ? provided.join('；') : '无';
+}
+
+// ========== L列：是否提供地址 ==========
+function afHasAddress(kCol) {
+  if (kCol && kCol.indexOf('地址') >= 0) return "是";
+  return "";
+}
+
+// ========== M列：是否有查询到 ==========
+function afHasQueried(allAgentJoined, kCol) {
+  if (kCol === '无') return "";
+  if (/没查询到|没有查到|没有找到/.test(allAgentJoined)) return "否";
+  if (/未查询到相关停电信息/.test(allAgentJoined)) return "是";
+  if (/有/.test(allAgentJoined) && (/停电/.test(allAgentJoined) || /故障/.test(allAgentJoined))) return "是";
+  if (/您要查询的地址是/.test(allAgentJoined) || /核实/.test(allAgentJoined)) return "是";
+  if (/抱歉/.test(allAgentJoined) && (/没理解/.test(allAgentJoined) || /没查到/.test(allAgentJoined))) return "否";
+  return "";
+}
+
+// ========== N列：地址是否准确 ==========
+function afAddressAccurate(msgs) {
+  var verifyIdx = afFindVerifyIdx(msgs);
+  if (verifyIdx === null) return "";
+  for (var i = verifyIdx + 1; i < msgs.length; i++) {
+    if (msgs[i].role === 'c') {
+      var clean = afExtractDigits(msgs[i].content.trim());
+      if (clean === '1') return "是";
+      if (clean === '2') return "否";
+    }
+  }
+  return "/";
+}
+
+// ========== O列：身份验证后续 ==========
+function afIdentityVerifyNext(msgs, entryIdx) {
+  var resultIdx = afFindResultIdx(msgs, (entryIdx || 0) + 1);
+  var transferIdx = afFindTransferIdx(msgs, entryIdx || 0);
+  if (resultIdx !== null) return "结果播报";
+  if (transferIdx !== null) return "转人工";
+  return "挂机";
+}
+
+// ========== P列：是否结果播报 ==========
+function afHasResultBroadcast(msgs, entryIdx) {
+  var resultIdx = afFindResultIdx(msgs, (entryIdx || 0) + 1);
+  return resultIdx !== null ? "是" : "";
+}
+
+// ========== Q列：是否转人工 ==========
+function afHasTransferAgent(msgs, entryIdx, bCol) {
+  if (/直接转人工|其他原因转人工|系统异常转人工/.test(bCol)) return "是";
+  var transferIdx = afFindTransferIdx(msgs, entryIdx || 0);
+  if (transferIdx !== null) {
+    // 检查结果播报和转人工之间，客户是否发起了新场景（如故障报修、查欠费等）
+    var resultIdx = afFindResultIdx(msgs, entryIdx || 0);
+    if (resultIdx !== null && resultIdx < transferIdx) {
+      for (var mi = resultIdx + 1; mi < transferIdx; mi++) {
+        if (msgs[mi].role === 'c') {
+          var mc = msgs[mi].content.trim();
+          // 客户在结果播报后、转人工前发起了新的业务意图
+          if (/故障报修|查欠费|缴费|报修|查其他|查停电/.test(mc) && !/转人工/.test(mc)) return "否";
+        }
+      }
+    }
+    return "是";
+  }
+  var afterIdx = transferIdx !== null ? transferIdx + 1 : 0;
+  var afterMsgs = afGetAgentMsgsAfter(msgs, afterIdx);
+  if (/按0.*转接|按0.*人工/.test(afterMsgs)) return "是";
+  return "否";
+}
+
+// ========== R列：转人工原因 ==========
+function afTransferReason(msgs, entryIdx, bCol) {
+  if (/其他原因转人工|系统异常转人工/.test(bCol)) return "其他原因转人工";
+  if (/直接转人工/.test(bCol)) return "直接转人工";
+  var allAgent = afGetAllAgentMsgs(msgs);
+  if (/查到.*户号.*转人工|选了户号.*转人工/.test(allAgent)) return "其他原因转人工";
+  return "直接转人工";
+}
+
+// ========== 统计计算 ==========
+function afComputeSummary(originalRows) {
+  var colMap = afColMap;
+  var dataStart = afDataStart;
+  var maxCol = Math.max.apply(null, Object.values(colMap).map(function(v){return v;}));
+  var eYes = 0, eTotal = 0;
+  var fAppealLost = 0;
+  var iRelationLost = 0;
+  var oVerifyLost = 0;
+  var gTotal = 0, gLost = 0;
+  var jTotal = 0, jLost = 0;
+  var pTotal = 0;
+  var qYes = 0;
+  var broadcastLost = 0;
+  var broadcastStay = 0;
+  var hangupCount = 0;
+  var completeCount = 0;
+  var totalRecords = originalRows.length - dataStart;
+
+  for (var i=dataStart; i<originalRows.length; i++) {
+    var row = originalRows[i];
+    while(row.length < maxCol + 1) row.push("");
+    var chat = String(row[colMap.chatLog] || "");
+    var bCol = String(row[colMap.transferReasonB] || "");
+    var msgs = afParseMessages(chat);
+    var entryIdx = afFindEntry(msgs);
+    var allCMsgs = afGetAllCustomerMsgs(msgs);
+    var allCJoined = allCMsgs.join(' ');
+    var allAgentJoined = afGetAllAgentMsgs(msgs);
+
+    var dVal = !row[colMap.appeal] || String(row[colMap.appeal]).trim() === "" ? afIdentifyAppeal(allCMsgs) : String(row[colMap.appeal]);
+    var eVal = !row[colMap.intentAcc] || String(row[colMap.intentAcc]).trim() === "" ? afJudgeIntentAccurate(allCJoined, dVal) : String(row[colMap.intentAcc]);
+    var fVal = !row[colMap.intentNext] || String(row[colMap.intentNext]).trim() === "" ? afIdentifyIntentNext(msgs, entryIdx) : String(row[colMap.intentNext]);
+    var fStop = (fVal === "转人工" || fVal === "挂机");
+
+    var gVal = "";
+    var hVal = "";
+    var iVal = "";
+    if (!fStop) {
+      gVal = !row[colMap.hasRelation] || String(row[colMap.hasRelation]).trim() === "" ? afHasRelationDB(allAgentJoined) : String(row[colMap.hasRelation]);
+      if (gVal === "是") {
+        var acctCount = 0;
+        var m = allAgentJoined.match(/查到(\d+)个户号/);
+        if (m) acctCount = parseInt(m[1], 10);
+        hVal = !row[colMap.selectedAcct] || String(row[colMap.selectedAcct]).trim() === "" ? afSelectedAccount(msgs, entryIdx, acctCount) : (String(row[colMap.selectedAcct]) || "");
+        iVal = !row[colMap.relationNext] || String(row[colMap.relationNext]).trim() === "" ? afRelationDBNext(msgs, entryIdx, String(hVal), acctCount) : (String(row[colMap.relationNext]) || "");
+      } else {
+        iVal = row[colMap.relationNext] && String(row[colMap.relationNext]).trim() !== "" ? String(row[colMap.relationNext]).trim() : "";
+      }
+    }
+
+    // I="结果播报"时J-O列为空
+    var iStop = fStop || (iVal === "转人工" || iVal === "挂机");
+    var skipIdentity = iStop || (iVal === "结果播报");
+    var jVal = "";
+    var oVal = "";
+    if (!skipIdentity) {
+      jVal = !row[colMap.hasVerify] || String(row[colMap.hasVerify]).trim() === "" ? afHasIdentityVerify(msgs, entryIdx) : String(row[colMap.hasVerify]);
+      if (jVal === "是") {
+        oVal = !row[colMap.verifyNext] || String(row[colMap.verifyNext]).trim() === "" ? afIdentityVerifyNext(msgs, entryIdx) : (String(row[colMap.verifyNext]) || "");
+      } else {
+        oVal = row[colMap.verifyNext] && String(row[colMap.verifyNext]).trim() !== "" ? String(row[colMap.verifyNext]).trim() : "";
+      }
+    }
+
+    var oStop = iStop || (oVal === "转人工" || oVal === "挂机");
+    var pVal = "";
+    var qVal = "";
+    if (!oStop) {
+      pVal = !row[colMap.hasBroadcast] || String(row[colMap.hasBroadcast]).trim() === "" ? afHasResultBroadcast(msgs, entryIdx) : String(row[colMap.hasBroadcast]);
+      qVal = !row[colMap.hasTransfer] || String(row[colMap.hasTransfer]).trim() === "" ? afHasTransferAgent(msgs, entryIdx, bCol) : String(row[colMap.hasTransfer]);
+    }
+
+    eTotal++;
+    if (eVal === "是") eYes++;
+    if (fVal === "挂机" || fVal === "转人工") fAppealLost++;
+    if (iVal === "挂机" || iVal === "转人工") iRelationLost++;
+    if (oVal === "挂机" || oVal === "转人工") oVerifyLost++;
+    if (gVal === "是") { gTotal++; if (iVal === "转人工" || iVal === "挂机") gLost++; }
+    if (jVal === "是") { jTotal++; if (oVal === "转人工" || oVal === "挂机") jLost++; }
+    if (pVal === "是") pTotal++;
+    if (qVal === "是") qYes++;
+    if (pVal === "是" && qVal === "是") broadcastLost++;
+    if (pVal === "是" && qVal === "否") broadcastStay++;
+    if (/挂机|再见|拜拜/.test(chat)) hangupCount++;
+    if (pVal === "是") completeCount++;
+  }
+
+  var intentAcc = eTotal > 0 ? (eYes/eTotal*100).toFixed(1) : "0.0";
+  var appealLoss = totalRecords > 0 ? (fAppealLost/totalRecords*100).toFixed(2) : "0.00";
+  var faultCollectLoss = "0.00";
+  var identityAuthLoss = totalRecords > 0 ? ((iRelationLost+oVerifyLost)/totalRecords*100).toFixed(2) : "0.00";
+  var powerJudgeLoss = "0.00";
+  var broadcastLossRate = totalRecords > 0 ? (broadcastLost/totalRecords*100).toFixed(2) : "0.00";
+  var fullCompleteRate = totalRecords > 0 ? (completeCount/totalRecords*100).toFixed(2) : "0.00";
+
+  return [{
+    scene: "停电信息查询",
+    total: totalRecords,
+    intent: intentAcc + "%",
+    appeal: appealLoss + "%",
+    faultCollect: faultCollectLoss + "%",
+    identityAuth: identityAuthLoss + "%",
+    powerJudge: powerJudgeLoss + "%",
+    broadcastLoss: broadcastLossRate + "%",
+    completeRate: fullCompleteRate + "%"
+  }];
+}
+
+// ========== 表格渲染 ==========
+function afRenderTable(data) {
+  var tbody = document.getElementById('af-table-body');
+  tbody.innerHTML = '';
+  data.forEach(function(row) {
+    var tr = document.createElement('tr');
+    var fields = [row.scene, row.intent, row.appeal, row.faultCollect, row.identityAuth, row.powerJudge, row.broadcastLoss, row.completeRate];
+    fields.forEach(function(val, idx) {
+      var td = document.createElement('td');
+      td.textContent = val;
+      if (idx > 0) {
+        var numVal = parseFloat(val);
+        td.style.fontWeight = '600';
+        if (idx === 1) {
+          td.style.color = numVal >= 90 ? '#2E7D32' : (numVal >= 70 ? '#E65100' : '#C62828');
+        } else if (idx === fields.length - 1) {
+          td.style.fontWeight = '700';
+          td.style.color = numVal >= 70 ? '#2E7D32' : (numVal >= 40 ? '#E65100' : '#C62828');
+        } else {
+          td.style.color = numVal > 20 ? '#C62828' : (numVal > 10 ? '#E65100' : '#2E7D32');
+        }
+      }
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
+
+// ========== 汇总结果渲染 ==========
+function afRenderSummary(originalRows) {
+  var colMap = afColMap;
+  var dataStart = afDataStart;
+  var maxCol = Math.max.apply(null, Object.values(colMap).map(function(v){return v;}));
+  var totalRecords = originalRows.length - dataStart;
+  var eYes = 0, eTotal = 0;
+  var fAppealLost = 0;
+  var iRelationLost = 0;
+  var oVerifyLost = 0;
+  var gTotal = 0, gLost = 0;
+  var jTotal = 0, jLost = 0;
+  var pTotal = 0;
+  var qYes = 0;
+  var broadcastLost = 0;
+  var broadcastStay = 0;
+  var hangupCount = 0;
+  var reasonMap = {};
+  var completeCount = 0;
+  var intentEntered = 0;
+  var relationEntered = 0;
+  var identityEntered = 0;
+  var broadcastEntered = 0;
+
+  for (var i=dataStart; i<originalRows.length; i++) {
+    var row = originalRows[i];
+    while(row.length < maxCol + 1) row.push("");
+    var chat = String(row[colMap.chatLog] || "");
+    var bCol = String(row[colMap.transferReasonB] || "");
+    var msgs = afParseMessages(chat);
+    var entryIdx = afFindEntry(msgs);
+    var allCMsgs = afGetAllCustomerMsgs(msgs);
+    var allCJoined = allCMsgs.join(' ');
+    var allAgentJoined = afGetAllAgentMsgs(msgs);
+
+    var dVal = !row[colMap.appeal] || String(row[colMap.appeal]).trim() === "" ? afIdentifyAppeal(allCMsgs) : String(row[colMap.appeal]);
+    var eVal = !row[colMap.intentAcc] || String(row[colMap.intentAcc]).trim() === "" ? afJudgeIntentAccurate(allCJoined, dVal) : String(row[colMap.intentAcc]);
+    var fVal = !row[colMap.intentNext] || String(row[colMap.intentNext]).trim() === "" ? afIdentifyIntentNext(msgs, entryIdx) : String(row[colMap.intentNext]);
+    var fStop = (fVal === "转人工" || fVal === "挂机");
+
+    var gVal = "";
+    var hVal = "";
+    var iVal = "";
+    if (!fStop) {
+      gVal = !row[colMap.hasRelation] || String(row[colMap.hasRelation]).trim() === "" ? afHasRelationDB(allAgentJoined) : String(row[colMap.hasRelation]);
+      if (gVal === "是") {
+        var acctCount = 0;
+        var m = allAgentJoined.match(/查到(\d+)个户号/);
+        if (m) acctCount = parseInt(m[1], 10);
+        hVal = !row[colMap.selectedAcct] || String(row[colMap.selectedAcct]).trim() === "" ? afSelectedAccount(msgs, entryIdx, acctCount) : (String(row[colMap.selectedAcct]) || "");
+        iVal = !row[colMap.relationNext] || String(row[colMap.relationNext]).trim() === "" ? afRelationDBNext(msgs, entryIdx, String(hVal), acctCount) : (String(row[colMap.relationNext]) || "");
+      } else {
+        iVal = row[colMap.relationNext] && String(row[colMap.relationNext]).trim() !== "" ? String(row[colMap.relationNext]).trim() : "";
+      }
+    }
+
+    // I="结果播报"时J-O列为空
+    var iStop = fStop || (iVal === "转人工" || iVal === "挂机");
+    var skipIdentity = iStop || (iVal === "结果播报");
+    var jVal = "";
+    var oVal = "";
+    if (!skipIdentity) {
+      jVal = !row[colMap.hasVerify] || String(row[colMap.hasVerify]).trim() === "" ? afHasIdentityVerify(msgs, entryIdx) : String(row[colMap.hasVerify]);
+      if (jVal === "是") {
+        oVal = !row[colMap.verifyNext] || String(row[colMap.verifyNext]).trim() === "" ? afIdentityVerifyNext(msgs, entryIdx) : (String(row[colMap.verifyNext]) || "");
+      } else {
+        oVal = row[colMap.verifyNext] && String(row[colMap.verifyNext]).trim() !== "" ? String(row[colMap.verifyNext]).trim() : "";
+      }
+    }
+
+    var oStop = iStop || (oVal === "转人工" || oVal === "挂机");
+    var pVal = "";
+    var qVal = "";
+    if (!oStop) {
+      pVal = !row[colMap.hasBroadcast] || String(row[colMap.hasBroadcast]).trim() === "" ? afHasResultBroadcast(msgs, entryIdx) : String(row[colMap.hasBroadcast]);
+      qVal = !row[colMap.hasTransfer] || String(row[colMap.hasTransfer]).trim() === "" ? afHasTransferAgent(msgs, entryIdx, bCol) : String(row[colMap.hasTransfer]);
+    }
+    var rVal = "";
+    if (qVal === "是") {
+      rVal = !row[colMap.transferReasonR] || String(row[colMap.transferReasonR]).trim() === "" ? afTransferReason(msgs, entryIdx, bCol) : (String(row[colMap.transferReasonR]) || "");
+    }
+
+    eTotal++;
+    if (eVal === "是") eYes++;
+    intentEntered++;
+    if (fVal === "挂机" || fVal === "转人工") fAppealLost++;
+    if (gVal === "是") { gTotal++; relationEntered++; if (iVal === "转人工" || iVal === "挂机") gLost++; }
+    if (iVal === "挂机" || iVal === "转人工") iRelationLost++;
+    if (oVal === "挂机" || oVal === "转人工") oVerifyLost++;
+    if (jVal === "是") { jTotal++; identityEntered++; if (oVal === "转人工" || oVal === "挂机") jLost++; }
+    if (pVal === "是") { pTotal++; broadcastEntered++; }
+    if (qVal === "是") {
+      qYes++;
+      if (rVal) reasonMap[rVal] = (reasonMap[rVal] || 0) + 1;
+    }
+    if (pVal === "是" && qVal === "是") broadcastLost++;
+    if (pVal === "是" && qVal === "否") broadcastStay++;
+    if (/挂机|再见|拜拜/.test(chat)) hangupCount++;
+    if (pVal === "是") completeCount++;
+  }
+
+  var intentAcc = eTotal > 0 ? (eYes/eTotal*100).toFixed(1) : "0.0";
+  var completeRate = totalRecords > 0 ? (completeCount/totalRecords*100).toFixed(1) : "0.0";
+  var transferRate = totalRecords > 0 ? (qYes/totalRecords*100).toFixed(1) : "0.0";
+
+  // KPI卡片
+  document.getElementById('af-s-total').textContent = totalRecords;
+  document.getElementById('af-s-intent').textContent = intentAcc + '%';
+  document.getElementById('af-s-complete').textContent = completeRate + '%';
+  document.getElementById('af-s-complete').style.color = parseFloat(completeRate) >= 60 ? '#2E7D32' : '#c62828';
+  document.getElementById('af-s-transfer').textContent = transferRate + '%';
+  document.getElementById('af-s-transfer').style.color = parseFloat(transferRate) <= 30 ? '#2E7D32' : '#c62828';
+
+  // 漏斗图
+  var funnelDom = document.getElementById('af-s-funnel');
+  if (typeof echarts !== 'undefined' && funnelDom) {
+    var fc = echarts.getInstanceByDom(funnelDom) || echarts.init(funnelDom);
+    fc.setOption({
+      tooltip:{trigger:'item', formatter:'{b}: {c}条'},
+      legend:{bottom:0, textStyle:{fontSize:11}},
+      series:[{
+        type:'funnel',
+        left:'10%', right:'10%', top:'5%', bottom:'18%',
+        minSize:'20%', maxSize:'100%',
+        sort:'none', gap:4,
+        label:{show:true, position:'inside', fontSize:12, fontWeight:600, formatter:'{b}\n{c}条'},
+        labelLine:{show:false},
+        itemStyle:{borderColor:'#fff', borderWidth:2},
+        data:[
+          {name:'诉求接入', value:totalRecords, itemStyle:{color:'#006B54'}},
+          {name:'关系库选择', value:gTotal, itemStyle:{color:'#008667'}},
+          {name:'身份认证', value:jTotal, itemStyle:{color:'#4CAF50'}},
+          {name:'结果播报', value:pTotal, itemStyle:{color:'#81C784'}},
+          {name:'结果播报未转人工', value:broadcastStay, itemStyle:{color:'#A5D6A7'}}
+        ]
+      }]
+    });
+    fc.resize();
+  }
+
+  // 流失原因饼图
+  var lossChartDom = document.getElementById('af-s-loss-chart');
+  if (typeof echarts !== 'undefined' && lossChartDom) {
+    var lc = echarts.getInstanceByDom(lossChartDom) || echarts.init(lossChartDom);
+    var lossItems = [];
+    if (gLost > 0) lossItems.push({name:'关系库流失', value:gLost});
+    if (jLost > 0) lossItems.push({name:'身份验证流失', value:jLost});
+    if (qYes > 0) lossItems.push({name:'转人工', value:qYes});
+    if (hangupCount > 0) lossItems.push({name:'挂机流失', value:hangupCount});
+    var completedCount = totalRecords - gLost - jLost - qYes - hangupCount;
+    if (completedCount > 0) lossItems.push({name:'正常完成', value:completedCount});
+    if (lossItems.length === 0) lossItems.push({name:'暂无数据', value:1});
+    lc.setOption({
+      tooltip:{trigger:'item', formatter:'{b}: {c}条 ({d}%)'},
+      legend:{bottom:0, textStyle:{fontSize:11}},
+      series:[{
+        type:'pie',
+        radius:['35%','65%'],
+        center:['50%','45%'],
+        label:{fontSize:11, formatter:'{b}\n{d}%'},
+        data:lossItems,
+        color:['#ff7043','#ef5350','#e53935','#ff8a65','#66bb6a','#bdbdbd']
+      }]
+    });
+    lc.resize();
+  }
+
+  var relationRate = gTotal > 0 ? (gLost/gTotal*100).toFixed(1) : "0.0";
+  var identityRate = jTotal > 0 ? (jLost/jTotal*100).toFixed(1) : "0.0";
+  var hangupRate = totalRecords > 0 ? (hangupCount/totalRecords*100).toFixed(1) : "0.0";
+
+  // 转人工原因分布
+  var reasonHtml = '';
+  var reasonKeys = Object.keys(reasonMap);
+  var totalReasons = qYes || 1;
+  if (reasonKeys.length === 0) {
+    reasonHtml = '<div style="text-align:center;color:var(--text-light);padding:16px">无转人工记录</div>';
+  } else {
+    reasonKeys.sort(function(a,b){ return reasonMap[b]-reasonMap[a]; });
+    reasonKeys.forEach(function(k) {
+      var pct = (reasonMap[k]/totalReasons*100).toFixed(1);
+      var barColor = k === '直接转人工' ? '#ff7043' : '#e53935';
+      reasonHtml += '<div class="reason-item">';
+      reasonHtml += '<div class="reason-header"><span class="reason-name">' + k + '</span><span class="reason-count">' + reasonMap[k] + '条（' + pct + '%）</span></div>';
+      reasonHtml += '<div class="reason-bar"><div class="reason-bar-fill" style="width:' + pct + '%;background:' + barColor + '"></div></div>';
+      reasonHtml += '</div>';
+    });
+  }
+  document.getElementById('af-s-reason-list').innerHTML = reasonHtml;
+
+  // AI优化建议
+  var suggestions = [];
+  if (parseFloat(transferRate) > 30) suggestions.push('🔴 <b>转人工率偏高（' + transferRate + '%）</b>：建议优化意图识别准确率，减少误判导致的转人工');
+  if (parseFloat(intentAcc) < 90) suggestions.push('🟡 <b>意图识别准确率偏低（' + intentAcc + '%）</b>：建议加强意图识别模型训练');
+  if (gTotal > 0 && parseFloat(relationRate) > 20) suggestions.push('🟡 <b>关系库流失率较高（' + relationRate + '%）</b>：建议优化户号推送话术');
+  if (jTotal > 0 && parseFloat(identityRate) > 20) suggestions.push('🔴 <b>身份验证流失率较高（' + identityRate + '%）</b>：建议简化身份验证流程');
+  if (parseFloat(hangupRate) > 15) suggestions.push('🟡 <b>挂机率偏高（' + hangupRate + '%）</b>：建议缩短交互环节，减少客户等待时间');
+  if (reasonMap['直接转人工'] && reasonMap['直接转人工']/totalReasons > 0.5) suggestions.push('🟡 <b>直接转人工占比过高</b>：建议增加自助解决能力');
+  if (suggestions.length === 0) suggestions.push('🟢 <b>整体表现良好</b>：各环节流转正常，建议继续保持当前运营策略');
+  suggestions.push('💡 <b>数据质量提示</b>：AI填充结果基于规则推断，建议人工校核关键列的准确性');
+
+  var sugHtml = '';
+  suggestions.forEach(function(s) {
+    sugHtml += '<div class="suggestion-item">' + s + '</div>';
+  });
+  document.getElementById('af-s-suggestions').innerHTML = sugHtml;
+}
+
+// ========== 页面加载完成后检查依赖状态 ==========
+window.addEventListener('load', function() {
+  // 更新依赖状态条
+  var statusEl = document.getElementById('af-dep-status');
+  if (!statusEl) return;
+  
+  var missing = [];
+  if (typeof echarts === 'undefined') missing.push('ECharts');
+  if (typeof XLSX === 'undefined') missing.push('SheetJS');
+  if (typeof ExcelJS === 'undefined') missing.push('ExcelJS');
+  
+  if (missing.length === 0) {
+    statusEl.textContent = '✅ 所有组件加载完毕，可以开始使用';
+    statusEl.className = 'af-dep-status success';
+    // 2秒后自动隐藏
+    setTimeout(function() {
+      if (statusEl) statusEl.style.display = 'none';
+    }, 2000);
+  } else {
+    statusEl.textContent = '❌ 部分组件加载失败：' + missing.join(', ') + '，请检查网络连接后刷新页面';
+    statusEl.className = 'af-dep-status error';
+  }
+  
+  // 更新调试面板
+  var uaEl = document.getElementById('af-dbg-ua');
+  var protoEl = document.getElementById('af-dbg-protocol');
+  var echartsEl = document.getElementById('af-dbg-echarts');
+  var xlsxEl = document.getElementById('af-dbg-xlsx');
+  var exceljsEl = document.getElementById('af-dbg-exceljs');
+  
+  if (uaEl) uaEl.textContent = navigator.userAgent;
+  if (protoEl) protoEl.textContent = window.location.protocol;
+  if (echartsEl) {
+    echartsEl.textContent = typeof echarts !== 'undefined' ? '✅ 已加载' : '❌ 未加载';
+    echartsEl.className = 'af-debug-value ' + (typeof echarts !== 'undefined' ? 'ok' : 'fail');
+  }
+  if (xlsxEl) {
+    xlsxEl.textContent = typeof XLSX !== 'undefined' ? '✅ 已加载' : '❌ 未加载';
+    xlsxEl.className = 'af-debug-value ' + (typeof XLSX !== 'undefined' ? 'ok' : 'fail');
+  }
+  if (exceljsEl) {
+    exceljsEl.textContent = typeof ExcelJS !== 'undefined' ? '✅ 已加载' : '❌ 未加载';
+    exceljsEl.className = 'af-debug-value ' + (typeof ExcelJS !== 'undefined' ? 'ok' : 'fail');
+  }
+});
+</script>
+</body>
+</html>
