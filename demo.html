@@ -1924,7 +1924,7 @@ a { text-decoration:none; color:inherit; }
           </div>
 
           <!-- 主图：时间线+项目泳道 -->
-          <div id="pm-master-view" style="position:relative;padding:0 0 12px 0"></div>
+          <div id="pm-master-view" style="position:relative;padding:0 0 12px 0;min-height:200px"></div>
         </div>
 
         <!-- 项目详情弹窗触发区 -->
@@ -3040,7 +3040,7 @@ function initPageCharts(page) {
     case 'analysis': initAnalysisCharts(); break;
     case 'optimize': initOptimizeCharts(); break;
     case 'ai-toolbox': renderAIHistory(); break;
-    case 'project': setTimeout(pmRenderMaster, 200); break;
+    case 'project': pmRenderMaster(); setTimeout(pmRenderMaster, 500); break;
   }
 }
 
@@ -6795,7 +6795,7 @@ var pmLineMap = {"应用迭代":1,"数据供给":2,"知识更新":3,"模型调�
 function pmRenderMaster() {
   var container = document.getElementById("pm-master-view");
   if (!container) return;
-  var W = container.offsetWidth || 860;
+  var W = container.offsetWidth || container.parentElement && container.parentElement.offsetWidth || document.querySelector('.main-content') && document.querySelector('.main-content').offsetWidth || 860;
   var leftW = 160;
   var rightW = W - leftW - 20;
   var rowH = 56;
@@ -6938,6 +6938,22 @@ function pmShowDetail(idx) {
 }
 
 // Init on page load — project page renders on demand via initPageCharts
+// MutationObserver to auto-render when page-project becomes visible
+(function() {
+  var projSection = document.getElementById('page-project');
+  if (!projSection) return;
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(m) {
+      if (m.type === 'attributes' && m.attributeName === 'class') {
+        if (projSection.classList.contains('active')) {
+          setTimeout(pmRenderMaster, 100);
+          setTimeout(pmRenderMaster, 400);
+        }
+      }
+    });
+  });
+  observer.observe(projSection, { attributes: true, attributeFilter: ['class'] });
+})();
 
 
 
@@ -6946,3 +6962,4 @@ function pmShowDetail(idx) {
 </body>
 </html>
 <!-- build: Wed Jun  3 06:51:01 CST 2026 -->
+
