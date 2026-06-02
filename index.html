@@ -1301,7 +1301,7 @@ function afRuleBasedFill(wb) {
 
       // R列：转人工原因
       if (!oStop && getVal('hasTransfer') === "是" && !getVal('transferReasonR')) {
-        writes.push({c: colMap.transferReasonR, v: afTransferReason(msgs, entryIdx, bCol)});
+        writes.push({c: colMap.transferReasonR, v: afTransferReason(msgs, entryIdx, getVal('hasBroadcast'), getVal('hasTransfer'), bCol)});
       }
 
       writes.forEach(function(w) {
@@ -1650,7 +1650,9 @@ function afHasTransferAgent(msgs, entryIdx, bCol) {
 }
 
 // ========== R列：转人工原因 ==========
-function afTransferReason(msgs, entryIdx, bCol) {
+function afTransferReason(msgs, entryIdx, pVal, qVal, bCol) {
+  // P='是'且Q='是'时，R列直接取B列内容（不做映射）
+  if (pVal === "是" && qVal === "是" && bCol && String(bCol).trim()) return String(bCol).trim();
   if (/其他原因转人工|系统异常转人工/.test(bCol)) return "其他原因转人工";
   if (/直接转人工/.test(bCol)) return "直接转人工";
   var allAgent = afGetAllAgentMsgs(msgs);
@@ -1874,7 +1876,7 @@ function afRenderSummary(originalRows) {
     }
     var rVal = "";
     if (qVal === "是") {
-      rVal = !row[colMap.transferReasonR] || String(row[colMap.transferReasonR]).trim() === "" ? afTransferReason(msgs, entryIdx, bCol) : (String(row[colMap.transferReasonR]) || "");
+      rVal = !row[colMap.transferReasonR] || String(row[colMap.transferReasonR]).trim() === "" ? afTransferReason(msgs, entryIdx, pVal, qVal, bCol) : (String(row[colMap.transferReasonR]) || "");
     }
 
     eTotal++;
