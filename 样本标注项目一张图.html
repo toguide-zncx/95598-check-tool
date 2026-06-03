@@ -169,15 +169,26 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
   <!-- 项目背景：为什么需要标注项目 -->
   <div class="bg-section">
     <h3>📌 项目背景：需求缺口驱动</h3>
-    <div class="bg-card pending" style="margin-bottom:0">
-      <h4>🚧 需求方案第二阶段能力缺口（OCR无法覆盖，需训练模型 ← 本项目目标）</h4>
-      <div class="gap-item"><span class="gap-icon">⚡</span> <b>电能表信息识别</b> — 需从实物照片中定位条形码区域并提取电表表号，OCR无法准确定位</div>
-      <div class="gap-item"><span class="gap-icon">💰</span> <b>电费记录信息识别</b> — 需从APP截图中识别用电户号/交费金额/时间/付款状态，布局复杂OCR错位</div>
-      <div class="gap-item"><span class="gap-icon">🧾</span> <b>交费订单信息识别</b> — 需提取11个字段（含抵扣金额等小字），OCR识别率极低</div>
-      <p style="margin-top:8px;font-size:11px;color:var(--orange);font-weight:600">⬆ 这三类场景必须训练专用模型，而训练模型必须有标注数据 → 本项目核心价值</p>
+    <div class="bg-grid">
+      <div class="bg-card done">
+        <h4>✅ 第一阶段能力（已有OCR，可直接上线）</h4>
+        <div class="gap-item"><span class="gap-icon">🪪</span> 身份证信息识别 — 调用网上国网OCR，提取姓名/身份证号/住址/有效期限/证件属性</div>
+        <div class="gap-item"><span class="gap-icon">🏢</span> 营业执照识别 — OCR提取信用代码/名称/经营者/注册日期/经营场所</div>
+        <div class="gap-item"><span class="gap-icon">💳</span> 银行卡信息识别 — OCR提取银行名称/卡号/有效期限</div>
+        <div class="gap-item"><span class="gap-icon">🏠</span> 房产证信息识别 — OCR提取房屋所有权人/房屋坐落</div>
+        <div class="gap-item"><span class="gap-icon">⚠️</span> 系统异常提示识别 — OCR提取异常标题/提示内容/APP版本</div>
+        <div class="gap-item"><span class="gap-icon">🔗</span> 实名认证信息查询 — 调用运营管理平台接口获取认证状态</div>
+      </div>
+      <div class="bg-card pending">
+        <h4>🚧 第二阶段能力（OCR无法覆盖，需训练模型 ← 本项目目标）</h4>
+        <div class="gap-item"><span class="gap-icon">⚡</span> <b>电能表信息识别</b> — 需从实物照片中定位条形码区域并提取电表表号，OCR无法准确定位</div>
+        <div class="gap-item"><span class="gap-icon">💰</span> <b>电费记录信息识别</b> — 需从APP截图中识别用电户号/交费金额/时间/付款状态，布局复杂OCR错位</div>
+        <div class="gap-item"><span class="gap-icon">🧾</span> <b>交费订单信息识别</b> — 需提取11个字段（含抵扣金额等小字），OCR识别率极低</div>
+        <p style="margin-top:8px;font-size:11px;color:var(--orange);font-weight:600">⬆ 这三类场景必须训练专用模型，而训练模型必须有标注数据 → 本项目核心价值</p>
+      </div>
     </div>
     <div class="arrow-to">⬇️</div>
-    <div style="text-align:center;font-size:13px;font-weight:700;color:var(--g2)">标注项目使命：为模型训练提供高质量标注数据，让智能客服具备电能表/电费/订单图片识别能力</div>
+    <div style="text-align:center;font-size:13px;font-weight:700;color:var(--g2)">标注项目使命：为第二阶段模型训练提供高质量标注数据，让智能客服具备电能表/电费/订单图片识别能力</div>
   </div>
 
   <!-- 识别范围总览 -->
