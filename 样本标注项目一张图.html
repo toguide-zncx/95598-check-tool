@@ -15,19 +15,33 @@
 html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--text)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 
 .page{max-width:1240px;margin:0 auto;padding:24px 20px 40px;animation:fadeIn .6s}
 
-/* 顶部标题 */
 .header{text-align:center;margin-bottom:24px;padding:32px 24px 28px;background:linear-gradient(135deg,var(--g1),var(--g2),var(--g3));border-radius:16px;color:#fff;position:relative;overflow:hidden}
 .header::before{content:'';position:absolute;top:-40%;right:-10%;width:300px;height:300px;background:rgba(255,255,255,.06);border-radius:50%}
 .header::after{content:'';position:absolute;bottom:-30%;left:5%;width:200px;height:200px;background:rgba(255,255,255,.04);border-radius:50%}
-.header h1{font-size:21px;font-weight:700;margin-bottom:6px;letter-spacing:1px;position:relative;z-index:1}
+.header h1{font-size:20px;font-weight:700;margin-bottom:6px;letter-spacing:1px;position:relative;z-index:1}
 .header .sub{font-size:13px;opacity:.85;position:relative;z-index:1}
-.header .badge{display:inline-block;background:rgba(255,255,255,.2);padding:3px 14px;border-radius:20px;font-size:12px;margin-top:10px;position:relative;z-index:1}
+.header .badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px;position:relative;z-index:1}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);padding:3px 14px;border-radius:20px;font-size:12px;margin:0}
 
-/* 四阶段导航条 */
+/* 项目背景 */
+.bg-section{background:var(--card);border-radius:14px;padding:20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:5px solid var(--red)}
+.bg-section h3{font-size:14px;font-weight:700;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.bg-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bg-card{padding:14px;border-radius:10px;border:1.5px solid #e8e8e8}
+.bg-card h4{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.bg-card p{font-size:11.5px;color:var(--text3);line-height:1.6}
+.bg-card .gap-item{display:flex;align-items:flex-start;gap:6px;margin-bottom:6px;font-size:11.5px;color:var(--text2);line-height:1.5}
+.bg-card .gap-icon{flex-shrink:0;margin-top:1px}
+.bg-card.done{background:var(--g8);border-color:var(--g5)}
+.bg-card.done h4{color:var(--g2)}
+.bg-card.pending{background:#FFF3E0;border-color:#FFB74D}
+.bg-card.pending h4{color:var(--orange)}
+.arrow-to{grid-column:1/-1;text-align:center;font-size:24px;color:var(--g4);padding:4px 0}
+
+/* 四阶段导航 */
 .phase-nav{display:flex;gap:0;margin-bottom:24px;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .phase-tab{flex:1;padding:14px 10px;text-align:center;cursor:pointer;transition:all .25s;position:relative;color:#fff;font-weight:600;font-size:13px}
 .phase-tab:hover{filter:brightness(1.1)}
@@ -37,17 +51,14 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .phase-tab .tab-sub{font-size:10px;opacity:.75;margin-top:2px}
 .phase-tab.active{filter:brightness(1.15);transform:scale(1.02);z-index:1;box-shadow:0 4px 16px rgba(0,0,0,.15)}
 
-/* 阶段内容面板 */
 .phase-panel{display:none;animation:fadeIn .5s}
 .phase-panel.active{display:block}
 
-/* 阶段概览 */
 .phase-overview{display:flex;gap:12px;margin-bottom:20px}
 .pov-card{flex:1;padding:14px;border-radius:10px;text-align:center}
-.pov-card .pov-val{font-size:22px;font-weight:800;color:var(--g2)}
+.pov-card .pov-val{font-size:22px;font-weight:800}
 .pov-card .pov-label{font-size:11px;color:var(--text3);margin-top:2px}
 
-/* 步骤卡片 */
 .step-card{background:var(--card);border-radius:12px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);overflow:hidden;border-left:4px solid var(--g4);transition:box-shadow .2s}
 .step-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1)}
 .step-header{display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer;user-select:none}
@@ -59,7 +70,6 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .step-body{display:block;padding:0 16px 16px 54px;animation:fadeIn .3s}
 .step-card.closed .step-body{display:none}
 
-/* 子步骤 */
 .substep{display:flex;gap:8px;margin-bottom:10px;padding:10px 12px;background:#fafafa;border-radius:8px;border:1px solid #f0f0f0;transition:border-color .2s}
 .substep:hover{border-color:var(--g5)}
 .substep-idx{flex:0 0 20px;width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;background:var(--g4);margin-top:1px;flex-shrink:0}
@@ -68,35 +78,40 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .substep-detail{font-size:11.5px;color:var(--text3);line-height:1.6}
 .substep-detail code{background:var(--g8);padding:1px 4px;border-radius:3px;font-size:10.5px;color:var(--g2)}
 
-/* 负责人标签 */
 .role-tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:8px;margin-left:4px;font-weight:600}
 .role-tag.pm{background:#FFF3E0;color:#E65100}
 .role-tag.tech{background:#E3F2FD;color:#1565C0}
 .role-tag.biz{background:#F3E5F5;color:#7B1FA2}
 .role-tag.op{background:var(--g8);color:var(--g2)}
 
-/* 成果物标签 */
+.field-table{width:100%;border-collapse:collapse;font-size:10.5px;margin:8px 0;background:#fff;border-radius:8px;overflow:hidden}
+.field-table th{background:var(--g8);color:var(--g2);padding:5px 6px;text-align:left;font-weight:600;white-space:nowrap;border-bottom:2px solid var(--g5)}
+.field-table td{padding:4px 6px;border-bottom:1px solid #f0f0f0;color:var(--text2)}
+.field-table tr:hover td{background:#f9f9f9}
+.field-table .id-col{font-family:monospace;color:var(--g3);font-weight:600;font-size:10px}
+
 .deliverables{margin-top:12px;padding-top:10px;border-top:1px dashed #e0e0e0}
 .deliverables .dl-title{font-size:11px;font-weight:600;color:var(--text3);margin-bottom:6px}
 .dl-tags{display:flex;flex-wrap:wrap;gap:4px}
 .dl-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--g8);color:var(--g2);white-space:nowrap}
 
-/* 坑点提示 */
 .pitfall{margin-top:10px;padding:10px 12px;background:#FFF8E1;border-radius:8px;border-left:3px solid #FFC107;font-size:11.5px;color:#5D4037;line-height:1.6}
 .pitfall .pf-label{font-weight:700;color:#F57F17;margin-bottom:2px;font-size:11px}
 
-/* 流转箭头区 */
+.batch-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;color:#fff;margin-left:6px}
+.batch-badge.b1{background:var(--g4)}
+.batch-badge.b2{background:var(--orange)}
+
 .flow-section{background:var(--card);border-radius:14px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .flow-section h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:6px}
 .flow-chain{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:4px}
-.flow-node{flex:1;min-width:130px;padding:12px 10px;border-radius:10px;text-align:center;transition:transform .2s}
+.flow-node{flex:1;min-width:120px;padding:12px 10px;border-radius:10px;text-align:center;transition:transform .2s}
 .flow-node:hover{transform:scale(1.04)}
 .flow-node .fn-icon{font-size:22px;margin-bottom:4px}
 .flow-node .fn-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}
 .flow-node .fn-desc{font-size:10px;color:var(--text3);line-height:1.4}
 .flow-arrow{flex:0 0 28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--g4)}
 
-/* 质量闭环 */
 .quality-loop{background:var(--card);border-radius:14px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .quality-loop h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:6px}
 .qc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -106,7 +121,6 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .qc-item .qc-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px}
 .qc-item .qc-desc{font-size:10px;color:var(--text3);line-height:1.4}
 
-/* 里程碑+成果物汇总 */
 .bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .milestone-card,.deliverable-card{background:var(--card);border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .milestone-card h3,.deliverable-card h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
@@ -122,20 +136,20 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .dl-table tr:hover td{background:#fafafa}
 .dl-table .phase-tag{display:inline-block;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:600;color:#fff}
 
-/* 展开全部按钮 */
 .expand-all-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border:1.5px solid var(--g4);background:var(--g8);color:var(--g2);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;margin-bottom:16px;transition:all .2s}
 .expand-all-btn:hover{background:var(--g4);color:#fff}
 
-/* 响应式 */
 @media(max-width:768px){
   .phase-nav{flex-wrap:wrap}
   .phase-tab{flex:1 1 50%}
   .phase-overview{flex-wrap:wrap}
   .pov-card{flex:1 1 45%}
+  .bg-grid{grid-template-columns:1fr}
   .qc-grid{grid-template-columns:1fr 1fr}
   .bottom-row{grid-template-columns:1fr}
   .flow-chain{flex-wrap:wrap}
   .flow-arrow{flex:0 0 100%;transform:rotate(90deg);height:28px}
+  .field-table{font-size:9.5px}
 }
 </style>
 </head>
@@ -146,7 +160,65 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
   <div class="header">
     <h1>智能客服大模型非结构化样本梳理及标注项目</h1>
     <div class="sub">国网客服中心2026年南方分中心 · 落地实施一张图</div>
-    <div class="badge">采→治→标→用 · 四阶段落地指南 · 新手可执行</div>
+    <div class="badges">
+      <div class="badge">📥 采 → 🧹 治 → 🏷️ 标 → 🚀 用</div>
+      <div class="badge">需求缺口驱动 · 标注赋能模型训练</div>
+    </div>
+  </div>
+
+  <!-- 项目背景：为什么需要标注项目 -->
+  <div class="bg-section">
+    <h3>📌 项目背景：需求缺口驱动</h3>
+    <div class="bg-grid">
+      <div class="bg-card done">
+        <h4>✅ 第一阶段能力（已有OCR，可直接上线）</h4>
+        <div class="gap-item"><span class="gap-icon">🪪</span> 身份证信息识别 — 调用网上国网OCR，提取姓名/身份证号/住址/有效期限/证件属性</div>
+        <div class="gap-item"><span class="gap-icon">🏢</span> 营业执照识别 — OCR提取信用代码/名称/经营者/注册日期/经营场所</div>
+        <div class="gap-item"><span class="gap-icon">💳</span> 银行卡信息识别 — OCR提取银行名称/卡号/有效期限</div>
+        <div class="gap-item"><span class="gap-icon">🏠</span> 房产证信息识别 — OCR提取房屋所有权人/房屋坐落</div>
+        <div class="gap-item"><span class="gap-icon">⚠️</span> 系统异常提示识别 — OCR提取异常标题/提示内容/APP版本</div>
+        <div class="gap-item"><span class="gap-icon">🔗</span> 实名认证信息查询 — 调用运营管理平台接口获取认证状态</div>
+      </div>
+      <div class="bg-card pending">
+        <h4>🚧 第二阶段能力（OCR无法覆盖，需训练模型 ← 本项目目标）</h4>
+        <div class="gap-item"><span class="gap-icon">⚡</span> <b>电能表信息识别</b> — 需从实物照片中定位条形码区域并提取电表表号，OCR无法准确定位</div>
+        <div class="gap-item"><span class="gap-icon">💰</span> <b>电费记录信息识别</b> — 需从APP截图中识别用电户号/交费金额/时间/付款状态，布局复杂OCR错位</div>
+        <div class="gap-item"><span class="gap-icon">🧾</span> <b>交费订单信息识别</b> — 需提取11个字段（含抵扣金额等小字），OCR识别率极低</div>
+        <p style="margin-top:8px;font-size:11px;color:var(--orange);font-weight:600">⬆ 这三类场景必须训练专用模型，而训练模型必须有标注数据 → 本项目核心价值</p>
+      </div>
+    </div>
+    <div class="arrow-to">⬇️</div>
+    <div style="text-align:center;font-size:13px;font-weight:700;color:var(--g2)">标注项目使命：为第二阶段模型训练提供高质量标注数据，让智能客服具备电能表/电费/订单图片识别能力</div>
+  </div>
+
+  <!-- 识别范围总览 -->
+  <div class="flow-section">
+    <h3>🎯 标注覆盖范围（3类核心场景 + 30+提取字段）</h3>
+    <div class="flow-chain">
+      <div class="flow-node" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">
+        <div class="fn-icon">⚡</div>
+        <div class="fn-title">电能表信息</div>
+        <div class="fn-desc">1个字段<br>电表表号（条形码区域）<br><span class="batch-badge b2">核心·需训练</span></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">
+        <div class="fn-icon">💰</div>
+        <div class="fn-title">电费记录信息</div>
+        <div class="fn-desc">4个字段<br>用电户号/交费金额/<br>交费时间/付款状态<span class="batch-badge b2">核心·需训练</span></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">
+        <div class="fn-icon">🧾</div>
+        <div class="fn-title">交费订单信息</div>
+        <div class="fn-desc">11个字段<br>订单编号/时间/状态/<br>金额/抵扣/支付方式等<span class="batch-badge b2">核心·需训练</span></div>
+      </div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-node" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">
+        <div class="fn-icon">🪪</div>
+        <div class="fn-title">身份证等5类</div>
+        <div class="fn-desc">18个字段<br>身份证/营业执照/银行卡/<br>房产证/异常提示<span class="batch-badge b1">辅助·积累方法</span></div>
+      </div>
+    </div>
   </div>
 
   <!-- 四阶段导航 -->
@@ -183,16 +255,14 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">5</div><div class="pov-label">关键步骤</div></div>
       <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">3</div><div class="pov-label">成果物</div></div>
       <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">4周</div><div class="pov-label">计划工期</div></div>
-      <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">≥1000</div><div class="pov-label">目标标注量</div></div>
+      <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">8类</div><div class="pov-label">图片场景</div></div>
     </div>
-
     <button class="expand-all-btn" onclick="toggleAll(0)">📋 展开/收起全部步骤</button>
 
-    <!-- 采-步骤1 -->
     <div class="step-card" style="border-left-color:var(--g2)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:var(--g2)">1</div>
-        <div class="step-title">明确采集范围与数据源</div>
+        <div class="step-title">明确8类图片采集范围与数据源</div>
         <div class="step-period">第1周</div>
         <div class="step-toggle">▶</div>
       </div>
@@ -200,32 +270,48 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">梳理业务场景清单 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">列出95598智能客服涉及的全部图文交互场景，包括：电费账单查询、故障报修、电能表异常、停电信息、业务办理等。按「高频/中频/低频」分级，优先采集高频场景。<code>产出：场景清单Excel</code></div>
+            <div class="substep-action">按需求方案梳理8类图片场景及字段 <span class="role-tag biz">业务人员</span></div>
+            <div class="substep-detail">
+              <b>🔴 核心场景（第二阶段能力缺口，本项目重点）：</b><br>
+              ① 电能表信息（DNB）→ 1字段：电表表号 — OCR无法准确定位条形码区域，必须训练目标检测+OCR模型<br>
+              ② 电费记录信息（DFJL）→ 4字段：用电户号/交费金额/交费时间/付款状态 — APP截图布局复杂，OCR字段错位<br>
+              ③ 交费订单信息（JFXX）→ 11字段：订单编号/时间/状态/金额/红包抵扣/积分抵扣/优惠券抵扣/实付金额/支付方式/交费渠道/户号户名 — 含大量小字抵扣字段，OCR识别率极低<br><br>
+              <b>🟢 辅助场景（第一阶段已有OCR，标注用于积累方法论）：</b><br>
+              ④ 身份证（SFZ）→ 5字段：姓名/身份证号/住址/有效期限/证件属性<br>
+              ⑤ 营业执照（YYZZ）→ 5字段：信用代码/名称/经营者/注册日期/经营场所<br>
+              ⑥ 银行卡（YHK）→ 3字段：银行名称/卡号/有效期限<br>
+              ⑦ 房产证（FCZ）→ 2字段：房屋所有权人/房屋坐落<br>
+              ⑧ 系统异常提示（YCTS）→ 3字段：异常标题/提示内容/APP版本
+            </div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
             <div class="substep-action">确认数据来源渠道 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">逐一确认每个场景的数据来源：微信小程序、网上国网APP、95598官网、电话渠道IVR录音转写、人工座席截图等。每个渠道联系对应运维负责人，确认数据可获取性。<code>产出：数据源矩阵表</code></div>
+            <div class="substep-detail">
+              · 电能表照片 → 客户在95598在线会话中拍摄的实物照片（历史会话数据+增量数据）<br>
+              · 电费记录/交费订单 → 客户发送的网上国网APP截图<br>
+              · 身份证等5类 → 客户在会话中发送的证件照片/截图<br>
+              · 异常截图 → 客户发送的网上国网APP异常弹窗截图<br>
+              每个渠道联系运维确认数据可导出性、历史数据量。<code>产出：数据源矩阵表</code>
+            </div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">3</div>
           <div class="substep-main">
-            <div class="substep-action">确定采集量与质量要求 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">根据模型训练最低需求，确定每场景最低采集量：图片类≥200张/场景，文本类≥500条/场景。明确数据质量门槛：图片分辨率≥640px、文本完整度≥90%、无水印/遮挡。<code>产出：采集需求规格说明书</code></div>
+            <div class="substep-action">确定采集量 <span class="role-tag pm">项目经理</span></div>
+            <div class="substep-detail">核心场景最低采集量：电能表≥500张（覆盖多型号/多角度）、电费记录≥300张、交费订单≥300张。辅助场景：身份证≥300张、营业执照≥200张、银行卡≥200张、房产证≥200张、异常截图≥200张。图片分辨率≥640px，无水印/遮挡/严重模糊。<code>产出：采集需求规格说明书</code></div>
           </div>
         </div>
         <div class="pitfall">
           <div class="pf-label">⚠️ 常见坑</div>
-          场景梳理时容易遗漏「异常场景」（如电表黑屏、液晶乱码），这些恰恰是模型最需要学习的。建议按"正常→异常→边界"三类穷举，异常场景单独标注优先级。
+          电能表采集要覆盖多型号（DDZY1296C等不同型号表盘布局不同）、多状态（正常读数/Err-04等异常显示）、多角度（正面全景/条形码特写/液晶屏特写/铭牌特写）。只采一种型号的正面照，模型无法泛化。
         </div>
       </div>
     </div>
 
-    <!-- 采-步骤2 -->
     <div class="step-card" style="border-left-color:var(--g2)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:var(--g3)">2</div>
@@ -238,31 +324,26 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">1</div>
           <div class="substep-main">
             <div class="substep-action">编写采集操作手册 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">为每个数据源编写"手把手"采集指南：①登录哪个系统 → ②导航到哪个页面 → ③截图/导出操作步骤 → ④文件命名规则 → ⑤存储路径。新手拿到手册即可独立操作。<code>产出：图片收集指导手册 + 语料收集指导手册</code></div>
+            <div class="substep-detail">为每类图片编写"手把手"采集指南。关键说明：①电能表需正面全景+条形码特写分别采集 ②身份证需区分人像面/国徽面 ③电费记录需覆盖已付款/已关闭/待支付三种状态 ④交费订单需包含完整订单信息区域。<code>产出：图片收集指导手册 + 语料收集指导手册</code></div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
             <div class="substep-action">申请数据访问权限 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">提前2周向数据所属部门提交数据使用申请，走审批流程。申请内容需含：用途说明、数据范围、保密承诺、使用期限。跨部门数据需额外签署数据共享协议。</div>
+            <div class="substep-detail">提前2周提交数据使用申请。重点渠道：95598在线会话历史数据（互联网渠道运维）、网上国网APP截图（APP运营团队）。跨部门数据需签署数据共享协议。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">3</div>
           <div class="substep-main">
-            <div class="substep-action">统一文件命名与存储规范 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">命名规则：<code>{渠道}_{场景}_{类型}_{序号}_{日期}</code>，如 <code>APP_电费账单_图片_001_20260701.jpg</code>。存储结构：<code>/采集/原始数据/{渠道}/{场景}/{日期}/</code>。所有采集人员统一使用同一套规范，避免后期混乱。</div>
+            <div class="substep-action">统一命名与存储 <span class="role-tag op">运营人员</span></div>
+            <div class="substep-detail">命名：<code>{场景编码}_{子类型}_{序号}_{日期}</code>，如 <code>DNB_条形码特写_001_20260701.jpg</code>。存储：<code>/采集/原始数据/{场景编码}/{日期}/</code>。核心场景（电能表/电费/订单）与辅助场景分目录管理。</div>
           </div>
-        </div>
-        <div class="pitfall">
-          <div class="pf-label">⚠️ 常见坑</div>
-          权限审批周期常被低估，建议第1周就同步启动。权限没下来，后面全部卡住。
         </div>
       </div>
     </div>
 
-    <!-- 采-步骤3 -->
     <div class="step-card" style="border-left-color:var(--g2)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:var(--g4)">3</div>
@@ -274,36 +355,31 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">按手册执行批量采集 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">按照采集操作手册，逐渠道、逐场景采集数据。每采完一个场景，立即按命名规则归档。建议每天采集结束后做一次小计，记录当天采集量。</div>
+            <div class="substep-action">优先采集核心场景 <span class="role-tag op">运营人员</span></div>
+            <div class="substep-detail">优先采集电能表/电费记录/交费订单三大核心场景。电能表每表至少4个角度（正面全景/条形码特写/液晶屏特写/铭牌特写），电费记录需覆盖不同付款状态，交费订单需包含有抵扣和无抵扣两类。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">采集过程日志记录 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">维护采集日志表，每条记录含：采集时间、渠道、场景、采集人、采集数量、异常说明。发现渠道接口变动、数据缺失等问题及时记录并上报。<code>产出：采集日志表</code></div>
+            <div class="substep-action">同步采集辅助场景 <span class="role-tag op">运营人员</span></div>
+            <div class="substep-detail">身份证/营业执照/银行卡/房产证/异常截图同步采集。这些场景已有OCR能力，标注主要用于积累标注方法论和构建统一样本库。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">3</div>
           <div class="substep-main">
             <div class="substep-action">异常数据补采 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">对照采集需求规格，检查各场景采集量是否达标。未达标的启动补采，同时分析原因（权限不足？接口变更？数据源本身稀缺？），调整采集策略。</div>
+            <div class="substep-detail">对照需求规格检查采集量。重点关注：电能表是否覆盖多型号、电费记录是否覆盖多状态、交费订单是否包含有抵扣的样本。</div>
           </div>
-        </div>
-        <div class="pitfall">
-          <div class="pf-label">⚠️ 常见坑</div>
-          图片采集时容易忽略"多角度/多光线/多型号"的多样性。同一电表型号只采1张和采10张不同角度，模型效果天差地别。建议每个实物至少5个角度。
         </div>
       </div>
     </div>
 
-    <!-- 采-步骤4 -->
     <div class="step-card" style="border-left-color:var(--g2)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:var(--g5)">4</div>
-        <div class="step-title">采集质量初检</div>
+        <div class="step-title">采集质量初检与归档移交</div>
         <div class="step-period">第3-4周</div>
         <div class="step-toggle">▶</div>
       </div>
@@ -311,48 +387,15 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">完整性检查 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">对照场景清单逐项检查：每个场景是否都已采集？每类数据是否达到最低数量？图片是否有空白/损坏？文本是否有乱码/截断？用脚本批量扫描，输出异常清单。</div>
+            <div class="substep-action">完整性检查+准确性抽验 <span class="role-tag biz">业务人员</span></div>
+            <div class="substep-detail">逐场景检查：采集量是否达标？电能表条形码区域是否清晰？电费记录截图是否包含完整信息？随机抽5%确认图片与场景匹配。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">准确性抽验 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">每个场景随机抽5%数据，人工确认：图片是否与场景标签匹配？文本内容是否属于该业务场景？标注错误的立即更正并记录。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">输出采集验收报告 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">汇总采集成果：各场景采集数量、达标率、异常项及处理情况。未达标场景需说明原因及补救计划。<code>产出：采集验收报告</code></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 采-步骤5 -->
-    <div class="step-card" style="border-left-color:var(--g2)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#81C784">5</div>
-        <div class="step-title">采集成果归档移交</div>
-        <div class="step-period">第4周</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">整理原始数据包 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">按 <code>/采集/原始数据/{渠道}/{场景}/</code> 目录结构归档。检查文件命名一致性，确保无遗漏、无重复。打包为标准压缩包，附目录清单。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">向治理阶段交接 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">召开阶段交接会，向治理团队说明：数据目录结构、各场景数据量及质量情况、已知问题清单。双方确认移交清单签字。</div>
+            <div class="substep-action">输出采集验收报告+向治理阶段交接 <span class="role-tag pm">项目经理</span></div>
+            <div class="substep-detail">汇总各场景采集数量、达标率、异常项。<code>产出：采集验收报告</code></div>
           </div>
         </div>
         <div class="deliverables">
@@ -375,10 +418,8 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       <div class="pov-card" style="background:#E3F2FD"><div class="pov-val" style="color:var(--blue)">4周</div><div class="pov-label">计划工期</div></div>
       <div class="pov-card" style="background:#E3F2FD"><div class="pov-val" style="color:var(--blue)">100%</div><div class="pov-label">脱敏覆盖</div></div>
     </div>
-
     <button class="expand-all-btn" onclick="toggleAll(1)">📋 展开/收起全部步骤</button>
 
-    <!-- 治-步骤1 -->
     <div class="step-card" style="border-left-color:var(--blue)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:var(--blue)">1</div>
@@ -391,31 +432,19 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">1</div>
           <div class="substep-main">
             <div class="substep-action">编写清洗规则 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">定义清洗规则：①图片类——去除分辨率＜640px、纯黑/纯白/严重模糊、含水印/截图工具栏的图片；②文本类——去除字数＜5字/＞2000字、含乱码/HTML标签、纯表情/符号的文本。<code>产出：清洗规则文档</code></div>
+            <div class="substep-detail">图片类：去除分辨率＜640px、纯黑/纯白/严重模糊、含水印/截图工具栏。电能表特别注意：条形码区域模糊的必须剔除（对模型训练无价值）；液晶屏显示不清的单独标记为"低质量"不参与训练但可用于测试鲁棒性。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">自动化清洗脚本执行 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">用Python脚本批量执行清洗：图片用PIL检测分辨率/模糊度/直方图；文本用正则匹配乱码/标签。清洗前先备份原始数据！输出清洗日志，记录每条被清洗数据的原因。</div>
+            <div class="substep-action">自动化清洗+去重 <span class="role-tag tech">技术人员</span></div>
+            <div class="substep-detail">pHash去重（≥95%判重复），SimHash文本去重（≥90%）。清洗前备份原始数据！输出清洗日志记录每条被清洗数据的原因。</div>
           </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">去重处理 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">图片去重：用感知哈希(pHash)计算相似度，≥95%判为重复，保留质量最高的一张。文本去重：用SimHash+编辑距离，相似度≥90%判为重复。记录去重前后数量对比。</div>
-          </div>
-        </div>
-        <div class="pitfall">
-          <div class="pf-label">⚠️ 常见坑</div>
-          去重阈值设太高会误删有效数据（如同一电表不同时间的读数变化），设太低会留大量重复。建议先小批量测试阈值，再全量执行。
         </div>
       </div>
     </div>
 
-    <!-- 治-步骤2 -->
     <div class="step-card" style="border-left-color:var(--blue)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#1976D2">2</div>
@@ -427,28 +456,13 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">统一图片格式 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">全部转为JPG格式，分辨率统一缩放至最短边≥640px。文件大小控制在200KB-2MB之间。用脚本批量转换，保留原始宽高比，不裁切关键区域。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">统一文本格式 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">编码统一为UTF-8，换行符统一为LF。提取关键字段为结构化JSON：{渠道, 场景, 用户意图, 原始文本, 时间戳, 会话ID}。非结构化文本保留原文备查。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">异构数据整合 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">将不同渠道、不同格式的数据映射到统一schema。处理字段缺失：必填字段缺失则标记为"待补"，选填字段缺失留空。整合后做一次全量校验，确保schema一致性。</div>
+            <div class="substep-action">统一图片格式与元数据 <span class="role-tag tech">技术人员</span></div>
+            <div class="substep-detail">全部转JPG，分辨率≥640px，200KB-2MB。统一schema：{场景编码, 图片类型, 渠道来源, 会话ID, 时间戳, 文件路径}。身份证正反面通过会话ID关联。电能表全景/特写通过同一采集批次关联。</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 治-步骤3 -->
     <div class="step-card" style="border-left-color:var(--blue)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#2196F3">3</div>
@@ -460,32 +474,24 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">识别敏感信息类型 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">图片类敏感信息：人脸、车牌号、门牌号、身份证件、手写签名。文本类敏感信息：姓名、身份证号、手机号、详细地址、户号、银行账号。<code>产出：敏感信息识别清单</code></div>
+            <div class="substep-action">图片脱敏 <span class="role-tag tech">技术人员</span></div>
+            <div class="substep-detail">身份证/营业执照/房产证：保留文字区域用于OCR训练，对人脸区域做遮挡处理，遮挡公章/签名区域。电能表照片无需脱敏（无个人隐私信息）。电费记录/交费订单：遮挡户名（保留户号）。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">图片脱敏处理 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">人脸/车牌/门牌：用黑色色块或高斯模糊覆盖。保留脱敏前对照表（加密存储），以备溯源。批量处理脚本需有review环节——随机抽5%人工确认脱敏效果。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">文本脱敏处理 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">姓名→"张**"，手机号→"138****5678"，身份证→"310***********1234"，地址→保留省市，街道以下用"XX路XX号"替代。用正则+NER模型双重识别，避免遗漏。</div>
+            <div class="substep-action">文本脱敏 <span class="role-tag tech">技术人员</span></div>
+            <div class="substep-detail">姓名→"张**"，手机号→"138****5678"，身份证→"320***********1234"。关键：标注训练需要真实值用于对比，原始数据加密存储，脱敏后数据用于标注。电能表表号无需脱敏。</div>
           </div>
         </div>
         <div class="pitfall">
           <div class="pf-label">⚠️ 常见坑</div>
-          脱敏过度会破坏数据业务价值（如电表编号被脱敏就无法关联业务），脱敏不足则有合规风险。建议先定义"可保留字段白名单"，白名单外的才脱敏。
+          电费记录中的"户号"是业务关键字段，不可脱敏（模型需要学习识别户号）。"户名"属于隐私需遮挡。两者脱敏策略不同，容易搞混。
         </div>
       </div>
     </div>
 
-    <!-- 治-步骤4 -->
     <div class="step-card" style="border-left-color:var(--blue)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#42A5F5">4</div>
@@ -497,28 +503,13 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">建立分类体系 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">三级分类：一级按业务域（用电服务/故障报修/电能表/停电/业务办理），二级按场景（电费查询/充值/过户...），三级按数据类型（图片/文本/语音转写）。每个分类有唯一编码。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">自动分类打标 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">基于渠道来源和场景标签自动归类。无法自动归类的（如跨场景数据）标记为"待人工分类"。按 <code>/治理/分类数据/{一级}/{二级}/{三级}/</code> 目录归档。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">建立更新维护规范 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">制定增量数据入库流程：新数据→清洗→脱敏→分类→归档，全链路自动化。每周同步一次增量数据，每月做一次全量一致性检查。</div>
+            <div class="substep-action">按场景编码分类归档 <span class="role-tag biz">业务人员</span></div>
+            <div class="substep-detail">按需求方案的场景编码分类：DNB（电能表）、DFJL（电费记录）、JFXX（交费订单）为核心目录，SFZ/YYZZ/YHK/FCZ/YCTS为辅助目录。建立更新维护规范。</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 治-步骤5 -->
     <div class="step-card" style="border-left-color:var(--blue)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#64B5F6">5</div>
@@ -530,22 +521,8 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">四维度质量打分 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">完整性（必填字段填充率）、准确性（数据与业务匹配度）、一致性（跨渠道同一信息是否一致）、唯一性（去重后残留重复率）。每维度0-100分，加权汇总。<code>评分公式：完整性×0.3 + 准确性×0.3 + 一致性×0.2 + 唯一性×0.2</code></div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">问题溯源与整改 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">低于80分的维度需写整改方案：什么问题→根因是什么→怎么修→谁来修→什么时候修完。整改后重新评估，直到全部≥80分。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">输出质量评估报告 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">含：各维度评分、问题清单、整改情况、数据总量及分布、与采集阶段的数据对比（采集→治理留存率）。<code>产出：数据质量评估报告</code></div>
+            <div class="substep-action">四维度质量打分+输出报告 <span class="role-tag pm">项目经理</span></div>
+            <div class="substep-detail">完整性（必填字段填充率）×0.3 + 准确性（数据与业务匹配度）×0.3 + 一致性 ×0.2 + 唯一性 ×0.2。低于80分的维度需整改。<code>产出：数据质量评估报告</code></div>
           </div>
         </div>
         <div class="deliverables">
@@ -566,16 +543,14 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">6</div><div class="pov-label">关键步骤</div></div>
       <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">4</div><div class="pov-label">成果物</div></div>
       <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">10周</div><div class="pov-label">计划工期</div></div>
-      <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">≥95%</div><div class="pov-label">一致率目标</div></div>
+      <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">30+</div><div class="pov-label">提取字段</div></div>
     </div>
-
     <button class="expand-all-btn" onclick="toggleAll(2)">📋 展开/收起全部步骤</button>
 
-    <!-- 标-步骤1 -->
     <div class="step-card" style="border-left-color:var(--orange)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:var(--orange)">1</div>
-        <div class="step-title">标注维度设计</div>
+        <div class="step-title">按需求方案设计标注维度与字段映射</div>
         <div class="step-period">第1-2周</div>
         <div class="step-toggle">▶</div>
       </div>
@@ -583,32 +558,44 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">图片标注要素定义 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">电能表场景6类标注要素：①读数区域定位（矩形框）②表盘类型（电子/机械/智能）③异常标识（黑屏/乱码/报错码）④指示灯状态（正常/异常/闪烁）⑤接线盒状态（正常/松动/烧蚀）⑥铅封状态（完好/破损）。每个要素定义取值范围和标注方式。<code>产出：图片标注维度说明书</code></div>
+            <div class="substep-action">逐场景定义标注字段（依据需求方案字段映射表） <span class="role-tag biz">业务人员</span></div>
+            <div class="substep-detail">
+              <table class="field-table">
+                <tr><th>场景</th><th>编码</th><th>字段</th><th>优先级</th></tr>
+                <tr><td>⚡电能表</td><td class="id-col">DNB-1</td><td>电表表号（条形码区域提取）</td><td><span class="batch-badge b2">核心</span></td></tr>
+                <tr><td>💰电费记录</td><td class="id-col">DFJL-1~4</td><td>用电户号/交费金额/交费时间/付款状态</td><td><span class="batch-badge b2">核心</span></td></tr>
+                <tr><td>🧾交费订单</td><td class="id-col">JFXX-1~11</td><td>订单编号/时间/状态/金额/红包抵扣/积分抵扣/优惠券抵扣/实付金额/支付方式/交费渠道/户号户名</td><td><span class="batch-badge b2">核心</span></td></tr>
+                <tr><td>🪪身份证</td><td class="id-col">SFZ-1~5</td><td>姓名/身份证号/住址/有效期限/证件属性</td><td><span class="batch-badge b1">辅助</span></td></tr>
+                <tr><td>🏢营业执照</td><td class="id-col">YYZZ-1~5</td><td>信用代码/名称/经营者/注册日期/经营场所</td><td><span class="batch-badge b1">辅助</span></td></tr>
+                <tr><td>💳银行卡</td><td class="id-col">YHK-1~3</td><td>银行名称/卡号/有效期限</td><td><span class="batch-badge b1">辅助</span></td></tr>
+                <tr><td>🏠房产证</td><td class="id-col">FCZ-1~2</td><td>房屋所有权人/房屋坐落</td><td><span class="batch-badge b1">辅助</span></td></tr>
+                <tr><td>⚠️异常提示</td><td class="id-col">YCTS-1~3</td><td>异常标题/提示内容/APP版本</td><td><span class="batch-badge b1">辅助</span></td></tr>
+              </table>
+            </div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">文本标注要素定义 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">报错截图意图标签体系：一级意图（查询/报修/投诉/咨询/办理），二级意图（电费查询/故障报修/...），三级意图（具体业务细分）。每级意图有清晰定义和典型示例。情感标签：正常/焦急/愤怒/不满。<code>产出：意图标签体系表</code></div>
+            <div class="substep-action">核心场景特殊标注规则 <span class="role-tag biz">业务人员</span></div>
+            <div class="substep-detail">
+              · 电能表：条形码提取规则依据南北分中心"表号编号规则"知识库，标注时需对照规则验证<br>
+              · 电费记录：付款状态需区分"已付款/已关闭/待支付"三种，不可笼统标为"已付/未付"<br>
+              · 交费订单：11个字段中红包抵扣/积分抵扣/优惠券抵扣金额小但必须提取，遗漏率高需重点培训<br>
+              · 全场景通用：无法识别的字段按方案要求用"/"填充，不可编造；客户上传多张同类图片均需标注
+            </div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">3</div>
           <div class="substep-main">
             <div class="substep-action">标注维度评审 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">组织业务专家+技术团队联合评审标注维度：是否覆盖模型训练需求？是否有歧义定义？是否可操作？评审通过后冻结基线版本，后续变更走变更流程。</div>
+            <div class="substep-detail">组织业务专家+技术团队联合评审：核心场景字段是否覆盖模型训练需求？提取方式是否明确？评审通过后冻结基线版本。</div>
           </div>
-        </div>
-        <div class="pitfall">
-          <div class="pf-label">⚠️ 常见坑</div>
-          标注维度设计时最容易出现"颗粒度不均"——有的维度很粗（如"异常"就一个选项），有的很细（如指示灯状态分5种）。颗粒度差异大会导致标注员精力分配失衡。建议每个维度的取值数量控制在3-8个。
         </div>
       </div>
     </div>
 
-    <!-- 标-步骤2 -->
     <div class="step-card" style="border-left-color:var(--orange)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#F57C00">2</div>
@@ -621,34 +608,31 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">1</div>
           <div class="substep-main">
             <div class="substep-action">编写标注操作规范 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">逐维度编写"标注员版"操作规范：①该维度标什么 → ②每个取值的定义和判定标准 → ③正例图片/文本 → ④反例图片/文本 → ⑤边界case处理规则。用"看到XX就标YY"的句式，避免抽象描述。<code>产出：图片标注标准 + 语料标注标准</code></div>
+            <div class="substep-detail">逐字段编写规范：该标什么→定义和判定标准→正例/反例→边界case。关键规则：<br>
+            · 身份证号18位，最后一位可能是X<br>
+            · 银行卡号13-19位不等<br>
+            · 电表表号按"表号编号规则"验证格式<br>
+            · 交费订单抵扣字段，无抵扣填"0.00元"而非留空<br>
+            · 无法识别的字段填"/"<code>产出：图片标注标准 + 语料标注标准</code></div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">制作标注参考图卡 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">为每个标注要素制作"正反例图卡"：左侧放正确标注示例（绿框标注+说明），右侧放典型错误示例（红框标注+错误原因）。图卡打印张贴在标注工位，也放入标注工具的"帮助"面板。</div>
+            <div class="substep-action">歧义处理规则 <span class="role-tag biz">业务人员</span></div>
+            <div class="substep-detail">需求方案中的影响因素：图片质量差、光线不足、多张混传导致OCR错位、OCR接口超时。处理：①图片差无法识别→填"/"+标记原因 ②多张混传→按顺序分别标注 ③接口超时→标记"查询失败" ④存疑→上报裁定→更新FAQ</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">3</div>
           <div class="substep-main">
-            <div class="substep-action">歧义处理规则定义 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">三类歧义处理规则：①意图交叉（如"电费高"可能是查询也可能是投诉）→ 优先标主要意图，次要意图填辅助字段；②边界模糊（如"半黑屏"算黑屏还是正常）→ 定义量化阈值；③特征不明（如图片模糊无法判断）→ 标"存疑"并上报。<code>产出：歧义处理规则表</code></div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">4</div>
-          <div class="substep-main">
             <div class="substep-action">规范试标注验证 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">找3个不同经验水平的人按规范试标50条，计算标注员间一致率(Inter-Annotator Agreement)。一致率＜85%的维度需修改规范（定义不清或取值有歧义），修改后再测，直到≥85%。</div>
+            <div class="substep-detail">3人试标50条/场景，一致率＜85%的维度修改规范再测直到≥85%。核心场景（电能表/电费/订单）需单独验证。</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 标-步骤3 -->
     <div class="step-card" style="border-left-color:var(--orange)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#FB8C00">3</div>
@@ -660,32 +644,31 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">选择/部署标注工具 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">推荐开源标注工具：图片标注用LabelImg/Labelme，文本标注用Doccano/Brat。在服务器部署，配置账号权限。关键配置：标注维度schema导入、快捷键绑定、标注结果导出格式(JSON/CSV)。</div>
+            <div class="substep-action">部署标注工具+配置schema <span class="role-tag tech">技术人员</span></div>
+            <div class="substep-detail">推荐LabelImg（图片标注/目标检测框）+ Doccano（文本标注）。核心场景特殊配置：电能表需支持"目标检测框标注"（框选条形码区域）+ OCR文本标注双模式；电费/订单以OCR文本标注为主。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">配置预标注模型 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">"工具预标+人工校验"模式：用已有模型对图片做初步目标检测/文本做初步意图分类，生成预标注结果。标注员只需在预标注基础上校验和修正，效率提升3-5倍。预标注置信度＜70%的标记为"需重点复核"。</div>
+            <div class="substep-action">配置预标注 <span class="role-tag tech">技术人员</span></div>
+            <div class="substep-detail">辅助场景：调用网上国网已有OCR做预标注，标注员校验修正。核心场景：先用通用OCR模型做初步文本提取（虽然不准但可减少50%工作量），标注员在此基础上修正+补充目标检测框。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">3</div>
           <div class="substep-main">
             <div class="substep-action">标注员培训与考核 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">培训内容：标注规范讲解(2h) + 工具操作演示(1h) + 实操练习(2h)。培训后进行考核：标注50条标准数据集，准确率≥90分方可上岗。未通过者追加培训，第二次考核仍未通过则调岗。</div>
+            <div class="substep-detail">培训：规范(2h)+工具(1h)+实操(2h)。重点：8类图片区分、各字段提取位置、"/"填写场景、电能表条形码区域框选方法。考核50条准确率≥90分方可上岗。</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 标-步骤4 -->
     <div class="step-card" style="border-left-color:var(--orange)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#FFA726">4</div>
-        <div class="step-title">标注实施与日清日结</div>
+        <div class="step-title">分批标注实施与日清日结</div>
         <div class="step-period">第4-8周</div>
         <div class="step-toggle">▶</div>
       </div>
@@ -693,28 +676,27 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">分批分发标注任务 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">按场景分批次分发，每批次200-500条。每批设定完成时限（通常3-5个工作日）。同一批次由2人交叉标注（A标一遍、B标一遍），用于后续一致性校验。</div>
+            <div class="substep-action">优先标注核心场景 <span class="role-tag op">运营人员</span></div>
+            <div class="substep-detail">优先标注电能表/电费记录/交费订单，这些数据直接用于模型训练。电能表需先框选条形码区域再标注表号文本；交费订单11个字段逐条提取，特别注意小字抵扣字段。每批次200-500条，2人交叉标注。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">标注过程实时监控 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">每日统计：各标注员完成量、平均耗时、存疑上报数。发现异常（如某标注员速度突增可能是偷工减料，存疑率突然升高可能是规范有问题）及时干预。</div>
+            <div class="substep-action">同步标注辅助场景 <span class="role-tag op">运营人员</span></div>
+            <div class="substep-detail">身份证等5类辅助场景同步标注，主要用于积累标注方法论和构建统一样本库。OCR预标注率高，标注员主要做校验修正。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">3</div>
           <div class="substep-main">
-            <div class="substep-action">存疑问题日清 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">标注员标注过程中的存疑项，当日上报、当日裁定。裁定结果同步更新到标注规范FAQ，并通知全体标注员。每周汇总存疑高频问题，必要时修订规范。</div>
+            <div class="substep-action">存疑日清+实时监控 <span class="role-tag pm">项目经理</span></div>
+            <div class="substep-detail">存疑项当日上报当日裁定。每日统计：完成量、平均耗时、存疑数。核心场景存疑率突然升高→可能是规范有漏洞，需紧急修订。</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 标-步骤5 -->
     <div class="step-card" style="border-left-color:var(--orange)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#FFB74D">5</div>
@@ -726,28 +708,20 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">100%交叉校验 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">每条数据由2名标注员独立标注，系统自动比对：一致的直接通过，不一致的标记为"争议项"。争议项由资深标注员或业务专家裁定，裁定结果作为标准答案。</div>
+            <div class="substep-action">100%交叉校验 + 专家抽检 <span class="role-tag biz">业务专家</span></div>
+            <div class="substep-detail">2人独立标注→系统比对→不一致项专家裁定。核心场景抽检50%（高于辅助场景的30%），重点检查：电表表号格式是否符合编号规则、交费订单抵扣字段是否遗漏、金额精度是否正确。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
             <div class="substep-action">一致率统计与预警 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">按标注员、按场景、按维度统计一致率。一致率≥95%：正常；90%-95%：预警，需加强培训；＜90%：暂停该标注员任务，回溯重标。每日出一致率报表。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">专家抽检 <span class="role-tag biz">业务专家</span></div>
-            <div class="substep-detail">普通场景抽检30%，复杂/异常场景抽检50%。专家逐条审核标注正确性，错误项退回重标并记录错误类型（理解偏差/疏忽/规范不清）。错误率＞10%的批次全量返工。</div>
+            <div class="substep-detail">一致率≥95%正常，90%-95%预警，＜90%暂停重标。核心场景一致率低于辅助场景时需分析原因（字段更复杂？规范不够细？）。</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 标-步骤6 -->
     <div class="step-card" style="border-left-color:var(--orange)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#FFCC80">6</div>
@@ -759,22 +733,15 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">全量标注数据质检 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">标注完成后做一次全量扫描：检查必填字段是否完整、标注值是否在合法取值范围内、关联字段是否逻辑一致（如"异常"场景但异常类型为空则报错）。自动+人工双重检查。</div>
+            <div class="substep-action">全量质检+结构化输出校验 <span class="role-tag pm">项目经理</span></div>
+            <div class="substep-detail">校验标注结果是否符合方案结构化输出格式：身份证→"客户名称：XX / 身份证号码：XX / ..."，电能表→"电表表号：XXXXXXXX"，异常提示→"异常标题：XX / 异常提示内容：XX / 系统版本：XX"。格式不一致的修正或退回。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">场景溯源台账编制 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">按场景编制溯源台账，每条含：场景名称、标注维度、标注总量、一致率、典型badcase、处理结果。台账既是成果记录，也是后续模型迭代的参考基线。<code>产出：报错场景溯源台账 + 电能表场景溯源台账</code></div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">标注数据入库归档 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">标注数据按标准格式导入样本库。入库时自动生成元数据：标注员ID、标注时间、校验状态、版本号。原始数据+标注数据+校验记录三方关联，确保可溯源。</div>
+            <div class="substep-action">场景溯源台账编制+数据入库 <span class="role-tag biz">业务人员</span> <span class="role-tag tech">技术人员</span></div>
+            <div class="substep-detail">按场景编制溯源台账（场景/字段/标注量/一致率/badcase），导入样本库（元数据含标注员ID/时间/校验状态/版本号，原始数据+标注数据+校验记录三方关联）。<code>产出：报错场景溯源台账 + 电能表场景溯源台账</code></div>
           </div>
         </div>
         <div class="deliverables">
@@ -798,10 +765,8 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       <div class="pov-card" style="background:#F3E5F5"><div class="pov-val" style="color:var(--purple)">6周</div><div class="pov-label">计划工期</div></div>
       <div class="pov-card" style="background:#F3E5F5"><div class="pov-val" style="color:var(--purple)">闭环</div><div class="pov-label">迭代优化</div></div>
     </div>
-
     <button class="expand-all-btn" onclick="toggleAll(3)">📋 展开/收起全部步骤</button>
 
-    <!-- 用-步骤1 -->
     <div class="step-card" style="border-left-color:var(--purple)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:var(--purple)">1</div>
@@ -813,28 +778,13 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">制定抽检方案 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">普通场景抽检率≥30%，复杂/异常场景≥50%。抽检样本采用分层随机抽样，确保各场景、各标注维度都有覆盖。抽检在标注完成24h内启动，2h内完成复核。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">执行抽检与问题分类 <span class="role-tag biz">业务专家</span></div>
-            <div class="substep-detail">逐条审核抽检样本，将问题分为：A类-严重错误（标注完全错误，影响模型训练）、B类-轻微偏差（可接受但不完美）、C类-规范歧义（规范本身有问题）。A类需立即返工，C类需修订规范。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">输出抽检分析报告 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">含：抽检总量、A/B/C类问题数及占比、按场景/维度/标注员的问题分布、典型badcase及根因分析、整改建议。A类错误率＞5%的批次全量返工。<code>产出：标注质量抽检与分析报告</code></div>
+            <div class="substep-action">核心场景≥50%抽检 + 问题分类 <span class="role-tag biz">业务专家</span></div>
+            <div class="substep-detail">核心场景（电能表/电费/订单）抽检≥50%，辅助场景≥30%。问题分A类（严重-字段完全错误）、B类（轻微-格式偏差）、C类（规范歧义）。A类＞5%的批次全量返工。重点：电表表号格式、金额精度、抵扣字段遗漏。<code>产出：标注质量抽检与分析报告</code></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 用-步骤2 -->
     <div class="step-card" style="border-left-color:var(--purple)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#7E57C2">2</div>
@@ -846,32 +796,17 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">数据集拆分 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">按7:1.5:1.5拆分训练集/验证集/测试集。拆分原则：分层抽样（各场景按比例分配）、时间隔离（测试集尽量用最新数据）、严格去重（同一用户/同一会话的数据不能跨集）。<code>产出：标注样本（含三集划分）</code></div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">类别平衡检查 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">检查各场景/意图类别的样本量，类别偏差比≤1:10。偏差过大的类别需：①优先补充采集（增量数据）②数据增强（旋转/裁切/加噪）③调整采样权重。长尾类别样本量不足100条的单独标记。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">数据集格式转换 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">根据模型训练框架要求，转换为标准格式：图片标注→COCO JSON / VOC XML，文本标注→JSON Lines。转换后做格式校验，确保字段完整、路径正确。<code>产出：报错场景测试集 + 电能表场景测试集</code></div>
+            <div class="substep-action">7:1.5:1.5拆分+格式转换 <span class="role-tag tech">技术人员</span></div>
+            <div class="substep-detail">分层抽样确保各场景按比例分配。特别处理：电能表目标检测标注→COCO JSON格式，电费/订单OCR标注→JSON Lines。类别偏差比≤1:10，长尾类别不足100条单独标记。<code>产出：标注样本 + 报错场景测试集 + 电能表场景测试集</code></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 用-步骤3 -->
     <div class="step-card" style="border-left-color:var(--purple)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#9575CD">3</div>
-        <div class="step-title">模型效果评估</div>
+        <div class="step-title">模型效果评估（对接方案准确率指标）</div>
         <div class="step-period">第3-4周</div>
         <div class="step-toggle">▶</div>
       </div>
@@ -879,32 +814,24 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">基础指标评估 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">准确率(Accuracy)：标注结果与真实标签的匹配度。一致率(IAA)：标注员间一致性Kappa系数。召回率(Recall)：各场景/意图被正确识别的比例。精确率(Precision)：识别结果中正确的比例。</div>
+            <div class="substep-action">按方案公式计算解析准确率 <span class="role-tag tech">技术人员</span></div>
+            <div class="substep-detail">方案定义：<code>解析结果无误的记录数 / 解析成功总次数 × 100%</code>。"无误"=座席未修改，"修改"=座席编辑/删除/替换任何字段。按省(市)公司/供电单位/渠道/图片类型拆分统计。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">业务指标评估 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">意图识别召回率：95598核心场景识别率是否达标（≥90%）。图片解析率：电能表图片可正确解析的比例。端到端成功率：用户发送图片→系统返回正确结果的全链路成功率。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">评估报告输出 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">含：基础指标和业务指标数值、与目标的差距分析、各场景效果对比、badcase分析（模型失败案例的根因是数据不足/标注错误/模型局限）。明确下一步优化方向。</div>
+            <div class="substep-action">核心场景重点评估 <span class="role-tag biz">业务人员</span></div>
+            <div class="substep-detail">电能表：表号识别准确率（是否按编号规则正确提取）、电费记录：字段提取完整率（4字段是否全提取）、交费订单：抵扣字段识别率（11字段中最容易漏的3个抵扣字段）。</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 用-步骤4 -->
     <div class="step-card" style="border-left-color:var(--purple)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#B39DDB">4</div>
-        <div class="step-title">常态化闭环验证</div>
+        <div class="step-title">常态化闭环验证（对接方案报表需求）</div>
         <div class="step-period">第4-5周起持续</div>
         <div class="step-toggle">▶</div>
       </div>
@@ -912,28 +839,21 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">每日badcase监控 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">线上模型每日产出badcase自动归集，按场景/错误类型分类统计。超过阈值（如单场景badcase率＞5%）自动告警，通知对应负责人。</div>
+            <div class="substep-action">每日badcase监控+修改轨迹记录 <span class="role-tag op">运营人员</span></div>
+            <div class="substep-detail">系统自动记录座席修改轨迹。修改=识别不准确，未修改=识别正确。每日汇总badcase，单场景badcase率＞5%自动告警。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">每周根因分析 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">每周召开badcase分析会：标注问题？数据不足？模型能力不足？按根因分类，制定针对性优化方案。标注问题→修订规范+补标；数据不足→启动增量采集；模型问题→调整训练策略。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">动态调优标注规则 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">根据badcase分析结果，修订标注规范中的模糊定义、补充遗漏场景、调整标注粒度。每次规范变更需重新试标注验证，确保变更后一致率不下降。变更记录纳入版本管理。</div>
+            <div class="substep-action">按方案生成统计报表 <span class="role-tag op">运营人员</span></div>
+            <div class="substep-detail">①<b>图片解析准确率统计表</b>：省(市)公司/供电单位/渠道/图片类型/解析次数/成功率/失败率/准确率/平均时长<br>
+            ②<b>图片解析明细表</b>：会话编号/工单编号/创建时间/解析时长/解析内容/是否修改/修改后内容/受理人</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 用-步骤5 -->
     <div class="step-card" style="border-left-color:var(--purple)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:#CE93D8">5</div>
@@ -945,22 +865,8 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">增补需求分析 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">基于模型评估和badcase分析，明确需要增补的数据：哪些场景样本不足？哪些异常类型覆盖不够？哪些边界case需要补充？制定增补优先级和计划。<code>产出：数据迭代增补方案</code></div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">增量数据采集与标注 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">按增补方案回到"采→治→标"流程，对增量数据执行采集、清洗、脱敏、标注全流程。增量数据需与存量数据做去重检查，避免重复入库。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">模型重训与效果对比 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">用增补后的数据集重新训练模型，与上一版本做A/B对比。关注：增补场景的效果提升是否显著？其他场景是否受影响（负迁移）？效果提升不明显的需分析原因，可能需要调整增补策略。</div>
+            <div class="substep-action">增补需求分析+增量采集标注+模型重训 <span class="role-tag pm">项目经理</span> <span class="role-tag tech">技术人员</span></div>
+            <div class="substep-detail">基于badcase和报表分析增补方向：电能表新型号补充、电费记录异常状态补充、交费订单特殊抵扣组合补充。增量数据走"采→治→标"全流程。重训后A/B对比，准确率达标进入上线流程。<code>产出：数据迭代增补方案</code></div>
           </div>
         </div>
         <div class="deliverables">
@@ -977,42 +883,6 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
     </div>
   </div>
 
-  <!-- 数据流转链路 -->
-  <div class="flow-section">
-    <h3>🔗 全链路数据流转</h3>
-    <div class="flow-chain">
-      <div class="flow-node" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">
-        <div class="fn-icon">📥</div>
-        <div class="fn-title">采 · 数据采集</div>
-        <div class="fn-desc">全渠道图文语料<br>统一导出申请<br>场景清单驱动</div>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-node" style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB)">
-        <div class="fn-icon">🧹</div>
-        <div class="fn-title">治 · 数据治理</div>
-        <div class="fn-desc">清洗去重标准化<br>安全脱敏<br>质量四维评估</div>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-node" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">
-        <div class="fn-icon">🏷️</div>
-        <div class="fn-title">标 · 数据标注</div>
-        <div class="fn-desc">维度设计+规范制定<br>工具预标+人工校验<br>交叉校验+专家抽检</div>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-node" style="background:linear-gradient(135deg,#F3E5F5,#E1BEE7)">
-        <div class="fn-icon">🚀</div>
-        <div class="fn-title">用 · 应用验证</div>
-        <div class="fn-desc">三集构建<br>模型评估<br>闭环迭代优化</div>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-node" style="background:linear-gradient(135deg,#FFEBEE,#FFCDD2)">
-        <div class="fn-icon">🔁</div>
-        <div class="fn-title">闭环反馈</div>
-        <div class="fn-desc">badcase→根因<br>→增补→重训<br>持续优化循环</div>
-      </div>
-    </div>
-  </div>
-
   <!-- 质量闭环 -->
   <div class="quality-loop">
     <h3>🔄 标注质量闭环机制</h3>
@@ -1020,73 +890,44 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       <div class="qc-item">
         <div class="qc-icon">📝</div>
         <div class="qc-title">事前：考核上岗</div>
-        <div class="qc-desc">标注员实操考核<br>≥90分方可上岗<br>规范试标注验证一致率≥85%</div>
+        <div class="qc-desc">标注员考核≥90分<br>试标注一致率≥85%<br>核心场景专项培训</div>
       </div>
       <div class="qc-item">
         <div class="qc-icon">🔎</div>
         <div class="qc-title">事中：三级校验</div>
-        <div class="qc-desc">人工初标→交叉校验(100%)<br>→专家抽检(30%/50%)<br>日清日结，一致率报表</div>
+        <div class="qc-desc">人工初标→交叉(100%)<br>→专家抽检(30%/50%)<br>核心场景抽检≥50%</div>
       </div>
       <div class="qc-item">
         <div class="qc-icon">📊</div>
         <div class="qc-title">事后：抽检整改</div>
-        <div class="qc-desc">一致率＜95%退回重标<br>A/B/C类问题分级处理<br>典型案例库持续积累</div>
+        <div class="qc-desc">A/B/C类问题分级<br>一致率＜95%退回重标<br>方案准确率公式验证</div>
       </div>
       <div class="qc-item">
         <div class="qc-icon">🔁</div>
         <div class="qc-title">闭环：持续优化</div>
-        <div class="qc-desc">badcase→根因分析<br>→补充数据→修订标准<br>评估-分析-优化循环</div>
+        <div class="qc-desc">座席修改=识别不准<br>按方案生成统计报表<br>badcase→增补→重训</div>
       </div>
     </div>
   </div>
 
-  <!-- 底部：里程碑 + 成果物汇总 -->
+  <!-- 底部 -->
   <div class="bottom-row">
     <div class="milestone-card">
       <h3>🏁 关键里程碑</h3>
-      <div class="ms-item">
-        <div class="ms-dot" style="background:var(--g2)"></div>
-        <div class="ms-time">2026年5月</div>
-        <div class="ms-text">项目启动，编制启动会材料</div>
-      </div>
-      <div class="ms-item">
-        <div class="ms-dot" style="background:var(--blue)"></div>
-        <div class="ms-time">2026年6月</div>
-        <div class="ms-text">完成需求分析及方案设计评审</div>
-      </div>
-      <div class="ms-item">
-        <div class="ms-dot" style="background:var(--g4)"></div>
-        <div class="ms-time">2026年7月</div>
-        <div class="ms-text">采集阶段完成，3项成果物交付</div>
-      </div>
-      <div class="ms-item">
-        <div class="ms-dot" style="background:#1976D2"></div>
-        <div class="ms-time">2026年8月</div>
-        <div class="ms-text">治理阶段完成，3项成果物交付</div>
-      </div>
-      <div class="ms-item">
-        <div class="ms-dot" style="background:#F57C00"></div>
-        <div class="ms-time">2026年11月</div>
-        <div class="ms-text">标注阶段完成，4项成果物交付</div>
-      </div>
-      <div class="ms-item">
-        <div class="ms-dot" style="background:var(--purple)"></div>
-        <div class="ms-time">2026年12月</div>
-        <div class="ms-text">验证阶段完成，5项成果物交付</div>
-      </div>
-      <div class="ms-item">
-        <div class="ms-dot" style="background:#C62828"></div>
-        <div class="ms-time">2027年1月</div>
-        <div class="ms-text">成果评审 + 项目最终验收</div>
-      </div>
+      <div class="ms-item"><div class="ms-dot" style="background:var(--g2)"></div><div class="ms-time">2026年5月</div><div class="ms-text">项目启动，需求方案评审定稿</div></div>
+      <div class="ms-item"><div class="ms-dot" style="background:var(--blue)"></div><div class="ms-time">2026年6月</div><div class="ms-text">完成需求分析及方案设计</div></div>
+      <div class="ms-item"><div class="ms-dot" style="background:var(--g4)"></div><div class="ms-time">2026年7月</div><div class="ms-text">采集完成，8类图片数据归档</div></div>
+      <div class="ms-item"><div class="ms-dot" style="background:#1976D2"></div><div class="ms-time">2026年8月</div><div class="ms-text">治理完成，数据质量评估达标</div></div>
+      <div class="ms-item"><div class="ms-dot" style="background:#F57C00"></div><div class="ms-time">2026年9月</div><div class="ms-text">核心场景（电能表/电费/订单）标注启动</div></div>
+      <div class="ms-item"><div class="ms-dot" style="background:#FF9800"></div><div class="ms-time">2026年11月</div><div class="ms-text">全部标注完成，4项成果物交付</div></div>
+      <div class="ms-item"><div class="ms-dot" style="background:var(--purple)"></div><div class="ms-time">2026年12月</div><div class="ms-text">模型评估达标，统计报表上线</div></div>
+      <div class="ms-item"><div class="ms-dot" style="background:#C62828"></div><div class="ms-time">2027年1月</div><div class="ms-text">成果评审 + 项目最终验收</div></div>
     </div>
 
     <div class="deliverable-card">
       <h3>📋 15项成果物总览</h3>
       <table class="dl-table">
-        <thead>
-          <tr><th>阶段</th><th>成果物</th><th>计划时间</th></tr>
-        </thead>
+        <thead><tr><th>阶段</th><th>成果物</th><th>时间</th></tr></thead>
         <tbody>
           <tr><td><span class="phase-tag" style="background:var(--g2)">采</span></td><td>图片收集指导手册</td><td>7月</td></tr>
           <tr><td><span class="phase-tag" style="background:var(--g2)">采</span></td><td>语料收集指导手册</td><td>7月</td></tr>
@@ -1111,19 +952,11 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 </div>
 
 <script>
-// 切换阶段面板
 function switchPhase(idx){
   document.querySelectorAll('.phase-tab').forEach((t,i)=>{t.classList.toggle('active',i===idx)});
   document.querySelectorAll('.phase-panel').forEach((p,i)=>{p.classList.toggle('active',i===idx)});
 }
-
-// 展开/收起单个步骤
-function toggleStep(header){
-  const card=header.parentElement;
-  card.classList.toggle('closed');
-}
-
-// 展开/收起全部
+function toggleStep(header){header.parentElement.classList.toggle('closed')}
 function toggleAll(phaseIdx){
   const panel=document.getElementById('phase-'+phaseIdx);
   const cards=panel.querySelectorAll('.step-card');
