@@ -169,31 +169,20 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
   <!-- 项目背景：为什么需要标注项目 -->
   <div class="bg-section">
     <h3>📌 项目背景：需求缺口驱动</h3>
-    <div class="bg-grid">
-      <div class="bg-card done">
-        <h4>✅ 第一阶段能力（已有OCR，可直接上线）</h4>
-        <div class="gap-item"><span class="gap-icon">🪪</span> 身份证信息识别 — 调用网上国网OCR，提取姓名/身份证号/住址/有效期限/证件属性</div>
-        <div class="gap-item"><span class="gap-icon">🏢</span> 营业执照识别 — OCR提取信用代码/名称/经营者/注册日期/经营场所</div>
-        <div class="gap-item"><span class="gap-icon">💳</span> 银行卡信息识别 — OCR提取银行名称/卡号/有效期限</div>
-        <div class="gap-item"><span class="gap-icon">🏠</span> 房产证信息识别 — OCR提取房屋所有权人/房屋坐落</div>
-        <div class="gap-item"><span class="gap-icon">⚠️</span> 系统异常提示识别 — OCR提取异常标题/提示内容/APP版本</div>
-        <div class="gap-item"><span class="gap-icon">🔗</span> 实名认证信息查询 — 调用运营管理平台接口获取认证状态</div>
-      </div>
-      <div class="bg-card pending">
-        <h4>🚧 第二阶段能力（OCR无法覆盖，需训练模型 ← 本项目目标）</h4>
-        <div class="gap-item"><span class="gap-icon">⚡</span> <b>电能表信息识别</b> — 需从实物照片中定位条形码区域并提取电表表号，OCR无法准确定位</div>
-        <div class="gap-item"><span class="gap-icon">💰</span> <b>电费记录信息识别</b> — 需从APP截图中识别用电户号/交费金额/时间/付款状态，布局复杂OCR错位</div>
-        <div class="gap-item"><span class="gap-icon">🧾</span> <b>交费订单信息识别</b> — 需提取11个字段（含抵扣金额等小字），OCR识别率极低</div>
-        <p style="margin-top:8px;font-size:11px;color:var(--orange);font-weight:600">⬆ 这三类场景必须训练专用模型，而训练模型必须有标注数据 → 本项目核心价值</p>
-      </div>
+    <div class="bg-card pending" style="margin-bottom:0">
+      <h4>🚧 需求方案第二阶段能力缺口（OCR无法覆盖，需训练模型 ← 本项目目标）</h4>
+      <div class="gap-item"><span class="gap-icon">⚡</span> <b>电能表信息识别</b> — 需从实物照片中定位条形码区域并提取电表表号，OCR无法准确定位</div>
+      <div class="gap-item"><span class="gap-icon">💰</span> <b>电费记录信息识别</b> — 需从APP截图中识别用电户号/交费金额/时间/付款状态，布局复杂OCR错位</div>
+      <div class="gap-item"><span class="gap-icon">🧾</span> <b>交费订单信息识别</b> — 需提取11个字段（含抵扣金额等小字），OCR识别率极低</div>
+      <p style="margin-top:8px;font-size:11px;color:var(--orange);font-weight:600">⬆ 这三类场景必须训练专用模型，而训练模型必须有标注数据 → 本项目核心价值</p>
     </div>
     <div class="arrow-to">⬇️</div>
-    <div style="text-align:center;font-size:13px;font-weight:700;color:var(--g2)">标注项目使命：为第二阶段模型训练提供高质量标注数据，让智能客服具备电能表/电费/订单图片识别能力</div>
+    <div style="text-align:center;font-size:13px;font-weight:700;color:var(--g2)">标注项目使命：为模型训练提供高质量标注数据，让智能客服具备电能表/电费/订单图片识别能力</div>
   </div>
 
   <!-- 识别范围总览 -->
   <div class="flow-section">
-    <h3>🎯 标注覆盖范围（3类核心场景 + 30+提取字段）</h3>
+    <h3>🎯 标注覆盖范围（3类核心场景 + 16个提取字段）</h3>
     <div class="flow-chain">
       <div class="flow-node" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">
         <div class="fn-icon">⚡</div>
@@ -211,12 +200,6 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="fn-icon">🧾</div>
         <div class="fn-title">交费订单信息</div>
         <div class="fn-desc">11个字段<br>订单编号/时间/状态/<br>金额/抵扣/支付方式等<span class="batch-badge b2">核心·需训练</span></div>
-      </div>
-      <div class="flow-arrow">+</div>
-      <div class="flow-node" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">
-        <div class="fn-icon">🪪</div>
-        <div class="fn-title">身份证等5类</div>
-        <div class="fn-desc">18个字段<br>身份证/营业执照/银行卡/<br>房产证/异常提示<span class="batch-badge b1">辅助·积累方法</span></div>
       </div>
     </div>
   </div>
@@ -255,14 +238,14 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">5</div><div class="pov-label">关键步骤</div></div>
       <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">3</div><div class="pov-label">成果物</div></div>
       <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">8周</div><div class="pov-label">计划工期</div></div>
-      <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">8类</div><div class="pov-label">图片场景</div></div>
+      <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">3类</div><div class="pov-label">图片场景</div></div>
     </div>
     <button class="expand-all-btn" onclick="toggleAll(0)">📋 展开/收起全部步骤</button>
 
     <div class="step-card" style="border-left-color:var(--g2)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:var(--g2)">1</div>
-        <div class="step-title">明确8类图片采集范围与数据源</div>
+        <div class="step-title">明确3类图片采集范围与数据源</div>
         <div class="step-period">7月上旬</div>
         <div class="step-toggle">▶</div>
       </div>
@@ -270,18 +253,12 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">按需求方案梳理8类图片场景及字段 <span class="role-tag biz">业务人员</span></div>
+            <div class="substep-action">按需求方案梳理3类图片场景及字段 <span class="role-tag biz">业务人员</span></div>
             <div class="substep-detail">
               <b>🔴 核心场景（第二阶段能力缺口，本项目重点）：</b><br>
               ① 电能表信息（DNB）→ 1字段：电表表号 — OCR无法准确定位条形码区域，必须训练目标检测+OCR模型<br>
               ② 电费记录信息（DFJL）→ 4字段：用电户号/交费金额/交费时间/付款状态 — APP截图布局复杂，OCR字段错位<br>
-              ③ 交费订单信息（JFXX）→ 11字段：订单编号/时间/状态/金额/红包抵扣/积分抵扣/优惠券抵扣/实付金额/支付方式/交费渠道/户号户名 — 含大量小字抵扣字段，OCR识别率极低<br><br>
-              <b>🟢 辅助场景（第一阶段已有OCR，标注用于积累方法论）：</b><br>
-              ④ 身份证（SFZ）→ 5字段：姓名/身份证号/住址/有效期限/证件属性<br>
-              ⑤ 营业执照（YYZZ）→ 5字段：信用代码/名称/经营者/注册日期/经营场所<br>
-              ⑥ 银行卡（YHK）→ 3字段：银行名称/卡号/有效期限<br>
-              ⑦ 房产证（FCZ）→ 2字段：房屋所有权人/房屋坐落<br>
-              ⑧ 系统异常提示（YCTS）→ 3字段：异常标题/提示内容/APP版本
+              ③ 交费订单信息（JFXX）→ 11字段：订单编号/时间/状态/金额/红包抵扣/积分抵扣/优惠券抵扣/实付金额/支付方式/交费渠道/户号户名 — 含大量小字抵扣字段，OCR识别率极低
             </div>
           </div>
         </div>
@@ -292,8 +269,6 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
             <div class="substep-detail">
               · 电能表照片 → 客户在95598在线会话中拍摄的实物照片（历史会话数据+增量数据）<br>
               · 电费记录/交费订单 → 客户发送的网上国网APP截图<br>
-              · 身份证等5类 → 客户在会话中发送的证件照片/截图<br>
-              · 异常截图 → 客户发送的网上国网APP异常弹窗截图<br>
               每个渠道联系运维确认数据可导出性、历史数据量。<code>产出：数据源矩阵表</code>
             </div>
           </div>
@@ -302,7 +277,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">3</div>
           <div class="substep-main">
             <div class="substep-action">确定采集量 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">核心场景最低采集量：电能表≥500张（覆盖多型号/多角度）、电费记录≥300张、交费订单≥300张。辅助场景：身份证≥300张、营业执照≥200张、银行卡≥200张、房产证≥200张、异常截图≥200张。图片分辨率≥640px，无水印/遮挡/严重模糊。<code>产出：采集需求规格说明书</code></div>
+            <div class="substep-detail">最低采集量：电能表≥500张（覆盖多型号/多角度）、电费记录≥300张、交费订单≥300张。图片分辨率≥640px，无水印/遮挡/严重模糊。<code>产出：采集需求规格说明书</code></div>
           </div>
         </div>
         <div class="pitfall">
@@ -324,7 +299,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">1</div>
           <div class="substep-main">
             <div class="substep-action">编写采集操作手册 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">为每类图片编写"手把手"采集指南。关键说明：①电能表需正面全景+条形码特写分别采集 ②身份证需区分人像面/国徽面 ③电费记录需覆盖已付款/已关闭/待支付三种状态 ④交费订单需包含完整订单信息区域。<code>产出：图片收集指导手册 + 语料收集指导手册</code></div>
+            <div class="substep-detail">为每类图片编写"手把手"采集指南。关键说明：①电能表需正面全景+条形码特写分别采集 ②电费记录需覆盖已付款/已关闭/待支付三种状态 ③交费订单需包含完整订单信息区域。<code>产出：图片收集指导手册 + 语料收集指导手册</code></div>
           </div>
         </div>
         <div class="substep">
@@ -338,7 +313,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">3</div>
           <div class="substep-main">
             <div class="substep-action">统一命名与存储 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">命名：<code>{场景编码}_{子类型}_{序号}_{日期}</code>，如 <code>DNB_条形码特写_001_20260701.jpg</code>。存储：<code>/采集/原始数据/{场景编码}/{日期}/</code>。核心场景（电能表/电费/订单）与辅助场景分目录管理。</div>
+            <div class="substep-detail">命名：<code>{场景编码}_{子类型}_{序号}_{日期}</code>，如 <code>DNB_条形码特写_001_20260701.jpg</code>。存储：<code>/采集/原始数据/{场景编码}/{日期}/</code>。按DNB/DFJL/JFXX分目录管理。</div>
           </div>
         </div>
       </div>
@@ -355,19 +330,12 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">优先采集核心场景 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">优先采集电能表/电费记录/交费订单三大核心场景。电能表每表至少4个角度（正面全景/条形码特写/液晶屏特写/铭牌特写），电费记录需覆盖不同付款状态，交费订单需包含有抵扣和无抵扣两类。</div>
+            <div class="substep-action">采集电能表/电费记录/交费订单 <span class="role-tag op">运营人员</span></div>
+            <div class="substep-detail">电能表每表至少4个角度（正面全景/条形码特写/液晶屏特写/铭牌特写），电费记录需覆盖不同付款状态，交费订单需包含有抵扣和无抵扣两类。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">同步采集辅助场景 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">身份证/营业执照/银行卡/房产证/异常截图同步采集。这些场景已有OCR能力，标注主要用于积累标注方法论和构建统一样本库。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
           <div class="substep-main">
             <div class="substep-action">异常数据补采 <span class="role-tag op">运营人员</span></div>
             <div class="substep-detail">对照需求规格检查采集量。重点关注：电能表是否覆盖多型号、电费记录是否覆盖多状态、交费订单是否包含有抵扣的样本。</div>
@@ -457,7 +425,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">1</div>
           <div class="substep-main">
             <div class="substep-action">统一图片格式与元数据 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">全部转JPG，分辨率≥640px，200KB-2MB。统一schema：{场景编码, 图片类型, 渠道来源, 会话ID, 时间戳, 文件路径}。身份证正反面通过会话ID关联。电能表全景/特写通过同一采集批次关联。</div>
+            <div class="substep-detail">全部转JPG，分辨率≥640px，200KB-2MB。统一schema：{场景编码, 图片类型, 渠道来源, 会话ID, 时间戳, 文件路径}。电能表全景/特写通过同一采集批次关联。</div>
           </div>
         </div>
       </div>
@@ -475,14 +443,14 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">1</div>
           <div class="substep-main">
             <div class="substep-action">图片脱敏 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">身份证/营业执照/房产证：保留文字区域用于OCR训练，对人脸区域做遮挡处理，遮挡公章/签名区域。电能表照片无需脱敏（无个人隐私信息）。电费记录/交费订单：遮挡户名（保留户号）。</div>
+            <div class="substep-detail">电费记录/交费订单：遮挡户名（保留户号）。电能表照片无需脱敏（无个人隐私信息）。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
             <div class="substep-action">文本脱敏 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">姓名→"张**"，手机号→"138****5678"，身份证→"320***********1234"。关键：标注训练需要真实值用于对比，原始数据加密存储，脱敏后数据用于标注。电能表表号无需脱敏。</div>
+            <div class="substep-detail">姓名→"张**"，手机号→"138****5678"。关键：标注训练需要真实值用于对比，原始数据加密存储，脱敏后数据用于标注。电能表表号无需脱敏。</div>
           </div>
         </div>
         <div class="pitfall">
@@ -504,7 +472,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">1</div>
           <div class="substep-main">
             <div class="substep-action">按场景编码分类归档 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">按需求方案的场景编码分类：DNB（电能表）、DFJL（电费记录）、JFXX（交费订单）为核心目录，SFZ/YYZZ/YHK/FCZ/YCTS为辅助目录。建立更新维护规范。</div>
+            <div class="substep-detail">按需求方案的场景编码分类：DNB（电能表）、DFJL（电费记录）、JFXX（交费订单）。建立更新维护规范。</div>
           </div>
         </div>
       </div>
@@ -543,7 +511,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">6</div><div class="pov-label">关键步骤</div></div>
       <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">4</div><div class="pov-label">成果物</div></div>
       <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">14周</div><div class="pov-label">计划工期</div></div>
-      <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">30+</div><div class="pov-label">提取字段</div></div>
+      <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">16</div><div class="pov-label">提取字段</div></div>
     </div>
     <button class="expand-all-btn" onclick="toggleAll(2)">📋 展开/收起全部步骤</button>
 
@@ -565,11 +533,6 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
                 <tr><td>⚡电能表</td><td class="id-col">DNB-1</td><td>电表表号（条形码区域提取）</td><td><span class="batch-badge b2">核心</span></td></tr>
                 <tr><td>💰电费记录</td><td class="id-col">DFJL-1~4</td><td>用电户号/交费金额/交费时间/付款状态</td><td><span class="batch-badge b2">核心</span></td></tr>
                 <tr><td>🧾交费订单</td><td class="id-col">JFXX-1~11</td><td>订单编号/时间/状态/金额/红包抵扣/积分抵扣/优惠券抵扣/实付金额/支付方式/交费渠道/户号户名</td><td><span class="batch-badge b2">核心</span></td></tr>
-                <tr><td>🪪身份证</td><td class="id-col">SFZ-1~5</td><td>姓名/身份证号/住址/有效期限/证件属性</td><td><span class="batch-badge b1">辅助</span></td></tr>
-                <tr><td>🏢营业执照</td><td class="id-col">YYZZ-1~5</td><td>信用代码/名称/经营者/注册日期/经营场所</td><td><span class="batch-badge b1">辅助</span></td></tr>
-                <tr><td>💳银行卡</td><td class="id-col">YHK-1~3</td><td>银行名称/卡号/有效期限</td><td><span class="batch-badge b1">辅助</span></td></tr>
-                <tr><td>🏠房产证</td><td class="id-col">FCZ-1~2</td><td>房屋所有权人/房屋坐落</td><td><span class="batch-badge b1">辅助</span></td></tr>
-                <tr><td>⚠️异常提示</td><td class="id-col">YCTS-1~3</td><td>异常标题/提示内容/APP版本</td><td><span class="batch-badge b1">辅助</span></td></tr>
               </table>
             </div>
           </div>
@@ -577,12 +540,12 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">核心场景特殊标注规则 <span class="role-tag biz">业务人员</span></div>
+            <div class="substep-action">特殊标注规则 <span class="role-tag biz">业务人员</span></div>
             <div class="substep-detail">
               · 电能表：条形码提取规则依据南北分中心"表号编号规则"知识库，标注时需对照规则验证<br>
               · 电费记录：付款状态需区分"已付款/已关闭/待支付"三种，不可笼统标为"已付/未付"<br>
               · 交费订单：11个字段中红包抵扣/积分抵扣/优惠券抵扣金额小但必须提取，遗漏率高需重点培训<br>
-              · 全场景通用：无法识别的字段按方案要求用"/"填充，不可编造；客户上传多张同类图片均需标注
+              · 通用规则：无法识别的字段按方案要求用"/"填充，不可编造；客户上传多张同类图片均需标注
             </div>
           </div>
         </div>
@@ -590,7 +553,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">3</div>
           <div class="substep-main">
             <div class="substep-action">标注维度评审 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">组织业务专家+技术团队联合评审：核心场景字段是否覆盖模型训练需求？提取方式是否明确？评审通过后冻结基线版本。</div>
+            <div class="substep-detail">组织业务专家+技术团队联合评审：字段是否覆盖模型训练需求？提取方式是否明确？评审通过后冻结基线版本。</div>
           </div>
         </div>
       </div>
@@ -609,8 +572,6 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-main">
             <div class="substep-action">编写标注操作规范 <span class="role-tag biz">业务人员</span></div>
             <div class="substep-detail">逐字段编写规范：该标什么→定义和判定标准→正例/反例→边界case。关键规则：<br>
-            · 身份证号18位，最后一位可能是X<br>
-            · 银行卡号13-19位不等<br>
             · 电表表号按"表号编号规则"验证格式<br>
             · 交费订单抵扣字段，无抵扣填"0.00元"而非留空<br>
             · 无法识别的字段填"/"<code>产出：图片标注标准 + 语料标注标准</code></div>
@@ -627,7 +588,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">3</div>
           <div class="substep-main">
             <div class="substep-action">规范试标注验证 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">3人试标50条/场景，一致率＜85%的维度修改规范再测直到≥85%。核心场景（电能表/电费/订单）需单独验证。</div>
+            <div class="substep-detail">3人试标50条/场景，一致率＜85%的维度修改规范再测直到≥85%。三类场景均需单独验证。</div>
           </div>
         </div>
       </div>
@@ -645,21 +606,21 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">1</div>
           <div class="substep-main">
             <div class="substep-action">部署标注工具+配置schema <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">推荐LabelImg（图片标注/目标检测框）+ Doccano（文本标注）。核心场景特殊配置：电能表需支持"目标检测框标注"（框选条形码区域）+ OCR文本标注双模式；电费/订单以OCR文本标注为主。</div>
+            <div class="substep-detail">推荐LabelImg（图片标注/目标检测框）+ Doccano（文本标注）。电能表需支持"目标检测框标注"（框选条形码区域）+ OCR文本标注双模式；电费/订单以OCR文本标注为主。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
             <div class="substep-action">配置预标注 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">辅助场景：调用网上国网已有OCR做预标注，标注员校验修正。核心场景：先用通用OCR模型做初步文本提取（虽然不准但可减少50%工作量），标注员在此基础上修正+补充目标检测框。</div>
+            <div class="substep-detail">先用通用OCR模型做初步文本提取（虽然不准但可减少50%工作量），标注员在此基础上修正+补充目标检测框。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">3</div>
           <div class="substep-main">
             <div class="substep-action">标注员培训与考核 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">培训：规范(2h)+工具(1h)+实操(2h)。重点：8类图片区分、各字段提取位置、"/"填写场景、电能表条形码区域框选方法。考核50条准确率≥90分方可上岗。</div>
+            <div class="substep-detail">培训：规范(2h)+工具(1h)+实操(2h)。重点：3类图片区分、各字段提取位置、"/"填写场景、电能表条形码区域框选方法。考核50条准确率≥90分方可上岗。</div>
           </div>
         </div>
       </div>
@@ -676,22 +637,15 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">优先标注核心场景 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">优先标注电能表/电费记录/交费订单，这些数据直接用于模型训练。电能表需先框选条形码区域再标注表号文本；交费订单11个字段逐条提取，特别注意小字抵扣字段。每批次200-500条，2人交叉标注。</div>
+            <div class="substep-action">分批标注电能表/电费记录/交费订单 <span class="role-tag op">运营人员</span></div>
+            <div class="substep-detail">电能表需先框选条形码区域再标注表号文本；交费订单11个字段逐条提取，特别注意小字抵扣字段。每批次200-500条，2人交叉标注。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">同步标注辅助场景 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">身份证等5类辅助场景同步标注，主要用于积累标注方法论和构建统一样本库。OCR预标注率高，标注员主要做校验修正。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
             <div class="substep-action">存疑日清+实时监控 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">存疑项当日上报当日裁定。每日统计：完成量、平均耗时、存疑数。核心场景存疑率突然升高→可能是规范有漏洞，需紧急修订。</div>
+            <div class="substep-detail">存疑项当日上报当日裁定。每日统计：完成量、平均耗时、存疑数。存疑率突然升高→可能是规范有漏洞，需紧急修订。</div>
           </div>
         </div>
       </div>
@@ -709,14 +663,14 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">1</div>
           <div class="substep-main">
             <div class="substep-action">100%交叉校验 + 专家抽检 <span class="role-tag biz">业务专家</span></div>
-            <div class="substep-detail">2人独立标注→系统比对→不一致项专家裁定。核心场景抽检50%（高于辅助场景的30%），重点检查：电表表号格式是否符合编号规则、交费订单抵扣字段是否遗漏、金额精度是否正确。</div>
+            <div class="substep-detail">2人独立标注→系统比对→不一致项专家裁定。抽检50%，重点检查：电表表号格式是否符合编号规则、交费订单抵扣字段是否遗漏、金额精度是否正确。</div>
           </div>
         </div>
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
             <div class="substep-action">一致率统计与预警 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">一致率≥95%正常，90%-95%预警，＜90%暂停重标。核心场景一致率低于辅助场景时需分析原因（字段更复杂？规范不够细？）。</div>
+            <div class="substep-detail">一致率≥95%正常，90%-95%预警，＜90%暂停重标。一致率下降时需分析原因（字段更复杂？规范不够细？）。</div>
           </div>
         </div>
       </div>
@@ -734,7 +688,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">1</div>
           <div class="substep-main">
             <div class="substep-action">全量质检+结构化输出校验 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">校验标注结果是否符合方案结构化输出格式：身份证→"客户名称：XX / 身份证号码：XX / ..."，电能表→"电表表号：XXXXXXXX"，异常提示→"异常标题：XX / 异常提示内容：XX / 系统版本：XX"。格式不一致的修正或退回。</div>
+            <div class="substep-detail">校验标注结果是否符合方案结构化输出格式：电能表→"电表表号：XXXXXXXX"，电费记录→"用电户号：XX / 交费金额：XX / ..."，交费订单→"订单编号：XX / ..."。格式不一致的修正或退回。</div>
           </div>
         </div>
         <div class="substep">
@@ -778,8 +732,8 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">核心场景≥50%抽检 + 问题分类 <span class="role-tag biz">业务专家</span></div>
-            <div class="substep-detail">核心场景（电能表/电费/订单）抽检≥50%，辅助场景≥30%。问题分A类（严重-字段完全错误）、B类（轻微-格式偏差）、C类（规范歧义）。A类＞5%的批次全量返工。重点：电表表号格式、金额精度、抵扣字段遗漏。<code>产出：标注质量抽检与分析报告</code></div>
+            <div class="substep-action">≥50%抽检 + 问题分类 <span class="role-tag biz">业务专家</span></div>
+            <div class="substep-detail">抽检≥50%。问题分A类（严重-字段完全错误）、B类（轻微-格式偏差）、C类（规范歧义）。A类＞5%的批次全量返工。重点：电表表号格式、金额精度、抵扣字段遗漏。<code>产出：标注质量抽检与分析报告</code></div>
           </div>
         </div>
       </div>
@@ -821,7 +775,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">2</div>
           <div class="substep-main">
-            <div class="substep-action">核心场景重点评估 <span class="role-tag biz">业务人员</span></div>
+            <div class="substep-action">重点评估指标 <span class="role-tag biz">业务人员</span></div>
             <div class="substep-detail">电能表：表号识别准确率（是否按编号规则正确提取）、电费记录：字段提取完整率（4字段是否全提取）、交费订单：抵扣字段识别率（11字段中最容易漏的3个抵扣字段）。</div>
           </div>
         </div>
@@ -890,12 +844,12 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       <div class="qc-item">
         <div class="qc-icon">📝</div>
         <div class="qc-title">事前：考核上岗</div>
-        <div class="qc-desc">标注员考核≥90分<br>试标注一致率≥85%<br>核心场景专项培训</div>
+        <div class="qc-desc">标注员考核≥90分<br>试标注一致率≥85%<br>三类场景专项培训</div>
       </div>
       <div class="qc-item">
         <div class="qc-icon">🔎</div>
         <div class="qc-title">事中：三级校验</div>
-        <div class="qc-desc">人工初标→交叉(100%)<br>→专家抽检(30%/50%)<br>核心场景抽检≥50%</div>
+        <div class="qc-desc">人工初标→交叉(100%)<br>→专家抽检(50%)<br>三类场景抽检≥50%</div>
       </div>
       <div class="qc-item">
         <div class="qc-icon">📊</div>
@@ -916,7 +870,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       <h3>🏁 关键里程碑</h3>
       <div class="ms-item"><div class="ms-dot" style="background:var(--g2)"></div><div class="ms-time">2026年5月</div><div class="ms-text">项目启动，需求方案评审定稿</div></div>
       <div class="ms-item"><div class="ms-dot" style="background:var(--blue)"></div><div class="ms-time">2026年6月</div><div class="ms-text">完成需求分析及方案设计</div></div>
-      <div class="ms-item"><div class="ms-dot" style="background:var(--g4)"></div><div class="ms-time">2026年8月</div><div class="ms-text">采集阶段完成，8类图片数据归档</div></div>
+      <div class="ms-item"><div class="ms-dot" style="background:var(--g4)"></div><div class="ms-time">2026年8月</div><div class="ms-text">采集阶段完成，3类图片数据归档</div></div>
       <div class="ms-item"><div class="ms-dot" style="background:#1976D2"></div><div class="ms-time">2026年9月</div><div class="ms-text">治理阶段完成，数据质量评估达标</div></div>
       <div class="ms-item"><div class="ms-dot" style="background:#F57C00"></div><div class="ms-time">2026年10月</div><div class="ms-text">标注维度设计+规范制定+工具培训完成</div></div>
       <div class="ms-item"><div class="ms-dot" style="background:#FF9800"></div><div class="ms-time">2026年12月</div><div class="ms-text">全部标注完成，4项成果物交付</div></div>
