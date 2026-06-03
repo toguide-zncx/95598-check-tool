@@ -35,6 +35,9 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .bg-card p{font-size:11.5px;color:var(--text3);line-height:1.6}
 .bg-card .gap-item{display:flex;align-items:flex-start;gap:6px;margin-bottom:6px;font-size:11.5px;color:var(--text2);line-height:1.5}
 .bg-card .gap-icon{flex-shrink:0;margin-top:1px}
+.biz-tag{display:inline-block;margin-top:3px;padding:2px 8px;border-radius:4px;font-size:10.5px;font-weight:500;line-height:1.5}
+.biz-tag-green{background:var(--g8);color:var(--g2);border-left:2px solid var(--g4)}
+.biz-tag-orange{background:#FFF3E0;color:var(--orange);border-left:2px solid #FFB74D}
 .bg-card.done{background:var(--g8);border-color:var(--g5)}
 .bg-card.done h4{color:var(--g2)}
 .bg-card.pending{background:#FFF3E0;border-color:#FFB74D}
@@ -175,18 +178,18 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
     <div class="bg-grid">
       <div class="bg-card done">
         <h4>✅ 第一阶段能力（已有OCR，可直接上线）</h4>
-        <div class="gap-item"><span class="gap-icon">🪪</span> <b>身份证信息识别</b> — OCR提取姓名/身份证号等5字段 → <span style="color:var(--g2)">实名认证核验：判断证件是否已实名，查询认证手机号与类型</span></div>
-        <div class="gap-item"><span class="gap-icon">🏢</span> <b>营业执照识别</b> — OCR提取信用代码/名称/经营者等5字段 → <span style="color:var(--g2)">企业用户实名认证：核实营业执照信息，辅助企业户号业务办理</span></div>
-        <div class="gap-item"><span class="gap-icon">💳</span> <b>银行卡信息识别</b> — OCR提取银行名称/卡号/有效期3字段 → <span style="color:var(--g2)">退费/变更业务：核实银行卡信息，辅助退费到账、绑定账户变更</span></div>
-        <div class="gap-item"><span class="gap-icon">🏠</span> <b>房产证信息识别</b> — OCR提取所有权人/房屋坐落2字段 → <span style="color:var(--g2)">过户/产权变更：核实房产证信息，辅助产权人变更、过户办理</span></div>
-        <div class="gap-item"><span class="gap-icon">⚠️</span> <b>系统异常提示识别</b> — OCR提取异常标题/提示内容/APP版本3字段 → <span style="color:var(--g2)">APP使用异常：自动识别报错弹窗，辅助座席快速定位问题原因</span></div>
-        <div class="gap-item"><span class="gap-icon">🔗</span> <b>实名认证信息查询</b> — 调用运营管理平台接口获取认证状态 → <span style="color:var(--g2)">实名状态查询：身份证号传入接口，返回是否已实名及认证详情</span></div>
+        <div class="gap-item"><span class="gap-icon">🪪</span><div><b>身份证信息识别</b> — OCR提取姓名/身份证号等5字段<div class="biz-tag biz-tag-green">📋 实名认证核验：判断是否已实名，查询认证手机号与类型</div></div></div>
+        <div class="gap-item"><span class="gap-icon">🏢</span><div><b>营业执照识别</b> — OCR提取信用代码/名称/经营者等5字段<div class="biz-tag biz-tag-green">📋 企业实名认证：核实执照信息，辅助企业户号业务办理</div></div></div>
+        <div class="gap-item"><span class="gap-icon">💳</span><div><b>银行卡信息识别</b> — OCR提取银行名称/卡号/有效期3字段<div class="biz-tag biz-tag-green">📋 退费/变更业务：核实银行卡信息，辅助退费到账、账户变更</div></div></div>
+        <div class="gap-item"><span class="gap-icon">🏠</span><div><b>房产证信息识别</b> — OCR提取所有权人/房屋坐落2字段<div class="biz-tag biz-tag-green">📋 过户/产权变更：核实房产证信息，辅助产权人变更办理</div></div></div>
+        <div class="gap-item"><span class="gap-icon">⚠️</span><div><b>系统异常提示识别</b> — OCR提取异常标题/提示内容/APP版本3字段<div class="biz-tag biz-tag-green">📋 APP使用异常：自动识别报错弹窗，辅助座席快速定位问题</div></div></div>
+        <div class="gap-item"><span class="gap-icon">🔗</span><div><b>实名认证信息查询</b> — 调用运营管理平台接口获取认证状态<div class="biz-tag biz-tag-green">📋 实名状态查询：身份证号传入接口，返回是否已实名及认证详情</div></div></div>
       </div>
       <div class="bg-card pending">
         <h4>🚧 第二阶段能力（OCR无法覆盖，需训练模型 ← 本项目目标）</h4>
-        <div class="gap-item"><span class="gap-icon">⚡</span> <b>电能表信息识别</b> — 需从实物照片定位条形码区域提取表号 → <span style="color:var(--orange)">电表报装/故障报修：客户拍摄电表照片，自动识别表号用于故障定位、换表申请</span></div>
-        <div class="gap-item"><span class="gap-icon">💰</span> <b>电费记录信息识别</b> — 需从APP截图识别户号/金额/时间/付款状态4字段 → <span style="color:var(--orange)">缴费异常/到账查询：客户发送电费截图，自动提取户号和交费状态辅助查账</span></div>
-        <div class="gap-item"><span class="gap-icon">🧾</span> <b>交费订单信息识别</b> — 需提取订单编号/金额/抵扣/支付方式等11字段 → <span style="color:var(--orange)">订单纠纷/退费处理：客户发送订单截图，自动提取完整订单信息辅助争议处理</span></div>
+        <div class="gap-item"><span class="gap-icon">⚡</span><div><b>电能表信息识别</b> — 需从实物照片定位条形码区域提取表号<div class="biz-tag biz-tag-orange">🔧 电表报装/故障报修：客户拍摄电表照片，自动识别表号用于故障定位、换表申请</div></div></div>
+        <div class="gap-item"><span class="gap-icon">💰</span><div><b>电费记录信息识别</b> — 需从APP截图识别户号/金额/时间/付款状态4字段<div class="biz-tag biz-tag-orange">🔧 缴费异常/到账查询：客户发送电费截图，自动提取户号和交费状态辅助查账</div></div></div>
+        <div class="gap-item"><span class="gap-icon">🧾</span><div><b>交费订单信息识别</b> — 需提取订单编号/金额/抵扣/支付方式等11字段<div class="biz-tag biz-tag-orange">🔧 订单纠纷/退费处理：客户发送订单截图，自动提取完整订单信息辅助争议处理</div></div></div>
         <p style="margin-top:8px;font-size:11px;color:var(--orange);font-weight:600">⬆ 这三类场景必须训练专用模型，而训练模型必须有标注数据 → 本项目核心价值</p>
       </div>
     </div>
