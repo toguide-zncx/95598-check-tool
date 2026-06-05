@@ -329,7 +329,7 @@ heatChart.setOption({
   grid:{left:isMobile?100:150,right:40,top:40,bottom:24},
   xAxis:{type:'value',min:4.0,max:5.1,axisLine:{lineStyle:{color:'#e0d8ce'}},axisLabel:{color:'#8a8078'},splitLine:{lineStyle:{color:'#f0ebe3'}}},
   yAxis:{type:'category',data:top10.map(d=>d.name).reverse(),axisLine:{lineStyle:{color:'#e0d8ce'}},axisLabel:{color:'#4a4038',fontSize:isMobile?9:11}},
-  series:[{type:'bar',data:top10.map(d=>{const h=d.score>=4.8;return{value:d.score,itemStyle:{color:h?new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#16a34a'},{offset:1,color:'#4ade80'}]):new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#8b6914'},{offset:1,color:'#c8a44e'}]),borderRadius:[0,6,6,0]}}).reverse(),
+  series:[{type:'bar',data:top10.map(d=>{const h=d.score>=4.8;return{value:d.score,itemStyle:{color:h?new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#16a34a'},{offset:1,color:'#4ade80'}]):new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#8b6914'},{offset:1,color:'#c8a44e'}]),borderRadius:[0,6,6,0]}}}).reverse(),
     barWidth:isMobile?14:20,
     label:{show:true,position:'right',fontWeight:600,formatter:'{c}分',color:'#4a4038',fontSize:isMobile?10:12}
   }]
