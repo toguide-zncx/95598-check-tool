@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>天津高端餐饮指南 · 可视化看板</title>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>if(typeof echarts==='undefined'){document.write('<script src="https://registry.npmmirror.com/echarts/5.5.0/files/dist/echarts.min.js"><\/script>')}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#f7f4ee;--card:#fff;--text:#3a3530;--text2:#6a6058;--text3:#8a8078;--gold:#c8a44e;--gold-dark:#8b6914;--border:#e0d8ce;--hover:rgba(200,164,78,0.06);--shadow:0 2px 12px rgba(60,40,20,0.06);--radius:12px;--pad:48px}
+@media(max-width:768px){:root{--pad:16px}}
+body{font-family:'Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.header{background:linear-gradient(135deg,#1a1a2e 0%,#2d1f3d 40%,#3d2b56 100%);padding:28px var(--pad) 22px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-60px;right:-40px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%)}
+.header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.6),transparent)}
+.header h1{font-size:clamp(18px,4vw,28px);font-weight:700;color:#f0e6d3;letter-spacing:2px;text-shadow:0 1px 8px rgba(0,0,0,0.3)}
+.header .sub{font-size:clamp(11px,2.5vw,13px);color:rgba(240,230,211,0.6);margin-top:6px;letter-spacing:0.5px}
+
+.kpi-row{display:flex;gap:12px;padding:20px var(--pad);flex-wrap:wrap}
+.kpi-card{flex:1;min-width:130px;background:var(--card);border-radius:var(--radius);padding:16px 18px;position:relative;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(212,175,55,0.12);transition:transform .2s,box-shadow .2s}
+.kpi-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(60,40,20,0.1)}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#c8a44e,#e8c96a,#c8a44e)}
+.kpi-card .label{font-size:11px;color:var(--text3);margin-bottom:6px;letter-spacing:0.5px}
+.kpi-card .value{font-size:clamp(20px,4vw,28px);font-weight:700;color:#2d1f3d}
+.kpi-card .unit{font-size:12px;color:var(--text3);margin-left:2px;font-weight:400}
+@media(max-width:768px){.kpi-card{min-width:calc(50% - 8px)}}
+
+.section-title{font-size:clamp(14px,3vw,17px);font-weight:600;color:#2d1f3d;padding:24px var(--pad) 12px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:'';width:4px;height:18px;background:linear-gradient(180deg,#c8a44e,#8b6914);border-radius:2px;flex-shrink:0}
+
+.chart-row{display:flex;gap:16px;padding:0 var(--pad) 20px;flex-wrap:wrap}
+.chart-box{background:var(--card);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);border:1px solid rgba(0,0,0,0.04)}
+.chart-half{flex:1;min-width:380px;height:400px}
+.chart-full{width:100%;height:420px}
+@media(max-width:768px){.chart-half{min-width:100%;height:320px}}
+
+.table-wrap{padding:0 var(--pad) 30px}
+.table-controls{display:flex;gap:10px;padding:0 0 12px;align-items:center;flex-wrap:wrap}
+.table-controls input,.table-controls select{background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:13px;outline:none;font-family:'Microsoft YaHei';transition:border-color .2s}
+.table-controls input:focus,.table-controls select:focus{border-color:var(--gold)}
+.table-controls input{width:200px;flex:1;min-width:140px}
+.btn-export{background:linear-gradient(135deg,#c8a44e,#a8872e);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Microsoft YaHei';box-shadow:0 2px 8px rgba(168,135,46,0.25);white-space:nowrap}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:linear-gradient(180deg,#f8f5f0,#f0ebe3);color:#5a4a3a;padding:11px 12px;text-align:left;font-weight:600;position:sticky;top:0;z-index:2;white-space:nowrap;border-bottom:2px solid rgba(200,164,78,0.3)}
+tbody tr{border-bottom:1px solid #eee8e0;transition:background .15s}
+tbody tr:hover{background:var(--hover)}
+tbody tr:nth-child(even){background:#fcfaf6}
+tbody tr:nth-child(even):hover{background:var(--hover)}
+tbody td{padding:10px 12px;color:var(--text2);white-space:nowrap}
+
+.rank-badge{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-size:12px;font-weight:700}
+.rank-1{background:linear-gradient(135deg,#FFD700,#FFA500);color:#fff;box-shadow:0 2px 6px rgba(255,165,0,0.3)}
+.rank-2{background:linear-gradient(135deg,#C0C0C0,#A8A8A8);color:#fff;box-shadow:0 2px 6px rgba(160,160,160,0.3)}
+.rank-3{background:linear-gradient(135deg,#CD7F32,#B8690E);color:#fff;box-shadow:0 2px 6px rgba(184,105,14,0.3)}
+.rank-n{background:#f0ebe3;color:var(--text3)}
+
+.score-high{color:#16a34a;font-weight:600}
+.score-mid{color:#c8a44e}
+.score-low{color:#dc2626}
+
+.tag{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;margin-right:4px;font-weight:500}
+.tag-cantonese{background:#fef2f2;color:#dc2626}
+.tag-japanese{background:#f5f3ff;color:#7c3aed}
+.tag-french{background:#eff6ff;color:#2563eb}
+.tag-halal{background:#f0fdf4;color:#16a34a}
+.tag-tianjin{background:#fffbeb;color:#d97706}
+.tag-seafood{background:#ecfeff;color:#0891b2}
+.tag-western{background:#fdf2f8;color:#db2777}
+.tag-buffet{background:#f9fafb;color:#6b7280}
+.tag-beijing{background:#fff7ed;color:#ea580c}
+.tag-fusion{background:#faf5ff;color:#9333ea}
+
+.dish-list{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:default}
+@media(min-width:769px){.dish-list:hover{white-space:normal;overflow:visible;background:#fff;z-index:10;position:relative;box-shadow:0 4px 12px rgba(0,0,0,0.1);padding:8px 10px;border-radius:6px;margin:-8px -10px}}
+
+.table-scroll{max-height:520px;overflow-y:auto;border-radius:10px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(60,40,20,0.04)}
+.table-scroll::-webkit-scrollbar{width:6px}
+.table-scroll::-webkit-scrollbar-track{background:#f7f4ee}
+.table-scroll::-webkit-scrollbar-thumb{background:#d0c8bc;border-radius:3px}
+
+/* Mobile table: horizontal scroll */
+@media(max-width:768px){
+  .table-scroll{overflow-x:auto;max-height:none}
+  table{min-width:860px}
+  .dish-list{max-width:140px}
+}
+
+.footer{text-align:center;padding:22px;font-size:12px;color:var(--text3);border-top:1px solid #e8e0d4;background:#faf7f2}
+
+/* Smooth chart resize */
+.chart-box canvas{border-radius:8px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🦐 天津高端餐饮指南 · 可视化看板</h1>
+  <div class="sub">数据来源：大众点评 / 携程美食林 / 黑珍珠餐厅指南 2025-2026 · 共计30家甄选餐厅</div>
+</div>
+
+<div class="kpi-row" id="kpiRow"></div>
+
+<div class="section-title">🍽️ 天津高端餐饮数据总表</div>
+<div class="table-wrap">
+  <div class="table-controls">
+    <input type="text" id="searchInput" placeholder="🔍 搜索餐厅 / 菜系 / 区域" oninput="filterTable()">
+    <select id="areaFilter" onchange="filterTable()"><option value="">全部区域</option></select>
+    <select id="cuisineFilter" onchange="filterTable()"><option value="">全部菜系</option></select>
+    <button class="btn-export" onclick="exportExcel()">📥 导出</button>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <thead><tr>
+        <th>排名</th><th>餐厅名称</th><th>行政区域</th><th>菜系类型</th><th>综合评分</th><th>人均消费</th><th>详细地址</th><th>推荐菜品</th>
+      </tr></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section-title">📊 高端餐饮区域分布可视化</div>
+<div class="chart-row">
+  <div class="chart-box chart-half" id="areaDonut"></div>
+  <div class="chart-box chart-half" id="areaBar"></div>
+</div>
+
+<div class="section-title">🍣 高端餐饮菜系分布可视化</div>
+<div class="chart-row">
+  <div class="chart-box chart-half" id="cuisineBar"></div>
+  <div class="chart-box chart-half" id="cuisinePie"></div>
+</div>
+
+<div class="section-title">⭐ 餐饮评分对比分析</div>
+<div class="chart-row">
+  <div class="chart-box chart-half" id="scoreGroup"></div>
+  <div class="chart-box chart-half" id="scoreHeat"></div>
+</div>
+
+<div class="footer">天津高端餐饮指南可视化看板 · 数据截至2026年6月 · 🦐 扣子出品</div>
+
+<script>
+const DATA=[
+  {name:"津韵中餐厅(JIN HOUSE)",area:"和平区",cuisine:"粤菜",score:4.7,price:513,address:"赤峰道138号天津四季酒店7层",dishes:"金蒜黑椒葱爆牛柳粒、咸蛋黄虾球、鲍鱼红烧肉、蜜汁叉烧",star:"黑珍珠一钻(8年连榜)"},
+  {name:"天泰轩",area:"和平区",cuisine:"粤菜",score:4.8,price:480,address:"大沽北路167号丽思卡尔顿酒店2层",dishes:"脆皮烧鹅、龙虾汤泡饭、蜜汁叉烧",star:"黑珍珠一钻"},
+  {name:"Mellō Charcoal Grill炭烤餐厅",area:"和平区",cuisine:"西餐",score:4.8,price:537,address:"大沽北路167号丽思卡尔顿酒店1层",dishes:"熟成和牛骨髓煲饭、炭烤多宝鱼、澳洲安格斯战斧牛排",star:"丽思卡尔顿旗下"},
+  {name:"喜筵28",area:"河西区",cuisine:"潮粤菜",score:4.8,price:380,address:"河西区绍兴道与新围堤道交口",dishes:"仙鹤神针、潮汕普宁豆腐、深海红毛蟹",star:"黑珍珠2026一钻"},
+  {name:"耳朵眼会馆(鼓楼店)",area:"南开区",cuisine:"清真",score:4.7,price:233,address:"鼓楼东街12号",dishes:"三十年陈皮炖鰲肚、黑胡椒波士顿龙虾、耳朵眼金汤花胶",star:"黑珍珠一钻(7年连榜)"},
+  {name:"耳朵眼会馆(五大道店)",area:"和平区",cuisine:"清真",score:4.7,price:288,address:"湖北路57号",dishes:"耳朵眼精品炸糕、红烧牛尾、羊鲍鱼、河蟹大刀金丝面",star:"百年品牌"},
+  {name:"福楼法餐厅 MAISON FLO",area:"河北区",cuisine:"法餐",score:4.8,price:425,address:"光复道37号",dishes:"经典惠灵顿牛排、法国空运生蚝、舒芙蕾、香煎鹅肝",star:"法国Groupe Flo旗下"},
+  {name:"香格里拉·香宮",area:"河东区",cuisine:"粤菜",score:4.6,price:280,address:"海河东路天津香格里拉1层",dishes:"北京烤鸭、鲍鱼红烧肉、宫保虾球",star:"香格里拉旗下"},
+  {name:"魂·怀石料理(五大道店)",area:"和平区",cuisine:"日料",score:4.7,price:680,address:"马场道五大道区域",dishes:"怀石料理套餐、季节限定刺身、和牛寿喜烧",star:"隐秘名店"},
+  {name:"HISAYA·ao ting",area:"和平区",cuisine:"日料",score:4.7,price:580,address:"常德道五大道区域",dishes:"Omakase主厨定制、北海道海胆、A5和牛",star:"隐秘名店"},
+  {name:"蟹府·精品潮州菜",area:"南开区",cuisine:"潮州菜",score:5.0,price:280,address:"北马路102号古文化街",dishes:"避风塘帝王蟹、太雕帝王蟹、佛跳墙、脆皮雪花牛肉",star:"满分餐厅"},
+  {name:"津菜典藏(人民公园店)",area:"河西区",cuisine:"津菜",score:4.8,price:93,address:"琼州道103号",dishes:"炒青虾仁、罾蹦鲤鱼、老爆三、黑蒜子牛肉粒",star:"津菜标杆"},
+  {name:"登瀛楼",area:"和平区",cuisine:"津菜",score:4.7,price:150,address:"滨江道商圈",dishes:"传统津菜、老爆三、八珍豆腐",star:"百年老字号"},
+  {name:"华竹食府",area:"和平区",cuisine:"津菜",score:4.7,price:120,address:"辽宁路五大道区域",dishes:"老爆三、传统天津菜",star:"本地人推荐"},
+  {name:"天津味码头(水上公园店)",area:"南开区",cuisine:"津菜",score:4.7,price:100,address:"水上公园区域",dishes:"津味家常菜、爆三样、锅包肉",star:"本地口碑店"},
+  {name:"必点海鲜·海肠捞饭大王",area:"和平区",cuisine:"海鲜",score:4.7,price:130,address:"滨江道与赤峰道交口",dishes:"海肠捞饭、鲅鱼水饺、椒盐皮皮虾",star:"4年必吃榜"},
+  {name:"北塘海鲜·天津菜(大光明桥店)",area:"河西区",cuisine:"海鲜",score:4.5,price:200,address:"大光明桥区域",dishes:"北塘海鲜、清蒸海鱼、蒜蓉粉丝扇贝",star:"商务宴请首选"},
+  {name:"万豪·Man Ho中餐厅",area:"津南区",cuisine:"粤菜",score:4.5,price:320,address:"国家会展中心天津万豪酒店",dishes:"粤式点心、脆皮烧肉、龙虾伊面",star:"万豪旗下"},
+  {name:"青年餐厅·烤鸭店(金湾店)",area:"河东区",cuisine:"京菜",score:4.7,price:180,address:"河东海河华鼎",dishes:"北京烤鸭、京味小炒",star:"京菜代表"},
+  {name:"瑞吉酒店·河岸餐厅",area:"和平区",cuisine:"自助餐",score:4.5,price:350,address:"张自忠路158号瑞吉酒店",dishes:"海鲜自助、空运生蚝、龙虾盛宴",star:"瑞吉旗下"},
+  {name:"泛太平洋·帕西菲嘉",area:"和平区",cuisine:"自助餐",score:4.5,price:126,address:"张自忠路1号泛太平洋酒店",dishes:"东南亚美食、煎饼果子、三文鱼刺身",star:"高性价比自助"},
+  {name:"丽思卡尔顿·Zest",area:"和平区",cuisine:"自助餐",score:4.5,price:350,address:"大沽北路167号丽思卡尔顿",dishes:"国际自助、海鲜、甜品",star:"丽思卡尔顿旗下"},
+  {name:"万丽·Café Vista",area:"和平区",cuisine:"自助餐",score:4.6,price:280,address:"六纬路万丽天津酒店",dishes:"国际美食自助、海鲜、甜品",star:"万丽旗下"},
+  {name:"悦榕庄·Hai He",area:"河东区",cuisine:"自助餐",score:4.5,price:280,address:"海河东路悦榕庄",dishes:"海鲜自助、东南亚菜品",star:"悦榕庄旗下"},
+  {name:"丽思卡尔顿·天泰轩(宴会)",area:"和平区",cuisine:"粤菜",score:4.8,price:480,address:"大沽北路167号丽思卡尔顿",dishes:"鲍汁花胶、龙虾、燕窝甜品",star:"高端宴请"},
+  {name:"燕春楼(海河华鼎店)",area:"河东区",cuisine:"清真",score:4.5,price:180,address:"河东海河华鼎",dishes:"传统清真菜、红烧牛尾、爆三样",star:"百年清真老字号"},
+  {name:"澜亭·融合菜",area:"和平区",cuisine:"融合菜",score:4.6,price:350,address:"五大道区域",dishes:"创意融合菜、季节限定菜单",star:"创意料理"},
+  {name:"新荣记(天津)",area:"和平区",cuisine:"淮扬菜",score:4.9,price:680,address:"滨江道商圈",dishes:"黄金脆钓带、家烧黄鱼、沙蒜豆面",star:"米其林三星"},
+  {name:"屋里厢(天津)",area:"和平区",cuisine:"本帮菜",score:4.8,price:520,address:"滨江道商圈",dishes:"本帮熏鱼、红烧肉、蟹粉豆腐",star:"米其林一星"},
+  {name:"蔻COU(天津)",area:"和平区",cuisine:"法餐",score:4.7,price:600,address:"五大道区域",dishes:"现烤黑松露蛋挞、法式鹅肝、甜品",star:"米其林推荐"}
+];
+
+DATA.sort((a,b)=>b.score-a.score||b.price-a.price);
+
+// KPI
+const avgScore=(DATA.reduce((s,d)=>s+d.score,0)/DATA.length).toFixed(2);
+const maxPrice=Math.max(...DATA.map(d=>d.price));
+const minPrice=Math.min(...DATA.map(d=>d.price));
+const highScore=DATA.filter(d=>d.score>=4.8).length;
+const areas=[...new Set(DATA.map(d=>d.area))].length;
+const cuisines=[...new Set(DATA.map(d=>d.cuisine))].length;
+const blackPearl=DATA.filter(d=>d.star&&d.star.includes('黑珍珠')).length;
+
+document.getElementById('kpiRow').innerHTML=`
+<div class="kpi-card"><div class="label">甄选餐厅总数</div><div class="value">${DATA.length}<span class="unit">家</span></div></div>
+<div class="kpi-card"><div class="label">平均综合评分</div><div class="value">${avgScore}<span class="unit">分</span></div></div>
+<div class="kpi-card"><div class="label">人均消费区间</div><div class="value">¥${minPrice}<span class="unit">~¥${maxPrice}</span></div></div>
+<div class="kpi-card"><div class="label">4.8分+优质餐厅</div><div class="value">${highScore}<span class="unit">家</span></div></div>
+<div class="kpi-card"><div class="label">覆盖行政区域</div><div class="value">${areas}<span class="unit">个</span></div></div>
+<div class="kpi-card"><div class="label">菜系类型</div><div class="value">${cuisines}<span class="unit">种</span></div></div>
+<div class="kpi-card"><div class="label">黑珍珠上榜</div><div class="value">${blackPearl}<span class="unit">家</span></div></div>`;
+
+// TABLE
+const tagMap={'粤菜':'tag-cantonese','潮粤菜':'tag-cantonese','日料':'tag-japanese','法餐':'tag-french','清真':'tag-halal','津菜':'tag-tianjin','海鲜':'tag-seafood','西餐':'tag-western','自助餐':'tag-buffet','京菜':'tag-beijing','融合菜':'tag-fusion','潮州菜':'tag-cantonese','淮扬菜':'tag-fusion','本帮菜':'tag-cantonese'};
+
+function renderTable(data){
+  document.getElementById('tableBody').innerHTML=data.map((d,i)=>{
+    const r=i+1,rc=r<=3?'rank-'+r:'rank-n',sc=d.score>=4.8?'score-high':d.score>=4.5?'score-mid':'score-low',tc=tagMap[d.cuisine]||'tag-fusion';
+    return`<tr><td><span class="rank-badge ${rc}">${r}</span></td><td style="font-weight:600;color:#2d1f3d">${d.name}</td><td>${d.area}</td><td><span class="tag ${tc}">${d.cuisine}</span></td><td class="${sc}">${d.score}</td><td style="color:#8b6914;font-weight:600">¥${d.price}</td><td style="white-space:normal;max-width:220px;color:#6a6058">${d.address}</td><td class="dish-list" title="${d.dishes}">${d.dishes}</td></tr>`;
+  }).join('');
+}
+renderTable(DATA);
+
+const areaSet=[...new Set(DATA.map(d=>d.area))].sort();
+const cuisineSet=[...new Set(DATA.map(d=>d.cuisine))].sort();
+document.getElementById('areaFilter').innerHTML='<option value="">全部区域</option>'+areaSet.map(a=>'<option>'+a+'</option>').join('');
+document.getElementById('cuisineFilter').innerHTML='<option value="">全部菜系</option>'+cuisineSet.map(c=>'<option>'+c+'</option>').join('');
+
+function filterTable(){
+  const kw=document.getElementById('searchInput').value.toLowerCase();
+  const af=document.getElementById('areaFilter').value;
+  const cf=document.getElementById('cuisineFilter').value;
+  renderTable(DATA.filter(d=>!(af&&d.area!==af)&&!(cf&&d.cuisine!==cf)&&!(kw&&!(d.name.toLowerCase().includes(kw)||d.cuisine.includes(kw)||d.area.includes(kw)||d.dishes.includes(kw)))));
+}
+
+function exportExcel(){
+  let csv='\uFEFF排名,餐厅名称,行政区域,菜系类型,综合评分,人均消费,详细地址,推荐菜品,荣誉标签\n';
+  DATA.forEach((d,i)=>{csv+=`${i+1},"${d.name}","${d.area}","${d.cuisine}",${d.score},${d.price},"${d.address}","${d.dishes}","${d.star||''}"\n`});
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='天津高端餐饮指南.csv';a.click();
+}
+
+// COLORS
+const COLORS=['#c8a44e','#5b7daa','#5eaa78','#d4687a','#8e6aae','#d98c3a','#3aaa95','#c95a4e','#4a90c4','#cc7a2e','#45b87a','#a84840'];
+const TT={backgroundColor:'#fff',borderColor:'#e0d8ce',textStyle:{color:'#3a3530'}};
+const isMobile=window.innerWidth<769;
+
+// AREA DONUT
+const areaCount={};DATA.forEach(d=>{areaCount[d.area]=(areaCount[d.area]||0)+1});
+const areaArr=Object.entries(areaCount).sort((a,b)=>b[1]-a[1]);
+
+const donutChart=echarts.init(document.getElementById('areaDonut'));
+donutChart.setOption({
+  title:{text:'区域分布占比',left:'center',top:14,textStyle:{color:'#2d1f3d',fontSize:15,fontWeight:600}},
+  tooltip:{trigger:'item',formatter:'{b}: {c}家 ({d}%)',...TT},
+  legend:{orient:isMobile?'horizontal':'vertical',right:isMobile?10:10,top:isMobile?'bottom':'center',textStyle:{color:'#6a6058',fontSize:11},itemWidth:10,itemHeight:10},
+  series:[{type:'pie',radius:isMobile?['30%','60%']:['42%','72%'],center:isMobile?['50%','45%']:['40%','55%'],avoidLabelOverlap:true,
+    itemStyle:{borderRadius:8,borderColor:'#fff',borderWidth:3},
+    label:{show:!isMobile,color:'#4a4038',fontSize:11,formatter:'{b}\n{d}%'},
+    emphasis:{label:{show:true,fontSize:13,fontWeight:'bold',color:'#2d1f3d'},itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,0.15)'}},
+    data:areaArr.map((a,i)=>({name:a[0],value:a[1],itemStyle:{color:COLORS[i%COLORS.length]}}))
+  }]
+});
+
+// AREA BAR
+const areaBarChart=echarts.init(document.getElementById('areaBar'));
+areaBarChart.setOption({
+  title:{text:'各区域高端餐饮数量',left:'center',top:14,textStyle:{color:'#2d1f3d',fontSize:15,fontWeight:600}},
+  tooltip:{trigger:'axis',...TT},
+  grid:{left:70,right:36,top:54,bottom:24},
+  xAxis:{type:'value',axisLine:{lineStyle:{color:'#e0d8ce'}},axisLabel:{color:'#8a8078'},splitLine:{lineStyle:{color:'#f0ebe3'}}},
+  yAxis:{type:'category',data:areaArr.map(a=>a[0]).reverse(),axisLine:{lineStyle:{color:'#e0d8ce'}},axisLabel:{color:'#4a4038',fontSize:12}},
+  series:[{type:'bar',data:areaArr.map((a,i)=>({value:a[1],itemStyle:{color:COLORS[(areaArr.length-1-i)%COLORS.length],borderRadius:[0,6,6,0]}})).reverse(),
+    barWidth:isMobile?18:24,label:{show:true,position:'right',color:'#6a5a48',fontWeight:600,formatter:'{c}家'}}]
+});
+
+// CUISINE BAR
+const cuisineCount={};DATA.forEach(d=>{cuisineCount[d.cuisine]=(cuisineCount[d.cuisine]||0)+1});
+const cuisineArr=Object.entries(cuisineCount).sort((a,b)=>b[1]-a[1]);
+
+const cBarChart=echarts.init(document.getElementById('cuisineBar'));
+cBarChart.setOption({
+  title:{text:'各菜系餐厅数量',left:'center',top:14,textStyle:{color:'#2d1f3d',fontSize:15,fontWeight:600}},
+  tooltip:{trigger:'axis',...TT},
+  grid:{left:70,right:36,top:54,bottom:24},
+  xAxis:{type:'value',axisLine:{lineStyle:{color:'#e0d8ce'}},axisLabel:{color:'#8a8078'},splitLine:{lineStyle:{color:'#f0ebe3'}}},
+  yAxis:{type:'category',data:cuisineArr.map(c=>c[0]).reverse(),axisLine:{lineStyle:{color:'#e0d8ce'}},axisLabel:{color:'#4a4038',fontSize:12}},
+  series:[{type:'bar',data:cuisineArr.map((c,i)=>({value:c[1],itemStyle:{color:COLORS[(cuisineArr.length-1-i)%COLORS.length],borderRadius:[0,6,6,0]}})).reverse(),
+    barWidth:isMobile?16:20,label:{show:true,position:'right',color:'#6a5a48',fontWeight:600,formatter:'{c}家'}}]
+});
+
+// CUISINE PIE
+const cPieChart=echarts.init(document.getElementById('cuisinePie'));
+cPieChart.setOption({
+  title:{text:'菜系占比分布',left:'center',top:14,textStyle:{color:'#2d1f3d',fontSize:15,fontWeight:600}},
+  tooltip:{trigger:'item',formatter:'{b}: {c}家 ({d}%)',...TT},
+  legend:{orient:isMobile?'horizontal':'vertical',right:isMobile?5:5,top:isMobile?'bottom':'center',textStyle:{color:'#6a6058',fontSize:10},itemWidth:10,itemHeight:10},
+  series:[{type:'pie',radius:isMobile?['28%','55%']:['35%','65%'],center:isMobile?['50%','42%']:['38%','55%'],
+    itemStyle:{borderRadius:8,borderColor:'#fff',borderWidth:3},
+    label:{show:!isMobile,color:'#4a4038',fontSize:10,formatter:'{b}\n{d}%'},
+    emphasis:{label:{show:true,fontSize:13,fontWeight:'bold',color:'#2d1f3d'},itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,0.15)'}},
+    data:cuisineArr.map((c,i)=>({name:c[0],value:c[1],itemStyle:{color:COLORS[i%COLORS.length]}}))
+  }]
+});
+
+// SCORE BAR
+const scoreAreaData={};DATA.forEach(d=>{if(!scoreAreaData[d.area])scoreAreaData[d.area]={sum:0,cnt:0};scoreAreaData[d.area].sum+=d.score;scoreAreaData[d.area].cnt++});
+const scoreAreaArr=Object.entries(scoreAreaData).map(([k,v])=>({area:k,avg:+(v.sum/v.cnt).toFixed(2)})).sort((a,b)=>b.avg-a.avg);
+
+const sgChart=echarts.init(document.getElementById('scoreGroup'));
+sgChart.setOption({
+  title:{text:'各区域平均评分对比',left:'center',top:14,textStyle:{color:'#2d1f3d',fontSize:15,fontWeight:600}},
+  tooltip:{trigger:'axis',...TT},
+  grid:{left:50,right:16,top:54,bottom:isMobile?60:70},
+  xAxis:{type:'category',data:scoreAreaArr.map(s=>s.area),axisLine:{lineStyle:{color:'#e0d8ce'}},axisLabel:{color:'#4a4038',rotate:30,fontSize:11}},
+  yAxis:{type:'value',min:4.0,max:5.0,axisLine:{lineStyle:{color:'#e0d8ce'}},axisLabel:{color:'#8a8078'},splitLine:{lineStyle:{color:'#f0ebe3'}}},
+  series:[{type:'bar',data:scoreAreaArr.map(s=>s.avg),barWidth:isMobile?20:28,itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#c8a44e'},{offset:1,color:'#8b6914'}]),borderRadius:[6,6,0,0]},
+    markLine:{data:[{yAxis:4.8,lineStyle:{color:'#16a34a',type:'dashed',width:2},label:{formatter:'优质线 4.8',color:'#16a34a',fontSize:11}}]}}]
+});
+
+// TOP10
+const top10=DATA.slice(0,10);
+const heatChart=echarts.init(document.getElementById('scoreHeat'));
+heatChart.setOption({
+  title:{text:'TOP10 高分餐厅评分',left:'center',top:14,textStyle:{color:'#2d1f3d',fontSize:15,fontWeight:600}},
+  tooltip:{trigger:'axis',...TT,formatter:function(p){return p[0].name+'<br/>评分: '+p[0].value+'分'}},
+  grid:{left:isMobile?100:150,right:40,top:40,bottom:24},
+  xAxis:{type:'value',min:4.0,max:5.1,axisLine:{lineStyle:{color:'#e0d8ce'}},axisLabel:{color:'#8a8078'},splitLine:{lineStyle:{color:'#f0ebe3'}}},
+  yAxis:{type:'category',data:top10.map(d=>d.name).reverse(),axisLine:{lineStyle:{color:'#e0d8ce'}},axisLabel:{color:'#4a4038',fontSize:isMobile?9:11}},
+  series:[{type:'bar',data:top10.map(d=>{const h=d.score>=4.8;return{value:d.score,itemStyle:{color:h?new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#16a34a'},{offset:1,color:'#4ade80'}]):new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#8b6914'},{offset:1,color:'#c8a44e'}]),borderRadius:[0,6,6,0]}}).reverse(),
+    barWidth:isMobile?14:20,
+    label:{show:true,position:'right',fontWeight:600,formatter:'{c}分',color:'#4a4038',fontSize:isMobile?10:12}
+  }]
+});
+
+// RESIZE
+const charts=[donutChart,areaBarChart,cBarChart,cPieChart,sgChart,heatChart];
+let resizeTimer;
+window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{charts.forEach(c=>c.resize())},200)});
+</script>
+</body>
+</html>
