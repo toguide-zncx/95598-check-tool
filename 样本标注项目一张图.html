@@ -27,32 +27,37 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .header .badge{display:inline-block;background:rgba(255,255,255,.2);padding:3px 14px;border-radius:20px;font-size:12px;margin:0}
 
 /* 项目背景 */
-.bg-section{background:var(--card);border-radius:14px;padding:22px 24px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:5px solid var(--red)}
-.bg-section h3{font-size:15px;font-weight:700;color:var(--red);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.bg-intro{font-size:12.5px;color:var(--text2);margin-bottom:16px;line-height:1.8;padding:14px 16px;background:#FAFAFA;border-radius:10px;border:1px solid #f0f0f0}
+.bg-section{background:var(--card);border-radius:14px;padding:18px 20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:5px solid var(--red)}
+.bg-section h3{font-size:14px;font-weight:700;color:var(--red);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.bg-intro{font-size:11.5px;color:var(--text2);margin-bottom:12px;line-height:1.7;padding:10px 14px;background:#FAFAFA;border-radius:8px;border:1px solid #f0f0f0}
 .bg-intro b{color:var(--g2)}
-.bg-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.bg-card{padding:18px 20px;border-radius:12px;border:1.5px solid #e8e8e8}
-.bg-card h4{font-size:13px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:6px;padding-bottom:10px;border-bottom:1px dashed rgba(0,0,0,.08)}
+.bg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bg-card{padding:12px 14px;border-radius:10px;border:1.5px solid #e8e8e8}
+.bg-card h4{font-size:12px;font-weight:700;margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed rgba(0,0,0,.08)}
 .bg-card.done{background:var(--g8);border-color:var(--g5)}
 .bg-card.done h4{color:var(--g2)}
 .bg-card.pending{background:#FFF3E0;border-color:#FFB74D}
 .bg-card.pending h4{color:var(--orange)}
-.cap-list{display:flex;flex-direction:column;gap:8px}
-.cap-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;transition:background .2s}
+.cap-list{display:flex;flex-direction:column;gap:4px}
+.cap-item{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;transition:background .15s;position:relative}
 .cap-item:hover{background:rgba(0,0,0,.03)}
-.cap-icon{flex-shrink:0;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.cap-icon{flex-shrink:0;width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px}
 .bg-card.done .cap-icon{background:rgba(76,175,80,.12)}
 .bg-card.pending .cap-icon{background:rgba(230,81,0,.1)}
 .cap-info{flex:1;min-width:0}
-.cap-name{font-size:12.5px;font-weight:700;color:var(--text);line-height:1.4}
-.cap-scene{font-size:10.5px;color:var(--text3);line-height:1.4;margin-top:1px}
-.cap-badge{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap}
+.cap-name{font-size:11.5px;font-weight:700;color:var(--text);line-height:1.3}
+.cap-scene{font-size:10px;color:var(--text3);line-height:1.3;margin-top:0}
+.cap-badge{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;padding:1px 7px;border-radius:10px;font-size:9.5px;font-weight:700;white-space:nowrap;cursor:pointer;transition:all .2s;user-select:none}
+.cap-badge:hover{filter:brightness(.9);transform:scale(1.05)}
 .cap-badge.green{background:var(--g6);color:#1B5E20}
 .cap-badge.orange{background:#FFE0B2;color:#BF360C}
-.bg-card .mission-note{margin-top:12px;padding:8px 12px;border-radius:6px;font-size:11px;font-weight:600;background:rgba(230,81,0,.06);border:1px dashed #FFB74D;color:var(--orange)}
-.bg-mission{margin-top:16px;padding:12px 16px;background:linear-gradient(135deg,var(--g8),#F1F8E9);border-radius:8px;border:1px solid var(--g5);text-align:center;font-size:13px;font-weight:700;color:var(--g2)}
-.arrow-to{grid-column:1/-1;text-align:center;font-size:24px;color:var(--g4);padding:4px 0}
+.cap-detail{display:none;position:absolute;right:0;top:100%;margin-top:4px;z-index:99;background:#fff;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.15);border:1px solid #e0e0e0;padding:10px 14px;min-width:200px;font-size:11px;line-height:1.7;color:var(--text2);animation:fadeIn .15s}
+.cap-detail.show{display:block}
+.cap-detail .dt{font-weight:700;color:var(--text);margin-bottom:4px;font-size:11.5px}
+.cap-detail .dd{color:var(--text3);font-size:10.5px}
+.bg-card .mission-note{margin-top:8px;padding:6px 10px;border-radius:6px;font-size:10px;font-weight:600;background:rgba(230,81,0,.06);border:1px dashed #FFB74D;color:var(--orange)}
+.bg-mission{margin-top:10px;padding:8px 14px;background:linear-gradient(135deg,var(--g8),#F1F8E9);border-radius:8px;border:1px solid var(--g5);text-align:center;font-size:12px;font-weight:700;color:var(--g2)}
+.arrow-to{grid-column:1/-1;text-align:center;font-size:20px;color:var(--g4);padding:2px 0}
 
 /* 四阶段导航 */
 .phase-nav{display:flex;gap:0;margin-bottom:24px;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
@@ -189,20 +194,20 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       <div class="bg-card done">
         <h4>✅ 第一阶段 · 已有OCR，可直接上线</h4>
         <div class="cap-list">
-          <div class="cap-item"><span class="cap-icon">🪪</span><div class="cap-info"><div class="cap-name">身份证信息识别</div><div class="cap-scene">实名认证核验</div></div><span class="cap-badge green">5字段</span></div>
-          <div class="cap-item"><span class="cap-icon">🏢</span><div class="cap-info"><div class="cap-name">营业执照识别</div><div class="cap-scene">企业实名认证</div></div><span class="cap-badge green">5字段</span></div>
-          <div class="cap-item"><span class="cap-icon">💳</span><div class="cap-info"><div class="cap-name">银行卡信息识别</div><div class="cap-scene">退费/变更业务</div></div><span class="cap-badge green">3字段</span></div>
-          <div class="cap-item"><span class="cap-icon">🏠</span><div class="cap-info"><div class="cap-name">房产证信息识别</div><div class="cap-scene">过户/产权变更</div></div><span class="cap-badge green">2字段</span></div>
-          <div class="cap-item"><span class="cap-icon">🔗</span><div class="cap-info"><div class="cap-name">实名认证信息查询</div><div class="cap-scene">实名状态查询</div></div><span class="cap-badge green">接口</span></div>
+          <div class="cap-item"><span class="cap-icon">🪪</span><div class="cap-info"><div class="cap-name">身份证信息识别</div><div class="cap-scene">实名认证核验</div></div><span class="cap-badge green" onclick="toggleDetail(this)">5字段 ▾</span><div class="cap-detail"><div class="dt">身份证信息识别</div><div class="dd">OCR提取：姓名、身份证号、性别、民族、有效期5个字段</div><div class="dd" style="margin-top:3px">业务场景：判断是否已实名，查询认证手机号与类型</div></div></div>
+          <div class="cap-item"><span class="cap-icon">🏢</span><div class="cap-info"><div class="cap-name">营业执照识别</div><div class="cap-scene">企业实名认证</div></div><span class="cap-badge green" onclick="toggleDetail(this)">5字段 ▾</span><div class="cap-detail"><div class="dt">营业执照识别</div><div class="dd">OCR提取：统一社会信用代码、名称、经营者、地址、有效期5个字段</div><div class="dd" style="margin-top:3px">业务场景：核实执照信息，辅助企业户号业务办理</div></div></div>
+          <div class="cap-item"><span class="cap-icon">💳</span><div class="cap-info"><div class="cap-name">银行卡信息识别</div><div class="cap-scene">退费/变更业务</div></div><span class="cap-badge green" onclick="toggleDetail(this)">3字段 ▾</span><div class="cap-detail"><div class="dt">银行卡信息识别</div><div class="dd">OCR提取：银行名称、卡号、有效期3个字段</div><div class="dd" style="margin-top:3px">业务场景：核实银行卡信息，辅助退费到账、账户变更</div></div></div>
+          <div class="cap-item"><span class="cap-icon">🏠</span><div class="cap-info"><div class="cap-name">房产证信息识别</div><div class="cap-scene">过户/产权变更</div></div><span class="cap-badge green" onclick="toggleDetail(this)">2字段 ▾</span><div class="cap-detail"><div class="dt">房产证信息识别</div><div class="dd">OCR提取：所有权人、房屋坐落2个字段</div><div class="dd" style="margin-top:3px">业务场景：核实房产证信息，辅助产权人变更办理</div></div></div>
+          <div class="cap-item"><span class="cap-icon">🔗</span><div class="cap-info"><div class="cap-name">实名认证信息查询</div><div class="cap-scene">实名状态查询</div></div><span class="cap-badge green" onclick="toggleDetail(this)">接口 ▾</span><div class="cap-detail"><div class="dt">实名认证信息查询</div><div class="dd">调用运营管理平台接口，身份证号传入，返回是否已实名及认证详情</div></div></div>
         </div>
       </div>
       <div class="bg-card pending">
         <h4>🚧 第二阶段 · OCR无法覆盖，需标注样本数据 ← 本项目目标</h4>
         <div class="cap-list">
-          <div class="cap-item"><span class="cap-icon">⚡</span><div class="cap-info"><div class="cap-name">电能表信息识别</div><div class="cap-scene">电表报装/故障报修</div></div><span class="cap-badge orange">1字段</span></div>
-          <div class="cap-item"><span class="cap-icon">💰</span><div class="cap-info"><div class="cap-name">电费记录信息识别</div><div class="cap-scene">缴费异常/到账查询</div></div><span class="cap-badge orange">4字段</span></div>
-          <div class="cap-item"><span class="cap-icon">🧾</span><div class="cap-info"><div class="cap-name">交费订单信息识别</div><div class="cap-scene">订单纠纷/退费处理</div></div><span class="cap-badge orange">11字段</span></div>
-          <div class="cap-item"><span class="cap-icon">⚠️</span><div class="cap-info"><div class="cap-name">系统异常提示识别</div><div class="cap-scene">APP使用异常</div></div><span class="cap-badge orange">3字段</span></div>
+          <div class="cap-item"><span class="cap-icon">⚡</span><div class="cap-info"><div class="cap-name">电能表信息识别</div><div class="cap-scene">电表报装/故障报修</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">1字段 ▾</span><div class="cap-detail"><div class="dt">电能表信息识别</div><div class="dd">需从实物照片定位条形码区域，提取电表表号1个字段</div><div class="dd" style="margin-top:3px">业务场景：客户拍摄电表照片，自动识别表号用于故障定位、换表申请</div></div></div>
+          <div class="cap-item"><span class="cap-icon">💰</span><div class="cap-info"><div class="cap-name">电费记录信息识别</div><div class="cap-scene">缴费异常/到账查询</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">4字段 ▾</span><div class="cap-detail"><div class="dt">电费记录信息识别</div><div class="dd">需从APP截图识别：用电户号、交费金额、交费时间、付款状态4个字段</div><div class="dd" style="margin-top:3px">业务场景：客户发送电费截图，自动提取户号和交费状态辅助查账</div></div></div>
+          <div class="cap-item"><span class="cap-icon">🧾</span><div class="cap-info"><div class="cap-name">交费订单信息识别</div><div class="cap-scene">订单纠纷/退费处理</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">11字段 ▾</span><div class="cap-detail"><div class="dt">交费订单信息识别</div><div class="dd">需提取：订单编号、订单时间、订单状态、交费金额、红包抵扣、积分抵扣、优惠券抵扣、实付金额、支付方式、交费渠道、户号户名11个字段</div><div class="dd" style="margin-top:3px">业务场景：客户发送订单截图，自动提取完整订单信息辅助争议处理</div></div></div>
+          <div class="cap-item"><span class="cap-icon">⚠️</span><div class="cap-info"><div class="cap-name">系统异常提示识别</div><div class="cap-scene">APP使用异常</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">3字段 ▾</span><div class="cap-detail"><div class="dt">系统异常提示识别</div><div class="dd">需训练模型识别：异常标题、提示内容、APP版本3个字段</div><div class="dd" style="margin-top:3px">业务场景：自动识别报错弹窗，辅助座席快速定位问题</div></div></div>
         </div>
         <div class="mission-note">⬆ 四类场景必须训练专用模型 → 训练模型必须有标注数据 → 本项目核心价值</div>
       </div>
@@ -948,6 +953,17 @@ function switchPhase(idx){
   document.querySelectorAll('.phase-tab').forEach((t,i)=>{t.classList.toggle('active',i===idx)});
   document.querySelectorAll('.phase-panel').forEach((p,i)=>{p.classList.toggle('active',i===idx)});
 }
+function toggleDetail(badge){
+  const detail=badge.parentElement.querySelector('.cap-detail');
+  const isOpen=detail.classList.contains('show');
+  document.querySelectorAll('.cap-detail.show').forEach(d=>d.classList.remove('show'));
+  if(!isOpen)detail.classList.add('show');
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.cap-badge')&&!e.target.closest('.cap-detail')){
+    document.querySelectorAll('.cap-detail.show').forEach(d=>d.classList.remove('show'));
+  }
+});
 function toggleStep(header){header.parentElement.classList.toggle('closed')}
 function toggleAll(phaseIdx){
   const panel=document.getElementById('phase-'+phaseIdx);
