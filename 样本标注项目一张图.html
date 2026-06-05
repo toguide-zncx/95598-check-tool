@@ -29,30 +29,29 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 /* 项目背景 */
 .bg-section{background:var(--card);border-radius:14px;padding:22px 24px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:5px solid var(--red)}
 .bg-section h3{font-size:15px;font-weight:700;color:var(--red);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.bg-intro{font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.8;padding:12px 14px;background:#FAFAFA;border-radius:8px;border:1px solid #f0f0f0}
+.bg-intro{font-size:12.5px;color:var(--text2);margin-bottom:16px;line-height:1.8;padding:14px 16px;background:#FAFAFA;border-radius:10px;border:1px solid #f0f0f0}
 .bg-intro b{color:var(--g2)}
 .bg-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.bg-card{padding:16px 18px;border-radius:12px;border:1.5px solid #e8e8e8}
-.bg-card h4{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px;padding-bottom:8px;border-bottom:1px dashed rgba(0,0,0,.08)}
-.bg-card p{font-size:11.5px;color:var(--text3);line-height:1.6}
-.bg-card .gap-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;padding:8px 10px;border-radius:8px;font-size:12px;color:var(--text2);line-height:1.6;transition:background .2s}
-.bg-card .gap-item:last-child{margin-bottom:0}
-.bg-card .gap-item:hover{background:rgba(0,0,0,.02)}
-.bg-card .gap-icon{flex-shrink:0;width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;margin-top:1px}
-.bg-card.done .gap-icon{background:rgba(76,175,80,.12)}
-.bg-card.pending .gap-icon{background:rgba(230,81,0,.1)}
-.gap-main{flex:1}
-.gap-title{font-weight:700;font-size:12.5px;display:block;margin-bottom:2px}
-.gap-desc{font-size:11px;color:var(--text3);display:block;margin-bottom:4px;line-height:1.5}
-.biz-tag{display:inline-block;margin-top:2px;padding:3px 10px;border-radius:6px;font-size:10.5px;font-weight:500;line-height:1.5}
-.biz-tag-green{background:var(--g8);color:var(--g2);border-left:3px solid var(--g4)}
-.biz-tag-orange{background:#FFF3E0;color:var(--orange);border-left:3px solid #FFB74D}
+.bg-card{padding:18px 20px;border-radius:12px;border:1.5px solid #e8e8e8}
+.bg-card h4{font-size:13px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:6px;padding-bottom:10px;border-bottom:1px dashed rgba(0,0,0,.08)}
 .bg-card.done{background:var(--g8);border-color:var(--g5)}
 .bg-card.done h4{color:var(--g2)}
 .bg-card.pending{background:#FFF3E0;border-color:#FFB74D}
 .bg-card.pending h4{color:var(--orange)}
-.bg-mission{margin-top:16px;padding:10px 16px;background:linear-gradient(135deg,var(--g8),#F1F8E9);border-radius:8px;border:1px solid var(--g5);text-align:center;font-size:13px;font-weight:700;color:var(--g2)}
-.bg-card .mission-note{margin-top:10px;padding:8px 12px;border-radius:6px;font-size:11px;font-weight:600;background:rgba(230,81,0,.06);border:1px dashed #FFB74D;color:var(--orange)}
+.cap-list{display:flex;flex-direction:column;gap:8px}
+.cap-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;transition:background .2s}
+.cap-item:hover{background:rgba(0,0,0,.03)}
+.cap-icon{flex-shrink:0;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.bg-card.done .cap-icon{background:rgba(76,175,80,.12)}
+.bg-card.pending .cap-icon{background:rgba(230,81,0,.1)}
+.cap-info{flex:1;min-width:0}
+.cap-name{font-size:12.5px;font-weight:700;color:var(--text);line-height:1.4}
+.cap-scene{font-size:10.5px;color:var(--text3);line-height:1.4;margin-top:1px}
+.cap-badge{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap}
+.cap-badge.green{background:var(--g6);color:#1B5E20}
+.cap-badge.orange{background:#FFE0B2;color:#BF360C}
+.bg-card .mission-note{margin-top:12px;padding:8px 12px;border-radius:6px;font-size:11px;font-weight:600;background:rgba(230,81,0,.06);border:1px dashed #FFB74D;color:var(--orange)}
+.bg-mission{margin-top:16px;padding:12px 16px;background:linear-gradient(135deg,var(--g8),#F1F8E9);border-radius:8px;border:1px solid var(--g5);text-align:center;font-size:13px;font-weight:700;color:var(--g2)}
 .arrow-to{grid-column:1/-1;text-align:center;font-size:24px;color:var(--g4);padding:4px 0}
 
 /* 四阶段导航 */
@@ -184,24 +183,28 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
   <div class="bg-section">
     <h3>📌 项目背景：需求缺口驱动</h3>
     <div class="bg-intro">
-      当前网上国网APP机器人只能解析身份证、银行卡等部分图片信息，当客户发送电能表、电费记录、交费订单等图片时，人工座席需逐条查看图片并人工判断异常原因，导致<b>转人工率高、处理时间长</b>。本项目构建<b>"图像识别+OCR识别+辅助决策"</b>一体化能力，在在线座席会话窗口新增<b>【图片解析】</b>和<b>【实名信息查询】</b>按钮，自动提取图片关键信息并以结构化卡片展示，辅助座席快速受理业务。
+      当前网上国网APP机器人只能解析身份证、银行卡等部分图片信息，当客户发送电能表、电费记录、交费订单等图片时，人工座席需逐条查看图片并人工判断异常原因，导致<b>转人工率高、处理时间长</b>。本项目构建<b>"图像识别+OCR识别+辅助决策"</b>一体化能力，辅助座席快速受理业务。
     </div>
     <div class="bg-grid">
       <div class="bg-card done">
-        <h4>✅ 第一阶段能力（已有OCR，可直接上线）</h4>
-        <div class="gap-item"><span class="gap-icon">🪪</span><div class="gap-main"><span class="gap-title">身份证信息识别</span><span class="gap-desc">OCR提取姓名/身份证号等5字段</span><span class="biz-tag biz-tag-green">📋 实名认证核验：判断是否已实名，查询认证手机号与类型</span></div></div>
-        <div class="gap-item"><span class="gap-icon">🏢</span><div class="gap-main"><span class="gap-title">营业执照识别</span><span class="gap-desc">OCR提取信用代码/名称/经营者等5字段</span><span class="biz-tag biz-tag-green">📋 企业实名认证：核实执照信息，辅助企业户号业务办理</span></div></div>
-        <div class="gap-item"><span class="gap-icon">💳</span><div class="gap-main"><span class="gap-title">银行卡信息识别</span><span class="gap-desc">OCR提取银行名称/卡号/有效期3字段</span><span class="biz-tag biz-tag-green">📋 退费/变更业务：核实银行卡信息，辅助退费到账、账户变更</span></div></div>
-        <div class="gap-item"><span class="gap-icon">🏠</span><div class="gap-main"><span class="gap-title">房产证信息识别</span><span class="gap-desc">OCR提取所有权人/房屋坐落2字段</span><span class="biz-tag biz-tag-green">📋 过户/产权变更：核实房产证信息，辅助产权人变更办理</span></div></div>
-        <div class="gap-item"><span class="gap-icon">🔗</span><div class="gap-main"><span class="gap-title">实名认证信息查询</span><span class="gap-desc">调用运营管理平台接口获取认证状态</span><span class="biz-tag biz-tag-green">📋 实名状态查询：身份证号传入接口，返回是否已实名及认证详情</span></div></div>
+        <h4>✅ 第一阶段 · 已有OCR，可直接上线</h4>
+        <div class="cap-list">
+          <div class="cap-item"><span class="cap-icon">🪪</span><div class="cap-info"><div class="cap-name">身份证信息识别</div><div class="cap-scene">实名认证核验</div></div><span class="cap-badge green">5字段</span></div>
+          <div class="cap-item"><span class="cap-icon">🏢</span><div class="cap-info"><div class="cap-name">营业执照识别</div><div class="cap-scene">企业实名认证</div></div><span class="cap-badge green">5字段</span></div>
+          <div class="cap-item"><span class="cap-icon">💳</span><div class="cap-info"><div class="cap-name">银行卡信息识别</div><div class="cap-scene">退费/变更业务</div></div><span class="cap-badge green">3字段</span></div>
+          <div class="cap-item"><span class="cap-icon">🏠</span><div class="cap-info"><div class="cap-name">房产证信息识别</div><div class="cap-scene">过户/产权变更</div></div><span class="cap-badge green">2字段</span></div>
+          <div class="cap-item"><span class="cap-icon">🔗</span><div class="cap-info"><div class="cap-name">实名认证信息查询</div><div class="cap-scene">实名状态查询</div></div><span class="cap-badge green">接口</span></div>
+        </div>
       </div>
       <div class="bg-card pending">
-        <h4>🚧 第二阶段能力（OCR无法覆盖，需标注样本数据 ← 本项目目标）</h4>
-        <div class="gap-item"><span class="gap-icon">⚡</span><div class="gap-main"><span class="gap-title">电能表信息识别</span><span class="gap-desc">需从实物照片定位条形码区域提取表号</span><span class="biz-tag biz-tag-orange">🔧 电表报装/故障报修：客户拍摄电表照片，自动识别表号用于故障定位、换表申请</span></div></div>
-        <div class="gap-item"><span class="gap-icon">💰</span><div class="gap-main"><span class="gap-title">电费记录信息识别</span><span class="gap-desc">需从APP截图识别户号/金额/时间/付款状态4字段</span><span class="biz-tag biz-tag-orange">🔧 缴费异常/到账查询：客户发送电费截图，自动提取户号和交费状态辅助查账</span></div></div>
-        <div class="gap-item"><span class="gap-icon">🧾</span><div class="gap-main"><span class="gap-title">交费订单信息识别</span><span class="gap-desc">需提取订单编号/金额/抵扣/支付方式等11字段</span><span class="biz-tag biz-tag-orange">🔧 订单纠纷/退费处理：客户发送订单截图，自动提取完整订单信息辅助争议处理</span></div></div>
-        <div class="gap-item"><span class="gap-icon">⚠️</span><div class="gap-main"><span class="gap-title">系统异常提示识别</span><span class="gap-desc">需训练模型识别异常标题/提示内容/APP版本3字段</span><span class="biz-tag biz-tag-orange">🔧 APP使用异常：自动识别报错弹窗，辅助座席快速定位问题</span></div></div>
-        <div class="mission-note">⬆ 这四类场景必须训练专用模型，而训练模型必须有标注数据 → 本项目核心价值</div>
+        <h4>🚧 第二阶段 · OCR无法覆盖，需标注样本数据 ← 本项目目标</h4>
+        <div class="cap-list">
+          <div class="cap-item"><span class="cap-icon">⚡</span><div class="cap-info"><div class="cap-name">电能表信息识别</div><div class="cap-scene">电表报装/故障报修</div></div><span class="cap-badge orange">1字段</span></div>
+          <div class="cap-item"><span class="cap-icon">💰</span><div class="cap-info"><div class="cap-name">电费记录信息识别</div><div class="cap-scene">缴费异常/到账查询</div></div><span class="cap-badge orange">4字段</span></div>
+          <div class="cap-item"><span class="cap-icon">🧾</span><div class="cap-info"><div class="cap-name">交费订单信息识别</div><div class="cap-scene">订单纠纷/退费处理</div></div><span class="cap-badge orange">11字段</span></div>
+          <div class="cap-item"><span class="cap-icon">⚠️</span><div class="cap-info"><div class="cap-name">系统异常提示识别</div><div class="cap-scene">APP使用异常</div></div><span class="cap-badge orange">3字段</span></div>
+        </div>
+        <div class="mission-note">⬆ 四类场景必须训练专用模型 → 训练模型必须有标注数据 → 本项目核心价值</div>
       </div>
     </div>
     <div class="arrow-to">⬇️</div>
