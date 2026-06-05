@@ -4,8 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>天津高端餐饮指南 · 可视化看板</title>
-<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
-<script>if(typeof echarts==='undefined'){document.write('<script src="https://registry.npmmirror.com/echarts/5.5.0/files/dist/echarts.min.js"><\/script>')}</script>
+<script>
+var CDN_LIST=[
+  'https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js',
+  'https://registry.npmmirror.com/echarts/5.5.0/files/dist/echarts.min.js',
+  'https://cdn.staticfile.net/echarts/5.5.0/echarts.min.js',
+  'https://unpkg.zhimg.com/echarts@5.5.0/dist/echarts.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js'
+];
+function loadEcharts(i){
+  if(typeof echarts!=='undefined'){window.dispatchEvent(new Event('echarts-ready'));return;}
+  if(i>=CDN_LIST.length){document.getElementById('kpiRow').innerHTML='<div style="padding:20px;color:#c00;text-align:center">⚠️ 图表库加载失败，请刷新页面或检查网络</div>';return;}
+  var s=document.createElement('script');s.src=CDN_LIST[i];
+  s.onload=function(){if(typeof echarts!=='undefined'){window.dispatchEvent(new Event('echarts-ready'));}else{loadEcharts(i+1);}};
+  s.onerror=function(){loadEcharts(i+1);};
+  document.head.appendChild(s);
+}
+loadEcharts(0);
+</script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#f7f4ee;--card:#fff;--text:#3a3530;--text2:#6a6058;--text3:#8a8078;--gold:#c8a44e;--gold-dark:#8b6914;--border:#e0d8ce;--hover:rgba(200,164,78,0.06);--shadow:0 2px 12px rgba(60,40,20,0.06);--radius:12px;--pad:48px}
@@ -226,6 +242,9 @@ function exportExcel(){
 // COLORS
 const COLORS=['#c8a44e','#5b7daa','#5eaa78','#d4687a','#8e6aae','#d98c3a','#3aaa95','#c95a4e','#4a90c4','#cc7a2e','#45b87a','#a84840'];
 const TT={backgroundColor:'#fff',borderColor:'#e0d8ce',textStyle:{color:'#3a3530'}};
+
+// Wait for ECharts to load before initializing charts
+function initCharts(){
 const isMobile=window.innerWidth<769;
 
 // AREA DONUT
@@ -320,6 +339,11 @@ heatChart.setOption({
 const charts=[donutChart,areaBarChart,cBarChart,cPieChart,sgChart,heatChart];
 let resizeTimer;
 window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{charts.forEach(c=>c.resize())},200)});
+}
+
+// Initialize charts when ECharts is ready
+if(typeof echarts!=='undefined'){initCharts();}
+else{window.addEventListener('echarts-ready',initCharts);}
 </script>
 </body>
 </html>
