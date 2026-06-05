@@ -6,27 +6,17 @@
 <title>样本标注项目落地实施一张图</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --g1:#004D3A;--g2:#006B54;--g3:#008667;--g4:#4CAF50;--g5:#81C784;
-  --g6:#A5D6A7;--g7:#C8E6C9;--g8:#E8F5E9;--g9:#F1F8E9;
-  --orange:#E65100;--blue:#1565C0;--red:#C62828;--purple:#5E35B1;
-  --text:#1a1a2e;--text2:#424242;--text3:#666;--bg:#f0f2f5;--card:#fff;
-}
+:root{--g1:#004D3A;--g2:#006B54;--g3:#008667;--g4:#4CAF50;--g5:#81C784;--g6:#A5D6A7;--g7:#C8E6C9;--g8:#E8F5E9;--g9:#F1F8E9;--orange:#E65100;--blue:#1565C0;--red:#C62828;--purple:#5E35B1;--text:#1a1a2e;--text2:#424242;--text3:#666;--bg:#f0f2f5;--card:#fff}
 html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--text)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
-
 .page{max-width:1240px;margin:0 auto;padding:24px 20px 40px;animation:fadeIn .6s}
-
 .header{text-align:center;margin-bottom:24px;padding:32px 24px 28px;background:linear-gradient(135deg,var(--g1),var(--g2),var(--g3));border-radius:16px;color:#fff;position:relative;overflow:hidden}
 .header::before{content:'';position:absolute;top:-40%;right:-10%;width:300px;height:300px;background:rgba(255,255,255,.06);border-radius:50%}
 .header::after{content:'';position:absolute;bottom:-30%;left:5%;width:200px;height:200px;background:rgba(255,255,255,.04);border-radius:50%}
 .header h1{font-size:20px;font-weight:700;margin-bottom:6px;letter-spacing:1px;position:relative;z-index:1}
 .header .sub{font-size:13px;opacity:.85;position:relative;z-index:1}
 .header .badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px;position:relative;z-index:1}
-.header .badge{display:inline-block;background:rgba(255,255,255,.2);padding:3px 14px;border-radius:20px;font-size:12px;margin:0}
-
-/* 项目背景 */
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);padding:3px 14px;border-radius:20px;font-size:12px}
 .bg-section{background:var(--card);border-radius:14px;padding:18px 20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:5px solid var(--red)}
 .bg-section h3{font-size:14px;font-weight:700;color:var(--red);margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .bg-intro{font-size:11.5px;color:var(--text2);margin-bottom:12px;line-height:1.7;padding:10px 14px;background:#FAFAFA;border-radius:8px;border:1px solid #f0f0f0}
@@ -58,889 +48,170 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .bg-card .mission-note{margin-top:8px;padding:6px 10px;border-radius:6px;font-size:10px;font-weight:600;background:rgba(230,81,0,.06);border:1px dashed #FFB74D;color:var(--orange)}
 .bg-mission{margin-top:10px;padding:8px 14px;background:linear-gradient(135deg,var(--g8),#F1F8E9);border-radius:8px;border:1px solid var(--g5);text-align:center;font-size:12px;font-weight:700;color:var(--g2)}
 .arrow-to{grid-column:1/-1;text-align:center;font-size:20px;color:var(--g4);padding:2px 0}
-
-/* 四阶段导航 */
+.gantt-section{background:var(--card);border-radius:14px;padding:18px 20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.gantt-section h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.gantt-wrap{overflow-x:auto}
+.gantt{width:100%;min-width:700px;position:relative}
+.gantt-header{display:grid;grid-template-columns:100px repeat(9,1fr);border-bottom:2px solid #e0e0e0;padding-bottom:6px;margin-bottom:2px}
+.gh-label{font-size:10px;font-weight:700;color:var(--text3);padding-right:6px;text-align:right;align-self:end}
+.gh-month{font-size:10px;font-weight:600;color:var(--text3);text-align:center;padding:2px 0}
+.gantt-row{display:grid;grid-template-columns:100px repeat(9,1fr);align-items:center;padding:3px 0;min-height:26px}
+.gr-label{font-size:10px;font-weight:600;color:var(--text2);padding-right:6px;text-align:right;white-space:nowrap}
+.gantt-bar{border-radius:4px;height:18px;display:flex;align-items:center;padding:0 6px;font-size:8.5px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;transition:filter .2s}
+.gantt-bar:hover{filter:brightness(1.15)}
+.gantt-now{position:absolute;top:0;bottom:0;width:2px;background:var(--red);z-index:5;opacity:.7}
+.gantt-now::before{content:'\2605 今天';position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--red);font-weight:700;white-space:nowrap}
 .phase-nav{display:flex;gap:0;margin-bottom:24px;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.phase-tab{flex:1;padding:14px 10px;text-align:center;cursor:pointer;transition:all .25s;position:relative;color:#fff;font-weight:600;font-size:13px}
+.phase-tab{flex:1;padding:12px 6px;text-align:center;cursor:pointer;transition:all .25s;position:relative;color:#fff;font-weight:600;font-size:12px}
 .phase-tab:hover{filter:brightness(1.1)}
-.phase-tab .tab-num{font-size:20px;font-weight:800;opacity:.3;position:absolute;top:4px;right:12px}
-.phase-tab .tab-icon{font-size:18px;margin-bottom:2px}
-.phase-tab .tab-label{font-size:13px}
-.phase-tab .tab-sub{font-size:10px;opacity:.75;margin-top:2px}
+.phase-tab .tab-num{font-size:18px;font-weight:800;opacity:.25;position:absolute;top:2px;right:8px}
+.phase-tab .tab-icon{font-size:15px;margin-bottom:1px}
+.phase-tab .tab-label{font-size:12px}
+.phase-tab .tab-sub{font-size:9px;opacity:.7;margin-top:1px}
 .phase-tab.active{filter:brightness(1.15);transform:scale(1.02);z-index:1;box-shadow:0 4px 16px rgba(0,0,0,.15)}
-
 .phase-panel{display:none;animation:fadeIn .5s}
 .phase-panel.active{display:block}
-
-.phase-overview{display:flex;gap:12px;margin-bottom:20px}
-.pov-card{flex:1;padding:14px;border-radius:10px;text-align:center}
-.pov-card .pov-val{font-size:22px;font-weight:800}
-.pov-card .pov-label{font-size:11px;color:var(--text3);margin-top:2px}
-
-.step-card{background:var(--card);border-radius:12px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);overflow:hidden;border-left:4px solid var(--g4);transition:box-shadow .2s}
-.step-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1)}
-.step-header{display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer;user-select:none}
-.step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
-.step-title{font-size:14px;font-weight:600;color:var(--text);flex:1}
-.step-period{font-size:11px;color:var(--text3);background:#f5f5f5;padding:2px 8px;border-radius:8px}
-.step-toggle{font-size:14px;color:var(--text3);transition:transform .3s;width:20px;text-align:center;transform:rotate(90deg)}
-.step-card.closed .step-toggle{transform:rotate(0deg)}
-.step-body{display:block;padding:0 16px 16px 54px;animation:fadeIn .3s}
-.step-card.closed .step-body{display:none}
-
-.substep{display:flex;gap:8px;margin-bottom:10px;padding:10px 12px;background:#fafafa;border-radius:8px;border:1px solid #f0f0f0;transition:border-color .2s}
-.substep:hover{border-color:var(--g5)}
-.substep-idx{flex:0 0 20px;width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;background:var(--g4);margin-top:1px;flex-shrink:0}
-.substep-main{flex:1}
-.substep-action{font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:3px}
-.substep-detail{font-size:11.5px;color:var(--text3);line-height:1.6}
-.substep-detail code{background:var(--g8);padding:1px 4px;border-radius:3px;font-size:10.5px;color:var(--g2)}
-
-.role-tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:8px;margin-left:4px;font-weight:600}
-.role-tag.pm{background:#FFF3E0;color:#E65100}
-.role-tag.tech{background:#E3F2FD;color:#1565C0}
-.role-tag.biz{background:#F3E5F5;color:#7B1FA2}
-.role-tag.op{background:var(--g8);color:var(--g2)}
-
-.field-table{width:100%;border-collapse:collapse;font-size:10.5px;margin:8px 0;background:#fff;border-radius:8px;overflow:hidden}
-.field-table th{background:var(--g8);color:var(--g2);padding:5px 6px;text-align:left;font-weight:600;white-space:nowrap;border-bottom:2px solid var(--g5)}
-.field-table td{padding:4px 6px;border-bottom:1px solid #f0f0f0;color:var(--text2)}
-.field-table tr:hover td{background:#f9f9f9}
-.field-table .id-col{font-family:monospace;color:var(--g3);font-weight:600;font-size:10px}
-
-.deliverables{margin-top:12px;padding-top:10px;border-top:1px dashed #e0e0e0}
-.deliverables .dl-title{font-size:11px;font-weight:600;color:var(--text3);margin-bottom:6px}
-.dl-tags{display:flex;flex-wrap:wrap;gap:4px}
-.dl-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--g8);color:var(--g2);white-space:nowrap}
-
-.pitfall{margin-top:10px;padding:10px 12px;background:#FFF8E1;border-radius:8px;border-left:3px solid #FFC107;font-size:11.5px;color:#5D4037;line-height:1.6}
-.pitfall .pf-label{font-weight:700;color:#F57F17;margin-bottom:2px;font-size:11px}
-
-.batch-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;color:#fff;margin-left:6px}
-.batch-badge.b1{background:var(--g4)}
-.batch-badge.b2{background:var(--orange)}
-
-.flow-section{background:var(--card);border-radius:14px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.flow-section h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:6px}
-.flow-chain{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:4px}
-.flow-node{flex:1;min-width:120px;padding:12px 10px;border-radius:10px;text-align:center;transition:transform .2s}
-.flow-node:hover{transform:scale(1.04)}
-.flow-node .fn-icon{font-size:22px;margin-bottom:4px}
-.flow-node .fn-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}
-.flow-node .fn-desc{font-size:10px;color:var(--text3);line-height:1.4}
-.flow-arrow{flex:0 0 28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--g4)}
-
-.quality-loop{background:var(--card);border-radius:14px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.quality-loop h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:6px}
-.qc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.qc-item{padding:12px;border-radius:10px;text-align:center;border:1.5px solid #e8e8e8;transition:all .2s}
+.phase-overview{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.pov-card{flex:1;min-width:70px;padding:10px;border-radius:8px;text-align:center}
+.pov-card .pov-val{font-size:20px;font-weight:800}
+.pov-card .pov-label{font-size:10px;color:var(--text3);margin-top:2px}
+.task-card{background:var(--card);border-radius:10px;margin-bottom:6px;box-shadow:0 1px 6px rgba(0,0,0,.04);overflow:hidden;border-left:3px solid var(--g4);transition:box-shadow .2s}
+.task-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.task-header{display:flex;align-items:center;gap:6px;padding:8px 10px;cursor:pointer;user-select:none}
+.task-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0}
+.task-title{font-size:12px;font-weight:600;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.task-period{font-size:9.5px;color:var(--text3);background:#f5f5f5;padding:2px 5px;border-radius:5px;white-space:nowrap}
+.task-status{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:600;padding:2px 6px;border-radius:8px;white-space:nowrap}
+.task-status.done{background:var(--g8);color:var(--g2)}
+.task-status.progress{background:#FFF3E0;color:var(--orange)}
+.task-status.pending{background:#f5f5f5;color:#999}
+.task-status.delayed{background:#FFEBEE;color:var(--red)}
+.sdot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.task-status.done .sdot{background:var(--g4)}
+.task-status.progress .sdot{background:var(--orange)}
+.task-status.pending .sdot{background:#bbb}
+.task-status.delayed .sdot{background:var(--red)}
+.task-toggle{font-size:11px;color:var(--text3);transition:transform .3s;width:14px;text-align:center;transform:rotate(90deg)}
+.task-card.closed .task-toggle{transform:rotate(0deg)}
+.task-body{padding:0 10px 8px 36px;animation:fadeIn .3s}
+.task-card.closed .task-body{display:none}
+.task-owner{font-size:9.5px;color:var(--text3);margin-bottom:3px}
+.task-owner span{display:inline-block;padding:1px 5px;border-radius:5px;background:var(--g8);color:var(--g2);margin-right:2px;font-weight:600;font-size:9px}
+.task-deliverable{font-size:9.5px;color:var(--g3);margin-top:3px;padding:2px 6px;background:var(--g8);border-radius:5px;display:inline-block}
+.sub-phase-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.sub-phase{padding:10px;border-radius:10px;border:1.5px solid #e8e8e8;background:#FFFBF5}
+.sub-phase h5{font-size:11px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.sp-badge{display:inline-block;padding:1px 6px;border-radius:6px;font-size:8.5px;font-weight:600;color:#fff}
+.quality-loop{background:var(--card);border-radius:14px;padding:18px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.quality-loop h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.qc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.qc-item{padding:10px;border-radius:8px;text-align:center;border:1.5px solid #e8e8e8;transition:all .2s}
 .qc-item:hover{border-color:var(--g4);box-shadow:0 2px 8px rgba(76,175,80,.15)}
-.qc-item .qc-icon{font-size:20px;margin-bottom:4px}
-.qc-item .qc-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px}
-.qc-item .qc-desc{font-size:10px;color:var(--text3);line-height:1.4}
-
-.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.milestone-card,.deliverable-card{background:var(--card);border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.milestone-card h3,.deliverable-card h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.ms-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f5}
+.qc-item .qc-icon{font-size:18px;margin-bottom:3px}
+.qc-item .qc-title{font-size:11px;font-weight:700;color:var(--text);margin-bottom:2px}
+.qc-item .qc-desc{font-size:9.5px;color:var(--text3);line-height:1.4}
+.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.milestone-card,.deliverable-card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.milestone-card h3,.deliverable-card h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.ms-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f5f5f5}
 .ms-item:last-child{border-bottom:none}
-.ms-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.ms-time{font-size:11px;color:var(--text3);min-width:90px}
-.ms-text{font-size:12px;color:var(--text2);font-weight:500}
-
-.dl-table{width:100%;border-collapse:collapse;font-size:11px}
-.dl-table th{background:var(--g8);color:var(--g2);padding:6px 8px;text-align:left;font-weight:600;white-space:nowrap}
-.dl-table td{padding:5px 8px;border-bottom:1px solid #f0f0f0;color:var(--text2)}
-.dl-table tr:hover td{background:#fafafa}
-.dl-table .phase-tag{display:inline-block;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:600;color:#fff}
-
-.expand-all-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border:1.5px solid var(--g4);background:var(--g8);color:var(--g2);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;margin-bottom:16px;transition:all .2s}
-.expand-all-btn:hover{background:var(--g4);color:#fff}
-
-@media(max-width:768px){
-  .phase-nav{flex-wrap:wrap}
-  .phase-tab{flex:1 1 50%}
-  .phase-overview{flex-wrap:wrap}
-  .pov-card{flex:1 1 45%}
-  .bg-grid{grid-template-columns:1fr}
-  .qc-grid{grid-template-columns:1fr 1fr}
-  .bottom-row{grid-template-columns:1fr}
-  .flow-chain{flex-wrap:wrap}
-  .flow-arrow{flex:0 0 100%;transform:rotate(90deg);height:28px}
-  .field-table{font-size:9.5px}
-}
+.ms-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ms-time{font-size:10px;color:var(--text3);min-width:70px}
+.ms-text{font-size:11px;color:var(--text2);font-weight:500}
+.dl-table{width:100%;border-collapse:collapse;font-size:10px}
+.dl-table th{background:var(--g8);color:var(--g2);padding:4px 5px;text-align:left;font-weight:600;white-space:nowrap}
+.dl-table td{padding:3px 5px;border-bottom:1px solid #f0f0f0;color:var(--text2)}
+.dl-table .phase-tag{display:inline-block;padding:1px 4px;border-radius:5px;font-size:8.5px;font-weight:600;color:#fff}
+.expand-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1.5px solid var(--g4);background:var(--g8);color:var(--g2);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:all .2s}
+.expand-btn:hover{background:var(--g4);color:#fff}
+@media(max-width:768px){.phase-nav{flex-wrap:wrap}.phase-tab{flex:1 1 33%}.phase-overview{flex-wrap:wrap}.pov-card{flex:1 1 45%}.bg-grid{grid-template-columns:1fr}.qc-grid{grid-template-columns:1fr 1fr}.bottom-row{grid-template-columns:1fr}.sub-phase-grid{grid-template-columns:1fr}.gantt-header,.gantt-row{grid-template-columns:60px repeat(9,1fr)}}
 </style>
 </head>
 <body>
 <div class="page">
-
-  <!-- 标题 -->
-  <div class="header">
-    <h1>智能客服大模型非结构化样本梳理及标注项目</h1>
-    <div class="sub">国网客服中心2026年南方分中心 · 落地实施一张图</div>
-    <div class="badges">
-      <div class="badge">📥 采 → 🧹 治 → 🏷️ 标 → 🚀 用</div>
-      <div class="badge">需求缺口驱动 · 标注赋能模型训练</div>
-    </div>
-  </div>
-
-  <!-- 项目背景：为什么需要标注项目 -->
-  <div class="bg-section">
-    <h3>📌 项目背景：需求缺口驱动</h3>
-    <div class="bg-intro">
-      当前网上国网APP机器人只能解析身份证、银行卡等部分图片信息，当客户发送电能表、电费记录、交费订单等图片时，人工座席需逐条查看图片并人工判断异常原因，导致<b>转人工率高、处理时间长</b>。本项目旨在为第二阶段4类图片场景<b>提供高质量标注样本数据</b>，支撑模型训练，实现图片智能识别能力闭环。
-    </div>
-    <div class="bg-grid">
-      <div class="bg-card done">
-        <h4>✅ 第一阶段 · 已有OCR，可直接上线</h4>
-        <div class="cap-list">
-          <div class="cap-item"><span class="cap-icon">🪪</span><div class="cap-info"><div class="cap-name">身份证信息识别</div><div class="cap-scene">实名认证核验</div></div><span class="cap-badge green" onclick="toggleDetail(this)">5字段 ▾</span><div class="cap-detail"><div class="dt">身份证信息识别</div><div class="dd">OCR提取：姓名、身份证号、性别、民族、有效期5个字段</div><div class="dd" style="margin-top:3px">业务场景：判断是否已实名，查询认证手机号与类型</div></div></div>
-          <div class="cap-item"><span class="cap-icon">🏢</span><div class="cap-info"><div class="cap-name">营业执照识别</div><div class="cap-scene">企业实名认证</div></div><span class="cap-badge green" onclick="toggleDetail(this)">5字段 ▾</span><div class="cap-detail"><div class="dt">营业执照识别</div><div class="dd">OCR提取：统一社会信用代码、名称、经营者、地址、有效期5个字段</div><div class="dd" style="margin-top:3px">业务场景：核实执照信息，辅助企业户号业务办理</div></div></div>
-          <div class="cap-item"><span class="cap-icon">💳</span><div class="cap-info"><div class="cap-name">银行卡信息识别</div><div class="cap-scene">退费/变更业务</div></div><span class="cap-badge green" onclick="toggleDetail(this)">3字段 ▾</span><div class="cap-detail"><div class="dt">银行卡信息识别</div><div class="dd">OCR提取：银行名称、卡号、有效期3个字段</div><div class="dd" style="margin-top:3px">业务场景：核实银行卡信息，辅助退费到账、账户变更</div></div></div>
-          <div class="cap-item"><span class="cap-icon">🏠</span><div class="cap-info"><div class="cap-name">房产证信息识别</div><div class="cap-scene">过户/产权变更</div></div><span class="cap-badge green" onclick="toggleDetail(this)">2字段 ▾</span><div class="cap-detail"><div class="dt">房产证信息识别</div><div class="dd">OCR提取：所有权人、房屋坐落2个字段</div><div class="dd" style="margin-top:3px">业务场景：核实房产证信息，辅助产权人变更办理</div></div></div>
-          <div class="cap-item"><span class="cap-icon">🔗</span><div class="cap-info"><div class="cap-name">实名认证信息查询</div><div class="cap-scene">实名状态查询</div></div><span class="cap-badge green" onclick="toggleDetail(this)">接口 ▾</span><div class="cap-detail"><div class="dt">实名认证信息查询</div><div class="dd">调用运营管理平台接口，身份证号传入，返回是否已实名及认证详情</div></div></div>
-        </div>
-      </div>
-      <div class="bg-card pending">
-        <h4>🚧 第二阶段 · OCR无法覆盖，需标注样本数据 ← 本项目目标</h4>
-        <div class="cap-list">
-          <div class="cap-item"><span class="cap-icon">⚡</span><div class="cap-info"><div class="cap-name">电能表信息识别</div><div class="cap-scene">电表报装/故障报修</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">1字段 ▾</span><div class="cap-detail"><div class="dt">电能表信息识别</div><div class="dd">需从实物照片定位条形码区域，提取电表表号1个字段</div><div class="dd" style="margin-top:3px">业务场景：客户拍摄电表照片，自动识别表号用于故障定位、换表申请</div></div></div>
-          <div class="cap-item"><span class="cap-icon">💰</span><div class="cap-info"><div class="cap-name">电费记录信息识别</div><div class="cap-scene">缴费异常/到账查询</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">4字段 ▾</span><div class="cap-detail"><div class="dt">电费记录信息识别</div><div class="dd">需从APP截图识别：用电户号、交费金额、交费时间、付款状态4个字段</div><div class="dd" style="margin-top:3px">业务场景：客户发送电费截图，自动提取户号和交费状态辅助查账</div></div></div>
-          <div class="cap-item"><span class="cap-icon">🧾</span><div class="cap-info"><div class="cap-name">交费订单信息识别</div><div class="cap-scene">订单纠纷/退费处理</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">11字段 ▾</span><div class="cap-detail"><div class="dt">交费订单信息识别</div><div class="dd">需提取：订单编号、订单时间、订单状态、交费金额、红包抵扣、积分抵扣、优惠券抵扣、实付金额、支付方式、交费渠道、户号户名11个字段</div><div class="dd" style="margin-top:3px">业务场景：客户发送订单截图，自动提取完整订单信息辅助争议处理</div></div></div>
-          <div class="cap-item"><span class="cap-icon">⚠️</span><div class="cap-info"><div class="cap-name">系统异常提示识别</div><div class="cap-scene">APP使用异常</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">3字段 ▾</span><div class="cap-detail"><div class="dt">系统异常提示识别</div><div class="dd">需训练模型识别：异常标题、提示内容、APP版本3个字段</div><div class="dd" style="margin-top:3px">业务场景：自动识别报错弹窗，辅助座席快速定位问题</div></div></div>
-        </div>
-        <div class="mission-note">⬆ 四类场景必须训练专用模型 → 训练模型必须有标注数据 → 本项目核心价值</div>
-      </div>
-    </div>
-    <div class="arrow-to">⬇️</div>
-    <div class="bg-mission">标注项目使命：为第二阶段模型训练提供高质量标注数据，让智能客服具备异常提示/电能表/电费/订单图片识别能力</div>
-  </div>
-
-  <!-- 四阶段导航 -->
-  <div class="phase-nav">
-    <div class="phase-tab active" style="background:linear-gradient(135deg,#006B54,#008667)" onclick="switchPhase(0)">
-      <div class="tab-num">01</div>
-      <div class="tab-icon">📥</div>
-      <div class="tab-label">采 · 数据采集</div>
-      <div class="tab-sub">7月 - 8月</div>
-    </div>
-    <div class="phase-tab" style="background:linear-gradient(135deg,#1565C0,#1976D2)" onclick="switchPhase(1)">
-      <div class="tab-num">02</div>
-      <div class="tab-icon">🧹</div>
-      <div class="tab-label">治 · 数据治理</div>
-      <div class="tab-sub">8月 - 9月</div>
-    </div>
-    <div class="phase-tab" style="background:linear-gradient(135deg,#E65100,#F57C00)" onclick="switchPhase(2)">
-      <div class="tab-num">03</div>
-      <div class="tab-icon">🏷️</div>
-      <div class="tab-label">标 · 数据标注</div>
-      <div class="tab-sub">9月 - 12月</div>
-    </div>
-    <div class="phase-tab" style="background:linear-gradient(135deg,#5E35B1,#7E57C2)" onclick="switchPhase(3)">
-      <div class="tab-num">04</div>
-      <div class="tab-icon">🚀</div>
-      <div class="tab-label">用 · 应用验证</div>
-      <div class="tab-sub">12月 - 1月</div>
-    </div>
-  </div>
-
-  <!-- ========== 阶段一：采 ========== -->
-  <div class="phase-panel active" id="phase-0">
-    <div class="phase-overview">
-      <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">5</div><div class="pov-label">关键步骤</div></div>
-      <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">3</div><div class="pov-label">成果物</div></div>
-      <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">8周</div><div class="pov-label">计划工期</div></div>
-      <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">4类</div><div class="pov-label">图片场景</div></div>
-    </div>
-    <button class="expand-all-btn" onclick="toggleAll(0)">📋 展开/收起全部步骤</button>
-
-    <div class="step-card" style="border-left-color:var(--g2)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:var(--g2)">1</div>
-        <div class="step-title">明确4类图片采集范围与数据源</div>
-        <div class="step-period">7月上旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">按需求方案梳理4类图片场景及字段 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">
-              <b>🔴 核心场景（第二阶段能力缺口，本项目重点）：</b><br>
-              ① 系统异常提示（YCTS）→ 3字段：异常标题/提示内容/APP版本 — APP报错弹窗样式多样，OCR无法稳定提取<br>
-              ② 电能表信息（DNB）→ 1字段：电表表号 — OCR无法准确定位条形码区域，必须训练目标检测+OCR模型<br>
-              ③ 电费记录信息（DFJL）→ 4字段：用电户号/交费金额/交费时间/付款状态 — APP截图布局复杂，OCR字段错位<br>
-              ④ 交费订单信息（JFXX）→ 11字段：订单编号/时间/状态/金额/红包抵扣/积分抵扣/优惠券抵扣/实付金额/支付方式/交费渠道/户号户名 — 含大量小字抵扣字段，OCR识别率极低
-            </div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">确认数据来源渠道 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">
-              · 电能表照片 → 客户在95598在线会话中拍摄的实物照片（历史会话数据+增量数据）<br>
-              · 电费记录/交费订单 → 客户发送的网上国网APP截图<br>
-              每个渠道联系运维确认数据可导出性、历史数据量。<code>产出：数据源矩阵表</code>
-            </div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">确定采集量 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">最低采集量：电能表≥500张（覆盖多型号/多角度）、电费记录≥300张、交费订单≥300张。图片分辨率≥640px，无水印/遮挡/严重模糊。<code>产出：采集需求规格说明书</code></div>
-          </div>
-        </div>
-        <div class="pitfall">
-          <div class="pf-label">⚠️ 常见坑</div>
-          电能表采集要覆盖多型号（DDZY1296C等不同型号表盘布局不同）、多状态（正常读数/Err-04等异常显示）、多角度（正面全景/条形码特写/液晶屏特写/铭牌特写）。只采一种型号的正面照，模型无法泛化。
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--g2)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:var(--g3)">2</div>
-        <div class="step-title">制定采集方案与流程</div>
-        <div class="step-period">7月上-中旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">编写采集操作手册 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">为每类图片编写"手把手"采集指南。关键说明：①电能表需正面全景+条形码特写分别采集 ②电费记录需覆盖已付款/已关闭/待支付三种状态 ③交费订单需包含完整订单信息区域。<code>产出：图片收集指导手册 + 语料收集指导手册</code></div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">申请数据访问权限 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">提前2周提交数据使用申请。重点渠道：95598在线会话历史数据（互联网渠道运维）、网上国网APP截图（APP运营团队）。跨部门数据需签署数据共享协议。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">统一命名与存储 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">命名：<code>{场景编码}_{子类型}_{序号}_{日期}</code>，如 <code>DNB_条形码特写_001_20260701.jpg</code>。存储：<code>/采集/原始数据/{场景编码}/{日期}/</code>。按DNB/DFJL/JFXX分目录管理。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--g2)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:var(--g4)">3</div>
-        <div class="step-title">执行数据采集</div>
-        <div class="step-period">7月中旬 - 8月中旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">采集电能表/电费记录/交费订单 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">电能表每表至少4个角度（正面全景/条形码特写/液晶屏特写/铭牌特写），电费记录需覆盖不同付款状态，交费订单需包含有抵扣和无抵扣两类。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">异常数据补采 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">对照需求规格检查采集量。重点关注：电能表是否覆盖多型号、电费记录是否覆盖多状态、交费订单是否包含有抵扣的样本。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--g2)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:var(--g5)">4</div>
-        <div class="step-title">采集质量初检与归档移交</div>
-        <div class="step-period">8月中-下旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">完整性检查+准确性抽验 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">逐场景检查：采集量是否达标？电能表条形码区域是否清晰？电费记录截图是否包含完整信息？随机抽5%确认图片与场景匹配。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">输出采集验收报告+向治理阶段交接 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">汇总各场景采集数量、达标率、异常项。<code>产出：采集验收报告</code></div>
-          </div>
-        </div>
-        <div class="deliverables">
-          <div class="dl-title">📦 本阶段成果物</div>
-          <div class="dl-tags">
-            <span class="dl-tag">图片收集指导手册</span>
-            <span class="dl-tag">语料收集指导手册</span>
-            <span class="dl-tag">采集验收报告</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== 阶段二：治 ========== -->
-  <div class="phase-panel" id="phase-1">
-    <div class="phase-overview">
-      <div class="pov-card" style="background:#E3F2FD"><div class="pov-val" style="color:var(--blue)">5</div><div class="pov-label">关键步骤</div></div>
-      <div class="pov-card" style="background:#E3F2FD"><div class="pov-val" style="color:var(--blue)">3</div><div class="pov-label">成果物</div></div>
-      <div class="pov-card" style="background:#E3F2FD"><div class="pov-val" style="color:var(--blue)">8周</div><div class="pov-label">计划工期</div></div>
-      <div class="pov-card" style="background:#E3F2FD"><div class="pov-val" style="color:var(--blue)">100%</div><div class="pov-label">脱敏覆盖</div></div>
-    </div>
-    <button class="expand-all-btn" onclick="toggleAll(1)">📋 展开/收起全部步骤</button>
-
-    <div class="step-card" style="border-left-color:var(--blue)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:var(--blue)">1</div>
-        <div class="step-title">数据清洗与去重</div>
-        <div class="step-period">8月上-中旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">编写清洗规则 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">图片类：去除分辨率＜640px、纯黑/纯白/严重模糊、含水印/截图工具栏。电能表特别注意：条形码区域模糊的必须剔除（对模型训练无价值）；液晶屏显示不清的单独标记为"低质量"不参与训练但可用于测试鲁棒性。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">自动化清洗+去重 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">pHash去重（≥95%判重复），SimHash文本去重（≥90%）。清洗前备份原始数据！输出清洗日志记录每条被清洗数据的原因。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--blue)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#1976D2">2</div>
-        <div class="step-title">数据格式标准化</div>
-        <div class="step-period">8月中旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">统一图片格式与元数据 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">全部转JPG，分辨率≥640px，200KB-2MB。统一schema：{场景编码, 图片类型, 渠道来源, 会话ID, 时间戳, 文件路径}。电能表全景/特写通过同一采集批次关联。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--blue)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#2196F3">3</div>
-        <div class="step-title">数据安全脱敏</div>
-        <div class="step-period">8月中-下旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">图片脱敏 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">电费记录/交费订单：遮挡户名（保留户号）。电能表照片无需脱敏（无个人隐私信息）。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">文本脱敏 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">姓名→"张**"，手机号→"138****5678"。关键：标注训练需要真实值用于对比，原始数据加密存储，脱敏后数据用于标注。电能表表号无需脱敏。</div>
-          </div>
-        </div>
-        <div class="pitfall">
-          <div class="pf-label">⚠️ 常见坑</div>
-          电费记录中的"户号"是业务关键字段，不可脱敏（模型需要学习识别户号）。"户名"属于隐私需遮挡。两者脱敏策略不同，容易搞混。
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--blue)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#42A5F5">4</div>
-        <div class="step-title">数据分类与归档</div>
-        <div class="step-period">9月上旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">按场景编码分类归档 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">按需求方案的场景编码分类：DNB（电能表）、DFJL（电费记录）、JFXX（交费订单）。建立更新维护规范。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--blue)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#64B5F6">5</div>
-        <div class="step-title">数据质量评估</div>
-        <div class="step-period">9月中-下旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">四维度质量打分+输出报告 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">完整性（必填字段填充率）×0.3 + 准确性（数据与业务匹配度）×0.3 + 一致性 ×0.2 + 唯一性 ×0.2。低于80分的维度需整改。<code>产出：数据质量评估报告</code></div>
-          </div>
-        </div>
-        <div class="deliverables">
-          <div class="dl-title">📦 本阶段成果物</div>
-          <div class="dl-tags">
-            <span class="dl-tag">图片预处理操作指导手册</span>
-            <span class="dl-tag">语料预处理操作指导手册</span>
-            <span class="dl-tag">数据质量评估报告</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== 阶段三：标 ========== -->
-  <div class="phase-panel" id="phase-2">
-    <div class="phase-overview">
-      <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">6</div><div class="pov-label">关键步骤</div></div>
-      <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">4</div><div class="pov-label">成果物</div></div>
-      <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">14周</div><div class="pov-label">计划工期</div></div>
-      <div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">16</div><div class="pov-label">提取字段</div></div>
-    </div>
-    <button class="expand-all-btn" onclick="toggleAll(2)">📋 展开/收起全部步骤</button>
-
-    <div class="step-card" style="border-left-color:var(--orange)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:var(--orange)">1</div>
-        <div class="step-title">按需求方案设计标注维度与字段映射</div>
-        <div class="step-period">9月下旬 - 10月上旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">逐场景定义标注字段（依据需求方案字段映射表） <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">
-              <table class="field-table">
-                <tr><th>场景</th><th>编码</th><th>字段</th><th>优先级</th></tr>
-                <tr><td>⚡电能表</td><td class="id-col">DNB-1</td><td>电表表号（条形码区域提取）</td><td><span class="batch-badge b2">核心</span></td></tr>
-                <tr><td>💰电费记录</td><td class="id-col">DFJL-1~4</td><td>用电户号/交费金额/交费时间/付款状态</td><td><span class="batch-badge b2">核心</span></td></tr>
-                <tr><td>🧾交费订单</td><td class="id-col">JFXX-1~11</td><td>订单编号/时间/状态/金额/红包抵扣/积分抵扣/优惠券抵扣/实付金额/支付方式/交费渠道/户号户名</td><td><span class="batch-badge b2">核心</span></td></tr>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">特殊标注规则 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">
-              · 电能表：条形码提取规则依据南北分中心"表号编号规则"知识库，标注时需对照规则验证<br>
-              · 电费记录：付款状态需区分"已付款/已关闭/待支付"三种，不可笼统标为"已付/未付"<br>
-              · 交费订单：11个字段中红包抵扣/积分抵扣/优惠券抵扣金额小但必须提取，遗漏率高需重点培训<br>
-              · 通用规则：无法识别的字段按方案要求用"/"填充，不可编造；客户上传多张同类图片均需标注
-            </div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">标注维度评审 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">组织业务专家+技术团队联合评审：字段是否覆盖模型训练需求？提取方式是否明确？评审通过后冻结基线版本。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--orange)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#F57C00">2</div>
-        <div class="step-title">标注规范制定</div>
-        <div class="step-period">10月上-中旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">编写标注操作规范 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">逐字段编写规范：该标什么→定义和判定标准→正例/反例→边界case。关键规则：<br>
-            · 电表表号按"表号编号规则"验证格式<br>
-            · 交费订单抵扣字段，无抵扣填"0.00元"而非留空<br>
-            · 无法识别的字段填"/"<code>产出：图片标注标准 + 语料标注标准</code></div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">歧义处理规则 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">需求方案中的影响因素：图片质量差、光线不足、多张混传导致OCR错位、OCR接口超时。处理：①图片差无法识别→填"/"+标记原因 ②多张混传→按顺序分别标注 ③接口超时→标记"查询失败" ④存疑→上报裁定→更新FAQ</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">规范试标注验证 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">3人试标50条/场景，一致率＜85%的维度修改规范再测直到≥85%。三类场景均需单独验证。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--orange)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#FB8C00">3</div>
-        <div class="step-title">标注工具配置与培训</div>
-        <div class="step-period">10月中-下旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">部署标注工具+配置schema <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">推荐LabelImg（图片标注/目标检测框）+ Doccano（文本标注）。电能表需支持"目标检测框标注"（框选条形码区域）+ OCR文本标注双模式；电费/订单以OCR文本标注为主。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">配置预标注 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">先用通用OCR模型做初步文本提取（虽然不准但可减少50%工作量），标注员在此基础上修正+补充目标检测框。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">3</div>
-          <div class="substep-main">
-            <div class="substep-action">标注员培训与考核 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">培训：规范(2h)+工具(1h)+实操(2h)。重点：4类图片区分、各字段提取位置、"/"填写场景、电能表条形码区域框选方法。考核50条准确率≥90分方可上岗。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--orange)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#FFA726">4</div>
-        <div class="step-title">分批标注实施与日清日结</div>
-        <div class="step-period">11月上旬 - 12月上旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">分批标注电能表/电费记录/交费订单 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">电能表需先框选条形码区域再标注表号文本；交费订单11个字段逐条提取，特别注意小字抵扣字段。每批次200-500条，2人交叉标注。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">存疑日清+实时监控 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">存疑项当日上报当日裁定。每日统计：完成量、平均耗时、存疑数。存疑率突然升高→可能是规范有漏洞，需紧急修订。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--orange)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#FFB74D">5</div>
-        <div class="step-title">交叉校验与一致性审核</div>
-        <div class="step-period">11月 - 12月上旬（与标注并行）</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">100%交叉校验 + 专家抽检 <span class="role-tag biz">业务专家</span></div>
-            <div class="substep-detail">2人独立标注→系统比对→不一致项专家裁定。抽检50%，重点检查：电表表号格式是否符合编号规则、交费订单抵扣字段是否遗漏、金额精度是否正确。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">一致率统计与预警 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">一致率≥95%正常，90%-95%预警，＜90%暂停重标。一致率下降时需分析原因（字段更复杂？规范不够细？）。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--orange)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#FFCC80">6</div>
-        <div class="step-title">标注成果汇总与入库</div>
-        <div class="step-period">12月中-下旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">全量质检+结构化输出校验 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">校验标注结果是否符合方案结构化输出格式：电能表→"电表表号：XXXXXXXX"，电费记录→"用电户号：XX / 交费金额：XX / ..."，交费订单→"订单编号：XX / ..."。格式不一致的修正或退回。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">场景溯源台账编制+数据入库 <span class="role-tag biz">业务人员</span> <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">按场景编制溯源台账（场景/字段/标注量/一致率/badcase），导入样本库（元数据含标注员ID/时间/校验状态/版本号，原始数据+标注数据+校验记录三方关联）。<code>产出：报错场景溯源台账 + 电能表场景溯源台账</code></div>
-          </div>
-        </div>
-        <div class="deliverables">
-          <div class="dl-title">📦 本阶段成果物</div>
-          <div class="dl-tags">
-            <span class="dl-tag">图片标注标准</span>
-            <span class="dl-tag">语料标注标准</span>
-            <span class="dl-tag">报错场景溯源台账</span>
-            <span class="dl-tag">电能表场景溯源台账</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== 阶段四：用 ========== -->
-  <div class="phase-panel" id="phase-3">
-    <div class="phase-overview">
-      <div class="pov-card" style="background:#F3E5F5"><div class="pov-val" style="color:var(--purple)">5</div><div class="pov-label">关键步骤</div></div>
-      <div class="pov-card" style="background:#F3E5F5"><div class="pov-val" style="color:var(--purple)">5</div><div class="pov-label">成果物</div></div>
-      <div class="pov-card" style="background:#F3E5F5"><div class="pov-val" style="color:var(--purple)">8周</div><div class="pov-label">计划工期</div></div>
-      <div class="pov-card" style="background:#F3E5F5"><div class="pov-val" style="color:var(--purple)">闭环</div><div class="pov-label">迭代优化</div></div>
-    </div>
-    <button class="expand-all-btn" onclick="toggleAll(3)">📋 展开/收起全部步骤</button>
-
-    <div class="step-card" style="border-left-color:var(--purple)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:var(--purple)">1</div>
-        <div class="step-title">标注质量抽检</div>
-        <div class="step-period">12月下旬 - 1月上旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">≥50%抽检 + 问题分类 <span class="role-tag biz">业务专家</span></div>
-            <div class="substep-detail">抽检≥50%。问题分A类（严重-字段完全错误）、B类（轻微-格式偏差）、C类（规范歧义）。A类＞5%的批次全量返工。重点：电表表号格式、金额精度、抵扣字段遗漏。<code>产出：标注质量抽检与分析报告</code></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--purple)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#7E57C2">2</div>
-        <div class="step-title">训练/验证/测试数据集构建</div>
-        <div class="step-period">1月上-中旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">7:1.5:1.5拆分+格式转换 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">分层抽样确保各场景按比例分配。特别处理：电能表目标检测标注→COCO JSON格式，电费/订单OCR标注→JSON Lines。类别偏差比≤1:10，长尾类别不足100条单独标记。<code>产出：标注样本 + 报错场景测试集 + 电能表场景测试集</code></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--purple)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#9575CD">3</div>
-        <div class="step-title">模型效果评估（对接方案准确率指标）</div>
-        <div class="step-period">1月中旬</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">按方案公式计算解析准确率 <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">方案定义：<code>解析结果无误的记录数 / 解析成功总次数 × 100%</code>。"无误"=座席未修改，"修改"=座席编辑/删除/替换任何字段。按省(市)公司/供电单位/渠道/图片类型拆分统计。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">重点评估指标 <span class="role-tag biz">业务人员</span></div>
-            <div class="substep-detail">电能表：表号识别准确率（是否按编号规则正确提取）、电费记录：字段提取完整率（4字段是否全提取）、交费订单：抵扣字段识别率（11字段中最容易漏的3个抵扣字段）。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--purple)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#B39DDB">4</div>
-        <div class="step-title">常态化闭环验证（对接方案报表需求）</div>
-        <div class="step-period">1月中-下旬起持续</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">每日badcase监控+修改轨迹记录 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">系统自动记录座席修改轨迹。修改=识别不准确，未修改=识别正确。每日汇总badcase，单场景badcase率＞5%自动告警。</div>
-          </div>
-        </div>
-        <div class="substep">
-          <div class="substep-idx">2</div>
-          <div class="substep-main">
-            <div class="substep-action">按方案生成统计报表 <span class="role-tag op">运营人员</span></div>
-            <div class="substep-detail">①<b>图片解析准确率统计表</b>：省(市)公司/供电单位/渠道/图片类型/解析次数/成功率/失败率/准确率/平均时长<br>
-            ②<b>图片解析明细表</b>：会话编号/工单编号/创建时间/解析时长/解析内容/是否修改/修改后内容/受理人</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-card" style="border-left-color:var(--purple)">
-      <div class="step-header" onclick="toggleStep(this)">
-        <div class="step-num" style="background:#CE93D8">5</div>
-        <div class="step-title">数据迭代增补</div>
-        <div class="step-period">1月下旬 - 2月</div>
-        <div class="step-toggle">▶</div>
-      </div>
-      <div class="step-body">
-        <div class="substep">
-          <div class="substep-idx">1</div>
-          <div class="substep-main">
-            <div class="substep-action">增补需求分析+增量采集标注+模型重训 <span class="role-tag pm">项目经理</span> <span class="role-tag tech">技术人员</span></div>
-            <div class="substep-detail">基于badcase和报表分析增补方向：电能表新型号补充、电费记录异常状态补充、交费订单特殊抵扣组合补充。增量数据走"采→治→标"全流程。重训后A/B对比，准确率达标进入上线流程。<code>产出：数据迭代增补方案</code></div>
-          </div>
-        </div>
-        <div class="deliverables">
-          <div class="dl-title">📦 本阶段成果物</div>
-          <div class="dl-tags">
-            <span class="dl-tag">标注样本（含三集划分）</span>
-            <span class="dl-tag">报错场景测试集</span>
-            <span class="dl-tag">电能表场景测试集</span>
-            <span class="dl-tag">标注质量抽检与分析报告</span>
-            <span class="dl-tag">数据迭代增补方案</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 质量闭环 -->
-  <div class="quality-loop">
-    <h3>🔄 标注质量闭环机制</h3>
-    <div class="qc-grid">
-      <div class="qc-item">
-        <div class="qc-icon">📝</div>
-        <div class="qc-title">事前：考核上岗</div>
-        <div class="qc-desc">标注员考核≥90分<br>试标注一致率≥85%<br>三类场景专项培训</div>
-      </div>
-      <div class="qc-item">
-        <div class="qc-icon">🔎</div>
-        <div class="qc-title">事中：三级校验</div>
-        <div class="qc-desc">人工初标→交叉(100%)<br>→专家抽检(50%)<br>三类场景抽检≥50%</div>
-      </div>
-      <div class="qc-item">
-        <div class="qc-icon">📊</div>
-        <div class="qc-title">事后：抽检整改</div>
-        <div class="qc-desc">A/B/C类问题分级<br>一致率＜95%退回重标<br>方案准确率公式验证</div>
-      </div>
-      <div class="qc-item">
-        <div class="qc-icon">🔁</div>
-        <div class="qc-title">闭环：持续优化</div>
-        <div class="qc-desc">座席修改=识别不准<br>按方案生成统计报表<br>badcase→增补→重训</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 底部 -->
-  <div class="bottom-row">
-    <div class="milestone-card">
-      <h3>🏁 关键里程碑</h3>
-      <div class="ms-item"><div class="ms-dot" style="background:var(--g2)"></div><div class="ms-time">2026年5月</div><div class="ms-text">项目启动，需求方案评审定稿</div></div>
-      <div class="ms-item"><div class="ms-dot" style="background:var(--blue)"></div><div class="ms-time">2026年6月</div><div class="ms-text">完成需求分析及方案设计</div></div>
-      <div class="ms-item"><div class="ms-dot" style="background:var(--g4)"></div><div class="ms-time">2026年8月</div><div class="ms-text">采集阶段完成，4类图片数据归档</div></div>
-      <div class="ms-item"><div class="ms-dot" style="background:#1976D2"></div><div class="ms-time">2026年9月</div><div class="ms-text">治理阶段完成，数据质量评估达标</div></div>
-      <div class="ms-item"><div class="ms-dot" style="background:#F57C00"></div><div class="ms-time">2026年10月</div><div class="ms-text">标注维度设计+规范制定+工具培训完成</div></div>
-      <div class="ms-item"><div class="ms-dot" style="background:#FF9800"></div><div class="ms-time">2026年12月</div><div class="ms-text">全部标注完成，4项成果物交付</div></div>
-      <div class="ms-item"><div class="ms-dot" style="background:var(--purple)"></div><div class="ms-time">2027年1月</div><div class="ms-text">模型评估达标，统计报表上线</div></div>
-      <div class="ms-item"><div class="ms-dot" style="background:#C62828"></div><div class="ms-time">2027年2月</div><div class="ms-text">数据迭代增补完成 + 项目最终验收</div></div>
-    </div>
-
-    <div class="deliverable-card">
-      <h3>📋 15项成果物总览</h3>
-      <table class="dl-table">
-        <thead><tr><th>阶段</th><th>成果物</th><th>时间</th></tr></thead>
-        <tbody>
-          <tr><td><span class="phase-tag" style="background:var(--g2)">采</span></td><td>图片收集指导手册</td><td>8月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--g2)">采</span></td><td>语料收集指导手册</td><td>8月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--g2)">采</span></td><td>采集验收报告</td><td>8月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--blue)">治</span></td><td>图片预处理操作指导手册</td><td>9月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--blue)">治</span></td><td>语料预处理操作指导手册</td><td>9月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--blue)">治</span></td><td>数据质量评估报告</td><td>9月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--orange)">标</span></td><td>图片标注标准</td><td>10月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--orange)">标</span></td><td>语料标注标准</td><td>10月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--orange)">标</span></td><td>报错场景溯源台账</td><td>12月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--orange)">标</span></td><td>电能表场景溯源台账</td><td>12月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--purple)">用</span></td><td>标注样本（含三集划分）</td><td>1月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--purple)">用</span></td><td>报错场景测试集</td><td>1月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--purple)">用</span></td><td>电能表场景测试集</td><td>1月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--purple)">用</span></td><td>标注质量抽检与分析报告</td><td>1月</td></tr>
-          <tr><td><span class="phase-tag" style="background:var(--purple)">用</span></td><td>数据迭代增补方案</td><td>2月</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
+<div class="header">
+<h1>智能客服大模型非结构化样本梳理及标注项目</h1>
+<div class="sub">国网客服中心2026年南方分中心 · 落地实施一张图</div>
+<div class="badges">
+<div class="badge">🚀 启动 → 📋 调研 → 🔧 实施 → 🔍 预验 → ✅ 验收</div>
+<div class="badge">5阶段41项任务 · 2026.5~2027.1</div>
+</div>
 </div>
 
+<div class="gantt-section">
+<h3>📊 项目总体时间线</h3>
+<div class="gantt-wrap">
+<div class="gantt">
+<div class="gantt-header">
+<div class="gh-label"></div>
+<div class="gh-month">5月</div><div class="gh-month">6月</div><div class="gh-month">7月</div>
+<div class="gh-month">8月</div><div class="gh-month">9月</div><div class="gh-month">10月</div>
+<div class="gh-month">11月</div><div class="gh-month">12月</div><div class="gh-month">1月</div>
+</div>
+<div class="gantt-row"><div class="gr-label">🚀 项目启动</div><div class="gantt-bar" style="grid-column:2/3;background:#006B54">启动</div></div>
+<div class="gantt-row"><div class="gr-label">📋 需求调研</div><div class="gantt-bar" style="grid-column:3/4;background:#1565C0">调研+评审</div></div>
+<div class="gantt-row"><div class="gr-label">🔧 项目实施</div><div class="gantt-bar" style="grid-column:3/9;background:linear-gradient(90deg,#E65100,#F57C00,#FF9800,#FFB74D)">工具开发·数据采集·标注·验证</div></div>
+<div class="gantt-row"><div class="gr-label">🔍 预验收</div><div class="gantt-bar" style="grid-column:9/10;background:#5E35B1">预验</div></div>
+<div class="gantt-row"><div class="gr-label">✅ 正式验收</div><div class="gantt-bar" style="grid-column:10/11;background:#C62828">验收</div></div>
+<div class="gantt-now" style="left:calc(100px + 1.2 * (100% - 100px) / 9)"></div>
+</div>
+</div>
+</div>
+
+<div class="phase-nav">
+<div class="phase-tab active" style="background:linear-gradient(135deg,#006B54,#008667)" onclick="switchPhase(0)"><div class="tab-num">01</div><div class="tab-icon">🚀</div><div class="tab-label">项目启动</div><div class="tab-sub">5/25-6/3</div></div>
+<div class="phase-tab" style="background:linear-gradient(135deg,#1565C0,#1976D2)" onclick="switchPhase(1)"><div class="tab-num">02</div><div class="tab-icon">📋</div><div class="tab-label">需求调研</div><div class="tab-sub">6/1-6/22</div></div>
+<div class="phase-tab" style="background:linear-gradient(135deg,#E65100,#F57C00)" onclick="switchPhase(2)"><div class="tab-num">03</div><div class="tab-icon">🔧</div><div class="tab-label">项目实施</div><div class="tab-sub">6/1-12/15</div></div>
+<div class="phase-tab" style="background:linear-gradient(135deg,#5E35B1,#7E57C2)" onclick="switchPhase(3)"><div class="tab-num">04</div><div class="tab-icon">🔍</div><div class="tab-label">预验收</div><div class="tab-sub">12/16-12/30</div></div>
+<div class="phase-tab" style="background:linear-gradient(135deg,#C62828,#E53935)" onclick="switchPhase(4)"><div class="tab-num">05</div><div class="tab-icon">✅</div><div class="tab-label">项目验收</div><div class="tab-sub">1/4-1/15</div></div>
+</div>
+<div class="phase-panel active" id="phase-0"><div class="phase-overview"><div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">4</div><div class="pov-label">任务</div></div><div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">3</div><div class="pov-label">成果物</div></div><div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">75%</div><div class="pov-label">完成率</div></div></div><div class="task-card" style="border-left-color:#006B54"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#006B54">1</div><div class="task-title">项目启动会议</div><div class="task-period">5/25-5/28</div><div class="task-status done"><span class="sdot"></span>100%</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>高金萱</span></div><div class="task-deliverable">📦 《建设方案》</div></div></div><div class="task-card closed" style="border-left-color:#008667"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#008667">2</div><div class="task-title">启动会签到表</div><div class="task-period">5/28-6/3</div><div class="task-status done"><span class="sdot"></span>100%</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>梁爽</span></div><div class="task-deliverable">📦 《签到表》</div></div></div><div class="task-card closed" style="border-left-color:#008667"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#008667">3</div><div class="task-title">启动会会议纪要</div><div class="task-period">5/28-5/31</div><div class="task-status done"><span class="sdot"></span>100%</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>高金萱</span><span>李琳</span></div><div class="task-deliverable">📦 《会议纪要》</div></div></div><div class="task-card closed" style="border-left-color:#C62828"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#C62828">4</div><div class="task-title">启动会材料归档</div><div class="task-period">6/1-6/3</div><div class="task-status delayed"><span class="sdot"></span>80%延期</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>高金萱</span></div><div class="task-deliverable">📦 原件寄回延迟</div></div></div></div><div class="phase-panel" id="phase-1"><div class="phase-overview"><div class="pov-card" style="background:#E3F2FD"><div class="pov-val" style="color:var(--blue)">7</div><div class="pov-label">任务</div></div><div class="pov-card" style="background:#E3F2FD"><div class="pov-val" style="color:var(--blue)">4</div><div class="pov-label">成果物</div></div><div class="pov-card" style="background:#E3F2FD"><div class="pov-val" style="color:var(--blue)">21%</div><div class="pov-label">完成率</div></div></div><div class="task-card" style="border-left-color:#1565C0"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#1565C0">5</div><div class="task-title">内部需求调研</div><div class="task-period">6/1-6/2</div><div class="task-status done"><span class="sdot"></span>100%</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>高金萱</span></div><div class="task-deliverable">📦 《需求梳理表》</div></div></div><div class="task-card closed" style="border-left-color:#1976D2"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#1976D2">6</div><div class="task-title">外部需求调研</div><div class="task-period">6/2-6/10</div><div class="task-status progress"><span class="sdot"></span>50%</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>郭</span><span>梁爽</span></div><div class="task-deliverable">📦 《调研提纲》</div></div></div><div class="task-card closed" style="border-left-color:#42A5F5"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#42A5F5">7</div><div class="task-title">需求调研报告</div><div class="task-period">6/11-6/12</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>高金萱</span></div><div class="task-deliverable">📦 《调研报告》</div></div></div><div class="task-card closed" style="border-left-color:#64B5F6"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#64B5F6">8</div><div class="task-title">需求评审会</div><div class="task-period">6/16</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>高金萱</span></div></div></div><div class="task-card closed" style="border-left-color:#90CAF9"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#90CAF9">9</div><div class="task-title">评审会签到表</div><div class="task-period">6/16-6/22</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>梁爽</span></div><div class="task-deliverable">📦 《评审会签到表》</div></div></div><div class="task-card closed" style="border-left-color:#90CAF9"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#90CAF9">10</div><div class="task-title">评审会会议纪要</div><div class="task-period">6/16-6/17</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>李琳</span></div><div class="task-deliverable">📦 《评审会纪要》</div></div></div><div class="task-card closed" style="border-left-color:#BBDEFB"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#BBDEFB">11</div><div class="task-title">纪要签字确认</div><div class="task-period">6/18-6/22</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>梁爽</span></div></div></div></div><div class="phase-panel" id="phase-2"><div class="phase-overview"><div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">23</div><div class="pov-label">任务</div></div><div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">12</div><div class="pov-label">成果物</div></div><div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">9%</div><div class="pov-label">完成率</div></div></div><button class="expand-btn" onclick="toggleAll(2)">📋 展开/收起</button><div class="sub-phase-grid"><div class="sub-phase"><h5>🔧 3A: 标注工具开发 <span class="sp-badge" style="background:#E65100">6/1-7/10</span></h5><div class="task-card" style="border-left-color:#F57C00"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#F57C00">12</div><div class="task-title">标注业务流程梳理</div><div class="task-period">6/1-6/3</div><div class="task-status progress"><span class="sdot"></span>80%</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>李琳</span><span>高金萱</span></div></div></div><div class="task-card closed" style="border-left-color:#F57C00"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#F57C00">13</div><div class="task-title">标注工具选型(Label Studio)</div><div class="task-period">6/3-6/4</div><div class="task-status progress"><span class="sdot"></span>80%</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>李琳</span><span>高金萱</span></div><div class="task-deliverable">📦 图文联合+私有部署</div></div></div><div class="task-card closed" style="border-left-color:#FF9800"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FF9800">14</div><div class="task-title">功能清单梳理</div><div class="task-period">6/11-6/12</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>李琳</span><span>高金萱</span></div><div class="task-deliverable">📦 《功能清单》</div></div></div><div class="task-card closed" style="border-left-color:#FF9800"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FF9800">15</div><div class="task-title">原型设计</div><div class="task-period">6/15-6/19</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>李琳</span><span>高金萱</span></div><div class="task-deliverable">📦 《UE设计》</div></div></div><div class="task-card closed" style="border-left-color:#FFB74D"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FFB74D">16</div><div class="task-title">功能研发</div><div class="task-period">6/22-7/3</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>李琳</span><span>研发</span></div></div></div><div class="task-card closed" style="border-left-color:#FFB74D"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FFB74D">17</div><div class="task-title">功能测试</div><div class="task-period">7/6-7/10</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>李琳</span><span>研发</span></div><div class="task-deliverable">📦 《测试记录》</div></div></div><div class="task-card closed" style="border-left-color:#FFB74D"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FFB74D">18</div><div class="task-title">内网上线</div><div class="task-period">7/6-7/10</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-owner">👤 <span>李琳</span><span>研发</span></div></div></div></div><div class="sub-phase"><h5>📥 3B: 数据采集 <span class="sp-badge" style="background:#E65100">6/10-7/31</span></h5><div class="task-card" style="border-left-color:#F57C00"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#F57C00">19</div><div class="task-title">数据导出全链路调研</div><div class="task-period">6/10-6/12</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"></div></div><div class="task-card closed" style="border-left-color:#F57C00"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#F57C00">20</div><div class="task-title">数据收集</div><div class="task-period">6/12-7/10</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 图片/语料收集手册</div></div></div><div class="task-card closed" style="border-left-color:#F57C00"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#F57C00">21</div><div class="task-title">数据收集台账</div><div class="task-period">6/12-7/10</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 报错/电能表溯源台账</div></div></div><div class="task-card closed" style="border-left-color:#FF9800"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FF9800">22</div><div class="task-title">数据清洗</div><div class="task-period">6/29-7/17</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 图片/语料预处理手册</div></div></div><div class="task-card closed" style="border-left-color:#FF9800"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FF9800">23</div><div class="task-title">数据标准化存储</div><div class="task-period">7/6-7/10</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"></div></div><div class="task-card closed" style="border-left-color:#FFB74D"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FFB74D">24</div><div class="task-title">数据质量评估</div><div class="task-period">7/13-7/17</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 《质量评估报告》</div></div></div><div class="task-card closed" style="border-left-color:#FFB74D"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FFB74D">25</div><div class="task-title">数据安全脱敏</div><div class="task-period">7/20-7/31</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"></div></div></div><div class="sub-phase"><h5>🏷️ 3C: 数据标注 <span class="sp-badge" style="background:#E65100">8/1-9/30</span></h5><div class="task-card" style="border-left-color:#F57C00"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#F57C00">26</div><div class="task-title">制定图像标注规范</div><div class="task-period">8/1-8/15</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 《图片标注标准》</div></div></div><div class="task-card closed" style="border-left-color:#F57C00"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#F57C00">27</div><div class="task-title">制定文本标注规范</div><div class="task-period">8/1-8/15</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 《语料标注标准》</div></div></div><div class="task-card closed" style="border-left-color:#FF9800"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FF9800">28</div><div class="task-title">实名认证信息提取标注</div><div class="task-period">8/17-8/31</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 实名认证标注样本</div></div></div><div class="task-card closed" style="border-left-color:#FF9800"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FF9800">29</div><div class="task-title">实名认证智能体标注</div><div class="task-period">9/1-9/15</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 智能体标注样本</div></div></div><div class="task-card closed" style="border-left-color:#FFB74D"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FFB74D">30</div><div class="task-title">电能表异常场景标注</div><div class="task-period">9/16-9/30</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 电能表标注样本</div></div></div></div><div class="sub-phase"><h5>🔬 3D: 辅助验证 <span class="sp-badge" style="background:#E65100">9/1-12/15</span></h5><div class="task-card" style="border-left-color:#F57C00"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#F57C00">31</div><div class="task-title">数据标注审核</div><div class="task-period">9/1-10/10</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"></div></div><div class="task-card closed" style="border-left-color:#FF9800"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FF9800">32</div><div class="task-title">模型训练</div><div class="task-period">10/11-10/30</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"></div></div><div class="task-card closed" style="border-left-color:#FFB74D"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FFB74D">33</div><div class="task-title">模型测试</div><div class="task-period">11/1-11/30</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 报错/电能表测试集</div></div></div><div class="task-card closed" style="border-left-color:#FFB74D"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#FFB74D">34</div><div class="task-title">模型应用效果构建</div><div class="task-period">12/1-12/15</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 抽检报告+增补方案</div></div></div></div></div><div style="text-align:center;font-size:10.5px;color:var(--orange);margin:6px 0;font-weight:600">→ 依赖关系：3A标注工具 + 3B数据采集 → 3C数据标注 → 3D辅助验证</div></div><div class="phase-panel" id="phase-3"><div class="phase-overview"><div class="pov-card" style="background:#F3E5F5"><div class="pov-val" style="color:var(--purple)">3</div><div class="pov-label">任务</div></div><div class="pov-card" style="background:#F3E5F5"><div class="pov-val" style="color:var(--purple)">15天</div><div class="pov-label">工期</div></div></div><div class="task-card closed" style="border-left-color:#5E35B1"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#5E35B1">35</div><div class="task-title">预验收资料整理</div><div class="task-period">12/16-12/17</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"></div></div><div class="task-card closed" style="border-left-color:#7E57C2"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#7E57C2">36</div><div class="task-title">成果物评审</div><div class="task-period">12/17-12/25</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"></div></div><div class="task-card closed" style="border-left-color:#9575CD"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#9575CD">37</div><div class="task-title">预验收会议</div><div class="task-period">12/26-12/30</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"></div></div></div><div class="phase-panel" id="phase-4"><div class="phase-overview"><div class="pov-card" style="background:#FFEBEE"><div class="pov-val" style="color:var(--red)">3</div><div class="pov-label">任务</div></div><div class="pov-card" style="background:#FFEBEE"><div class="pov-val" style="color:var(--red)">2</div><div class="pov-label">成果物</div></div><div class="pov-card" style="background:#FFEBEE"><div class="pov-val" style="color:var(--red)">12天</div><div class="pov-label">工期</div></div></div><div class="task-card closed" style="border-left-color:#C62828"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#C62828">38</div><div class="task-title">验收申请表</div><div class="task-period">1/4</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 《验收申请表》</div></div></div><div class="task-card closed" style="border-left-color:#E53935"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#E53935">39</div><div class="task-title">验收会议</div><div class="task-period">1/5-1/8</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"></div></div><div class="task-card closed" style="border-left-color:#EF5350"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#EF5350">40</div><div class="task-title">验收意见</div><div class="task-period">1/11-1/15</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div><div class="task-body"><div class="task-deliverable">📦 《项目验收意见》</div></div></div></div>
+<div class="quality-loop">
+<h3>🔄 标注质量闭环机制</h3>
+<div class="qc-grid">
+<div class="qc-item"><div class="qc-icon">📝</div><div class="qc-title">事前：考核上岗</div><div class="qc-desc">标注员考核≥90分<br>试标注一致率≥85%<br>四类场景专项培训</div></div>
+<div class="qc-item"><div class="qc-icon">🔎</div><div class="qc-title">事中：三级校验</div><div class="qc-desc">人工初标→交叉(100%)<br>→专家抽检(50%)<br>抽检比例≥50%</div></div>
+<div class="qc-item"><div class="qc-icon">📊</div><div class="qc-title">事后：抽检整改</div><div class="qc-desc">A/B/C类问题分级<br>一致率＜95%退回重标<br>准确率公式验证</div></div>
+<div class="qc-item"><div class="qc-icon">🔁</div><div class="qc-title">闭环：持续优化</div><div class="qc-desc">座席修改=识别不准<br>按方案生成统计报表<br>badcase→增补→重训</div></div>
+</div>
+</div>
+
+<div class="bottom-row">
+<div class="milestone-card">
+<h3>🏁 关键里程碑</h3>
+<div class="ms-item"><div class="ms-dot" style="background:#006B54"></div><div class="ms-time">2026年5月</div><div class="ms-text">项目启动，建设方案定稿</div></div>
+<div class="ms-item"><div class="ms-dot" style="background:#1565C0"></div><div class="ms-time">2026年6月</div><div class="ms-text">需求调研完成，评审通过</div></div>
+<div class="ms-item"><div class="ms-dot" style="background:#F57C00"></div><div class="ms-time">2026年7月</div><div class="ms-text">标注工具内网上线+数据采集完成</div></div>
+<div class="ms-item"><div class="ms-dot" style="background:#FF9800"></div><div class="ms-time">2026年9月</div><div class="ms-text">全场景标注完成</div></div>
+<div class="ms-item"><div class="ms-dot" style="background:#FFB74D"></div><div class="ms-time">2026年12月</div><div class="ms-text">模型测试通过，预验收完成</div></div>
+<div class="ms-item"><div class="ms-dot" style="background:#C62828"></div><div class="ms-time">2027年1月</div><div class="ms-text">正式验收，项目闭环</div></div>
+</div>
+<div class="deliverable-card">
+<h3>📋 成果物总览</h3>
+<table class="dl-table">
+<thead><tr><th>阶段</th><th>成果物</th><th>时间</th></tr></thead>
+<tbody>
+<tr><td><span class="phase-tag" style="background:#006B54">启动</span></td><td>《建设方案》《签到表》《会议纪要》</td><td>5-6月</td></tr>
+<tr><td><span class="phase-tag" style="background:#1565C0">调研</span></td><td>《需求梳理表》《调研提纲》《调研报告》</td><td>6月</td></tr>
+<tr><td><span class="phase-tag" style="background:#E65100">实施</span></td><td>《功能清单》《UE设计》《测试记录》</td><td>6-7月</td></tr>
+<tr><td><span class="phase-tag" style="background:#E65100">实施</span></td><td>图片/语料收集手册、溯源台账</td><td>6-7月</td></tr>
+<tr><td><span class="phase-tag" style="background:#E65100">实施</span></td><td>《预处理手册》《质量评估报告》</td><td>7月</td></tr>
+<tr><td><span class="phase-tag" style="background:#E65100">实施</span></td><td>《图片/语料标注标准》</td><td>8月</td></tr>
+<tr><td><span class="phase-tag" style="background:#E65100">实施</span></td><td>3类标注样本合集</td><td>8-9月</td></tr>
+<tr><td><span class="phase-tag" style="background:#E65100">实施</span></td><td>报错/电能表场景测试集</td><td>11月</td></tr>
+<tr><td><span class="phase-tag" style="background:#E65100">実施</span></td><td>《质量抽检报告》《增补方案》</td><td>12月</td></tr>
+<tr><td><span class="phase-tag" style="background:#C62828">验收</span></td><td>《验收申请表》《项目验收意见》</td><td>1月</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 <script>
-function switchPhase(idx){
-  document.querySelectorAll('.phase-tab').forEach((t,i)=>{t.classList.toggle('active',i===idx)});
-  document.querySelectorAll('.phase-panel').forEach((p,i)=>{p.classList.toggle('active',i===idx)});
-}
-function toggleDetail(badge){
-  const detail=badge.parentElement.querySelector('.cap-detail');
-  const isOpen=detail.classList.contains('show');
-  document.querySelectorAll('.cap-detail.show').forEach(d=>d.classList.remove('show'));
-  if(!isOpen)detail.classList.add('show');
-}
-document.addEventListener('click',function(e){
-  if(!e.target.closest('.cap-badge')&&!e.target.closest('.cap-detail')){
-    document.querySelectorAll('.cap-detail.show').forEach(d=>d.classList.remove('show'));
-  }
-});
-function toggleStep(header){header.parentElement.classList.toggle('closed')}
-function toggleAll(phaseIdx){
-  const panel=document.getElementById('phase-'+phaseIdx);
-  const cards=panel.querySelectorAll('.step-card');
-  const allOpen=[...cards].every(c=>!c.classList.contains('closed'));
-  cards.forEach(c=>{allOpen?c.classList.add('closed'):c.classList.remove('closed')});
-}
+function switchPhase(i){document.querySelectorAll('.phase-tab').forEach((t,j)=>{t.classList.toggle('active',j===i)});document.querySelectorAll('.phase-panel').forEach((p,j)=>{p.classList.toggle('active',j===i)})}
+function toggleDetail(b){const d=b.parentElement.querySelector('.cap-detail');const o=d.classList.contains('show');document.querySelectorAll('.cap-detail.show').forEach(x=>x.classList.remove('show'));if(!o)d.classList.add('show')}
+document.addEventListener('click',function(e){if(!e.target.closest('.cap-badge')&&!e.target.closest('.cap-detail')){document.querySelectorAll('.cap-detail.show').forEach(x=>x.classList.remove('show'))}});
+function toggleStep(h){h.parentElement.classList.toggle('closed')}
+function toggleAll(i){const p=document.getElementById('phase-'+i);const c=p.querySelectorAll('.task-card');const a=[...c].every(x=>!x.classList.contains('closed'));c.forEach(x=>{a?x.classList.add('closed'):x.classList.remove('closed')})}
 </script>
 </body>
 </html>
