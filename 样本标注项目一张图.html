@@ -182,11 +182,11 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="gap-item"><span class="gap-icon">🏢</span><div><b>营业执照识别</b> — OCR提取信用代码/名称/经营者等5字段<div class="biz-tag biz-tag-green">📋 企业实名认证：核实执照信息，辅助企业户号业务办理</div></div></div>
         <div class="gap-item"><span class="gap-icon">💳</span><div><b>银行卡信息识别</b> — OCR提取银行名称/卡号/有效期3字段<div class="biz-tag biz-tag-green">📋 退费/变更业务：核实银行卡信息，辅助退费到账、账户变更</div></div></div>
         <div class="gap-item"><span class="gap-icon">🏠</span><div><b>房产证信息识别</b> — OCR提取所有权人/房屋坐落2字段<div class="biz-tag biz-tag-green">📋 过户/产权变更：核实房产证信息，辅助产权人变更办理</div></div></div>
-        <div class="gap-item"><span class="gap-icon">⚠️</span><div><b>系统异常提示识别</b> — OCR提取异常标题/提示内容/APP版本3字段<div class="biz-tag biz-tag-green">📋 APP使用异常：自动识别报错弹窗，辅助座席快速定位问题</div></div></div>
         <div class="gap-item"><span class="gap-icon">🔗</span><div><b>实名认证信息查询</b> — 调用运营管理平台接口获取认证状态<div class="biz-tag biz-tag-green">📋 实名状态查询：身份证号传入接口，返回是否已实名及认证详情</div></div></div>
       </div>
       <div class="bg-card pending">
         <h4>🚧 第二阶段能力（OCR无法覆盖，需训练模型 ← 本项目目标）</h4>
+        <div class="gap-item"><span class="gap-icon">⚠️</span><div><b>系统异常提示识别</b> — 需训练模型识别异常标题/提示内容/APP版本3字段<div class="biz-tag biz-tag-orange">🔧 APP使用异常：自动识别报错弹窗，辅助座席快速定位问题</div></div></div>
         <div class="gap-item"><span class="gap-icon">⚡</span><div><b>电能表信息识别</b> — 需从实物照片定位条形码区域提取表号<div class="biz-tag biz-tag-orange">🔧 电表报装/故障报修：客户拍摄电表照片，自动识别表号用于故障定位、换表申请</div></div></div>
         <div class="gap-item"><span class="gap-icon">💰</span><div><b>电费记录信息识别</b> — 需从APP截图识别户号/金额/时间/付款状态4字段<div class="biz-tag biz-tag-orange">🔧 缴费异常/到账查询：客户发送电费截图，自动提取户号和交费状态辅助查账</div></div></div>
         <div class="gap-item"><span class="gap-icon">🧾</span><div><b>交费订单信息识别</b> — 需提取订单编号/金额/抵扣/支付方式等11字段<div class="biz-tag biz-tag-orange">🔧 订单纠纷/退费处理：客户发送订单截图，自动提取完整订单信息辅助争议处理</div></div></div>
@@ -194,13 +194,19 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       </div>
     </div>
     <div class="arrow-to">⬇️</div>
-    <div style="text-align:center;font-size:13px;font-weight:700;color:var(--g2)">标注项目使命：为第二阶段模型训练提供高质量标注数据，让智能客服具备电能表/电费/订单图片识别能力</div>
+    <div style="text-align:center;font-size:13px;font-weight:700;color:var(--g2)">标注项目使命：为第二阶段模型训练提供高质量标注数据，让智能客服具备异常提示/电能表/电费/订单图片识别能力</div>
   </div>
 
   <!-- 识别范围总览 -->
   <div class="flow-section">
-    <h3>🎯 标注覆盖范围（3类核心场景 + 16个提取字段）</h3>
+    <h3>🎯 标注覆盖范围（4类核心场景 + 19个提取字段）</h3>
     <div class="flow-chain">
+      <div class="flow-node" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">
+        <div class="fn-icon">⚠️</div>
+        <div class="fn-title">系统异常提示</div>
+        <div class="fn-desc">3个字段<br>异常标题/提示内容/<br>APP版本<span class="batch-badge b2">核心·需训练</span></div>
+      </div>
+      <div class="flow-arrow">→</div>
       <div class="flow-node" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">
         <div class="fn-icon">⚡</div>
         <div class="fn-title">电能表信息</div>
@@ -255,14 +261,14 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">5</div><div class="pov-label">关键步骤</div></div>
       <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">3</div><div class="pov-label">成果物</div></div>
       <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">8周</div><div class="pov-label">计划工期</div></div>
-      <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">3类</div><div class="pov-label">图片场景</div></div>
+      <div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">4类</div><div class="pov-label">图片场景</div></div>
     </div>
     <button class="expand-all-btn" onclick="toggleAll(0)">📋 展开/收起全部步骤</button>
 
     <div class="step-card" style="border-left-color:var(--g2)">
       <div class="step-header" onclick="toggleStep(this)">
         <div class="step-num" style="background:var(--g2)">1</div>
-        <div class="step-title">明确3类图片采集范围与数据源</div>
+        <div class="step-title">明确4类图片采集范围与数据源</div>
         <div class="step-period">7月上旬</div>
         <div class="step-toggle">▶</div>
       </div>
@@ -270,12 +276,13 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
         <div class="substep">
           <div class="substep-idx">1</div>
           <div class="substep-main">
-            <div class="substep-action">按需求方案梳理3类图片场景及字段 <span class="role-tag biz">业务人员</span></div>
+            <div class="substep-action">按需求方案梳理4类图片场景及字段 <span class="role-tag biz">业务人员</span></div>
             <div class="substep-detail">
               <b>🔴 核心场景（第二阶段能力缺口，本项目重点）：</b><br>
-              ① 电能表信息（DNB）→ 1字段：电表表号 — OCR无法准确定位条形码区域，必须训练目标检测+OCR模型<br>
-              ② 电费记录信息（DFJL）→ 4字段：用电户号/交费金额/交费时间/付款状态 — APP截图布局复杂，OCR字段错位<br>
-              ③ 交费订单信息（JFXX）→ 11字段：订单编号/时间/状态/金额/红包抵扣/积分抵扣/优惠券抵扣/实付金额/支付方式/交费渠道/户号户名 — 含大量小字抵扣字段，OCR识别率极低
+              ① 系统异常提示（YCTS）→ 3字段：异常标题/提示内容/APP版本 — APP报错弹窗样式多样，OCR无法稳定提取<br>
+              ② 电能表信息（DNB）→ 1字段：电表表号 — OCR无法准确定位条形码区域，必须训练目标检测+OCR模型<br>
+              ③ 电费记录信息（DFJL）→ 4字段：用电户号/交费金额/交费时间/付款状态 — APP截图布局复杂，OCR字段错位<br>
+              ④ 交费订单信息（JFXX）→ 11字段：订单编号/时间/状态/金额/红包抵扣/积分抵扣/优惠券抵扣/实付金额/支付方式/交费渠道/户号户名 — 含大量小字抵扣字段，OCR识别率极低
             </div>
           </div>
         </div>
@@ -637,7 +644,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
           <div class="substep-idx">3</div>
           <div class="substep-main">
             <div class="substep-action">标注员培训与考核 <span class="role-tag pm">项目经理</span></div>
-            <div class="substep-detail">培训：规范(2h)+工具(1h)+实操(2h)。重点：3类图片区分、各字段提取位置、"/"填写场景、电能表条形码区域框选方法。考核50条准确率≥90分方可上岗。</div>
+            <div class="substep-detail">培训：规范(2h)+工具(1h)+实操(2h)。重点：4类图片区分、各字段提取位置、"/"填写场景、电能表条形码区域框选方法。考核50条准确率≥90分方可上岗。</div>
           </div>
         </div>
       </div>
@@ -887,7 +894,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
       <h3>🏁 关键里程碑</h3>
       <div class="ms-item"><div class="ms-dot" style="background:var(--g2)"></div><div class="ms-time">2026年5月</div><div class="ms-text">项目启动，需求方案评审定稿</div></div>
       <div class="ms-item"><div class="ms-dot" style="background:var(--blue)"></div><div class="ms-time">2026年6月</div><div class="ms-text">完成需求分析及方案设计</div></div>
-      <div class="ms-item"><div class="ms-dot" style="background:var(--g4)"></div><div class="ms-time">2026年8月</div><div class="ms-text">采集阶段完成，3类图片数据归档</div></div>
+      <div class="ms-item"><div class="ms-dot" style="background:var(--g4)"></div><div class="ms-time">2026年8月</div><div class="ms-text">采集阶段完成，4类图片数据归档</div></div>
       <div class="ms-item"><div class="ms-dot" style="background:#1976D2"></div><div class="ms-time">2026年9月</div><div class="ms-text">治理阶段完成，数据质量评估达标</div></div>
       <div class="ms-item"><div class="ms-dot" style="background:#F57C00"></div><div class="ms-time">2026年10月</div><div class="ms-text">标注维度设计+规范制定+工具培训完成</div></div>
       <div class="ms-item"><div class="ms-dot" style="background:#FF9800"></div><div class="ms-time">2026年12月</div><div class="ms-text">全部标注完成，4项成果物交付</div></div>
