@@ -181,6 +181,22 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .conclusion h4{font-size:12px;font-weight:700;color:var(--g2);margin-bottom:4px}
 .conclusion p{font-size:10.5px;color:var(--text2);line-height:1.7}
 @media(max-width:768px){.phase-nav{flex-wrap:wrap}.phase-tab{flex:1 1 33%}.phase-overview{flex-wrap:wrap}.pov-card{flex:1 1 45%}.bg-grid{grid-template-columns:1fr}.qc-grid{grid-template-columns:1fr 1fr}.bottom-row{grid-template-columns:1fr}.sub-phase-grid{grid-template-columns:1fr}.gantt-header,.gantt-row{grid-template-columns:60px repeat(9,1fr)}.ws-layout{grid-template-columns:1fr}.arch-grid{grid-template-columns:1fr 1fr}}
+
+/* 同步功能 */
+.sync-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.sync-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;border-radius:8px;font-size:11.5px;font-weight:700;cursor:pointer;transition:all .25s;border:none}
+.sync-btn.primary{background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;box-shadow:0 2px 8px rgba(0,107,84,.2)}
+.sync-btn.primary:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,107,84,.3)}
+.sync-btn.primary:active{transform:translateY(0)}
+.sync-btn.primary.syncing{opacity:.7;pointer-events:none}
+.sync-time{font-size:10px;color:var(--text3)}
+.sync-toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:10px;color:#fff;font-size:12px;font-weight:600;z-index:9999;animation:fadeIn .3s;box-shadow:0 4px 20px rgba(0,0,0,.2);display:none}
+.sync-toast.show{display:block}
+.sync-toast.success{background:linear-gradient(135deg,var(--g2),var(--g4))}
+.sync-toast.error{background:var(--red)}
+.sync-toast.info{background:var(--blue)}
+/* 阶段概览行加同步按钮 */
+.phase-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 </style>
 </head>
 <body>
@@ -246,6 +262,10 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 </div>
 </div>
 
+<div class="sync-bar">
+<button class="sync-btn primary" id="syncBtn" onclick="syncFromKDocs()">🔄 同步项目计划</button>
+<span class="sync-time" id="syncTime">上次同步：暂无</span>
+</div>
 <div class="phase-nav">
 <div class="phase-tab active" style="background:linear-gradient(135deg,#006B54,#008667)" onclick="switchPhase(0)"><div class="tab-num">01</div><div class="tab-icon">🚀</div><div class="tab-label">项目启动</div><div class="tab-sub">5/25-6/3</div></div>
 <div class="phase-tab" style="background:linear-gradient(135deg,#1565C0,#1976D2)" onclick="switchPhase(1)"><div class="tab-num">02</div><div class="tab-icon">📋</div><div class="tab-label">需求调研</div><div class="tab-sub">6/1-6/22</div></div>
@@ -473,6 +493,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 </div>
 </div>
 </div>
+<div class="sync-toast" id="syncToast"></div>
 <script>
 function switchPhase(i){document.querySelectorAll('.phase-tab').forEach((t,j)=>{t.classList.toggle('active',j===i)});document.querySelectorAll('.phase-panel').forEach((p,j)=>{p.classList.toggle('active',j===i)})}
 function toggleDetail(b){const d=b.parentElement.querySelector('.cap-detail');const o=d.classList.contains('show');document.querySelectorAll('.cap-detail.show').forEach(x=>x.classList.remove('show'));if(!o)d.classList.add('show')}
@@ -480,6 +501,148 @@ document.addEventListener('click',function(e){if(!e.target.closest('.cap-badge')
 function toggleStep(h){h.parentElement.classList.toggle('closed')}
 function toggleAll(i){const p=document.getElementById('phase-'+i);const c=p.querySelectorAll('.task-card');const a=[...c].every(x=>!x.classList.contains('closed'));c.forEach(x=>{a?x.classList.add('closed'):x.classList.remove('closed')})}
 function switchTool(id){document.querySelectorAll('.tool-tab').forEach((t,i)=>{t.classList.toggle('active',['ws','arch','tags','cmp'][i]===id)});document.querySelectorAll('.tool-panel').forEach(p=>{p.classList.toggle('active',p.id==='tp-'+id)})}
+
+// 同步功能
+function showToast(msg,type='info',duration=3000){
+  const t=document.getElementById('syncToast');
+  t.textContent=msg;t.className='sync-toast show '+type;
+  setTimeout(()=>{t.className='sync-toast'},duration);
+}
+
+function parseStatus(s){
+  if(!s)return {cls:'pending',label:'待开展',pct:0};
+  if(s==='100%')return {cls:'done',label:'100%',pct:100};
+  if(s==='待开展')return {cls:'pending',label:'待开展',pct:0};
+  const m=s.match(/(\d+)%/);
+  if(m){const v=parseInt(m[1]);return {cls:v>=80?'progress':'progress',label:s,pct:v};}
+  return {cls:'pending',label:s,pct:0};
+}
+
+function fmtDate(d){
+  if(!d)return '';
+  const parts=d.split('-');
+  if(parts.length!==3)return d;
+  return parseInt(parts[1])+'/'+parseInt(parts[2]);
+}
+
+function buildTaskCard(task){
+  const st=parseStatus(task.status);
+  const delayed=task.delayed;
+  const statusCls=delayed?'delayed':st.cls;
+  const statusLabel=delayed?st.label+'延期':st.label;
+  const owners=task.owner?task.owner.split(/[,、]/).filter(Boolean):[];
+  const ownerHtml=owners.length?'<div class="task-owner">👤 '+owners.map(o=>'<span>'+o+'</span>').join('')+'</div>':'';
+  const deliverHtml=task.deliverable?'<div class="task-deliverable">📦 '+task.deliverable+'</div>':'';
+  const period=fmtDate(task.start)+'-'+fmtDate(task.end);
+  const colors=['#006B54','#1565C0','#E65100','#5E35B1','#C62828'];
+  const colorIdx=task.phase-1;
+  return '<div class="task-card closed" style="border-left-color:'+colors[colorIdx]+'">'+
+    '<div class="task-header" onclick="toggleStep(this)">'+
+    '<div class="task-num" style="background:'+colors[colorIdx]+'">'+task.id+'</div>'+
+    '<div class="task-title">'+task.title+'</div>'+
+    '<div class="task-period">'+period+'</div>'+
+    '<div class="task-status '+statusCls+'"><span class="sdot"></span>'+statusLabel+'</div>'+
+    '<div class="task-toggle">▶</div></div>'+
+    '<div class="task-body">'+ownerHtml+deliverHtml+'</div></div>';
+}
+
+function updatePhasePanel(phaseIdx,phaseData,tasks){
+  const panel=document.getElementById('phase-'+phaseIdx);
+  if(!panel)return;
+  
+  const phaseTasks=tasks.filter(t=>t.phase===phaseIdx+1);
+  const total=phaseData.tasks;
+  const done=phaseData.done;
+  const dlv=phaseData.deliverables;
+  const rate=Math.round(done/total*100);
+  
+  const bgColors=['var(--g8)','#E3F2FD','#FFF3E0','#F3E5F5','#FFEBEE'];
+  const valColors=['var(--g2)','var(--blue)','var(--orange)','var(--purple)','var(--red)'];
+  
+  // Update overview cards
+  let overviewHtml='<div class="phase-overview">';
+  overviewHtml+='<div class="pov-card" style="background:'+bgColors[phaseIdx]+'"><div class="pov-val" style="color:'+valColors[phaseIdx]+'">'+total+'</div><div class="pov-label">任务</div></div>';
+  overviewHtml+='<div class="pov-card" style="background:'+bgColors[phaseIdx]+'"><div class="pov-val" style="color:'+valColors[phaseIdx]+'">'+dlv+'</div><div class="pov-label">成果物</div></div>';
+  overviewHtml+='<div class="pov-card" style="background:'+bgColors[phaseIdx]+'"><div class="pov-val" style="color:'+valColors[phaseIdx]+'">'+rate+'%</div><div class="pov-label">完成率</div></div>';
+  overviewHtml+='</div>';
+  
+  // Build task cards based on phase structure
+  let taskHtml='';
+  if(phaseIdx===2){
+    // Phase 3 has sub-phases
+    taskHtml+='<button class="expand-btn" onclick="toggleAll(2)">📋 展开/收起</button>';
+    const subPhases=[
+      {label:'🔧 3A: 标注工具开发',badge:'6/1-7/10',filter:t=>t.sub==='3A'},
+      {label:'📥 3B: 数据采集',badge:'6/10-7/31',filter:t=>t.sub==='3B'},
+      {label:'🏷️ 3C: 数据标注',badge:'8/1-9/30',filter:t=>t.sub==='3C'},
+      {label:'🔬 3D: 辅助验证',badge:'9/1-12/15',filter:t=>t.sub==='3D'},
+    ];
+    // Use 2x2 grid for first 2, then 2 more
+    taskHtml+='<div class="sub-phase-grid">';
+    for(let si=0;si<2;si++){
+      const sp=subPhases[si];
+      const spTasks=phaseTasks.filter(sp.filter);
+      taskHtml+='<div class="sub-phase"><h5>'+sp.label+' <span class="sp-badge" style="background:#E65100">'+sp.badge+'</span></h5>';
+      spTasks.forEach(t=>{taskHtml+=buildTaskCard(t)});
+      taskHtml+='</div>';
+    }
+    taskHtml+='</div><div class="sub-phase-grid">';
+    for(let si=2;si<4;si++){
+      const sp=subPhases[si];
+      const spTasks=phaseTasks.filter(sp.filter);
+      taskHtml+='<div class="sub-phase"><h5>'+sp.label+' <span class="sp-badge" style="background:#E65100">'+sp.badge+'</span></h5>';
+      spTasks.forEach(t=>{taskHtml+=buildTaskCard(t)});
+      taskHtml+='</div>';
+    }
+    taskHtml+='</div>';
+    taskHtml+='<div style="text-align:center;font-size:10.5px;color:var(--orange);margin:6px 0;font-weight:600">→ 依赖关系：3A标注工具 + 3B数据采集 → 3C数据标注 → 3D辅助验证</div>';
+  } else {
+    phaseTasks.forEach(t=>{taskHtml+=buildTaskCard(t)});
+  }
+  
+  // Replace content
+  panel.innerHTML=overviewHtml+taskHtml;
+}
+
+function syncFromKDocs(){
+  const btn=document.getElementById('syncBtn');
+  btn.classList.add('syncing');
+  btn.innerHTML='⏳ 同步中...';
+  showToast('正在从金山文档获取最新数据...','info',2000);
+  
+  fetch('./plan-data.json?t='+Date.now())
+    .then(r=>{if(!r.ok)throw new Error('数据文件未找到');return r.json()})
+    .then(data=>{
+      // Update sync time
+      document.getElementById('syncTime').textContent='上次同步：'+data.syncTime;
+      
+      // Update each phase panel
+      const phaseMap=data.phases;
+      for(let i=0;i<5;i++){
+        const pd=phaseMap[String(i+1)];
+        if(pd)updatePhasePanel(i,pd,data.tasks);
+      }
+      
+      btn.classList.remove('syncing');
+      btn.innerHTML='🔄 同步项目计划';
+      showToast('✅ 同步成功！已更新 '+data.tasks.length+' 项任务数据','success');
+    })
+    .catch(err=>{
+      btn.classList.remove('syncing');
+      btn.innerHTML='🔄 同步项目计划';
+      showToast('❌ 同步失败：'+err.message+'。请通过Agent执行kdocs-cli更新plan-data.json','error',5000);
+    });
+}
+
+// Try auto-load sync time on page load
+window.addEventListener('DOMContentLoaded',function(){
+  fetch('./plan-data.json?t='+Date.now())
+    .then(r=>r.json())
+    .then(data=>{
+      document.getElementById('syncTime').textContent='上次同步：'+data.syncTime;
+    })
+    .catch(()=>{});
+});
 </script>
 </body>
 </html>
