@@ -124,7 +124,63 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .dl-table .phase-tag{display:inline-block;padding:1px 4px;border-radius:5px;font-size:8.5px;font-weight:600;color:#fff}
 .expand-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1.5px solid var(--g4);background:var(--g8);color:var(--g2);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:all .2s}
 .expand-btn:hover{background:var(--g4);color:#fff}
-@media(max-width:768px){.phase-nav{flex-wrap:wrap}.phase-tab{flex:1 1 33%}.phase-overview{flex-wrap:wrap}.pov-card{flex:1 1 45%}.bg-grid{grid-template-columns:1fr}.qc-grid{grid-template-columns:1fr 1fr}.bottom-row{grid-template-columns:1fr}.sub-phase-grid{grid-template-columns:1fr}.gantt-header,.gantt-row{grid-template-columns:60px repeat(9,1fr)}}
+/* 标注工具section */
+.tool-section{background:var(--card);border-radius:14px;padding:18px 20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.tool-section h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.tool-tabs{display:flex;gap:4px;margin-bottom:14px;border-bottom:2px solid #f0f0f0;padding-bottom:6px}
+.tool-tab{padding:6px 14px;border-radius:8px 8px 0 0;font-size:11.5px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text3);background:transparent;border:none}
+.tool-tab:hover{color:var(--text);background:#f5f5f5}
+.tool-tab.active{color:var(--g2);background:var(--g8);border-bottom:2px solid var(--g2);margin-bottom:-8px}
+.tool-panel{display:none}
+.tool-panel.active{display:block;animation:fadeIn .3s}
+/* 工作台 */
+.ws-layout{display:grid;grid-template-columns:1fr 260px;gap:12px}
+.ws-canvas{background:#f8f8f8;border-radius:10px;min-height:320px;position:relative;overflow:hidden;display:flex;flex-direction:column;border:1px solid #e8e8e8}
+.ws-toolbar{padding:6px 10px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:4px;background:#fafafa;border-radius:10px 10px 0 0;flex-wrap:wrap}
+.ws-tbtn{width:26px;height:26px;border-radius:5px;border:1px solid #ddd;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .12s}
+.ws-tbtn:hover{border-color:var(--g4);background:var(--g8)}
+.ws-tbtn.on{border-color:var(--g2);background:var(--g8);box-shadow:0 0 0 2px rgba(0,107,84,.15)}
+.ws-tsep{width:1px;height:18px;background:#e0e0e0;margin:0 3px}
+.ws-main{flex:1;display:flex;align-items:center;justify-content:center;padding:12px;position:relative}
+.ws-sample{position:relative;border-radius:6px;box-shadow:0 2px 12px rgba(0,0,0,.08);background:#fff;overflow:visible}
+.ws-box{position:absolute;border:2px solid var(--g4);border-radius:2px}
+.ws-box .bl{position:absolute;top:-17px;left:0;background:var(--g4);color:#fff;font-size:8px;padding:1px 5px;border-radius:3px 3px 0 0;white-space:nowrap;font-weight:600}
+.ws-box.t-red{border-color:var(--red)}.ws-box.t-red .bl{background:var(--red)}
+.ws-box.t-blue{border-color:var(--blue)}.ws-box.t-blue .bl{background:var(--blue)}
+.ws-footer{padding:5px 10px;border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;font-size:9.5px;color:var(--text3);background:#fafafa;border-radius:0 0 10px 10px}
+.ws-panel{display:flex;flex-direction:column;gap:8px}
+.ws-card{background:#fafafa;border-radius:8px;padding:10px 12px;border:1px solid #eee}
+.ws-card h5{font-size:10.5px;font-weight:700;margin-bottom:5px;color:var(--text)}
+.ws-card .wf{margin-bottom:5px}
+.ws-card .wf-label{font-size:9px;color:var(--text3);margin-bottom:2px;font-weight:600}
+.ws-card .wf-val{font-size:10.5px;padding:4px 8px;background:#fff;border-radius:5px;border:1px solid #e8e8e8}
+.ws-card select{width:100%;padding:4px 8px;border-radius:5px;border:1px solid #ddd;font-size:10.5px;background:#fff}
+.ws-card input{width:100%;padding:4px 8px;border-radius:5px;border:1px solid #ddd;font-size:10.5px}
+/* 标签 */
+.ttag{display:inline-block;padding:1px 7px;border-radius:8px;font-size:9px;font-weight:600;margin:1px;cursor:default}
+.ttag.g{background:var(--g8);color:var(--g2)}.ttag.o{background:#FFF3E0;color:#BF360C}.ttag.b{background:#E3F2FD;color:#1565C0}.ttag.r{background:#FFEBEE;color:#C62828}
+/* 功能架构 */
+.arch-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.arch-col{display:flex;flex-direction:column;gap:5px}
+.arch-ct{padding:6px 8px;border-radius:7px;text-align:center;font-size:10.5px;font-weight:700;color:#fff}
+.arch-it{padding:6px 8px;border-radius:7px;border:1.5px solid #e8e8e8;font-size:9.5px;transition:all .12s}
+.arch-it:hover{border-color:var(--g4);box-shadow:0 1px 6px rgba(76,175,80,.1)}
+.arch-it .at{font-weight:700;color:var(--text);margin-bottom:1px}
+.arch-it .ad{font-size:8.5px;color:var(--text3);line-height:1.3}
+.arch-it .ab{display:inline-block;padding:0 4px;border-radius:3px;font-size:7.5px;font-weight:600;margin-top:2px}
+.ab.ls{background:#E3F2FD;color:#1565C0}.ab.cu{background:#FFF3E0;color:var(--orange)}.ab.ha{background:var(--g8);color:var(--g2)}
+/* 对比 */
+.cmp-t{width:100%;border-collapse:collapse;font-size:10px}
+.cmp-t th{padding:5px 6px;text-align:center;font-weight:700;font-size:9.5px}
+.cmp-t td{padding:4px 6px;border-bottom:1px solid #f0f0f0;text-align:center}
+.cmp-t td:first-child{text-align:left;font-weight:600;color:var(--text)}
+.cmp-t .win{background:var(--g8);color:var(--g2);font-weight:700;border-radius:3px}
+.cmp-t .lose{color:#bbb}
+/* 选型结论 */
+.conclusion{margin-top:12px;padding:12px;background:linear-gradient(135deg,var(--g8),#F1F8E9);border-radius:10px;border:1px solid var(--g5)}
+.conclusion h4{font-size:12px;font-weight:700;color:var(--g2);margin-bottom:4px}
+.conclusion p{font-size:10.5px;color:var(--text2);line-height:1.7}
+@media(max-width:768px){.phase-nav{flex-wrap:wrap}.phase-tab{flex:1 1 33%}.phase-overview{flex-wrap:wrap}.pov-card{flex:1 1 45%}.bg-grid{grid-template-columns:1fr}.qc-grid{grid-template-columns:1fr 1fr}.bottom-row{grid-template-columns:1fr}.sub-phase-grid{grid-template-columns:1fr}.gantt-header,.gantt-row{grid-template-columns:60px repeat(9,1fr)}.ws-layout{grid-template-columns:1fr}.arch-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -208,6 +264,185 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 </div>
 </div>
 
+<!-- 标注工具可视化 -->
+<div class="tool-section">
+<h3>🏷️ 标注工具 · 数据治理平台</h3>
+<div class="tool-tabs">
+<div class="tool-tab active" onclick="switchTool('ws')">🖼️ 标注工作台</div>
+<div class="tool-tab" onclick="switchTool('arch')">🏗️ 功能架构</div>
+<div class="tool-tab" onclick="switchTool('tags')">🏷️ 标签体系</div>
+<div class="tool-tab" onclick="switchTool('cmp')">⚖️ 选型对比</div>
+</div>
+
+<!-- 标注工作台 -->
+<div class="tool-panel active" id="tp-ws">
+<div class="ws-layout">
+<div class="ws-canvas">
+<div class="ws-toolbar">
+<div class="ws-tbtn on" title="选择">🖱️</div>
+<div class="ws-tbtn" title="矩形框选">▭</div>
+<div class="ws-tbtn" title="多边形">⬡</div>
+<div class="ws-tbtn" title="OCR提取">🔤</div>
+<div class="ws-tsep"></div>
+<div class="ws-tbtn" title="放大">🔍+</div>
+<div class="ws-tbtn" title="缩小">🔍-</div>
+<div class="ws-tsep"></div>
+<div class="ws-tbtn" title="撤销">↩️</div>
+<div class="ws-tbtn" title="重做">↪️</div>
+<div style="flex:1"></div>
+<div style="font-size:9px;color:var(--text3)">Label Studio CE · 内网 192.168.3.95:3002</div>
+</div>
+<div class="ws-main">
+<div class="ws-sample" style="width:300px;height:220px;background:linear-gradient(145deg,#f5f5f5,#ebebeb);padding:10px">
+<div style="width:280px;height:190px;background:#fff;border-radius:4px;position:relative;box-shadow:inset 0 1px 4px rgba(0,0,0,.05)">
+<div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:9px;color:#333;font-weight:700">DDZY1296C-Z 单相费控智能电能表</div>
+<div style="position:absolute;top:28px;left:50%;transform:translateX(-50%);width:100px;height:36px;background:#1a1a1a;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#0f0;font-family:monospace;font-size:14px">02385</div>
+<div style="position:absolute;top:72px;left:50%;transform:translateX(-50%);font-size:7px;color:#888">||||||||||||||||</div>
+<div class="ws-box" style="top:80px;left:55px;width:170px;height:32px"><div class="bl">DNB-条形码</div></div>
+<div class="ws-box t-blue" style="top:24px;left:70px;width:140px;height:45px"><div class="bl">DNB-液晶读数</div></div>
+<div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:7px;color:#aaa">DNB_条形码特写_042_20260701.jpg</div>
+</div>
+</div>
+</div>
+<div class="ws-footer">
+<span>样本 42/500 · ⚡电能表 · 已标注 2 个区域</span>
+<span style="display:flex;gap:4px">
+<span style="padding:2px 8px;border:1px solid #ddd;border-radius:4px;cursor:pointer;font-size:9px">⬅ 上一张</span>
+<span style="padding:2px 8px;background:var(--g8);border:1px solid var(--g5);border-radius:4px;cursor:pointer;font-size:9px;color:var(--g2)">下一张 ➡</span>
+</span>
+</div>
+</div>
+<div class="ws-panel">
+<div class="ws-card"><h5>📋 样本信息</h5>
+<div class="wf"><div class="wf-label">数据集</div><div class="wf-val">20260701-电能表-南方</div></div>
+<div class="wf"><div class="wf-label">业务场景</div><select><option>⚡ 电能表信息识别</option><option>💰 电费记录</option><option>🧾 交费订单</option><option>⚠️ 异常提示</option></select></div>
+<div class="wf"><div class="wf-label">图片类型</div><div><span class="ttag g">正面全景</span><span class="ttag g">条形码特写</span><span class="ttag g">液晶屏特写</span><span class="ttag g">铭牌特写</span></div></div>
+</div>
+<div class="ws-card"><h5>🏷️ 标注属性</h5>
+<div class="wf"><div class="wf-label">当前选中: DNB-条形码</div></div>
+<div class="wf"><div class="wf-label">电表表号</div><input value="02385102678"></div>
+<div class="wf"><div class="wf-label">设备型号</div><input value="DDZY1296C-Z"></div>
+<div style="display:flex;gap:6px;margin-top:6px">
+<button style="flex:1;padding:5px;border-radius:6px;border:none;background:var(--g2);color:#fff;font-size:10px;font-weight:700;cursor:pointer">✓ 提交</button>
+<button style="padding:5px 10px;border-radius:6px;border:1px solid #ddd;background:#fff;font-size:10px;cursor:pointer">跳过</button>
+</div>
+</div>
+<div class="ws-card" style="background:#f0f7f4;border-color:#c8e6c9"><h5>💬 关联语料</h5>
+<div style="font-size:9px;line-height:1.6;color:var(--text2)">
+👤 我的电表显示Err-04，请帮我看看<br>
+🤖 我正在识别您的电表信息...<br>
+<span style="color:var(--orange);font-size:8px">📎 客户发送了电表照片 → 本样本来源</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 功能架构 -->
+<div class="tool-panel" id="tp-arch">
+<div class="arch-grid">
+<div class="arch-col">
+<div class="arch-ct" style="background:linear-gradient(135deg,#006B54,#008667)">📥 预处理管理</div>
+<div class="arch-it"><div class="at">数据导入</div><div class="ad">图片/音频/视频/HTML/文本/CSV/JSON/PDF</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">数据集管理</div><div class="ad">场景锁定+生命周期管控+增删改查</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">精细化分类归档</div><div class="ad">二级细分归类，不跨场景混传</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">数据清洗</div><div class="ad">模糊/破损/重复/无效批量剔除</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">数据标准化</div><div class="ad">统一格式/编码/命名规范</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">数据安全脱敏</div><div class="ad">图片马赛克+文本PII替换</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">质量评估</div><div class="ad">完整性/准确性/一致性/唯一性</div><div class="ab cu">二次开发</div></div>
+</div>
+<div class="arch-col">
+<div class="arch-ct" style="background:linear-gradient(135deg,#E65100,#F57C00)">🏷️ 标注管理</div>
+<div class="arch-it"><div class="at">图片整体属性标注</div><div class="ad">场景/故障类型/设备状态分类</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">图片对象选框标注</div><div class="ad">矩形/多边形框选电表/身份证等</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">选框对象多属性标注</div><div class="ad">框选对象附加状态/等级属性</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">OCR文字提取标注</div><div class="ad">错误码/报错信息/设备信息提取</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">语料意图标注</div><div class="ad">用户咨询目的识别</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">语料实体标注</div><div class="ad">业务对象/设备对象识别</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">语料文本分类</div><div class="ad">故障类别/业务类别分类</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">图文联合标注</div><div class="ad">图片+上下文语料关联标注</div><div class="ab ls">Label Studio</div></div>
+</div>
+<div class="arch-col">
+<div class="arch-ct" style="background:linear-gradient(135deg,#1565C0,#1976D2)">🔍 审核管理</div>
+<div class="arch-it"><div class="at">审核任务管理</div><div class="ad">自动同步+状态流转+筛选检索</div><div class="ab ha">Label Studio</div></div>
+<div class="arch-it"><div class="at">全量校核</div><div class="ad">逐条复核+问题标记+退回重标</div><div class="ab ha">Label Studio</div></div>
+<div class="arch-it"><div class="at">抽样审核</div><div class="ad">常规≥30%/复杂≥50%抽检</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">问题闭环</div><div class="ad">退回重标+备注原因+整改再提交</div><div class="ab ha">Label Studio</div></div>
+<div class="arch-it"><div class="at">审核台账</div><div class="ad">审核人/时间/问题/退回明细</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">歧义案例库</div><div class="ad">边界模糊样本归档+历史参考判例</div><div class="ab cu">二次开发</div></div>
+</div>
+<div class="arch-col">
+<div class="arch-ct" style="background:linear-gradient(135deg,#5E35B1,#7E57C2)">📊 质量评估</div>
+<div class="arch-it"><div class="at">效果评估体系</div><div class="ad">准确性+一致性+完整性+场景贴合度</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">数据集构建</div><div class="ad">分层抽样+验证集/测试集拆分</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">版本管控台账</div><div class="ad">版本号+来源+评测得分+变更记录</div><div class="ab cu">二次开发</div></div>
+</div>
+<div class="arch-col">
+<div class="arch-ct" style="background:linear-gradient(135deg,#C62828,#E53935)">⚙️ 系统设置</div>
+<div class="arch-it"><div class="at">角色权限管理</div><div class="ad">项目经理/标注/校核/审核四角色</div><div class="ab ha">Label Studio</div></div>
+<div class="arch-it"><div class="at">标签模板配置</div><div class="ad">图像+语料标签/标注界面模板</div><div class="ab ha">Label Studio</div></div>
+<div class="arch-it"><div class="at">平台参数配置</div><div class="ad">命名规则/抽检比例等全局参数</div><div class="ab cu">二次开发</div></div>
+</div>
+</div>
+<div style="margin-top:12px;padding:8px 12px;background:var(--g8);border-radius:8px;font-size:10.5px;color:var(--g2);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<span style="font-weight:700">📌 覆盖率:</span>
+<span class="ab ls">Label Studio原生: 10项</span>
+<span class="ab ha">LS+适配: 5项</span>
+<span class="ab cu">需二次开发: 13项</span>
+<span style="margin-left:auto;font-weight:600">总28项 | 原生覆盖54%</span>
+</div>
+</div>
+
+<!-- 标签体系 -->
+<div class="tool-panel" id="tp-tags">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+<div>
+<div style="font-size:12px;font-weight:700;margin-bottom:8px;color:var(--text)">🖼️ 图像标注标签体系</div>
+<div style="margin-bottom:10px"><div style="font-size:10.5px;font-weight:700;margin-bottom:4px">⚡ 电能表信息识别 (1字段)</div><div><span class="ttag g">条形码区域</span><span class="ttag g">液晶屏读数</span><span class="ttag g">铭牌信息</span><span class="ttag o">异常显示</span><span class="ttag b">表号</span><span class="ttag b">型号</span></div></div>
+<div style="margin-bottom:10px"><div style="font-size:10.5px;font-weight:700;margin-bottom:4px">💰 电费记录信息识别 (4字段)</div><div><span class="ttag g">用电户号</span><span class="ttag g">交费金额</span><span class="ttag g">交费时间</span><span class="ttag g">付款状态</span><span class="ttag b">截图全貌</span></div></div>
+<div style="margin-bottom:10px"><div style="font-size:10.5px;font-weight:700;margin-bottom:4px">🧾 交费订单信息识别 (11字段)</div><div><span class="ttag g">订单编号</span><span class="ttag g">订单时间</span><span class="ttag g">订单状态</span><span class="ttag g">交费金额</span><span class="ttag o">红包抵扣</span><span class="ttag o">积分抵扣</span><span class="ttag o">优惠券抵扣</span><span class="ttag b">实付金额</span><span class="ttag b">支付方式</span><span class="ttag b">交费渠道</span><span class="ttag r">户号户名</span></div></div>
+<div><div style="font-size:10.5px;font-weight:700;margin-bottom:4px">⚠️ 系统异常提示识别 (3字段)</div><div><span class="ttag r">异常标题</span><span class="ttag r">提示内容</span><span class="ttag b">APP版本</span><span class="ttag o">弹窗类型</span></div></div>
+</div>
+<div>
+<div style="font-size:12px;font-weight:700;margin-bottom:8px;color:var(--text)">📝 语料标注标签体系</div>
+<div style="margin-bottom:10px"><div style="font-size:10.5px;font-weight:700;margin-bottom:4px">意图分类</div><div><span class="ttag g">缴费异常</span><span class="ttag g">到账查询</span><span class="ttag g">订单纠纷</span><span class="ttag g">退费申请</span><span class="ttag g">户号查询</span><span class="ttag o">故障报修</span><span class="ttag o">实名认证</span></div></div>
+<div style="margin-bottom:10px"><div style="font-size:10.5px;font-weight:700;margin-bottom:4px">实体类型</div><div><span class="ttag b">户号</span><span class="ttag b">金额</span><span class="ttag b">时间</span><span class="ttag b">订单号</span><span class="ttag b">设备号</span><span class="ttag r">姓名</span><span class="ttag r">手机号</span></div></div>
+<div style="margin-bottom:10px"><div style="font-size:10.5px;font-weight:700;margin-bottom:4px">业务分类</div><div><span class="ttag g">电费缴纳</span><span class="ttag g">故障报修</span><span class="ttag o">过户变更</span><span class="ttag o">实名认证</span><span class="ttag b">电能表业务</span></div></div>
+<div style="padding:10px;background:#f8f8f8;border-radius:8px;font-size:10px;color:var(--text3);line-height:1.6">
+<div style="font-weight:700;color:var(--text);margin-bottom:3px">📌 标签设计规则</div>
+• 图像标签 = 场景标签 + 区域标签 + 属性标签<br>
+• 语料标签 = 意图标签 + 实体标签 + 业务标签<br>
+• 户号为业务关键字段，不可脱敏；户名属隐私需遮挡<br>
+• 交费订单11字段含大量小字抵扣项，OCR识别率极低，标注需逐字段确认
+</div>
+</div>
+</div>
+</div>
+
+<!-- 选型对比 -->
+<div class="tool-panel" id="tp-cmp">
+<table class="cmp-t">
+<thead><tr><th style="text-align:left;background:var(--g8);color:var(--g2)">对比维度</th><th style="background:#FFF3E0;color:var(--orange)">CVAT CE</th><th style="background:#E3F2FD;color:var(--blue)">Label Studio CE ✓</th><th style="background:var(--g8);color:var(--g2)">结论</th></tr></thead>
+<tbody>
+<tr><td>产品定位</td><td>图像+视频标注<br>计算机视觉专用</td><td class="win">通用多模态标注<br>图片+文本+音频+视频</td><td>LS更优</td></tr>
+<tr><td>项目匹配度</td><td class="lose">低，缺少语料标注</td><td class="win">高，图文联合标注完整</td><td>LS胜出</td></tr>
+<tr><td>开源二次开发</td><td>支持</td><td>支持</td><td>均满足</td></tr>
+<tr><td>私有化部署</td><td>支持</td><td>支持</td><td>均满足</td></tr>
+<tr><td>图片分类/选框/OCR标注</td><td>支持</td><td>支持</td><td>均满足</td></tr>
+<tr><td>意图/实体/文本标注</td><td class="lose">❌ 不支持</td><td class="win">✓ 支持</td><td>LS独有</td></tr>
+<tr><td>审核流程</td><td class="win">流程更强</td><td>社区版基础审核</td><td>CVAT略优</td></tr>
+<tr><td>多人协同+数据导出</td><td>支持</td><td>支持</td><td>均满足</td></tr>
+</tbody>
+</table>
+<div class="conclusion">
+<h4>✅ 选型结论: Label Studio Community Edition</h4>
+<p><b>核心优势:</b> 支持图文联合标注（本项目核心需求），涵盖图片+语料多模态统一标注，满足可研全部功能需求<br>
+<b>部署方案:</b> 内网私有化部署 (192.168.3.95:3002)，数据完全本地存储，符合国网安全要求<br>
+<b>补强方向:</b> 审核流程、抽样审核规则、歧义案例库、数据集构建、版本管控等13项功能需二次开发</p>
+</div>
+</div>
+</div>
+
 <div class="bottom-row">
 <div class="milestone-card">
 <h3>🏁 关键里程碑</h3>
@@ -244,6 +479,7 @@ function toggleDetail(b){const d=b.parentElement.querySelector('.cap-detail');co
 document.addEventListener('click',function(e){if(!e.target.closest('.cap-badge')&&!e.target.closest('.cap-detail')){document.querySelectorAll('.cap-detail.show').forEach(x=>x.classList.remove('show'))}});
 function toggleStep(h){h.parentElement.classList.toggle('closed')}
 function toggleAll(i){const p=document.getElementById('phase-'+i);const c=p.querySelectorAll('.task-card');const a=[...c].every(x=>!x.classList.contains('closed'));c.forEach(x=>{a?x.classList.add('closed'):x.classList.remove('closed')})}
+function switchTool(id){document.querySelectorAll('.tool-tab').forEach((t,i)=>{t.classList.toggle('active',['ws','arch','tags','cmp'][i]===id)});document.querySelectorAll('.tool-panel').forEach(p=>{p.classList.toggle('active',p.id==='tp-'+id)})}
 </script>
 </body>
 </html>
