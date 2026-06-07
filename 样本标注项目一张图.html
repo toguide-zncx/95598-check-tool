@@ -478,27 +478,91 @@ var _sceneIdx=0;
 var _activeStep=2;
 var _stepNames=['📥 导入','🧹 预处理','🏷️ 标注中','🔍 校核','✅ 审核','📦 归库'];
 var _scenes=[
-{name:'⚡ 电能表识别',sub:'1字段 · 框选+OCR',dataset:'20260701-电能表-南方',sample:'DNB_条形码特写_042',total:500,cur:42,boxes:2,
+{id:'meter',name:'⚡ 电能表识别',sub:'1字段 · 框选+OCR',icon:'⚡',label:'电能表识别',color:'var(--g2)',colorBg:'var(--g8)',
+dataset:'20260701-电能表-南方',sample:'DNB_条形码特写_042',total:500,cur:42,boxes:2,
 fields:[{l:'电表表号',v:'02385102678',t:'core'}],
 corpus:{u:'我的电表显示Err-04，请帮我看看',b:'我正在识别您的电表信息...',n:'客户发送了电表照片 → 本样本来源'},
 qc:{done:38,pass:36,fail:2}},
-{name:'💰 电费记录',sub:'4字段 · OCR提取',dataset:'20260715-电费记录-南方',sample:'PAY_户号截屏_128',total:300,cur:85,boxes:5,
+{id:'bill',name:'💰 电费记录',sub:'4字段 · OCR提取',icon:'💰',label:'电费记录',color:'var(--blue)',colorBg:'#E3F2FD',
+dataset:'20260715-电费记录-南方',sample:'PAY_户号截屏_128',total:300,cur:85,boxes:5,
 fields:[{l:'用电户号',v:'3201****8765',t:'core'},{l:'交费金额',v:'¥256.80',t:'core'},{l:'交费时间',v:'2026-06-15',t:'core'},{l:'付款状态',v:'已到账',t:'core'}],
 corpus:{u:'我交了电费但显示未到账',b:'正在查询您的缴费记录...',n:'客户发送了电费截图 → 本样本来源'},
 qc:{done:72,pass:70,fail:2}},
-{name:'🧾 交费订单',sub:'11字段 · 多区域标注',dataset:'20260801-交费订单-南方',sample:'ORD_订单详情_056',total:400,cur:12,boxes:8,
+{id:'order',name:'🧾 交费订单',sub:'11字段 · 多区域标注',icon:'🧾',label:'交费订单',color:'var(--orange)',colorBg:'#FFF3E0',
+dataset:'20260801-交费订单-南方',sample:'ORD_订单详情_056',total:400,cur:12,boxes:8,
 fields:[{l:'订单编号',v:'202606150001',t:'core'},{l:'订单时间',v:'2026-06-15 14:32',t:'core'},{l:'订单状态',v:'支付成功',t:'core'},{l:'交费金额',v:'¥256.80',t:'core'},{l:'红包抵扣',v:'-¥5.00',t:'offset'},{l:'积分抵扣',v:'-¥2.50',t:'offset'},{l:'优惠券抵扣',v:'-¥10.00',t:'offset'},{l:'实付金额',v:'¥239.30',t:'core'},{l:'支付方式',v:'微信支付',t:'attr'},{l:'交费渠道',v:'网上国网APP',t:'attr'},{l:'户号户名',v:'3201****8765 张*明',t:'privacy'}],
 corpus:{u:'我昨天交的电费，订单显示支付成功但没到账',b:'正在核查您的订单信息...',n:'客户发送了订单截图 → 本样本来源'},
 qc:{done:8,pass:8,fail:0}},
-{name:'⚠️ 异常提示',sub:'3字段 · 文字识别',dataset:'20260810-异常提示-南方',sample:'ERR_弹窗截图_033',total:200,cur:0,boxes:3,
+{id:'error',name:'⚠️ 异常提示',sub:'3字段 · 文字识别',icon:'⚠️',label:'异常提示',color:'var(--red)',colorBg:'#FFEBEE',
+dataset:'20260810-异常提示-南方',sample:'ERR_弹窗截图_033',total:200,cur:0,boxes:3,
 fields:[{l:'异常标题',v:'网络连接异常',t:'core'},{l:'提示内容',v:'当前网络不可用，请检查网络设置后重试',t:'core'},{l:'APP版本',v:'v3.2.1',t:'attr'}],
 corpus:{u:'打开APP就显示网络错误，但我WiFi正常',b:'正在识别您的异常提示信息...',n:'客户发送了报错截图 → 本样本来源'},
 qc:{done:0,pass:0,fail:0}}
 ];
 
+/* 场景注册表 - 通用场景管理 */
+var _sceneRegistry={
+  _templates:{},
+  register:function(id,cfg){this._templates[id]=cfg;},
+  get:function(id){return this._templates[id];},
+  list:function(){return Object.keys(this._templates);},
+  addScene:function(cfg){
+    var id=cfg.id||('scene_'+Date.now());
+    cfg.id=id;
+    if(!cfg.icon)cfg.icon='📌';
+    if(!cfg.label)cfg.label=cfg.name;
+    if(!cfg.color)cfg.color='var(--g2)';
+    if(!cfg.colorBg)cfg.colorBg='var(--g8)';
+    if(!cfg.fields)cfg.fields=[];
+    if(!cfg.corpus)cfg.corpus={u:'',b:'',n:''};
+    if(!cfg.qc)cfg.qc={done:0,pass:0,fail:0};
+    if(!cfg.total)cfg.total=0;
+    if(!cfg.cur)cfg.cur=0;
+    if(!cfg.boxes)cfg.boxes=0;
+    _scenes.push(cfg);
+    if(typeof renderSceneTabs==='function')renderSceneTabs();
+    return id;
+  },
+  removeScene:function(id){
+    var idx=_scenes.findIndex(function(s){return s.id===id});
+    if(idx>-1){_scenes.splice(idx,1);if(_sceneIdx>=_scenes.length)_sceneIdx=Math.max(0,_scenes.length-1);if(typeof renderSceneTabs==='function')renderSceneTabs();}
+  },
+  updateScene:function(id,cfg){
+    var s=_scenes.find(function(s){return s.id===id});
+    if(s){Object.assign(s,cfg);if(typeof renderSceneTabs==='function')renderSceneTabs();}
+  }
+};
+
+/* 字段类型定义 */
+var _fieldTypes={
+  core:{label:'核心',cls:'core',desc:'关键字段，必须标注'},
+  offset:{label:'抵扣',cls:'offset',desc:'抵扣/折扣类字段'},
+  privacy:{label:'隐私',cls:'privacy',desc:'含个人隐私信息，需脱敏'},
+  attr:{label:'属性',cls:'attr',desc:'辅助属性字段'}
+};
+
+/* 标注方式定义 */
+var _annotMethods=[
+  {id:'bbox',name:'矩形框选',icon:'▭',desc:'用矩形框标注目标区域'},
+  {id:'polygon',name:'多边形',icon:'⬡',desc:'用多边形精确勾勒目标轮廓'},
+  {id:'ocr',name:'OCR提取',icon:'🔤',desc:'自动识别并提取文字内容'},
+  {id:'classify',name:'分类标注',icon:'🏷️',desc:'对样本整体进行分类打标'}
+];
+
+function renderSceneTabs(){
+  var st=document.getElementById('sceneTabs');
+  if(!st)return;
+  var h='';
+  _scenes.forEach(function(sc,i){
+    h+='<div class="scene-tab'+(i===_sceneIdx?' active':'')+'" onclick="switchScene('+i+')">'+sc.name+'<span>'+sc.sub+'</span></div>';
+  });
+  h+='<div class="scene-tab" style="border-style:dashed;color:var(--text3);font-weight:600" onclick="showAddSceneModal()">＋ 新增场景</div>';
+  st.innerHTML=h;
+}
+
 function switchScene(idx){
   _sceneIdx=idx;
-  document.querySelectorAll('.scene-tab').forEach(function(t,i){t.classList.toggle('active',i===idx)});
+  renderSceneTabs();
   if(_activeStep===2) renderScene(idx);
 }
 
@@ -543,7 +607,7 @@ function getSceneCtx(){
 
 function renderImportStep(c){
   var s=getSceneCtx();
-  var shortName=s.name.split(' ')[1]||s.name;
+  var shortName=s.label||s.name;
   c.innerHTML='<div class="sv-grid">'+
     '<div class="sv-left" style="padding:16px">'+
       '<div class="drop-zone" onclick="simulateImport()">'+
@@ -586,7 +650,7 @@ function renderImportStep(c){
 
 function simulateImport(){
   var s=getSceneCtx();
-  var shortName=s.name.split(' ')[1]||s.name;
+  var shortName=s.label||s.name;
   var log=document.getElementById('importLog');
   if(!log)return;
   var items=log.querySelectorAll('.log-item');
@@ -599,7 +663,7 @@ function simulateImport(){
 
 function renderPreprocessStep(c){
   var s=getSceneCtx();
-  var shortName=s.name.split(' ')[1]||s.name;
+  var shortName=s.label||s.name;
   var tasks=[
     {name:'图像去噪',desc:'自动检测并去除图片噪点/水印',badge:'auto',badgeText:'自动',checked:true},
     {name:'图像增强',desc:'亮度/对比度/锐度自动调整',badge:'auto',badgeText:'自动',checked:true},
@@ -691,7 +755,7 @@ function renderAnnotateStep(c){
 
 function renderVerifyStep(c){
   var s=getSceneCtx();
-  var shortName=s.name.split(' ')[1]||s.name;
+  var shortName=s.label||s.name;
   var verifyFields=s.fields.map(function(f,i){
     return '<div class="verify-field"><span class="vf-name">'+f.l+'</span><span class="vf-val">'+f.v+'</span>'+
       '<span class="vf-btn pass checked" onclick="toggleVerify(this,\'pass\')">✓</span>'+
@@ -755,7 +819,7 @@ function verifyAction(btn,action){
 
 function renderReviewStep(c){
   var s=getSceneCtx();
-  var shortName=s.name.split(' ')[1]||s.name;
+  var shortName=s.label||s.name;
   var reviewers=['张明','李琳','王芳'];
   var statuses=['待审核','待审核','已退回'];
   var statusColors=['var(--orange)','var(--orange)','var(--red)'];
@@ -835,7 +899,7 @@ function reviewAction(btn,action){
 
 function renderArchiveStep(c){
   var s=getSceneCtx();
-  var shortName=s.name.split(' ')[1]||s.name;
+  var shortName=s.label||s.name;
   var scenes=_scenes;
   var totalAll=scenes.reduce(function(a,sc){return a+sc.qc.pass},0);
 
@@ -843,10 +907,7 @@ function renderArchiveStep(c){
     '<div class="sv-left" style="padding:16px">'+
       '<div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:12px">📦 归库管理 · 样本库总览</div>'+
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">'+
-        '<div class="arch-stat"><div class="as-icon" style="background:var(--g8)">⚡</div><div class="as-info"><div class="as-label">电能表识别</div><div class="as-val">'+scenes[0].qc.pass+'</div></div></div>'+
-        '<div class="arch-stat"><div class="as-icon" style="background:#E3F2FD">💰</div><div class="as-info"><div class="as-label">电费记录</div><div class="as-val">'+scenes[1].qc.pass+'</div></div></div>'+
-        '<div class="arch-stat"><div class="as-icon" style="background:#FFF3E0">🧾</div><div class="as-info"><div class="as-label">交费订单</div><div class="as-val">'+scenes[2].qc.pass+'</div></div></div>'+
-        '<div class="arch-stat"><div class="as-icon" style="background:#FFEBEE">⚠️</div><div class="as-info"><div class="as-label">异常提示</div><div class="as-val">'+scenes[3].qc.pass+'</div></div></div>'+
+        scenes.map(function(sc){return '<div class="arch-stat"><div class="as-icon" style="background:'+sc.colorBg+'">'+sc.icon+'</div><div class="as-info"><div class="as-label">'+sc.label+'</div><div class="as-val">'+sc.qc.pass+'</div></div></div>'}).join('')+
       '</div>'+
       '<div style="font-size:11px;font-weight:700;color:var(--text);margin:12px 0 8px">📤 导出格式</div>'+
       '<div class="export-opt selected" onclick="selectExport(this)"><div class="eo-radio"></div><div class="eo-info"><div class="eo-name">JSON (Label Studio 格式)</div><div class="eo-desc">完整标注信息，可直接用于模型训练</div></div></div>'+
@@ -895,28 +956,133 @@ function doArchive(btn){
   },1500);
 }
 
+/* ===== 新增场景弹窗 ===== */
+function showAddSceneModal(){
+  var overlay=document.getElementById('sceneModal');
+  if(overlay){overlay.style.display='flex';return;}
+  var m=document.createElement('div');
+  m.id='sceneModal';
+  m.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;animation:fadeIn .2s';
+  m.innerHTML='<div style="background:#fff;border-radius:14px;width:520px;max-width:90vw;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)">'+
+    '<div style="padding:18px 22px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between">'+
+      '<div style="font-size:14px;font-weight:700;color:var(--text)">📌 新增标注场景</div>'+
+      '<div style="cursor:pointer;font-size:16px;color:#999" onclick="closeSceneModal()">✕</div>'+
+    '</div>'+
+    '<div style="padding:18px 22px">'+
+      '<div style="margin-bottom:14px"><div style="font-size:10.5px;font-weight:700;color:var(--text);margin-bottom:5px">场景名称 <span style="color:var(--red)">*</span></div>'+
+        '<input id="ns_name" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px" placeholder="如：身份证识别、发票识别…">'+
+      '</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">'+
+        '<div><div style="font-size:10.5px;font-weight:700;color:var(--text);margin-bottom:5px">场景图标</div>'+
+          '<select id="ns_icon" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px">'+
+            '<option value="📌">📌 图钉</option><option value="🪪">🪪 证件</option><option value="🧾">🧾 票据</option><option value="📋">📋 表单</option><option value="🖼️">🖼️ 图片</option><option value="📄">📄 文档</option><option value="🔑">🔑 密钥</option><option value="📊">📊 图表</option><option value="🔧">🔧 设备</option><option value="📦">📦 物品</option>'+
+          '</select>'+
+        '</div>'+
+        '<div><div style="font-size:10.5px;font-weight:700;color:var(--text);margin-bottom:5px">标注方式</div>'+
+          '<select id="ns_method" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px">'+
+            _annotMethods.map(function(m){return '<option value="'+m.id+'">'+m.icon+' '+m.name+'</option>'}).join('')+
+          '</select>'+
+        '</div>'+
+      '</div>'+
+      '<div style="margin-bottom:14px"><div style="font-size:10.5px;font-weight:700;color:var(--text);margin-bottom:5px">数据集前缀</div>'+
+        '<input id="ns_dataset" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px" placeholder="如：20260901-发票-南方">'+
+      '</div>'+
+      '<div style="margin-bottom:14px"><div style="font-size:10.5px;font-weight:700;color:var(--text);margin-bottom:5px">标注字段定义 <span style="color:var(--red)">*</span></div>'+
+        '<div style="font-size:9px;color:var(--text3);margin-bottom:6px">每行一个字段，格式：字段名 | 类型(core/offset/privacy/attr) | 示例值</div>'+
+        '<textarea id="ns_fields" style="width:100%;height:100px;padding:8px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:10.5px;line-height:1.6;font-family:monospace" placeholder="发票代码 | core | 031001900311\\n发票号码 | core | 83167790\\n开票日期 | core | 2026-06-01\\n金额 | core | ¥1,280.00\\n校验码 | attr | 6073…\\n购买方名称 | privacy | XX有限公司"></textarea>'+
+      '</div>'+
+      '<div style="margin-bottom:14px"><div style="font-size:10.5px;font-weight:700;color:var(--text);margin-bottom:5px">预期样本量</div>'+
+        '<input id="ns_total" type="number" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px" placeholder="500" value="500">'+
+      '</div>'+
+      '<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:18px">'+
+        '<button onclick="closeSceneModal()" style="padding:8px 20px;border-radius:8px;border:1px solid #ddd;background:#fff;font-size:11px;cursor:pointer">取消</button>'+
+        '<button onclick="doAddScene()" style="padding:8px 20px;border-radius:8px;border:none;background:var(--g2);color:#fff;font-size:11px;font-weight:700;cursor:pointer">✓ 创建场景</button>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+  document.body.appendChild(m);
+}
+
+function closeSceneModal(){
+  var m=document.getElementById('sceneModal');
+  if(m)m.style.display='none';
+}
+
+function doAddScene(){
+  var name=document.getElementById('ns_name').value.trim();
+  if(!name){document.getElementById('ns_name').style.borderColor='var(--red)';return;}
+  var icon=document.getElementById('ns_icon').value;
+  var method=document.getElementById('ns_method').value;
+  var methodInfo=_annotMethods.find(function(m){return m.id===method});
+  var dataset=document.getElementById('ns_dataset').value.trim()||('20260000-'+name);
+  var total=parseInt(document.getElementById('ns_total').value)||500;
+  var fieldsRaw=document.getElementById('ns_fields').value.trim();
+  var fields=[];
+  if(fieldsRaw){
+    fieldsRaw.split('\\n').forEach(function(line){
+      line=line.trim();if(!line)return;
+      var parts=line.split('|').map(function(p){return p.trim()});
+      fields.push({l:parts[0]||'字段',v:parts[2]||'',t:parts[1]||'core'});
+    });
+  }
+  if(fields.length===0){document.getElementById('ns_fields').style.borderColor='var(--red)';return;}
+  var id='scene_'+Date.now();
+  var colors=['var(--g2)','var(--blue)','var(--orange)','var(--purple)','var(--red)'];
+  var colorBgs=['var(--g8)','#E3F2FD','#FFF3E0','#EDE7F6','#FFEBEE'];
+  var cIdx=_scenes.length%colors.length;
+  var cfg={
+    id:id,
+    name:icon+' '+name,
+    sub:fields.length+'字段 · '+(methodInfo?methodInfo.name:'标注'),
+    icon:icon,
+    label:name,
+    color:colors[cIdx],
+    colorBg:colorBgs[cIdx],
+    dataset:dataset,
+    sample:icon+'_样本_001',
+    total:total,
+    cur:0,
+    boxes:0,
+    fields:fields,
+    corpus:{u:'',b:'',n:''},
+    qc:{done:0,pass:0,fail:0}
+  };
+  _sceneRegistry.addScene(cfg);
+  closeSceneModal();
+  switchScene(_scenes.length-1);
+  if(_activeStep===2)renderScene(_sceneIdx);
+}
+
 function renderScene(idx){
   var s=_scenes[idx];
   var tagMap={core:'核心',offset:'抵扣',privacy:'隐私',attr:'属性'};
   var clsMap={core:'core',offset:'offset',privacy:'privacy',attr:'attr'};
-  // Scene tabs
-  var tabsHtml='';
-  _scenes.forEach(function(sc,i){tabsHtml+='<div class="scene-tab'+(i===idx?' active':'')+'" onclick="switchScene('+i+')">'+sc.name+'<span>'+sc.sub+'</span></div>'});
-  document.getElementById('sceneTabs').innerHTML=tabsHtml;
-  // Canvas
+  // Scene tabs - use shared function
+  renderSceneTabs();
+  // Canvas - 基于场景id渲染，未知场景用通用占位
   var ch='';
-  if(idx===0){
+  if(s.id==='meter'){
     ch='<div class="ws-sample" style="width:300px;height:220px;background:linear-gradient(145deg,#f5f5f5,#ebebeb);padding:10px"><div style="width:280px;height:190px;background:#fff;border-radius:4px;position:relative;box-shadow:inset 0 1px 4px rgba(0,0,0,.05)"><div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:9px;color:#333;font-weight:700">DDZY1296C-Z 单相费控智能电能表</div><div style="position:absolute;top:28px;left:50%;transform:translateX(-50%);width:100px;height:36px;background:#1a1a1a;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#0f0;font-family:monospace;font-size:14px">02385</div><div style="position:absolute;top:72px;left:50%;transform:translateX(-50%);font-size:9px;color:#888">||||||||||||||||</div><div class="ws-box" style="top:80px;left:55px;width:170px;height:32px"><div class="bl">DNB-条形码</div></div><div class="ws-box t-blue" style="top:24px;left:70px;width:140px;height:45px"><div class="bl">DNB-液晶读数</div></div><div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:9px;color:#aaa">'+s.sample+'.jpg</div></div></div>';
-  }else if(idx===1){
+  }else if(s.id==='bill'){
     ch='<div class="ws-sample" style="width:240px;height:320px;background:#f5f5f5;border-radius:16px;border:2px solid #333;padding:8px;position:relative"><div style="width:50px;height:4px;background:#333;border-radius:3px;margin:0 auto 6px"></div><div style="background:#fff;border-radius:8px;overflow:hidden;height:calc(100% - 14px);position:relative"><div style="background:var(--g2);color:#fff;padding:6px 10px;font-size:9px;font-weight:700">网上国网</div><div style="padding:8px 10px"><div style="font-size:10px;color:#999">用电户号</div><div style="font-size:11px;font-weight:700;color:var(--text)">3201****8765</div></div><div style="margin:0 10px;border-top:1px solid #f0f0f0"></div><div style="padding:6px 10px"><div style="font-size:10px;font-weight:700;color:var(--text)">交费记录</div><div style="background:#f8f8f8;border-radius:6px;padding:6px;margin-top:4px"><div style="display:flex;justify-content:space-between;font-size:10px"><span>2026-06-15</span><span style="font-weight:700">¥256.80</span></div><div style="font-size:9px;color:var(--g4);margin-top:2px">✓ 已到账</div></div></div><div class="ws-box" style="top:34px;left:8px;width:110px;height:30px"><div class="bl">户号</div></div><div class="ws-box t-blue" style="top:90px;left:8px;width:90px;height:16px"><div class="bl">交费时间</div></div><div class="ws-box" style="top:90px;right:8px;width:70px;height:16px"><div class="bl">交费金额</div></div><div class="ws-box t-blue" style="top:108px;left:8px;width:60px;height:14px"><div class="bl">付款状态</div></div></div><div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:9px;color:#aaa">'+s.sample+'.png</div></div>';
-  }else if(idx===2){
+  }else if(s.id==='order'){
     ch='<div class="ws-sample" style="width:240px;height:320px;background:#f5f5f5;border-radius:16px;border:2px solid #333;padding:8px;position:relative"><div style="width:50px;height:4px;background:#333;border-radius:3px;margin:0 auto 6px"></div><div style="background:#fff;border-radius:8px;overflow:hidden;height:calc(100% - 14px);position:relative;font-size:9px"><div style="background:var(--g2);color:#fff;padding:6px 10px;font-size:9px;font-weight:700">订单详情</div><div style="padding:6px 10px;line-height:1.8"><div><span style="color:#999">订单编号</span> 202606150001</div><div><span style="color:#999">订单时间</span> 06-15 14:32</div><div><span style="color:#999">订单状态</span> <span style="color:var(--g4)">支付成功</span></div><div style="border-top:1px dashed #eee;margin:3px 0"></div><div><span style="color:#999">交费金额</span> ¥256.80</div><div><span style="color:#999">红包抵扣</span> <span style="color:var(--orange)">-¥5.00</span></div><div><span style="color:#999">积分抵扣</span> <span style="color:var(--orange)">-¥2.50</span></div><div><span style="color:#999">优惠券</span> <span style="color:var(--orange)">-¥10.00</span></div><div style="font-weight:700"><span style="color:#999">实付金额</span> ¥239.30</div><div style="border-top:1px dashed #eee;margin:3px 0"></div><div><span style="color:#999">支付方式</span> 微信支付</div><div><span style="color:#999">交费渠道</span> 网上国网APP</div><div><span style="color:#999">户号户名</span> 3201*** 张*明</div></div><div class="ws-box" style="top:30px;left:8px;width:110px;height:14px"><div class="bl">订单编号</div></div><div class="ws-box" style="top:44px;left:8px;width:90px;height:14px"><div class="bl">订单时间</div></div><div class="ws-box t-blue" style="top:72px;left:8px;width:80px;height:14px"><div class="bl">交费金额</div></div><div class="ws-box t-blue" style="top:100px;left:8px;width:70px;height:14px"><div class="bl">红包抵扣</div></div><div class="ws-box t-blue" style="top:128px;left:8px;width:80px;height:14px"><div class="bl">实付金额</div></div><div class="ws-box t-red" style="top:166px;left:8px;width:90px;height:14px"><div class="bl">户号户名(隐私)</div></div></div><div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:9px;color:#aaa">'+s.sample+'.png</div></div>';
-  }else{
+  }else if(s.id==='error'){
     ch='<div class="ws-sample" style="width:240px;height:320px;background:#f5f5f5;border-radius:16px;border:2px solid #333;padding:8px;position:relative"><div style="width:50px;height:4px;background:#333;border-radius:3px;margin:0 auto 6px"></div><div style="background:#e8e8e8;border-radius:8px;overflow:hidden;height:calc(100% - 14px);position:relative;padding:20px 10px"><div style="background:#fff;border-radius:12px;padding:14px;box-shadow:0 2px 12px rgba(0,0,0,.1);position:relative"><div style="font-size:11px;font-weight:700;color:var(--red);margin-bottom:6px">⚠️ 网络连接异常</div><div style="font-size:10px;color:#666;line-height:1.6;margin-bottom:10px">当前网络不可用，请检查网络设置后重试</div><div style="text-align:center"><span style="display:inline-block;background:var(--g2);color:#fff;padding:4px 24px;border-radius:16px;font-size:9px;font-weight:700">确定</span></div><div class="ws-box t-red" style="top:-2px;left:0;width:120px;height:18px"><div class="bl">异常标题</div></div><div class="ws-box t-blue" style="top:18px;left:0;width:160px;height:34px"><div class="bl">提示内容</div></div><div class="ws-box" style="bottom:0;right:0;width:80px;height:14px"><div class="bl">APP版本</div></div></div><div style="position:absolute;bottom:12px;left:10px;font-size:9px;color:#999">v3.2.1 · 网上国网</div></div><div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:9px;color:#aaa">'+s.sample+'.png</div></div>';
+  }else{
+    /* 通用新场景占位画面 - 根据字段动态生成标注区域 */
+    var fieldBoxes=s.fields.slice(0,6).map(function(f,i){
+      var top=24+i*24;
+      var cls=i===0?'':' t-blue';
+      if(f.t==='privacy')cls=' t-red';
+      return '<div class="ws-box'+cls+'" style="top:'+top+'px;left:8px;width:110px;height:16px"><div class="bl">'+f.l+'</div></div>';
+    }).join('');
+    var fieldList=s.fields.slice(0,5).map(function(f){return '<div><span style="color:#999">'+f.l+'</span> '+(f.v||'—')+'</div>'}).join('');
+    ch='<div class="ws-sample" style="width:240px;height:320px;background:#f5f5f5;border-radius:16px;border:2px solid #333;padding:8px;position:relative"><div style="width:50px;height:4px;background:#333;border-radius:3px;margin:0 auto 6px"></div><div style="background:#fff;border-radius:8px;overflow:hidden;height:calc(100% - 14px);position:relative;font-size:9px"><div style="background:'+s.color+';color:#fff;padding:6px 10px;font-size:9px;font-weight:700">'+s.label+'</div><div style="padding:6px 10px;line-height:1.8">'+fieldList+'</div>'+fieldBoxes+'</div><div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:9px;color:#aaa">'+s.sample+'.png</div></div>';
   }
   document.getElementById('wsCanvas').innerHTML=ch;
   // Footer
-  var shortName=s.name.split(' ')[1]||s.name;
+  var shortName=s.label||s.name;
   document.getElementById('wsFooter').innerHTML='<span>样本 '+s.cur+'/'+s.total+' · '+shortName+' · 已标注 '+s.boxes+' 个区域</span><span style="display:flex;gap:4px"><span style="padding:2px 8px;border:1px solid #ddd;border-radius:4px;cursor:pointer;font-size:9px">⬅ 上一张</span><span style="padding:2px 8px;background:var(--g8);border:1px solid var(--g5);border-radius:4px;cursor:pointer;font-size:9px;color:var(--g2)">下一张 ➡</span></span>';
   // Panel
   var h='<div class="ws-card"><h5>📋 样本信息</h5>';
