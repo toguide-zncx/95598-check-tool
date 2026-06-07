@@ -72,7 +72,29 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .df-step.s5{background:linear-gradient(135deg,#388E3C,#4CAF50)}.df-step.s5::after{border-left-color:#4CAF50}.df-step.s5::before{border-left-color:rgba(0,0,0,.08)}
 .df-step.highlight{box-shadow:0 0 0 3px var(--orange),0 4px 16px rgba(230,81,0,.2)}
 .df-step.highlight .df-idx{opacity:.35;color:var(--orange)}
-@media(max-width:768px){.df-pipeline{flex-direction:column;gap:6px}.df-step{border-radius:8px!important}.df-step::after,.df-step::before{display:none}}
+/* 采治标用四阶段 */
+.df4-pipeline{display:flex;gap:0;align-items:stretch;position:relative}
+.df4-card{flex:1;position:relative;padding:10px 12px;transition:all .2s;cursor:default;overflow:hidden;display:flex;flex-direction:column;gap:4px}
+.df4-card:first-child{border-radius:10px 0 0 10px}
+.df4-card:last-child{border-radius:0 10px 10px 0}
+.df4-card::after{content:'';position:absolute;right:-12px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:12px solid;border-top:16px solid transparent;border-bottom:16px solid transparent;z-index:2}
+.df4-card::before{content:'';position:absolute;right:-12px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:12px solid rgba(0,0,0,.08);border-top:16px solid transparent;border-bottom:16px solid transparent;z-index:3}
+.df4-card:last-child::after,.df4-card:last-child::before{display:none}
+.df4-card:hover{filter:brightness(1.05);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.df4-char{font-size:28px;font-weight:800;color:#fff;line-height:1;opacity:.18;position:absolute;top:4px;right:8px}
+.df4-head{display:flex;align-items:center;gap:6px}
+.df4-icon{font-size:20px}
+.df4-label{font-size:13px;font-weight:700;color:#fff}
+.df4-sub{font-size:10px;font-weight:500;color:rgba(255,255,255,.85);line-height:1.4;padding:2px 6px;background:rgba(255,255,255,.15);border-radius:3px;display:inline-block}
+.df4-items{display:flex;flex-direction:column;gap:2px;margin-top:2px}
+.df4-item{font-size:9.5px;color:rgba(255,255,255,.8);line-height:1.3;padding-left:8px;position:relative}
+.df4-item::before{content:'';position:absolute;left:0;top:5px;width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.5)}
+.df4-card.p0{background:linear-gradient(135deg,#006B54,#008667)}.df4-card.p0::after{border-left-color:#008667}.df4-card.p0::before{border-left-color:rgba(0,0,0,.08)}
+.df4-card.p1{background:linear-gradient(135deg,#008667,#2E7D32)}.df4-card.p1::after{border-left-color:#2E7D32}.df4-card.p1::before{border-left-color:rgba(0,0,0,.08)}
+.df4-card.p2{background:linear-gradient(135deg,#2E7D32,#388E3C)}.df4-card.p2::after{border-left-color:#388E3C}.df4-card.p2::before{border-left-color:rgba(0,0,0,.08)}
+.df4-card.p3{background:linear-gradient(135deg,#388E3C,#4CAF50)}.df4-card.p3::after{border-left-color:#4CAF50}.df4-card.p3::before{border-left-color:rgba(0,0,0,.08)}
+.df4-card.highlight{box-shadow:0 0 0 3px var(--orange),0 4px 16px rgba(230,81,0,.2)}
+@media(max-width:768px){.df4-pipeline{flex-direction:column;gap:6px}.df4-card{border-radius:8px!important}.df4-card::after,.df4-card::before{display:none}}
 .gantt-section{background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .gantt-section h3{font-size:12px;font-weight:700;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:5px}
 .gantt-wrap{overflow-x:auto}
@@ -354,47 +376,53 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
     <div class="bg-mission">标注项目使命：为第二阶段模型训练提供高质量标注数据，让智能客服具备异常提示/电能表/电费/订单图片识别能力</div>
   </div>
 
-<!-- 多源数据采集五步治理流程 -->
+<!-- 采治标用四阶段 -->
 <div class="data-flow-section">
-  <h3>📥 数据采集与预处理 · 五步治理流程</h3>
+  <h3>📥 采-治-标-用 · 全流程数据治理</h3>
   <div class="data-flow-desc">
-    针对电能表状态识别、网上国网报错解析等高频场景，通过<b>多源采集、清洗标准化、质量评估、安全脱敏、分类归档</b>五步治理，建立全流程数据规范，确保原始数据真实合规可用，为标注环节提供高质量输入。
+    针对电能表状态识别、网上国网报错解析等高频场景，按<b>采→治→标→用</b>四阶段推进，建立全流程数据规范，确保原始数据真实合规可用，最终实现标注样本高质量交付与模型验证闭环。
   </div>
-  <div class="df-pipeline">
-    <div class="df-step s1 highlight">
-      <div class="df-idx">01</div>
-      <div class="df-icon">📡</div>
-      <div class="df-title">多源数据采集</div>
-      <div class="df-goal">🎯 全面收集真实有效的现场数据</div>
-      <div class="df-detail">通过秒享向数据部提申请导出数据，涵盖微信小程序、网上国网等全文本渠道，覆盖电能表状态识别等指定场景的图文语料</div>
+  <div class="df4-pipeline">
+    <div class="df4-card p0 highlight">
+      <div class="df4-char">采</div>
+      <div class="df4-head"><span class="df4-icon">📡</span><span class="df4-label">数据采集</span></div>
+      <div class="df4-sub">🎯 多源采集，覆盖全渠道真实语料</div>
+      <div class="df4-items">
+        <div class="df4-item">通过秒享向数据部提申请导出数据</div>
+        <div class="df4-item">涵盖微信小程序、网上国网等全文本渠道</div>
+        <div class="df4-item">覆盖电能表状态识别等指定场景图文语料</div>
+      </div>
     </div>
-    <div class="df-step s2">
-      <div class="df-idx">02</div>
-      <div class="df-icon">🧹</div>
-      <div class="df-title">数据清洗与标准化</div>
-      <div class="df-goal">🎯 剔除冗余，格式统一规范</div>
-      <div class="df-detail">依据质控标准对电能表等多类业务数据清理，去除错误、冗余信息；统一不同数据源格式与字段规范，完成异构数据整合</div>
+    <div class="df4-card p1">
+      <div class="df4-char">治</div>
+      <div class="df4-head"><span class="df4-icon">🧹</span><span class="df4-label">数据治理</span></div>
+      <div class="df4-sub">🎯 清洗·评估·脱敏·归档，保障数据质量</div>
+      <div class="df4-items">
+        <div class="df4-item">清洗标准化：去除冗余，统一格式与字段规范</div>
+        <div class="df4-item">质量评估：完整性·准确性·一致性·唯一性</div>
+        <div class="df4-item">安全脱敏：人脸/车牌/身份证号等敏感信息处理</div>
+        <div class="df4-item">分类归档：按场景/故障类型/错误等级归类存储</div>
+      </div>
     </div>
-    <div class="df-step s3">
-      <div class="df-idx">03</div>
-      <div class="df-icon">🔍</div>
-      <div class="df-title">数据质量评估</div>
-      <div class="df-goal">🎯 完整性·准确性·一致性·唯一性</div>
-      <div class="df-detail">从四个维度对数据质量打分，只有达标数据才能进入标注环节；评估发现的共性问题反向优化采集和清洗规则</div>
+    <div class="df4-card p2">
+      <div class="df4-char">标</div>
+      <div class="df4-head"><span class="df4-icon">🏷️</span><span class="df4-label">数据标注</span></div>
+      <div class="df4-sub">🎯 规范标注，产出高质量样本库</div>
+      <div class="df4-items">
+        <div class="df4-item">制定图片/语料标注标准与操作规范</div>
+        <div class="df4-item">实名认证、电能表异常等场景标注执行</div>
+        <div class="df4-item">标注审核与质量校核，准确率≥98%</div>
+      </div>
     </div>
-    <div class="df-step s4">
-      <div class="df-idx">04</div>
-      <div class="df-icon">🔒</div>
-      <div class="df-title">数据安全脱敏</div>
-      <div class="df-goal">🎯 规避隐私泄露风险</div>
-      <div class="df-detail">图片数据：对人脸、车牌、门牌号等敏感信息模糊化处理；文本数据：对姓名、身份证号、联系方式、客户编号、地址等替换或删除</div>
-    </div>
-    <div class="df-step s5">
-      <div class="df-idx">05</div>
-      <div class="df-icon">🗂️</div>
-      <div class="df-title">数据分类与归档</div>
-      <div class="df-goal">🎯 统一存储，快速调取</div>
-      <div class="df-detail">按业务场景、故障类型、错误等级和影响程度归类梳理；建立数据更新与维护规则，统一整理归档，做好日常管理</div>
+    <div class="df4-card p3">
+      <div class="df4-char">用</div>
+      <div class="df4-head"><span class="df4-icon">🔬</span><span class="df4-label">应用验证</span></div>
+      <div class="df4-sub">🎯 训练测试，闭环验证标注效果</div>
+      <div class="df4-items">
+        <div class="df4-item">模型训练：基于标注样本训练识别模型</div>
+        <div class="df4-item">测试集验证：报错/电能表场景测试评估</div>
+        <div class="df4-item">效果评估：抽检增补，持续优化标注质量</div>
+      </div>
     </div>
   </div>
 </div>
