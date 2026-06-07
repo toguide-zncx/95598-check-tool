@@ -7,7 +7,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--g1:#004D3A;--g2:#006B54;--g3:#008667;--g4:#4CAF50;--g5:#81C784;--g6:#A5D6A7;--g7:#C8E6C9;--g8:#E8F5E9;--g9:#F1F8E9;--orange:#E65100;--blue:#1565C0;--red:#C62828;--purple:#5E35B1;--text:#1a1a2e;--text2:#424242;--text3:#666;--bg:#f0f2f5;--card:#fff}
-html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--text)}
+html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .page{max-width:1240px;margin:0 auto;padding:24px 20px 40px;animation:fadeIn .6s}
 .header{text-align:center;margin-bottom:24px;padding:32px 24px 28px;background:linear-gradient(135deg,var(--g1),var(--g2),var(--g3));border-radius:16px;color:#fff;position:relative;overflow:hidden}
@@ -57,10 +57,10 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .gh-month{font-size:10px;font-weight:600;color:var(--text3);text-align:center;padding:2px 0}
 .gantt-row{display:grid;grid-template-columns:100px repeat(9,1fr);align-items:center;padding:3px 0;min-height:26px}
 .gr-label{font-size:10px;font-weight:600;color:var(--text2);padding-right:6px;text-align:right;white-space:nowrap}
-.gantt-bar{border-radius:4px;height:18px;display:flex;align-items:center;padding:0 6px;font-size:8.5px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;transition:filter .2s}
+.gantt-bar{border-radius:4px;height:20px;display:flex;align-items:center;padding:0 6px;font-size:10.5px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;transition:filter .2s}
 .gantt-bar:hover{filter:brightness(1.15)}
 .gantt-now{position:absolute;top:0;bottom:0;width:2px;background:var(--red);z-index:5;opacity:.7}
-.gantt-now::before{content:'\2605 今天';position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--red);font-weight:700;white-space:nowrap}
+.gantt-now::before{content:'\2605 今天';position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--red);font-weight:700;white-space:nowrap}
 .phase-nav{display:flex;gap:0;margin-bottom:24px;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .phase-tab{flex:1;padding:12px 6px;text-align:center;cursor:pointer;transition:all .25s;position:relative;color:#fff;font-weight:600;font-size:12px}
 .phase-tab:hover{filter:brightness(1.1)}
@@ -101,7 +101,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .sub-phase-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .sub-phase{padding:10px;border-radius:10px;border:1.5px solid #e8e8e8;background:#FFFBF5}
 .sub-phase h5{font-size:11px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:5px}
-.sp-badge{display:inline-block;padding:1px 6px;border-radius:6px;font-size:8.5px;font-weight:600;color:#fff}
+.sp-badge{display:inline-block;padding:2px 7px;border-radius:6px;font-size:10.5px;font-weight:600;color:#fff}
 .bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .milestone-card,.deliverable-card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .milestone-card h3,.deliverable-card h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px}
@@ -113,7 +113,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .dl-table{width:100%;border-collapse:collapse;font-size:10px}
 .dl-table th{background:var(--g8);color:var(--g2);padding:4px 5px;text-align:left;font-weight:600;white-space:nowrap}
 .dl-table td{padding:3px 5px;border-bottom:1px solid #f0f0f0;color:var(--text2)}
-.dl-table .phase-tag{display:inline-block;padding:1px 4px;border-radius:5px;font-size:8.5px;font-weight:600;color:#fff}
+.dl-table .phase-tag{display:inline-block;padding:2px 5px;border-radius:5px;font-size:10.5px;font-weight:600;color:#fff}
 .expand-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1.5px solid var(--g4);background:var(--g8);color:var(--g2);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:all .2s}
 .expand-btn:hover{background:var(--g4);color:#fff}
 /* 标注工具section */
@@ -136,7 +136,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .ws-main{flex:1;display:flex;align-items:center;justify-content:center;padding:12px;position:relative}
 .ws-sample{position:relative;border-radius:6px;box-shadow:0 2px 12px rgba(0,0,0,.08);background:#fff;overflow:visible}
 .ws-box{position:absolute;border:2px solid var(--g4);border-radius:2px}
-.ws-box .bl{position:absolute;top:-17px;left:0;background:var(--g4);color:#fff;font-size:8px;padding:1px 5px;border-radius:3px 3px 0 0;white-space:nowrap;font-weight:600}
+.ws-box .bl{position:absolute;top:-19px;left:0;background:var(--g4);color:#fff;font-size:10px;padding:2px 6px;border-radius:3px 3px 0 0;white-space:nowrap;font-weight:600}
 .ws-box.t-red{border-color:var(--red)}.ws-box.t-red .bl{background:var(--red)}
 .ws-box.t-blue{border-color:var(--blue)}.ws-box.t-blue .bl{background:var(--blue)}
 .ws-footer{padding:5px 10px;border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;font-size:9.5px;color:var(--text3);background:#fafafa;border-radius:0 0 10px 10px}
@@ -151,7 +151,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 /* 场景切换 */
 .scene-tabs{display:flex;gap:6px;margin-bottom:10px}
 .scene-tab{flex:1;padding:7px 6px;border-radius:8px;text-align:center;cursor:pointer;transition:all .2s;border:1.5px solid #e8e8e8;background:#fafafa;font-size:11px;font-weight:600;color:var(--text2);line-height:1.3}
-.scene-tab span{display:block;font-size:8.5px;opacity:.5;margin-top:2px}
+.scene-tab span{display:block;font-size:10.5px;opacity:.5;margin-top:2px}
 .scene-tab:hover{border-color:var(--g4);background:var(--g8)}
 .scene-tab.active{border-color:var(--g2);background:var(--g8);color:var(--g2);box-shadow:0 2px 8px rgba(0,107,84,.12)}
 /* 标注流程管线 */
@@ -175,14 +175,14 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .dz-title{font-size:13px;font-weight:700;color:var(--text2)}
 .dz-sub{font-size:10px;color:#999;margin-top:4px}
 .fmt-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:12px;justify-content:center}
-.fmt-tag{padding:2px 8px;border-radius:4px;font-size:8.5px;background:#f0f0f0;color:#666;font-weight:600}
+.fmt-tag{padding:2px 9px;border-radius:4px;font-size:10.5px;background:#f0f0f0;color:#666;font-weight:600}
 .import-log{margin-top:14px;border-top:1px solid #eee;padding-top:12px}
 .import-log h5{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:8px}
 .log-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;margin-bottom:4px;font-size:10px;background:#fff;border:1px solid #f0f0f0}
 .li-icon{font-size:14px;flex-shrink:0}
 .li-info{flex:1;min-width:0}
 .li-name{font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.li-meta{font-size:8.5px;color:#999}
+.li-meta{font-size:10.5px;color:#999}
 .li-status{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;flex-shrink:0}
 .li-status.ok{background:var(--g8);color:var(--g2)}
 .li-status.err{background:#FFEBEE;color:var(--red)}
@@ -192,8 +192,8 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .pt-chk.checked{background:var(--g2);border-color:var(--g2);color:#fff}
 .pt-info{flex:1;min-width:0}
 .pt-name{font-size:10.5px;font-weight:700;color:var(--text)}
-.pt-desc{font-size:8.5px;color:#999;margin-top:1px}
-.pt-badge{font-size:8px;padding:2px 6px;border-radius:4px;font-weight:700;flex-shrink:0}
+.pt-desc{font-size:10.5px;color:#999;margin-top:1px}
+.pt-badge{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:700;flex-shrink:0}
 .pt-badge.auto{background:#E3F2FD;color:var(--blue)}
 .pt-badge.manual{background:#FFF3E0;color:var(--orange)}
 .pt-badge.ls{background:var(--g8);color:var(--g2)}
@@ -203,7 +203,7 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .verify-field{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid #f5f5f5;font-size:9.5px}
 .verify-field:last-child{border-bottom:none}
 .vf-name{flex:1;font-weight:600;color:var(--text)}
-.vf-val{color:var(--text3);font-size:8.5px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vf-val{color:var(--text3);font-size:10.5px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .vf-btn{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;transition:all .15s;border:none;flex-shrink:0}
 .vf-btn.pass{background:var(--g8);color:var(--g2)}.vf-btn.pass:hover{background:var(--g2);color:#fff}
 .vf-btn.pass.checked{background:var(--g2);color:#fff}
@@ -214,9 +214,9 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .rq-idx{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
 .rq-info{flex:1;min-width:0}
 .rq-name{font-size:10.5px;font-weight:700;color:var(--text)}
-.rq-meta{font-size:8.5px;color:#999}
+.rq-meta{font-size:10.5px;color:#999}
 .rq-actions{display:flex;gap:4px;flex-shrink:0}
-.rq-btn{padding:3px 8px;border-radius:4px;font-size:8.5px;font-weight:700;cursor:pointer;border:none;transition:all .15s}
+.rq-btn{padding:3px 8px;border-radius:4px;font-size:10.5px;font-weight:700;cursor:pointer;border:none;transition:all .15s}
 .rq-btn.approve{background:var(--g8);color:var(--g2)}.rq-btn.approve:hover{background:var(--g2);color:#fff}
 .rq-btn.reject{background:#FFEBEE;color:var(--red)}.rq-btn.reject:hover{background:var(--red);color:#fff}
 .rq-btn.return{background:#FFF3E0;color:var(--orange)}.rq-btn.return:hover{background:var(--orange);color:#fff}
@@ -233,10 +233,10 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .export-opt.selected .eo-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--g2)}
 .eo-info{flex:1}
 .eo-name{font-size:10.5px;font-weight:700;color:var(--text)}
-.eo-desc{font-size:8.5px;color:#999}
+.eo-desc{font-size:10.5px;color:#999}
 @media(max-width:768px){.sv-grid{grid-template-columns:1fr}}
 /* 标注字段标签 */
-.field-tag{display:inline-block;padding:0 4px;border-radius:3px;font-size:7.5px;font-weight:700;vertical-align:middle}
+.field-tag{display:inline-block;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:700;vertical-align:middle}
 .field-tag.core{background:var(--g8);color:var(--g2)}
 .field-tag.offset{background:#FFF3E0;color:var(--orange)}
 .field-tag.privacy{background:#FFEBEE;color:var(--red)}
@@ -253,8 +253,8 @@ html,body{height:100%;font-family:-apple-system,"Microsoft YaHei","PingFang SC",
 .arch-it{padding:6px 8px;border-radius:7px;border:1.5px solid #e8e8e8;font-size:9.5px;transition:all .12s}
 .arch-it:hover{border-color:var(--g4);box-shadow:0 1px 6px rgba(76,175,80,.1)}
 .arch-it .at{font-weight:700;color:var(--text);margin-bottom:1px}
-.arch-it .ad{font-size:8.5px;color:var(--text3);line-height:1.3}
-.arch-it .ab{display:inline-block;padding:0 4px;border-radius:3px;font-size:7.5px;font-weight:600;margin-top:2px}
+.arch-it .ad{font-size:10.5px;color:var(--text3);line-height:1.3}
+.arch-it .ab{display:inline-block;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:600;margin-top:2px}
 .ab.ls{background:#E3F2FD;color:#1565C0}.ab.cu{background:#FFF3E0;color:var(--orange)}.ab.ha{background:var(--g8);color:var(--g2)}
 @media(max-width:768px){.phase-nav{flex-wrap:wrap}.phase-tab{flex:1 1 33%}.phase-overview{flex-wrap:wrap}.pov-card{flex:1 1 45%}.bg-grid{grid-template-columns:1fr}.bottom-row{grid-template-columns:1fr}.sub-phase-grid{grid-template-columns:1fr}.gantt-header,.gantt-row{grid-template-columns:60px repeat(9,1fr)}.ws-layout{grid-template-columns:1fr}.arch-grid{grid-template-columns:1fr 1fr}}
 
@@ -570,7 +570,7 @@ function renderImportStep(c){
         '<div class="wf"><div class="wf-label">已导入语料</div><div class="wf-val">234条</div></div>'+
         '<div class="wf"><div class="wf-label">导入批次</div><div class="wf-val">3次</div></div>'+
         '<div style="margin-top:6px;height:6px;background:#eee;border-radius:3px;overflow:hidden"><div style="width:'+Math.round(s.cur/s.total*100)+'%;height:100%;background:var(--g2);border-radius:3px;transition:width .3s"></div></div>'+
-        '<div style="font-size:8px;color:#999;margin-top:3px;text-align:right">完成 '+Math.round(s.cur/s.total*100)+'%</div>'+
+        '<div style="font-size:10px;color:#999;margin-top:3px;text-align:right">完成 '+Math.round(s.cur/s.total*100)+'%</div>'+
       '</div>'+
       '<div class="sr-card"><h5>⚙️ 导入设置</h5>'+
         '<div class="wf"><div class="wf-label">自动场景分类</div><div class="wf-val" style="color:var(--g2)">✓ 已开启</div></div>'+
@@ -722,7 +722,7 @@ function renderVerifyStep(c){
         '<div class="wf"><div class="wf-label">通过率</div><div class="wf-val" style="color:var(--g2)">'+(s.qc.done>0?Math.round(s.qc.pass/s.qc.done*100):0)+'%</div></div>'+
         '<div class="wf"><div class="wf-label">退回数</div><div class="wf-val" style="color:'+(s.qc.fail>0?'var(--red)':'var(--text2)')+'">'+s.qc.fail+'</div></div>'+
       '</div>'+
-      '<div class="qc-card"><h6>📊 抽检规则 <span class="field-tag offset" style="font-size:7px">二次开发</span></h6>'+
+      '<div class="qc-card"><h6>📊 抽检规则 <span class="field-tag offset" style="font-size:9px">二次开发</span></h6>'+
         '<div class="qc-row"><span>常规场景抽检</span><span class="qc-val">≥ 30%</span></div>'+
         '<div class="qc-row"><span>复杂场景抽检</span><span class="qc-val">≥ 50%</span></div>'+
         '<div class="qc-row"><span>当前抽检率</span><span class="qc-val" style="color:var(--g2)">'+(s.cur>0?Math.round(s.qc.done/s.cur*100):0)+'%</span></div>'+
@@ -796,7 +796,7 @@ function renderReviewStep(c){
         '<div class="qc-row"><span>李琳</span><span class="qc-val">22份</span></div>'+
         '<div class="qc-row"><span>王芳</span><span class="qc-val">18份</span></div>'+
       '</div>'+
-      '<div class="sr-card"><h5>📝 审核台账 <span class="field-tag offset" style="font-size:7px">二次开发</span></h5>'+
+      '<div class="sr-card"><h5>📝 审核台账 <span class="field-tag offset" style="font-size:9px">二次开发</span></h5>'+
         '<div style="font-size:9px;line-height:1.6;color:var(--text2)">记录审核人/时间/问题/退回明细，支持按审核人、时间段、问题类型筛选统计。</div>'+
       '</div>'+
       '<div class="sr-card" style="background:#f0f7f4;border-color:#c8e6c9"><h5>💡 提示</h5>'+
@@ -861,7 +861,7 @@ function renderArchiveStep(c){
         '<div class="wf"><div class="wf-label">归库时间</div><div class="wf-val">2026-06-22</div></div>'+
         '<div class="wf"><div class="wf-label">准确率</div><div class="wf-val" style="color:var(--g2)">≥ 98%</div></div>'+
       '</div>'+
-      '<div class="sr-card"><h5>📋 版本记录 <span class="field-tag offset" style="font-size:7px">二次开发</span></h5>'+
+      '<div class="sr-card"><h5>📋 版本记录 <span class="field-tag offset" style="font-size:9px">二次开发</span></h5>'+
         '<div class="qc-row"><span>v1.3 · 6/22</span><span class="qc-val" style="color:var(--g2)">+'+Math.round(totalAll*0.3)+'</span></div>'+
         '<div class="qc-row"><span>v1.2 · 6/18</span><span class="qc-val">+'+Math.round(totalAll*0.25)+'</span></div>'+
         '<div class="qc-row"><span>v1.1 · 6/15</span><span class="qc-val">+'+Math.round(totalAll*0.2)+'</span></div>'+
@@ -906,13 +906,13 @@ function renderScene(idx){
   // Canvas
   var ch='';
   if(idx===0){
-    ch='<div class="ws-sample" style="width:300px;height:220px;background:linear-gradient(145deg,#f5f5f5,#ebebeb);padding:10px"><div style="width:280px;height:190px;background:#fff;border-radius:4px;position:relative;box-shadow:inset 0 1px 4px rgba(0,0,0,.05)"><div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:9px;color:#333;font-weight:700">DDZY1296C-Z 单相费控智能电能表</div><div style="position:absolute;top:28px;left:50%;transform:translateX(-50%);width:100px;height:36px;background:#1a1a1a;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#0f0;font-family:monospace;font-size:14px">02385</div><div style="position:absolute;top:72px;left:50%;transform:translateX(-50%);font-size:7px;color:#888">||||||||||||||||</div><div class="ws-box" style="top:80px;left:55px;width:170px;height:32px"><div class="bl">DNB-条形码</div></div><div class="ws-box t-blue" style="top:24px;left:70px;width:140px;height:45px"><div class="bl">DNB-液晶读数</div></div><div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:7px;color:#aaa">'+s.sample+'.jpg</div></div></div>';
+    ch='<div class="ws-sample" style="width:300px;height:220px;background:linear-gradient(145deg,#f5f5f5,#ebebeb);padding:10px"><div style="width:280px;height:190px;background:#fff;border-radius:4px;position:relative;box-shadow:inset 0 1px 4px rgba(0,0,0,.05)"><div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:9px;color:#333;font-weight:700">DDZY1296C-Z 单相费控智能电能表</div><div style="position:absolute;top:28px;left:50%;transform:translateX(-50%);width:100px;height:36px;background:#1a1a1a;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#0f0;font-family:monospace;font-size:14px">02385</div><div style="position:absolute;top:72px;left:50%;transform:translateX(-50%);font-size:9px;color:#888">||||||||||||||||</div><div class="ws-box" style="top:80px;left:55px;width:170px;height:32px"><div class="bl">DNB-条形码</div></div><div class="ws-box t-blue" style="top:24px;left:70px;width:140px;height:45px"><div class="bl">DNB-液晶读数</div></div><div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:9px;color:#aaa">'+s.sample+'.jpg</div></div></div>';
   }else if(idx===1){
-    ch='<div class="ws-sample" style="width:240px;height:320px;background:#f5f5f5;border-radius:16px;border:2px solid #333;padding:8px;position:relative"><div style="width:50px;height:4px;background:#333;border-radius:3px;margin:0 auto 6px"></div><div style="background:#fff;border-radius:8px;overflow:hidden;height:calc(100% - 14px);position:relative"><div style="background:var(--g2);color:#fff;padding:6px 10px;font-size:9px;font-weight:700">网上国网</div><div style="padding:8px 10px"><div style="font-size:8px;color:#999">用电户号</div><div style="font-size:11px;font-weight:700;color:var(--text)">3201****8765</div></div><div style="margin:0 10px;border-top:1px solid #f0f0f0"></div><div style="padding:6px 10px"><div style="font-size:8px;font-weight:700;color:var(--text)">交费记录</div><div style="background:#f8f8f8;border-radius:6px;padding:6px;margin-top:4px"><div style="display:flex;justify-content:space-between;font-size:8px"><span>2026-06-15</span><span style="font-weight:700">¥256.80</span></div><div style="font-size:7px;color:var(--g4);margin-top:2px">✓ 已到账</div></div></div><div class="ws-box" style="top:34px;left:8px;width:110px;height:30px"><div class="bl">户号</div></div><div class="ws-box t-blue" style="top:90px;left:8px;width:90px;height:16px"><div class="bl">交费时间</div></div><div class="ws-box" style="top:90px;right:8px;width:70px;height:16px"><div class="bl">交费金额</div></div><div class="ws-box t-blue" style="top:108px;left:8px;width:60px;height:14px"><div class="bl">付款状态</div></div></div><div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:7px;color:#aaa">'+s.sample+'.png</div></div>';
+    ch='<div class="ws-sample" style="width:240px;height:320px;background:#f5f5f5;border-radius:16px;border:2px solid #333;padding:8px;position:relative"><div style="width:50px;height:4px;background:#333;border-radius:3px;margin:0 auto 6px"></div><div style="background:#fff;border-radius:8px;overflow:hidden;height:calc(100% - 14px);position:relative"><div style="background:var(--g2);color:#fff;padding:6px 10px;font-size:9px;font-weight:700">网上国网</div><div style="padding:8px 10px"><div style="font-size:10px;color:#999">用电户号</div><div style="font-size:11px;font-weight:700;color:var(--text)">3201****8765</div></div><div style="margin:0 10px;border-top:1px solid #f0f0f0"></div><div style="padding:6px 10px"><div style="font-size:10px;font-weight:700;color:var(--text)">交费记录</div><div style="background:#f8f8f8;border-radius:6px;padding:6px;margin-top:4px"><div style="display:flex;justify-content:space-between;font-size:10px"><span>2026-06-15</span><span style="font-weight:700">¥256.80</span></div><div style="font-size:9px;color:var(--g4);margin-top:2px">✓ 已到账</div></div></div><div class="ws-box" style="top:34px;left:8px;width:110px;height:30px"><div class="bl">户号</div></div><div class="ws-box t-blue" style="top:90px;left:8px;width:90px;height:16px"><div class="bl">交费时间</div></div><div class="ws-box" style="top:90px;right:8px;width:70px;height:16px"><div class="bl">交费金额</div></div><div class="ws-box t-blue" style="top:108px;left:8px;width:60px;height:14px"><div class="bl">付款状态</div></div></div><div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:9px;color:#aaa">'+s.sample+'.png</div></div>';
   }else if(idx===2){
-    ch='<div class="ws-sample" style="width:240px;height:320px;background:#f5f5f5;border-radius:16px;border:2px solid #333;padding:8px;position:relative"><div style="width:50px;height:4px;background:#333;border-radius:3px;margin:0 auto 6px"></div><div style="background:#fff;border-radius:8px;overflow:hidden;height:calc(100% - 14px);position:relative;font-size:7.5px"><div style="background:var(--g2);color:#fff;padding:6px 10px;font-size:9px;font-weight:700">订单详情</div><div style="padding:6px 10px;line-height:1.8"><div><span style="color:#999">订单编号</span> 202606150001</div><div><span style="color:#999">订单时间</span> 06-15 14:32</div><div><span style="color:#999">订单状态</span> <span style="color:var(--g4)">支付成功</span></div><div style="border-top:1px dashed #eee;margin:3px 0"></div><div><span style="color:#999">交费金额</span> ¥256.80</div><div><span style="color:#999">红包抵扣</span> <span style="color:var(--orange)">-¥5.00</span></div><div><span style="color:#999">积分抵扣</span> <span style="color:var(--orange)">-¥2.50</span></div><div><span style="color:#999">优惠券</span> <span style="color:var(--orange)">-¥10.00</span></div><div style="font-weight:700"><span style="color:#999">实付金额</span> ¥239.30</div><div style="border-top:1px dashed #eee;margin:3px 0"></div><div><span style="color:#999">支付方式</span> 微信支付</div><div><span style="color:#999">交费渠道</span> 网上国网APP</div><div><span style="color:#999">户号户名</span> 3201*** 张*明</div></div><div class="ws-box" style="top:30px;left:8px;width:110px;height:14px"><div class="bl">订单编号</div></div><div class="ws-box" style="top:44px;left:8px;width:90px;height:14px"><div class="bl">订单时间</div></div><div class="ws-box t-blue" style="top:72px;left:8px;width:80px;height:14px"><div class="bl">交费金额</div></div><div class="ws-box t-blue" style="top:100px;left:8px;width:70px;height:14px"><div class="bl">红包抵扣</div></div><div class="ws-box t-blue" style="top:128px;left:8px;width:80px;height:14px"><div class="bl">实付金额</div></div><div class="ws-box t-red" style="top:166px;left:8px;width:90px;height:14px"><div class="bl">户号户名(隐私)</div></div></div><div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:7px;color:#aaa">'+s.sample+'.png</div></div>';
+    ch='<div class="ws-sample" style="width:240px;height:320px;background:#f5f5f5;border-radius:16px;border:2px solid #333;padding:8px;position:relative"><div style="width:50px;height:4px;background:#333;border-radius:3px;margin:0 auto 6px"></div><div style="background:#fff;border-radius:8px;overflow:hidden;height:calc(100% - 14px);position:relative;font-size:9px"><div style="background:var(--g2);color:#fff;padding:6px 10px;font-size:9px;font-weight:700">订单详情</div><div style="padding:6px 10px;line-height:1.8"><div><span style="color:#999">订单编号</span> 202606150001</div><div><span style="color:#999">订单时间</span> 06-15 14:32</div><div><span style="color:#999">订单状态</span> <span style="color:var(--g4)">支付成功</span></div><div style="border-top:1px dashed #eee;margin:3px 0"></div><div><span style="color:#999">交费金额</span> ¥256.80</div><div><span style="color:#999">红包抵扣</span> <span style="color:var(--orange)">-¥5.00</span></div><div><span style="color:#999">积分抵扣</span> <span style="color:var(--orange)">-¥2.50</span></div><div><span style="color:#999">优惠券</span> <span style="color:var(--orange)">-¥10.00</span></div><div style="font-weight:700"><span style="color:#999">实付金额</span> ¥239.30</div><div style="border-top:1px dashed #eee;margin:3px 0"></div><div><span style="color:#999">支付方式</span> 微信支付</div><div><span style="color:#999">交费渠道</span> 网上国网APP</div><div><span style="color:#999">户号户名</span> 3201*** 张*明</div></div><div class="ws-box" style="top:30px;left:8px;width:110px;height:14px"><div class="bl">订单编号</div></div><div class="ws-box" style="top:44px;left:8px;width:90px;height:14px"><div class="bl">订单时间</div></div><div class="ws-box t-blue" style="top:72px;left:8px;width:80px;height:14px"><div class="bl">交费金额</div></div><div class="ws-box t-blue" style="top:100px;left:8px;width:70px;height:14px"><div class="bl">红包抵扣</div></div><div class="ws-box t-blue" style="top:128px;left:8px;width:80px;height:14px"><div class="bl">实付金额</div></div><div class="ws-box t-red" style="top:166px;left:8px;width:90px;height:14px"><div class="bl">户号户名(隐私)</div></div></div><div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:9px;color:#aaa">'+s.sample+'.png</div></div>';
   }else{
-    ch='<div class="ws-sample" style="width:240px;height:320px;background:#f5f5f5;border-radius:16px;border:2px solid #333;padding:8px;position:relative"><div style="width:50px;height:4px;background:#333;border-radius:3px;margin:0 auto 6px"></div><div style="background:#e8e8e8;border-radius:8px;overflow:hidden;height:calc(100% - 14px);position:relative;padding:20px 10px"><div style="background:#fff;border-radius:12px;padding:14px;box-shadow:0 2px 12px rgba(0,0,0,.1);position:relative"><div style="font-size:11px;font-weight:700;color:var(--red);margin-bottom:6px">⚠️ 网络连接异常</div><div style="font-size:8px;color:#666;line-height:1.6;margin-bottom:10px">当前网络不可用，请检查网络设置后重试</div><div style="text-align:center"><span style="display:inline-block;background:var(--g2);color:#fff;padding:4px 24px;border-radius:16px;font-size:9px;font-weight:700">确定</span></div><div class="ws-box t-red" style="top:-2px;left:0;width:120px;height:18px"><div class="bl">异常标题</div></div><div class="ws-box t-blue" style="top:18px;left:0;width:160px;height:34px"><div class="bl">提示内容</div></div><div class="ws-box" style="bottom:0;right:0;width:80px;height:14px"><div class="bl">APP版本</div></div></div><div style="position:absolute;bottom:12px;left:10px;font-size:7px;color:#999">v3.2.1 · 网上国网</div></div><div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:7px;color:#aaa">'+s.sample+'.png</div></div>';
+    ch='<div class="ws-sample" style="width:240px;height:320px;background:#f5f5f5;border-radius:16px;border:2px solid #333;padding:8px;position:relative"><div style="width:50px;height:4px;background:#333;border-radius:3px;margin:0 auto 6px"></div><div style="background:#e8e8e8;border-radius:8px;overflow:hidden;height:calc(100% - 14px);position:relative;padding:20px 10px"><div style="background:#fff;border-radius:12px;padding:14px;box-shadow:0 2px 12px rgba(0,0,0,.1);position:relative"><div style="font-size:11px;font-weight:700;color:var(--red);margin-bottom:6px">⚠️ 网络连接异常</div><div style="font-size:10px;color:#666;line-height:1.6;margin-bottom:10px">当前网络不可用，请检查网络设置后重试</div><div style="text-align:center"><span style="display:inline-block;background:var(--g2);color:#fff;padding:4px 24px;border-radius:16px;font-size:9px;font-weight:700">确定</span></div><div class="ws-box t-red" style="top:-2px;left:0;width:120px;height:18px"><div class="bl">异常标题</div></div><div class="ws-box t-blue" style="top:18px;left:0;width:160px;height:34px"><div class="bl">提示内容</div></div><div class="ws-box" style="bottom:0;right:0;width:80px;height:14px"><div class="bl">APP版本</div></div></div><div style="position:absolute;bottom:12px;left:10px;font-size:9px;color:#999">v3.2.1 · 网上国网</div></div><div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:9px;color:#aaa">'+s.sample+'.png</div></div>';
   }
   document.getElementById('wsCanvas').innerHTML=ch;
   // Footer
@@ -930,16 +930,16 @@ function renderScene(idx){
   });
   h+='<div style="display:flex;gap:6px;margin-top:8px"><button style="flex:1;padding:5px;border-radius:6px;border:none;background:var(--g2);color:#fff;font-size:10px;font-weight:700;cursor:pointer">✓ 提交标注</button><button style="padding:5px 10px;border-radius:6px;border:1px solid #ddd;background:#fff;font-size:10px;cursor:pointer">跳过</button></div>';
   h+='</div>';
-  h+='<div class="qc-card"><h6>📊 质量检测 <span class="field-tag offset" style="font-size:7px">二次开发</span></h6>';
+  h+='<div class="qc-card"><h6>📊 质量检测 <span class="field-tag offset" style="font-size:9px">二次开发</span></h6>';
   h+='<div class="qc-row"><span>已检样本</span><span class="qc-val">'+s.qc.done+'/'+s.cur+'</span></div>';
   h+='<div class="qc-row"><span>通过率</span><span class="qc-val" style="color:var(--g2)">'+(s.qc.done>0?Math.round(s.qc.pass/s.qc.done*100):0)+'%</span></div>';
   h+='<div class="qc-row"><span>退回数</span><span class="qc-val" style="color:'+(s.qc.fail>0?'var(--red)':'var(--text2)')+'">'+s.qc.fail+'</span></div>';
   h+='</div>';
-  h+='<div class="ws-card" style="background:#f0f7f4;border-color:#c8e6c9"><h5>💬 关联语料 <span class="field-tag attr" style="font-size:7px">图文联合标注</span></h5>';
+  h+='<div class="ws-card" style="background:#f0f7f4;border-color:#c8e6c9"><h5>💬 关联语料 <span class="field-tag attr" style="font-size:9px">图文联合标注</span></h5>';
   h+='<div style="font-size:9px;line-height:1.6;color:var(--text2)">';
   h+='👤 '+s.corpus.u+'<br>';
   h+='🤖 '+s.corpus.b+'<br>';
-  h+='<span style="color:var(--orange);font-size:8px">📎 '+s.corpus.n+'</span>';
+  h+='<span style="color:var(--orange);font-size:10px">📎 '+s.corpus.n+'</span>';
   h+='</div></div>';
   document.getElementById('wsPanel').innerHTML=h;
 }
