@@ -127,18 +127,26 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .sub-phase{padding:10px;border-radius:10px;border:1.5px solid #e8e8e8;background:#FFFBF5}
 .sub-phase h5{font-size:11px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:5px}
 .sp-badge{display:inline-block;padding:2px 7px;border-radius:6px;font-size:10.5px;font-weight:600;color:#fff}
-.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.milestone-card,.deliverable-card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.milestone-card h3,.deliverable-card h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.ms-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f5f5f5}
-.ms-item:last-child{border-bottom:none}
-.ms-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.ms-time{font-size:10px;color:var(--text3);min-width:70px}
-.ms-text{font-size:11px;color:var(--text2);font-weight:500}
-.dl-table{width:100%;border-collapse:collapse;font-size:10px}
-.dl-table th{background:var(--g8);color:var(--g2);padding:4px 5px;text-align:left;font-weight:600;white-space:nowrap}
-.dl-table td{padding:3px 5px;border-bottom:1px solid #f0f0f0;color:var(--text2)}
-.dl-table .phase-tag{display:inline-block;padding:2px 5px;border-radius:5px;font-size:10.5px;font-weight:600;color:#fff}
+.bottom-row{background:var(--card);border-radius:14px;padding:18px 20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.bottom-row h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.dlv-stats{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.dlv-stat{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:500;display:flex;align-items:center;gap:5px}
+.dlv-stat .sv{font-size:16px;font-weight:600}
+.dlv-table{width:100%;border-collapse:collapse;font-size:10.5px}
+.dlv-table th{background:var(--g8);color:var(--g2);padding:6px 8px;text-align:left;font-weight:600;white-space:nowrap;font-size:10px}
+.dlv-table td{padding:6px 8px;border-bottom:1px solid #f0f0f0;color:var(--text2);vertical-align:middle}
+.dlv-table tr:hover{background:#FAFAFA}
+.dlv-idx{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#fff;flex-shrink:0}
+.dlv-name{font-weight:500;color:var(--text);line-height:1.3}
+.dlv-cat{display:inline-block;padding:1px 7px;border-radius:4px;font-size:9.5px;font-weight:500;color:#fff;white-space:nowrap}
+.dlv-status{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:9.5px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .15s;user-select:none}
+.dlv-status:hover{filter:brightness(.95);transform:scale(1.05)}
+.dlv-status.pending{background:#F5F5F5;color:#999}
+.dlv-status.progress{background:#FFF3E0;color:var(--orange)}
+.dlv-status.done{background:var(--g8);color:var(--g2)}
+.dlv-upload{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:6px;font-size:9.5px;font-weight:500;border:1px dashed #ddd;background:#FAFAFA;color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap}
+.dlv-upload:hover{border-color:var(--g4);color:var(--g2);background:var(--g8)}
+.dlv-upload.uploaded{border-style:solid;border-color:var(--g5);color:var(--g2);background:var(--g8)}
 .expand-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1.5px solid var(--g4);background:var(--g8);color:var(--g2);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:all .2s}
 .expand-btn:hover{background:var(--g4);color:#fff}
 /* 标注工具section */
@@ -281,7 +289,7 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .arch-it .ad{font-size:10.5px;color:var(--text3);line-height:1.3}
 .arch-it .ab{display:inline-block;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:500;margin-top:2px}
 .ab.ls{background:#E3F2FD;color:#1565C0}.ab.cu{background:#FFF3E0;color:var(--orange)}.ab.ha{background:var(--g8);color:var(--g2)}
-@media(max-width:768px){.phase-nav{flex-wrap:wrap}.phase-tab{flex:1 1 33%}.phase-overview{flex-wrap:wrap}.pov-card{flex:1 1 45%}.bg-grid{grid-template-columns:1fr}.bottom-row{grid-template-columns:1fr}.sub-phase-grid{grid-template-columns:1fr}.gantt-header,.gantt-row{grid-template-columns:60px repeat(9,1fr)}.ws-layout{grid-template-columns:1fr}.arch-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.phase-nav{flex-wrap:wrap}.phase-tab{flex:1 1 33%}.phase-overview{flex-wrap:wrap}.pov-card{flex:1 1 45%}.bg-grid{grid-template-columns:1fr}.sub-phase-grid{grid-template-columns:1fr}.gantt-header,.gantt-row{grid-template-columns:60px repeat(9,1fr)}.ws-layout{grid-template-columns:1fr}.arch-grid{grid-template-columns:1fr 1fr}.dlv-table{font-size:9px}.dlv-table th,.dlv-table td{padding:4px 5px}}
 
 /* 同步功能 */
 .sync-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
@@ -494,33 +502,32 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 </div>
 
 <div class="bottom-row">
-<div class="milestone-card">
-<h3>🏁 关键里程碑</h3>
-<div class="ms-item"><div class="ms-dot" style="background:#006B54"></div><div class="ms-time">2026年5月</div><div class="ms-text">项目启动，建设方案定稿</div></div>
-<div class="ms-item"><div class="ms-dot" style="background:#1565C0"></div><div class="ms-time">2026年6月</div><div class="ms-text">需求调研完成，评审通过</div></div>
-<div class="ms-item"><div class="ms-dot" style="background:#F57C00"></div><div class="ms-time">2026年7月</div><div class="ms-text">标注工具内网上线+数据采集完成</div></div>
-<div class="ms-item"><div class="ms-dot" style="background:#FF9800"></div><div class="ms-time">2026年9月</div><div class="ms-text">全场景标注完成</div></div>
-<div class="ms-item"><div class="ms-dot" style="background:#FFB74D"></div><div class="ms-time">2026年12月</div><div class="ms-text">模型测试通过，预验收完成</div></div>
-<div class="ms-item"><div class="ms-dot" style="background:#C62828"></div><div class="ms-time">2027年1月</div><div class="ms-text">正式验收，项目闭环</div></div>
+<h3>📋 成果物交付计划（14项）</h3>
+<div class="dlv-stats">
+  <div class="dlv-stat" style="background:var(--g8);color:var(--g2)"><span class="sv">14</span>总成果物</div>
+  <div class="dlv-stat" style="background:var(--g8);color:var(--g2)"><span class="sv" id="dlvDone">0</span>已交付</div>
+  <div class="dlv-stat" style="background:#FFF3E0;color:var(--orange)"><span class="sv" id="dlvProgress">0</span>进行中</div>
+  <div class="dlv-stat" style="background:#F5F5F5;color:#999"><span class="sv" id="dlvPending">14</span>未开始</div>
 </div>
-<div class="deliverable-card">
-<h3>📋 成果物总览</h3>
-<table class="dl-table">
-<thead><tr><th>阶段</th><th>成果物</th><th>时间</th></tr></thead>
+<table class="dlv-table">
+<thead><tr><th style="width:30px">#</th><th style="width:120px">服务内容</th><th>成果物名称</th><th style="width:70px">计划时间</th><th style="width:60px">交付周期</th><th style="width:60px">状态</th><th style="width:80px">成果物</th></tr></thead>
 <tbody>
-<tr><td><span class="phase-tag" style="background:#006B54">启动</span></td><td>《建设方案》《签到表》《会议纪要》</td><td>5-6月</td></tr>
-<tr><td><span class="phase-tag" style="background:#1565C0">调研</span></td><td>《需求梳理表》《调研提纲》《调研报告》</td><td>6月</td></tr>
-<tr><td><span class="phase-tag" style="background:#E65100">实施</span></td><td>《功能清单》《UE设计》《测试记录》</td><td>6-7月</td></tr>
-<tr><td><span class="phase-tag" style="background:#E65100">实施</span></td><td>图片/语料收集手册、溯源台账</td><td>6-7月</td></tr>
-<tr><td><span class="phase-tag" style="background:#E65100">实施</span></td><td>《预处理手册》《质量评估报告》</td><td>7月</td></tr>
-<tr><td><span class="phase-tag" style="background:#E65100">实施</span></td><td>《图片/语料标注标准》</td><td>8月</td></tr>
-<tr><td><span class="phase-tag" style="background:#E65100">实施</span></td><td>3类标注样本合集</td><td>8-9月</td></tr>
-<tr><td><span class="phase-tag" style="background:#E65100">实施</span></td><td>报错/电能表场景测试集</td><td>11月</td></tr>
-<tr><td><span class="phase-tag" style="background:#E65100">実施</span></td><td>《质量抽检报告》《增补方案》</td><td>12月</td></tr>
-<tr><td><span class="phase-tag" style="background:#C62828">验收</span></td><td>《验收申请表》《项目验收意见》</td><td>1月</td></tr>
+<tr><td><div class="dlv-idx" style="background:#006B54">1</div></td><td><span class="dlv-cat" style="background:#008667">数据采集与预处理</span></td><td class="dlv-name">《智能客服大模型图片收集指导手册》</td><td>2026年7月</td><td>2个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,1)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#006B54">2</div></td><td><span class="dlv-cat" style="background:#008667">数据采集与预处理</span></td><td class="dlv-name">《智能客服大模型语料收集指导手册》</td><td>2026年7月</td><td>2个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,2)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#006B54">3</div></td><td><span class="dlv-cat" style="background:#008667">数据采集与预处理</span></td><td class="dlv-name">《智能客服大模型图片预处理操作指导手册》</td><td>2026年7月</td><td>2个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,3)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#006B54">4</div></td><td><span class="dlv-cat" style="background:#008667">数据采集与预处理</span></td><td class="dlv-name">《智能客服大模型语料预处理操作指导手册》</td><td>2026年7月</td><td>2个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,4)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#006B54">5</div></td><td><span class="dlv-cat" style="background:#008667">数据采集与预处理</span></td><td class="dlv-name">《数据质量评估报告》</td><td>2026年8月</td><td>3个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,5)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#1565C0">6</div></td><td><span class="dlv-cat" style="background:#1976D2">风险监测与诉求洞察</span></td><td class="dlv-name">《智能客服大模型图片标注标准》</td><td>2026年10月</td><td>5个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,6)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#1565C0">7</div></td><td><span class="dlv-cat" style="background:#1976D2">风险监测与诉求洞察</span></td><td class="dlv-name">《智能客服大模型语料标注标准》</td><td>2026年10月</td><td>5个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,7)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#1565C0">8</div></td><td><span class="dlv-cat" style="background:#1976D2">风险监测与诉求洞察</span></td><td class="dlv-name">《网上国网报错信息场景图片数据溯源台账》</td><td>2026年11月</td><td>6个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,8)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#1565C0">9</div></td><td><span class="dlv-cat" style="background:#1976D2">风险监测与诉求洞察</span></td><td class="dlv-name">《电能表状态场景图片数据溯源台账》</td><td>2026年11月</td><td>6个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,9)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#E65100">10</div></td><td><span class="dlv-cat" style="background:#F57C00">标注结果辅助验证</span></td><td class="dlv-name">《网上国网报错信息场景、电能表状态场景标注样本》</td><td>2026年12月</td><td>7个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,10)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#E65100">11</div></td><td><span class="dlv-cat" style="background:#F57C00">标注结果辅助验证</span></td><td class="dlv-name">《网上国网报错信息场景测试集》</td><td>2026年12月</td><td>7个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,11)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#E65100">12</div></td><td><span class="dlv-cat" style="background:#F57C00">标注结果辅助验证</span></td><td class="dlv-name">《电能表状态场景测试集》</td><td>2026年12月</td><td>7个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,12)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#E65100">13</div></td><td><span class="dlv-cat" style="background:#F57C00">标注结果辅助验证</span></td><td class="dlv-name">《标注质量抽检与增补方案》</td><td>2026年12月</td><td>7个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,13)">📎 上传</span></td></tr>
+<tr><td><div class="dlv-idx" style="background:#E65100">14</div></td><td><span class="dlv-cat" style="background:#F57C00">标注结果辅助验证</span></td><td class="dlv-name">《模型应用效果评估报告》</td><td>2026年12月</td><td>7个月</td><td><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span></td><td><span class="dlv-upload" onclick="uploadDlv(this,14)">📎 上传</span></td></tr>
 </tbody>
 </table>
-</div>
 </div>
 </div>
 <div class="sync-toast" id="syncToast"></div>
@@ -1203,6 +1210,54 @@ function showToast(msg,type='info',duration=3000){
   const t=document.getElementById('syncToast');
   t.textContent=msg;t.className='sync-toast show '+type;
   setTimeout(()=>{t.className='sync-toast'},duration);
+}
+
+function cycleDlvStatus(el){
+  var statuses=['pending','progress','done'];
+  var labels=['○ 待交付','◐ 进行中','✓ 已交付'];
+  var cur=statuses.indexOf(el.className.replace('dlv-status ',''));
+  var next=(cur+1)%3;
+  el.className='dlv-status '+statuses[next];
+  el.textContent=labels[next];
+  updateDlvStats();
+}
+function updateDlvStats(){
+  var all=document.querySelectorAll('.dlv-status');
+  var done=0,progress=0,pending=0;
+  all.forEach(function(el){
+    if(el.classList.contains('done'))done++;
+    else if(el.classList.contains('progress'))progress++;
+    else pending++;
+  });
+  var d=document.getElementById('dlvDone');
+  var p=document.getElementById('dlvProgress');
+  var n=document.getElementById('dlvPending');
+  if(d)d.textContent=done;
+  if(p)p.textContent=progress;
+  if(n)n.textContent=pending;
+}
+function uploadDlv(el,idx){
+  if(el.classList.contains('uploaded')){
+    showToast('成果物 #'+idx+' 已上传','info');
+    return;
+  }
+  var input=document.createElement('input');
+  input.type='file';
+  input.accept='.pdf,.docx,.xlsx,.pptx,.zip,.md,.txt';
+  input.onchange=function(){
+    if(input.files.length>0){
+      el.classList.add('uploaded');
+      el.innerHTML='✅ '+input.files[0].name.substring(0,12)+(input.files[0].name.length>12?'...':'');
+      var statusEl=el.parentElement.previousElementSibling.querySelector('.dlv-status');
+      if(statusEl&&statusEl.classList.contains('pending')){
+        statusEl.className='dlv-status progress';
+        statusEl.textContent='◐ 进行中';
+      }
+      updateDlvStats();
+      showToast('成果物 #'+idx+' 上传成功','success');
+    }
+  };
+  input.click();
 }
 
 function parseStatus(s){
