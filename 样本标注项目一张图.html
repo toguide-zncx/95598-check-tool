@@ -154,8 +154,8 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .dlv-stats{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
 .dlv-stat{padding:4px 10px;border-radius:6px;font-size:10px;font-weight:500;display:flex;align-items:center;gap:4px}
 .dlv-stat .sv{font-size:15px;font-weight:600}
-.dlv-groups{display:flex;flex-direction:column;gap:8px}
-.dlv-group{border-radius:8px;overflow:hidden;border:1px solid #f0f0f0}
+.dlv-groups{display:flex;gap:8px}
+.dlv-group{flex:1;border-radius:8px;overflow:hidden;border:1px solid #f0f0f0;min-width:0}
 .dlv-group-head{padding:6px 12px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px}
 .dlv-group-head .dlv-gcount{font-size:10px;font-weight:500;padding:1px 8px;border-radius:10px;background:rgba(255,255,255,.3);margin-left:auto}
 .dlv-group.g1 .dlv-group-head{background:#E8F5E9;color:#006B54}
@@ -324,7 +324,7 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .arch-it .ad{font-size:10.5px;color:var(--text3);line-height:1.3}
 .arch-it .ab{display:inline-block;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:500;margin-top:2px}
 .ab.ls{background:#E3F2FD;color:#1565C0}.ab.cu{background:#FFF3E0;color:var(--orange)}.ab.ha{background:var(--g8);color:var(--g2)}
-@media(max-width:768px){.phase-nav{flex-wrap:wrap}.phase-tab{flex:1 1 33%}.phase-overview{flex-wrap:wrap}.pov-card{flex:1 1 45%}.bg-grid{grid-template-columns:1fr}.sub-phase-grid{grid-template-columns:1fr}.gantt-header,.gantt-row{grid-template-columns:60px repeat(9,1fr)}.ws-layout{grid-template-columns:1fr}.arch-grid{grid-template-columns:1fr 1fr}.dlv-row{flex-wrap:wrap;gap:4px}.dlv-name{min-width:120px}.dlv-time{display:none}}
+@media(max-width:768px){.phase-nav{flex-wrap:wrap}.phase-tab{flex:1 1 33%}.phase-overview{flex-wrap:wrap}.pov-card{flex:1 1 45%}.bg-grid{grid-template-columns:1fr}.sub-phase-grid{grid-template-columns:1fr}.gantt-header,.gantt-row{grid-template-columns:60px repeat(9,1fr)}.ws-layout{grid-template-columns:1fr}.arch-grid{grid-template-columns:1fr 1fr}.dlv-groups{flex-direction:column}.dlv-row{flex-wrap:wrap;gap:4px}.dlv-name{min-width:120px}.dlv-time{display:none}}
 
 /* 同步功能 */
 .sync-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
@@ -437,26 +437,6 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
   </div>
 </div>
 
-<div class="gantt-section">
-<h3>📊 项目总体时间线</h3>
-<div class="gantt-wrap">
-<div class="gantt">
-<div class="gantt-header">
-<div class="gh-label"></div>
-<div class="gh-month">5月</div><div class="gh-month">6月</div><div class="gh-month">7月</div>
-<div class="gh-month">8月</div><div class="gh-month">9月</div><div class="gh-month">10月</div>
-<div class="gh-month">11月</div><div class="gh-month">12月</div><div class="gh-month">1月</div>
-</div>
-<div class="gantt-row"><div class="gr-label">🚀 项目启动</div><div class="gantt-bar" style="grid-column:2/3;background:#006B54">启动</div></div>
-<div class="gantt-row"><div class="gr-label">📋 需求调研</div><div class="gantt-bar" style="grid-column:3/4;background:#1565C0">调研+评审</div></div>
-<div class="gantt-row"><div class="gr-label">🔧 项目实施</div><div class="gantt-bar" style="grid-column:3/9;background:linear-gradient(90deg,#E65100,#F57C00,#FF9800,#FFB74D)">工具开发·数据采集·标注·验证</div></div>
-<div class="gantt-row"><div class="gr-label">🔍 预验收</div><div class="gantt-bar" style="grid-column:9/10;background:#5E35B1">预验</div></div>
-<div class="gantt-row"><div class="gr-label">✅ 正式验收</div><div class="gantt-bar" style="grid-column:10/11;background:#C62828">验收</div></div>
-<div class="gantt-now" style="left:calc(100px + 1.2 * (100% - 100px) / 9)"></div>
-</div>
-</div>
-</div>
-
 <div class="sync-bar">
 <button class="sync-btn primary" id="syncBtn" onclick="syncFromKDocs()">🔄 同步项目计划</button>
 <span class="sync-time" id="syncTime">上次同步：暂无</span>
@@ -540,6 +520,27 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 </div>
 </div>
 
+</div>
+
+
+<div class="gantt-section">
+<h3>📊 项目总体时间线</h3>
+<div class="gantt-wrap">
+<div class="gantt">
+<div class="gantt-header">
+<div class="gh-label"></div>
+<div class="gh-month">5月</div><div class="gh-month">6月</div><div class="gh-month">7月</div>
+<div class="gh-month">8月</div><div class="gh-month">9月</div><div class="gh-month">10月</div>
+<div class="gh-month">11月</div><div class="gh-month">12月</div><div class="gh-month">1月</div>
+</div>
+<div class="gantt-row"><div class="gr-label">🚀 项目启动</div><div class="gantt-bar" style="grid-column:2/3;background:#006B54">启动</div></div>
+<div class="gantt-row"><div class="gr-label">📋 需求调研</div><div class="gantt-bar" style="grid-column:3/4;background:#1565C0">调研+评审</div></div>
+<div class="gantt-row"><div class="gr-label">🔧 项目实施</div><div class="gantt-bar" style="grid-column:3/9;background:linear-gradient(90deg,#E65100,#F57C00,#FF9800,#FFB74D)">工具开发·数据采集·标注·验证</div></div>
+<div class="gantt-row"><div class="gr-label">🔍 预验收</div><div class="gantt-bar" style="grid-column:9/10;background:#5E35B1">预验</div></div>
+<div class="gantt-row"><div class="gr-label">✅ 正式验收</div><div class="gantt-bar" style="grid-column:10/11;background:#C62828">验收</div></div>
+<div class="gantt-now" style="left:calc(100px + 1.2 * (100% - 100px) / 9)"></div>
+</div>
+</div>
 </div>
 
 <div class="bottom-row">
@@ -1519,30 +1520,42 @@ function updatePhasePanel(phaseIdx,phaseData,tasks){
   panel.innerHTML=overviewHtml+taskHtml;
 }
 
+function updateGanttFromSync(data){
+  var ganttWrap=document.querySelector('.gantt');
+  if(!ganttWrap||!data||!data.phases)return;
+  var bars=ganttWrap.querySelectorAll('.gantt-bar');
+  if(bars.length<5)return;
+  var barTexts=['启动','调研+评审','工具开发·数据采集·标注·验证','预验','验收'];
+  for(var i=0;i<5;i++){
+    var pd=data.phases[String(i+1)];
+    if(pd){
+      var rate=Math.round(pd.done/pd.tasks*100);
+      bars[i].textContent=barTexts[i]+(rate>0?' '+rate+'%':'');
+    }
+  }
+}
+
 function syncFromKDocs(){
-  const btn=document.getElementById('syncBtn');
+  var btn=document.getElementById('syncBtn');
   btn.classList.add('syncing');
   btn.innerHTML='⏳ 同步中...';
   showToast('正在从金山文档获取最新数据...','info',2000);
   
   fetch('./plan-data.json?t='+Date.now())
-    .then(r=>{if(!r.ok)throw new Error('数据文件未找到');return r.json()})
-    .then(data=>{
-      // Update sync time
+    .then(function(r){if(!r.ok)throw new Error('数据文件未找到');return r.json()})
+    .then(function(data){
       document.getElementById('syncTime').textContent='上次同步：'+data.syncTime;
-      
-      // Update each phase panel
-      const phaseMap=data.phases;
-      for(let i=0;i<5;i++){
-        const pd=phaseMap[String(i+1)];
+      var phaseMap=data.phases;
+      for(var i=0;i<5;i++){
+        var pd=phaseMap[String(i+1)];
         if(pd)updatePhasePanel(i,pd,data.tasks);
       }
-      
+      updateGanttFromSync(data);
       btn.classList.remove('syncing');
       btn.innerHTML='🔄 同步项目计划';
       showToast('✅ 同步成功！已更新 '+data.tasks.length+' 项任务数据','success');
     })
-    .catch(err=>{
+    .catch(function(err){
       btn.classList.remove('syncing');
       btn.innerHTML='🔄 同步项目计划';
       showToast('❌ 同步失败：'+err.message+'。请通过Agent执行kdocs-cli更新plan-data.json','error',5000);
