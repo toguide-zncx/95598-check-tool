@@ -791,7 +791,7 @@ function renderTaskMgmtStep(c){
       '<td class="td-name" title="'+t.name+'" onclick="jumpToTaskStep('+t.id+')">'+t.name+'</td>'+
       '<td style="font-size:9px;color:var(--text3)">'+(_tmSceneMap[t.scene]||t.scene)+'</td>'+
       '<td style="font-size:9px" title="'+(t.assignments&&t.assignments.length?t.assignments.map(function(a){return a.person+':'+a.qty}).join(' '):'')+'">'+assigneeStr+'</td>'+
-      '<td style="font-weight:600">'+t.total+'</td>'+
+      '<td style="font-weight:600">'+(t.total>0?t.total:'<span style="color:#999;font-weight:400">待导入</span>')+'</td>'+
       '<td class="td-assign"><b>'+t.assigned+'</b>/'+unassign+'</td>'+
       '<td>'+t.annotated+'</td>'+
       '<td>'+t.pendingReview+'</td>'+
@@ -878,11 +878,19 @@ function simulateImport(){
   var log=document.getElementById('importLog');
   if(!log)return;
   var items=log.querySelectorAll('.log-item');
+  var count=Math.floor(Math.random()*80+20);
   var newItem=document.createElement('div');
   newItem.className='log-item';
   newItem.style.animation='fadeIn .3s';
-  newItem.innerHTML='<span class="li-icon">🖼️</span><div class="li-info"><div class="li-name">'+s.dataset+'-batch04.zip</div><div class="li-meta">'+Math.floor(Math.random()*80+20)+'张图片 · '+shortName+' · 刚刚</div></div><span class="li-status ok">✓ 已导入</span>';
+  newItem.innerHTML='<span class="li-icon">🖼️</span><div class="li-info"><div class="li-name">'+s.dataset+'-batch04.zip</div><div class="li-meta">'+count+'张图片 · '+shortName+' · 刚刚</div></div><span class="li-status ok">✓ 已导入</span>';
   log.insertBefore(newItem,items[0].nextSibling);
+  // Auto-update total for tasks in import step matching current scene
+  _tmData.forEach(function(t){
+    if(t.pipeStep===1 && t.scene===s.id){
+      t.total+=count;
+      renderTaskList();
+    }
+  });
 }
 
 function renderPreprocessStep(c){
@@ -1005,7 +1013,7 @@ function renderTaskAssignStep(c){
     return '<tr>'+
       '<td style="font-weight:600;color:var(--text3)">'+t.id+'</td>'+
       '<td class="td-name" title="'+t.name+'">'+t.name+'</td>'+
-      '<td style="font-size:9px;font-weight:600">'+t.total+'</td>'+
+      '<td style="font-size:9px;font-weight:600">'+(t.total>0?t.total:'待导入')+'</td>'+
       assignCells+
       '<td class="td-assign"><b>'+assignedTotal+'</b>/'+remain+'</td>'+
       '<td class="td-step">'+_pipeStepIcons[ps]+' '+_pipeStepShort[ps]+'</td>'+
@@ -1378,7 +1386,7 @@ function renderTaskList(){
       '<td class="td-name" title="'+t.name+'" onclick="jumpToTaskStep('+t.id+')">'+t.name+'</td>'+
       '<td style="font-size:9px;color:var(--text3)">'+(_tmSceneMap[t.scene]||t.scene)+'</td>'+
       '<td style="font-size:9px">'+assigneeStr+'</td>'+
-      '<td style="font-weight:600">'+t.total+'</td>'+
+      '<td style="font-weight:600">'+(t.total>0?t.total:'<span style="color:#999;font-weight:400">待导入</span>')+'</td>'+
       '<td class="td-assign"><b>'+t.assigned+'</b>/'+unassign+'</td>'+
       '<td>'+t.annotated+'</td>'+
       '<td>'+t.pendingReview+'</td>'+
@@ -1426,14 +1434,11 @@ function closeTmModal(){var ol=document.getElementById('tmModal');if(ol)ol.class
 function addTmTask(){
   var name=document.getElementById('tmNewName').value.trim();
   var scene=document.getElementById('tmNewScene').value;
-  var total=parseInt(document.getElementById('tmNewTotal').value)||0;
-  var date=document.getElementById('tmNewDate').value.trim();
   var desc=document.getElementById('tmNewDesc').value.trim();
   if(!name){showToast('请输入任务名称','error');return}
-  _tmData.unshift({id:_tmNextId++,name:name,scene:scene||'meter',status:'pending',pipeStep:0,total:total,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:date||'待定',desc:desc||'',assignments:[]});
+  _tmData.unshift({id:_tmNextId++,name:name,scene:scene||'meter',status:'pending',pipeStep:0,total:0,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:'',desc:desc||'',assignments:[]});
   closeTmModal();renderTaskList();showToast('任务创建成功','success');
   document.getElementById('tmNewName').value='';
-  document.getElementById('tmNewTotal').value='';document.getElementById('tmNewDate').value='';
   document.getElementById('tmNewDesc').value='';
 }
 
@@ -1459,27 +1464,19 @@ function showNewPipeTaskModal(){
       '<div style="margin-bottom:14px"><div style="font-size:10.5px;font-weight:600;color:var(--text);margin-bottom:5px">标注场景 <span style="color:var(--red)">*</span></div>'+
         '<select id="np_scene" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px">'+sceneOpts+'</select>'+
       '</div>'+
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">'+
-        '<div><div style="font-size:10.5px;font-weight:600;color:var(--text);margin-bottom:5px">样本总量</div>'+
-          '<input id="np_total" type="number" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px" placeholder="如：500">'+
-        '</div>'+
-        '<div><div style="font-size:10.5px;font-weight:600;color:var(--text);margin-bottom:5px">计划时间</div>'+
-          '<input id="np_date" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px" placeholder="如：7/1-7/31">'+
-        '</div>'+
-      '</div>'+
       '<div style="margin-bottom:14px"><div style="font-size:10.5px;font-weight:600;color:var(--text);margin-bottom:5px">任务说明</div>'+
         '<textarea id="np_desc" rows="2" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px;resize:vertical" placeholder="简要描述标注内容和要求…"></textarea>'+
       '</div>'+
       '<div style="padding:10px 12px;background:var(--g8);border-radius:8px;border:1px solid var(--g6);margin-bottom:16px">'+
         '<div style="font-size:10px;font-weight:600;color:var(--g2);margin-bottom:4px">🔄 创建后流程</div>'+
-        '<div style="display:flex;gap:4px;align-items:center;font-size:9px;color:var(--text2)">'+
-          '<span style="padding:2px 6px;border-radius:3px;background:var(--g2);color:#fff;font-weight:600">📋 新建</span><span>→</span>'+
-          '<span style="padding:2px 6px;border-radius:3px;background:var(--g4);color:#fff;font-weight:600">📥 导入</span><span>→</span>'+
-          '<span style="padding:2px 6px;border-radius:3px;background:#aaa;color:#fff">🧹 预处理</span><span>→</span>'+
-          '<span style="padding:2px 6px;border-radius:3px;background:#aaa;color:#fff">👥 分配</span><span>→</span>'+
-          '<span style="padding:2px 6px;border-radius:3px;background:#aaa;color:#fff">🏷️ 标注</span><span>→</span>'+
-          '<span style="padding:2px 6px;border-radius:3px;background:#aaa;color:#fff">✅ 审核</span><span>→</span>'+
-          '<span style="padding:2px 6px;border-radius:3px;background:#aaa;color:#fff">📦 归库</span>'+
+        '<div style="display:flex;gap:4px;align-items:center;font-size:9px;color:var(--text2);flex-wrap:nowrap;overflow-x:auto">'+
+          '<span style="padding:2px 5px;border-radius:3px;background:var(--g2);color:#fff;font-weight:600;white-space:nowrap">📋新建</span><span style="color:#aaa">→</span>'+
+          '<span style="padding:2px 5px;border-radius:3px;background:var(--g4);color:#fff;font-weight:600;white-space:nowrap">📥导入</span><span style="color:#aaa">→</span>'+
+          '<span style="padding:2px 5px;border-radius:3px;background:#aaa;color:#fff;white-space:nowrap">🧹预处理</span><span style="color:#aaa">→</span>'+
+          '<span style="padding:2px 5px;border-radius:3px;background:#aaa;color:#fff;white-space:nowrap">👥分配</span><span style="color:#aaa">→</span>'+
+          '<span style="padding:2px 5px;border-radius:3px;background:#aaa;color:#fff;white-space:nowrap">🏷️标注</span><span style="color:#aaa">→</span>'+
+          '<span style="padding:2px 5px;border-radius:3px;background:#aaa;color:#fff;white-space:nowrap">✅审核</span><span style="color:#aaa">→</span>'+
+          '<span style="padding:2px 5px;border-radius:3px;background:#aaa;color:#fff;white-space:nowrap">📦归库</span>'+
         '</div>'+
       '</div>'+
       '<div style="display:flex;gap:8px;justify-content:flex-end">'+
@@ -1497,12 +1494,10 @@ function closeNewPipeModal(){
 function doNewPipeTask(){
   var name=document.getElementById('np_name').value.trim();
   var scene=document.getElementById('np_scene').value;
-  var total=parseInt(document.getElementById('np_total').value)||0;
-  var date=document.getElementById('np_date').value.trim();
   var desc=document.getElementById('np_desc').value.trim();
   if(!name){showToast('请输入任务名称','error');return}
   var newId=_tmNextId++;
-  _tmData.unshift({id:newId,name:name,scene:scene||'meter',status:'pending',pipeStep:0,total:total,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:date||'待定',desc:desc||'',assignments:[]});
+  _tmData.unshift({id:newId,name:name,scene:scene||'meter',status:'pending',pipeStep:0,total:0,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:'',desc:desc||'',assignments:[]});
   closeNewPipeModal();
   showToast('任务"'+name+'"创建成功，正在跳转导入…','success');
   // Advance to import step (pipeStep 1) and switch view
@@ -1854,8 +1849,6 @@ document.addEventListener('DOMContentLoaded',function(){renderTaskList()});
 <h4>📋 新建标注任务</h4>
 <div class="tm-field"><label>任务名称 *</label><input id="tmNewName" placeholder="如：电能表条形码标注"></div>
 <div class="tm-field"><label>业务场景</label><select id="tmNewScene"><option value="meter">⚡ 电能表识别</option><option value="bill">💰 电费记录</option><option value="order">🧾 交费订单</option><option value="error">⚠️ 异常提示</option></select></div>
-<div class="tm-field"><label>样本总量</label><input id="tmNewTotal" type="number" placeholder="如：500"></div>
-<div class="tm-field"><label>计划时间</label><input id="tmNewDate" placeholder="如：7/1-7/31"></div>
 <div class="tm-field"><label>描述</label><textarea id="tmNewDesc" placeholder="任务描述（可选）"></textarea></div>
 <div class="tm-modal-acts"><button class="tm-btn-cancel" onclick="closeTmModal()">取消</button><button class="tm-btn-ok" onclick="addTmTask()">创建</button></div>
 </div>
