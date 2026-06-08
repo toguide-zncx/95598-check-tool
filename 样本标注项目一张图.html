@@ -799,8 +799,8 @@ function renderTaskMgmtStep(c){
       '<td style="font-weight:600;color:var(--g2)">'+t.completed+'</td>'+
       '<td class="td-step">'+_pipeStepIcons[ps]+' '+_pipeStepShort[ps]+'</td>'+
       '<td class="td-acts">'+
-        (ps<6?'<button class="btn-adv" onclick="event.stopPropagation();advanceTask('+t.id+')">推进</button>':'')+
-        '<button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')">进入</button>'+
+        (ps<6?'<button class="btn-adv" onclick="event.stopPropagation();advanceTask('+t.id+')">下一步</button>':'')+
+        '<button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')">查看</button>'+
         '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+');renderTaskMgmtStep(document.getElementById(\'stepContainer\'))">删除</button>'+
       '</td></tr>';
   }).join('');
@@ -1394,8 +1394,8 @@ function renderTaskList(){
       '<td style="font-weight:600;color:var(--g2)">'+t.completed+'</td>'+
       '<td class="td-step">'+_pipeStepIcons[ps]+' '+_pipeStepShort[ps]+'</td>'+
       '<td class="td-acts">'+
-        (ps<6?'<button class="btn-adv" onclick="event.stopPropagation();advanceTask('+t.id+')">推进</button>':'')+
-        '<button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')">进入</button>'+
+        (ps<6?'<button class="btn-adv" onclick="event.stopPropagation();advanceTask('+t.id+')">下一步</button>':'')+
+        '<button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')">查看</button>'+
         '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+')">删除</button>'+
       '</td></tr>';
   });
