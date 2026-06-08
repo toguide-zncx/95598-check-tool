@@ -205,7 +205,7 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .tm-table .td-assign b{color:var(--g2);font-weight:600}
 .tm-table .td-step{font-size:9px;white-space:nowrap}
 .tm-table .td-acts{white-space:nowrap}
-.tm-table .td-acts button{padding:2px 6px;border-radius:3px;font-size:9px;border:1px solid #ddd;background:#fff;cursor:pointer;margin:0 1px;transition:all .12s}
+.tm-table .td-acts button{padding:2px 8px;border-radius:4px;font-size:9px;font-weight:500;border:1px solid #ddd;background:#fff;cursor:pointer;margin:0 2px;transition:all .12s}
 .tm-table .td-acts button:hover{background:var(--g8);border-color:var(--g4)}
 .tm-table .td-acts .btn-del{color:var(--red);border-color:#f0c0c0}
 .tm-table .td-acts .btn-del:hover{background:#FFEBEE;border-color:var(--red)}
@@ -799,9 +799,9 @@ function renderTaskMgmtStep(c){
       '<td style="font-weight:600;color:var(--g2)">'+t.completed+'</td>'+
       '<td class="td-step">'+_pipeStepIcons[ps]+' '+_pipeStepShort[ps]+'</td>'+
       '<td class="td-acts">'+
-        (ps<6?'<button class="btn-adv" onclick="event.stopPropagation();advanceTask('+t.id+')">▶</button>':'')+
-        '<button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')" title="进入">↗</button>'+
-        '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+');renderTaskMgmtStep(document.getElementById(\'stepContainer\'))" title="删除">✕</button>'+
+        (ps<6?'<button class="btn-adv" onclick="event.stopPropagation();advanceTask('+t.id+')">推进</button>':'')+
+        '<button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')">进入</button>'+
+        '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+');renderTaskMgmtStep(document.getElementById(\'stepContainer\'))">删除</button>'+
       '</td></tr>';
   }).join('');
   c.innerHTML=
@@ -1394,9 +1394,9 @@ function renderTaskList(){
       '<td style="font-weight:600;color:var(--g2)">'+t.completed+'</td>'+
       '<td class="td-step">'+_pipeStepIcons[ps]+' '+_pipeStepShort[ps]+'</td>'+
       '<td class="td-acts">'+
-        (ps<6?'<button class="btn-adv" onclick="event.stopPropagation();advanceTask('+t.id+')">▶</button>':'')+
-        '<button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')" title="进入">↗</button>'+
-        '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+')" title="删除">✕</button>'+
+        (ps<6?'<button class="btn-adv" onclick="event.stopPropagation();advanceTask('+t.id+')">推进</button>':'')+
+        '<button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')">进入</button>'+
+        '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+')">删除</button>'+
       '</td></tr>';
   });
   h+='</tbody></table></div>';
