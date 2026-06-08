@@ -821,8 +821,7 @@ function renderTaskMgmtStep(c){
       '<div style="font-size:11px;font-weight:600;color:var(--text)">📋 任务管理</div>'+
       '<button style="padding:4px 12px;border-radius:5px;border:none;background:var(--g2);color:#fff;font-size:10px;font-weight:600;cursor:pointer" onclick="showNewPipeTaskModal()">＋ 新建任务</button>'+
     '</div>'+
-    '<div class="tm-summary">合计：<b>'+tasks.length+'</b>个任务 · 任务量 <b>'+tot+'</b> · 已分配/待分配 <b>'+ta+'/'+tn+'</b> · 标注 <b>'+ta2+'</b> · 待审核 <b>'+tpr+'</b> · 已审核 <b>'+tr+'</b> · 已完成 <b>'+tc+'</b></div>'+
-    '<div class="tm-table-wrap"><table class="tm-table"><thead><tr><th>#</th><th>任务名称</th><th>场景</th><th>负责人</th><th>任务量</th><th>已分配/待分配</th><th>标注量</th><th>待审核</th><th>已审核</th><th>已完成</th><th>当前步骤</th><th>操作</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+    '<div class="tm-table-wrap"><table class="tm-table"><thead><tr><th>#</th><th>任务名称</th><th>场景</th><th>负责人</th><th>任务量</th><th>已分配/待分配</th><th>标注量</th><th>待审核</th><th>已审核</th><th>已完成</th><th>当前步骤</th><th>操作</th></tr></thead><tbody>'+rows+'</tbody><tfoot><tr style="background:var(--g8);font-weight:600;font-size:9px"><td colspan="4">合计：'+tasks.length+'个任务</td><td>'+tot+'</td><td>'+ta+'/'+tn+'</td><td>'+ta2+'</td><td>'+tpr+'</td><td>'+tr+'</td><td style="color:var(--g2)">'+tc+'</td><td colspan="2"></td></tr></tfoot></table></div>';
 }
 
 function renderImportStep(c){
@@ -1399,9 +1398,9 @@ function renderTaskList(){
   });
   var tot=0,ta=0,tn=0,ta2=0,tpr=0,tr=0,tc=0;
   list.forEach(function(t){tot+=t.total;ta+=t.assigned;tn+=t.total-t.assigned;ta2+=t.annotated;tpr+=t.pendingReview;tr+=t.reviewed;tc+=t.completed});
-  var sumHtml='<div class="tm-summary">合计：<b>'+list.length+'</b>个任务 · 任务量 <b>'+tot+'</b> · 已分配/待分配 <b>'+ta+'/'+tn+'</b> · 标注 <b>'+ta2+'</b> · 待审核 <b>'+tpr+'</b> · 已审核 <b>'+tr+'</b> · 已完成 <b>'+tc+'</b></div>';
+  var sumRow='<tr style="background:var(--g8);font-weight:600;font-size:9px"><td colspan="4">合计：'+list.length+'个任务</td><td>'+tot+'</td><td>'+ta+'/'+tn+'</td><td>'+ta2+'</td><td>'+tpr+'</td><td>'+tr+'</td><td style="color:var(--g2)">'+tc+'</td><td colspan="2"></td></tr>';
   if(!list.length){document.getElementById('tmList').innerHTML='<div style="text-align:center;padding:20px;color:#999;font-size:11px">暂无匹配任务</div>';return}
-  var h=sumHtml+'<div class="tm-table-wrap"><table class="tm-table"><thead><tr><th>#</th><th>任务名称</th><th>场景</th><th>负责人</th><th>任务量</th><th>已分配/待分配</th><th>标注量</th><th>待审核</th><th>已审核</th><th>已完成</th><th>当前步骤</th><th>操作</th></tr></thead><tbody>';
+  var h='<div class="tm-table-wrap"><table class="tm-table"><thead><tr><th>#</th><th>任务名称</th><th>场景</th><th>负责人</th><th>任务量</th><th>已分配/待分配</th><th>标注量</th><th>待审核</th><th>已审核</th><th>已完成</th><th>当前步骤</th><th>操作</th></tr></thead><tbody>';
   list.forEach(function(t){
     var ps=t.pipeStep||0;
     var unassign=t.total-t.assigned;
@@ -1424,7 +1423,7 @@ function renderTaskList(){
         '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+')">删除</button>'+
       '</td></tr>';
   });
-  h+='</tbody></table></div>';
+  h+='</tbody><tfoot>'+sumRow+'</tfoot></table></div>';
   document.getElementById('tmList').innerHTML=h;
 }
 function advanceTask(id){
