@@ -673,8 +673,8 @@ function toggleStep(h){h.parentElement.classList.toggle('closed')}
 function toggleAll(i){const p=document.getElementById('phase-'+i);const c=p.querySelectorAll('.task-card');const a=[...c].every(x=>!x.classList.contains('closed'));c.forEach(x=>{a?x.classList.add('closed'):x.classList.remove('closed')})}
 // 标注工作台 - 场景数据与渲染
 var _sceneIdx=0;
-var _activeStep=2;
-var _stepNames=['📥 导入','🧹 预处理','🏷️ 标注中','🔍 校核','✅ 审核','📦 归库'];
+var _activeStep=4;
+var _stepNames=['📋 任务管理','📥 导入','🧹 预处理','👥 任务分配','🏷️ 标注','✅ 审核','📦 归库'];
 var _scenes=[
 {id:'meter',name:'⚡ 电能表识别',sub:'1字段 · 框选+OCR',icon:'⚡',label:'电能表识别',color:'var(--g2)',colorBg:'var(--g8)',
 dataset:'20260701-电能表-南方',sample:'DNB_条形码特写_042',total:500,cur:42,boxes:2,
@@ -761,14 +761,14 @@ function renderSceneTabs(){
 function switchScene(idx){
   _sceneIdx=idx;
   renderSceneTabs();
-  if(_activeStep===2) renderScene(idx);
+  if(_activeStep===4) renderScene(idx);
 }
 
 function switchStep(idx){
   _activeStep=idx;
   renderPipeline();
   var st=document.getElementById('sceneTabs');
-  if(st) st.style.display=(idx===2)?'flex':'none';
+  if(st) st.style.display=(idx===4)?'flex':'none';
   renderStepView(idx);
 }
 
@@ -790,17 +790,162 @@ function renderStepView(idx){
   var c=document.getElementById('stepContainer');
   if(!c)return;
   switch(idx){
-    case 0: renderImportStep(c); break;
-    case 1: renderPreprocessStep(c); break;
-    case 2: renderAnnotateStep(c); break;
-    case 3: renderVerifyStep(c); break;
-    case 4: renderReviewStep(c); break;
-    case 5: renderArchiveStep(c); break;
+    case 0: renderTaskMgmtStep(c); break;
+    case 1: renderImportStep(c); break;
+    case 2: renderPreprocessStep(c); break;
+    case 3: renderTaskAssignStep(c); break;
+    case 4: renderAnnotateStep(c); break;
+    case 5: renderReviewStep(c); break;
+    case 6: renderArchiveStep(c); break;
   }
 }
 
 function getSceneCtx(){
   return _scenes[_sceneIdx];
+}
+
+function renderTaskMgmtStep(c){
+  var s=getSceneCtx();
+  var tasks=_tmData;
+  var stats={total:tasks.length,pending:0,annotating:0,reviewing:0,done:0};
+  tasks.forEach(function(t){stats[t.status]++;});
+  var taskCards=tasks.map(function(t,i){
+    var sc=_tmSceneMap[t.scene]||t.scene;
+    var scColor=_tmSceneColor[t.scene]||'var(--g2)';
+    var stMap={pending:'待分配',annotating:'标注中',reviewing:'审核中',done:'已完成'};
+    var stColor={pending:'var(--orange)',annotating:'var(--g2)',reviewing:'var(--blue)',done:'#999'};
+    var pct=t.total>0?Math.round(t.done/t.total*100):0;
+    return '<div class="tm-card" style="margin-bottom:6px">'+
+      '<div class="tm-idx" style="background:'+scColor+'12;color:'+scColor+'">'+(i+1)+'</div>'+
+      '<div class="tm-info" style="flex:1;min-width:0">'+
+        '<div class="tm-name" style="font-size:11px;font-weight:600">'+t.name+'</div>'+
+        '<div class="tm-meta" style="font-size:9px;color:var(--text3)">'+sc+' · '+t.person+' · '+t.time+'</div>'+
+        '<div style="margin-top:4px;height:4px;background:#eee;border-radius:2px;overflow:hidden">'+
+          '<div style="width:'+pct+'%;height:100%;background:'+scColor+';border-radius:2px;transition:width .3s"></div>'+
+        '</div>'+
+        '<div style="font-size:9px;color:var(--text3);margin-top:2px">'+t.done+'/'+t.total+' ('+pct+'%)</div>'+
+      '</div>'+
+      '<span class="tm-badge '+t.status+'" style="flex-shrink:0">'+stMap[t.status]+'</span>'+
+    '</div>';
+  }).join('');
+
+  c.innerHTML='<div class="sv-grid">'+
+    '<div class="sv-left" style="padding:16px">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'+
+        '<div style="font-size:12px;font-weight:600;color:var(--text)">📋 任务管理 · 全部任务</div>'+
+        '<div style="font-size:10px;color:var(--text3)">共 '+stats.total+' 个任务</div>'+
+      '</div>'+
+      taskCards+
+    '</div>'+
+    '<div class="sv-right">'+
+      '<div class="sr-card"><h5>📊 任务统计</h5>'+
+        '<div class="wf"><div class="wf-label">总任务数</div><div class="wf-val" style="color:var(--g2);font-weight:600">'+stats.total+'</div></div>'+
+        '<div class="wf"><div class="wf-label">待分配</div><div class="wf-val" style="color:var(--orange)">'+stats.pending+'</div></div>'+
+        '<div class="wf"><div class="wf-label">标注中</div><div class="wf-val" style="color:var(--g2)">'+stats.annotating+'</div></div>'+
+        '<div class="wf"><div class="wf-label">审核中</div><div class="wf-val" style="color:var(--blue)">'+stats.reviewing+'</div></div>'+
+        '<div class="wf"><div class="wf-label">已完成</div><div class="wf-val" style="color:#999">'+stats.done+'</div></div>'+
+      '</div>'+
+      '<div class="sr-card"><h5>👥 人员负载</h5>'+
+        '<div class="qc-row"><span>李琳</span><span class="qc-val">3 个任务</span></div>'+
+        '<div class="qc-row"><span>高金萱</span><span class="qc-val">2 个任务</span></div>'+
+        '<div class="qc-row"><span>梁爽</span><span class="qc-val">2 个任务</span></div>'+
+      '</div>'+
+      '<div class="sr-card"><h5>📈 场景分布</h5>'+
+        '<div class="qc-row"><span>⚡ 电能表</span><span class="qc-val">2 个任务</span></div>'+
+        '<div class="qc-row"><span>💰 电费记录</span><span class="qc-val">1 个任务</span></div>'+
+        '<div class="qc-row"><span>🧾 交费订单</span><span class="qc-val">2 个任务</span></div>'+
+        '<div class="qc-row"><span>⚠️ 异常提示</span><span class="qc-val">2 个任务</span></div>'+
+      '</div>'+
+      '<div class="sr-card" style="background:#f0f7f4;border-color:#c8e6c9"><h5>💡 提示</h5>'+
+        '<div style="font-size:9px;line-height:1.6;color:var(--text2)">任务管理是标注流程的起点，先创建任务、确定场景和负责人，再进入导入和标注环节。每个任务对应一个场景和一批待标注数据。</div>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
+
+function renderTaskAssignStep(c){
+  var s=getSceneCtx();
+  var assignData=[
+    {person:'李琳',role:'标注员',tasks:[
+      {name:'电能表条形码+读数标注',scene:'⚡ 电能表',count:500,done:42,color:'var(--g2)'},
+      {name:'电费记录OCR标注',scene:'💰 电费记录',count:200,done:156,color:'var(--blue)'},
+      {name:'实名认证提取标注',scene:'🧾 交费订单',count:150,done:150,color:'var(--orange)'}
+    ]},
+    {person:'高金萱',role:'标注员',tasks:[
+      {name:'电能表异常场景标注',scene:'⚡ 电能表',count:300,done:0,color:'var(--g2)'},
+      {name:'报错信息场景标注',scene:'⚠️ 异常提示',count:350,done:88,color:'var(--red)'}
+    ]},
+    {person:'梁爽',role:'标注员',tasks:[
+      {name:'交费订单11字段标注',scene:'🧾 交费订单',count:400,done:0,color:'var(--orange)'},
+      {name:'语料意图+实体标注',scene:'⚠️ 异常提示',count:600,done:210,color:'var(--red)'}
+    ]}
+  ];
+  var assignCards=assignData.map(function(a){
+    var totalAssigned=a.tasks.reduce(function(s,t){return s+t.count},0);
+    var totalDone=a.tasks.reduce(function(s,t){return s+t.done},0);
+    var pct=totalAssigned>0?Math.round(totalDone/totalAssigned*100):0;
+    var taskItems=a.tasks.map(function(t){
+      var tp=t.count>0?Math.round(t.done/t.count*100):0;
+      return '<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:6px;background:#fafafa;margin-bottom:4px">'+
+        '<span style="width:3px;height:20px;border-radius:2px;background:'+t.color+';flex-shrink:0"></span>'+
+        '<div style="flex:1;min-width:0">'+
+          '<div style="font-size:10px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+t.name+'</div>'+
+          '<div style="font-size:9px;color:var(--text3)">'+t.scene+' · '+t.done+'/'+t.count+'</div>'+
+        '</div>'+
+        '<span style="font-size:9px;font-weight:600;color:'+t.color+'">'+tp+'%</span>'+
+      '</div>';
+    }).join('');
+    return '<div style="padding:10px 12px;border-radius:8px;border:1.5px solid #e8e8e8;margin-bottom:8px">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">'+
+        '<div style="display:flex;align-items:center;gap:6px">'+
+          '<div style="width:28px;height:28px;border-radius:50%;background:var(--g8);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--g2)">'+a.person.charAt(0)+'</div>'+
+          '<div><div style="font-size:11px;font-weight:600;color:var(--text)">'+a.person+'</div><div style="font-size:9px;color:var(--text3)">'+a.role+'</div></div>'+
+        '</div>'+
+        '<div style="text-align:right">'+
+          '<div style="font-size:12px;font-weight:700;color:var(--g2)">'+pct+'%</div>'+
+          '<div style="font-size:9px;color:var(--text3)">'+totalDone+'/'+totalAssigned+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="height:4px;background:#eee;border-radius:2px;overflow:hidden;margin-bottom:8px">'+
+        '<div style="width:'+pct+'%;height:100%;background:var(--g2);border-radius:2px;transition:width .3s"></div>'+
+      '</div>'+
+      taskItems+
+    '</div>';
+  }).join('');
+
+  c.innerHTML='<div class="sv-grid">'+
+    '<div class="sv-left" style="padding:16px">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'+
+        '<div style="font-size:12px;font-weight:600;color:var(--text)">👥 任务分配 · 人员负载</div>'+
+        '<div style="font-size:10px;color:var(--text3)">3 名标注员</div>'+
+      '</div>'+
+      assignCards+
+    '</div>'+
+    '<div class="sv-right">'+
+      '<div class="sr-card"><h5>📊 分配统计</h5>'+
+        '<div class="wf"><div class="wf-label">当前场景</div><div class="wf-val" style="color:var(--g2);font-weight:600">'+s.name+'</div></div>'+
+        '<div class="wf"><div class="wf-label">分配总量</div><div class="wf-val">2,500 条</div></div>'+
+        '<div class="wf"><div class="wf-label">已标注</div><div class="wf-val" style="color:var(--g2)">646 条</div></div>'+
+        '<div class="wf"><div class="wf-label">整体进度</div><div class="wf-val" style="color:var(--g2);font-weight:600">25.8%</div></div>'+
+      '</div>'+
+      '<div class="sr-card"><h5>⚖️ 分配规则</h5>'+
+        '<div style="font-size:9px;line-height:1.8;color:var(--text2)">'+
+          '<div style="display:flex;align-items:center;gap:4px"><span style="color:var(--g2)">●</span> 按场景专业度优先分配</div>'+
+          '<div style="display:flex;align-items:center;gap:4px"><span style="color:var(--g2)">●</span> 单人并行任务≤3个</div>'+
+          '<div style="display:flex;align-items:center;gap:4px"><span style="color:var(--g2)">●</span> 按日产能动态调配</div>'+
+          '<div style="display:flex;align-items:center;gap:4px"><span style="color:var(--g2)">●</span> 新人需审核人带教</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="sr-card"><h5>📅 产能规划</h5>'+
+        '<div class="qc-row"><span>日均标注量</span><span class="qc-val">80条/人</span></div>'+
+        '<div class="qc-row"><span>预计完成</span><span class="qc-val" style="color:var(--g2)">9月30日</span></div>'+
+        '<div class="qc-row"><span>剩余工作量</span><span class="qc-val" style="color:var(--orange)">1,854条</span></div>'+
+      '</div>'+
+      '<div class="sr-card" style="background:#f0f7f4;border-color:#c8e6c9"><h5>💡 提示</h5>'+
+        '<div style="font-size:9px;line-height:1.6;color:var(--text2)">任务分配需根据标注员专业领域和当前负载合理调配，确保各场景任务均衡推进。优先分配紧急任务和逾期风险任务。</div>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
 }
 
 function renderImportStep(c){
@@ -1264,7 +1409,7 @@ function doAddScene(){
   _sceneRegistry.addScene(cfg);
   closeSceneModal();
   switchScene(_scenes.length-1);
-  if(_activeStep===2)renderScene(_sceneIdx);
+  if(_activeStep===4)renderScene(_sceneIdx);
 }
 
 function renderScene(idx){
@@ -1711,7 +1856,7 @@ function syncFromKDocs(){
 // Try auto-load sync time on page load
 window.addEventListener('DOMContentLoaded',function(){
   renderPipeline();
-  switchStep(2);
+  switchStep(4);
   loadDlvData();
   fetch('./plan-data.json?t='+Date.now())
     .then(r=>r.json())
