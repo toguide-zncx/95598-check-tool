@@ -186,35 +186,35 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 @media(max-width:768px){.dlv-row{flex-wrap:wrap;gap:4px}.dlv-name{min-width:120px}.dlv-time{display:none}}
 .expand-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1.5px solid var(--g4);background:var(--g8);color:var(--g2);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:all .2s}
 .expand-btn:hover{background:var(--g4);color:#fff}
-.tm-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-.tm-add-btn{padding:5px 14px;border-radius:6px;font-size:11px;font-weight:600;background:var(--g2);color:#fff;border:none;cursor:pointer;transition:all .15s}
-.tm-add-btn:hover{background:var(--g3);transform:translateY(-1px)}
+.tm-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.tm-add-btn{padding:4px 12px;border-radius:5px;font-size:10px;font-weight:600;background:var(--g2);color:#fff;border:none;cursor:pointer;transition:all .15s}
+.tm-add-btn:hover{background:var(--g3)}
 .tm-filters{display:flex;gap:6px;margin-left:auto}
-.tm-filter{padding:4px 10px;border-radius:5px;font-size:10px;border:1px solid #ddd;background:#FAFAFA;color:var(--text2);cursor:pointer;font-family:inherit}
+.tm-filter{padding:3px 8px;border-radius:4px;font-size:9.5px;border:1px solid #ddd;background:#FAFAFA;color:var(--text2);cursor:pointer;font-family:inherit}
 .tm-filter:focus{border-color:var(--g4);outline:none}
-.tm-stats{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
-.tm-stat{padding:5px 12px;border-radius:6px;font-size:10px;font-weight:500;display:flex;align-items:center;gap:4px}
-.tm-stat .n{font-size:14px;font-weight:700}
-.tm-list{display:flex;flex-direction:column;gap:6px}
-.tm-card{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;border:1.5px solid #eee;background:#fff;transition:all .15s}
-.tm-card:hover{border-color:var(--g5);box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.tm-card.done{opacity:.7;background:#FAFAFA}
-.tm-idx{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
-.tm-info{flex:1;min-width:0}
-.tm-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px}
-.tm-meta{font-size:10px;color:var(--text3);display:flex;gap:8px;flex-wrap:wrap}
-.tm-meta span{display:inline-flex;align-items:center;gap:2px}
-.tm-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:9.5px;font-weight:600;white-space:nowrap;flex-shrink:0}
-.tm-badge.pending{background:#FFF3E0;color:#E65100}
-.tm-badge.annotating{background:#E3F2FD;color:#1565C0}
-.tm-badge.reviewing{background:#F3E5F5;color:#5E35B1}
-.tm-badge.done{background:var(--g8);color:var(--g2)}
-.tm-progress{width:80px;height:6px;border-radius:3px;background:#eee;flex-shrink:0;overflow:hidden}
-.tm-progress-bar{height:100%;border-radius:3px;transition:width .3s}
-.tm-actions{display:flex;gap:4px;flex-shrink:0}
-.tm-act{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;border:none;cursor:pointer;transition:all .15s;background:#f5f5f5;color:var(--text3)}
-.tm-act:hover{background:var(--g8);color:var(--g2)}
-.tm-act.del:hover{background:#FFEBEE;color:var(--red)}
+.tm-table-wrap{overflow-x:auto;border-radius:6px;border:1px solid #e0e0e0}
+.tm-table{width:100%;border-collapse:collapse;font-size:10px}
+.tm-table th{background:var(--g8);color:var(--g2);font-weight:600;font-size:9.5px;padding:6px 8px;text-align:center;white-space:nowrap;border-bottom:2px solid var(--g5);position:sticky;top:0}
+.tm-table th:first-child{text-align:center;width:28px}
+.tm-table td{padding:5px 8px;text-align:center;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+.tm-table tr:last-child td{border-bottom:none}
+.tm-table tr:hover td{background:#f8fdf8}
+.tm-table .td-name{text-align:left;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;cursor:pointer}
+.tm-table .td-name:hover{color:var(--g2)}
+.tm-table .td-assign{font-size:9.5px;color:var(--text2)}
+.tm-table .td-assign b{color:var(--g2);font-weight:600}
+.tm-table .td-step{font-size:9px;white-space:nowrap}
+.tm-table .td-acts{white-space:nowrap}
+.tm-table .td-acts button{padding:2px 6px;border-radius:3px;font-size:9px;border:1px solid #ddd;background:#fff;cursor:pointer;margin:0 1px;transition:all .12s}
+.tm-table .td-acts button:hover{background:var(--g8);border-color:var(--g4)}
+.tm-table .td-acts .btn-del{color:var(--red);border-color:#f0c0c0}
+.tm-table .td-acts .btn-del:hover{background:#FFEBEE;border-color:var(--red)}
+.tm-table .td-acts .btn-go{color:#1565C0;border-color:#bbdefb}
+.tm-table .td-acts .btn-go:hover{background:#E3F2FD;border-color:#1565C0}
+.tm-table .td-acts .btn-adv{background:var(--g2);color:#fff;border-color:var(--g2)}
+.tm-table .td-acts .btn-adv:hover{background:var(--g3)}
+.tm-summary{display:flex;gap:12px;margin-bottom:8px;flex-wrap:wrap;font-size:9.5px;color:var(--text3)}
+.tm-summary b{color:var(--g2);font-weight:600}
 .tm-modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center}
 .tm-modal-overlay.show{display:flex}
 .tm-modal{background:#fff;border-radius:12px;padding:20px;width:90%;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,.15);animation:fadeIn .2s}
@@ -553,8 +553,7 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 </select>
 </div>
 </div>
-<div class="tm-stats" id="tmStats"></div>
-<div class="tm-list" id="tmList"></div>
+<div id="tmList"></div>
 </div>
 
 <!-- 功能架构 -->
@@ -806,91 +805,36 @@ function getSceneCtx(){
 
 function renderTaskMgmtStep(c){
   var tasks=_tmData;
-  var stats={total:tasks.length,step0:0,step1:0,step2:0,step3:0,step4:0,step5:0,step6:0};
-  tasks.forEach(function(t){var k='step'+t.pipeStep;if(stats[k]!==undefined)stats[k]++;});
-
-  // Mini pipeline for each task card
-  function miniPipe(step){
-    var h='<div style="display:flex;gap:2px;align-items:center;margin-top:6px">';
-    for(var i=0;i<7;i++){
-      var bg=i<step?'var(--g2)':i===step?'var(--g4)':'#e0e0e0';
-      var col=i<step?'#fff':i===step?'#fff':'#999';
-      h+='<div style="flex:1;height:16px;border-radius:3px;background:'+bg+';display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:600;color:'+col+'" title="'+_pipeStepShort[i]+'">'+_pipeStepIcons[i]+'</div>';
-      if(i<6)h+='<div style="color:#ccc;font-size:6px">›</div>';
-    }
-    h+='</div>';
-    return h;
-  }
-
-  var taskCards=tasks.map(function(t){
-    var sc=_tmSceneMap[t.scene]||t.scene;
-    var scColor=_tmSceneColor[t.scene]||'var(--g2)';
-    var pct=t.total>0?Math.round(t.done/t.total*100):0;
-    var stepLabel=_pipeStepShort[t.pipeStep]||'任务';
-    var stepIcon=_pipeStepIcons[t.pipeStep]||'📋';
-    return '<div class="tm-card" style="margin-bottom:8px;cursor:pointer" onclick="jumpToTaskStep('+t.id+')">'+
-      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">'+
-        '<div style="width:26px;height:26px;border-radius:6px;background:'+scColor+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">'+t.id+'</div>'+
-        '<div style="flex:1;min-width:0">'+
-          '<div style="font-size:11px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+t.name+'</div>'+
-          '<div style="font-size:9px;color:var(--text3)">'+sc+' · '+t.assignee+' · '+t.date+'</div>'+
-        '</div>'+
-        '<div style="flex-shrink:0;text-align:right">'+
-          '<div style="font-size:9px;font-weight:600;color:'+scColor+'">'+stepIcon+' '+stepLabel+'</div>'+
-          '<div style="font-size:9px;color:var(--text3)">'+t.done+'/'+t.total+' ('+pct+'%)</div>'+
-        '</div>'+
-      '</div>'+
-      miniPipe(t.pipeStep)+
-      '<div style="display:flex;gap:4px;margin-top:6px;justify-content:flex-end">'+
-        (t.pipeStep<6?'<button style="padding:3px 10px;border-radius:4px;border:none;background:var(--g2);color:#fff;font-size:9px;font-weight:600;cursor:pointer" onclick="event.stopPropagation();advanceTask('+t.id+')">▶ 推进</button>':'')+
-        '<button style="padding:3px 10px;border-radius:4px;border:1px solid #ddd;background:#fff;font-size:9px;cursor:pointer" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')">↗ 进入</button>'+
-        '<button style="padding:3px 8px;border-radius:4px;border:1px solid #f0c0c0;background:#fff;font-size:9px;color:var(--red);cursor:pointer" onclick="event.stopPropagation();deleteTask('+t.id+');renderTaskMgmtStep(document.getElementById(\'stepContainer\'))">✕</button>'+
-      '</div>'+
-    '</div>';
+  var tot=0,ta=0,tn=0,ta2=0,tpr=0,tr=0,tc=0;
+  tasks.forEach(function(t){tot+=t.total;ta+=t.assigned;tn+=t.total-t.assigned;ta2+=t.annotated;tpr+=t.pendingReview;tr+=t.reviewed;tc+=t.completed});
+  var rows=tasks.map(function(t){
+    var ps=t.pipeStep||0;
+    var unassign=t.total-t.assigned;
+    return '<tr>'+
+      '<td style="font-weight:600;color:var(--text3)">'+t.id+'</td>'+
+      '<td class="td-name" title="'+t.name+'" onclick="jumpToTaskStep('+t.id+')">'+t.name+'</td>'+
+      '<td style="font-size:9px;color:var(--text3)">'+(_tmSceneMap[t.scene]||t.scene)+'</td>'+
+      '<td style="font-size:9px">'+t.assignee+'</td>'+
+      '<td style="font-weight:600">'+t.total+'</td>'+
+      '<td class="td-assign"><b>'+t.assigned+'</b>/'+unassign+'</td>'+
+      '<td>'+t.annotated+'</td>'+
+      '<td>'+t.pendingReview+'</td>'+
+      '<td>'+t.reviewed+'</td>'+
+      '<td style="font-weight:600;color:var(--g2)">'+t.completed+'</td>'+
+      '<td class="td-step">'+_pipeStepIcons[ps]+' '+_pipeStepShort[ps]+'</td>'+
+      '<td class="td-acts">'+
+        (ps<6?'<button class="btn-adv" onclick="event.stopPropagation();advanceTask('+t.id+')">▶</button>':'')+
+        '<button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')" title="进入">↗</button>'+
+        '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+');renderTaskMgmtStep(document.getElementById(\'stepContainer\'))" title="删除">✕</button>'+
+      '</td></tr>';
   }).join('');
-
-  c.innerHTML='<div class="sv-grid">'+
-    '<div class="sv-left" style="padding:16px">'+
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'+
-        '<div style="font-size:12px;font-weight:600;color:var(--text)">📋 任务管理 · 闭环工作台</div>'+
-        '<button style="padding:5px 14px;border-radius:6px;border:none;background:var(--g2);color:#fff;font-size:10px;font-weight:600;cursor:pointer" onclick="showNewPipeTaskModal()">＋ 新建任务</button>'+
-      '</div>'+
-      '<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">'+
-        '<div style="padding:4px 10px;border-radius:4px;background:var(--g8);font-size:9px;font-weight:500;color:var(--g2)">共 '+stats.total+' 个</div>'+
-        '<div style="padding:4px 10px;border-radius:4px;background:#FFF3E0;font-size:9px;font-weight:500;color:#E65100">📋 待创建 '+stats.step0+'</div>'+
-        '<div style="padding:4px 10px;border-radius:4px;background:#E3F2FD;font-size:9px;font-weight:500;color:#1565C0">📥 导入 '+stats.step1+'</div>'+
-        '<div style="padding:4px 10px;border-radius:4px;background:#F3E5F5;font-size:9px;font-weight:500;color:#5E35B1">🏷️ 标注 '+stats.step4+'</div>'+
-        '<div style="padding:4px 10px;border-radius:4px;background:#E8F5E9;font-size:9px;font-weight:500;color:#006B54">📦 已归库 '+stats.step6+'</div>'+
-      '</div>'+
-      taskCards+
+  c.innerHTML=
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">'+
+      '<div style="font-size:11px;font-weight:600;color:var(--text)">📋 任务管理</div>'+
+      '<button style="padding:4px 12px;border-radius:5px;border:none;background:var(--g2);color:#fff;font-size:10px;font-weight:600;cursor:pointer" onclick="showNewPipeTaskModal()">＋ 新建任务</button>'+
     '</div>'+
-    '<div class="sv-right">'+
-      '<div class="sr-card"><h5>📊 流转统计</h5>'+
-        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">'+
-          _pipeStepShort.map(function(s,i){return '<div style="padding:4px 6px;border-radius:4px;background:'+(i%2===0?'#f9f9f9':'#fff')+';font-size:9px;display:flex;justify-content:space-between"><span>'+_pipeStepIcons[i]+' '+s+'</span><span style="font-weight:600;color:var(--g2)">'+(stats['step'+i]||0)+'</span></div>'}).join('')+
-        '</div>'+
-      '</div>'+
-      '<div class="sr-card"><h5>🔄 闭环流程</h5>'+
-        '<div style="font-size:9px;line-height:1.8;color:var(--text2)">'+
-          '<div style="padding:4px 8px;border-left:3px solid var(--g2);margin-bottom:4px;background:var(--g8);border-radius:0 4px 4px 0"><b>1. 新建任务</b> → 确定场景和负责人</div>'+
-          '<div style="padding:4px 8px;border-left:3px solid var(--g3);margin-bottom:4px;background:#f5f5f5;border-radius:0 4px 4px 0"><b>2. 导入数据</b> → 按场景批量导入样本</div>'+
-          '<div style="padding:4px 8px;border-left:3px solid var(--g4);margin-bottom:4px;background:#f5f5f5;border-radius:0 4px 4px 0"><b>3. 预处理</b> → 清洗脱敏质量初检</div>'+
-          '<div style="padding:4px 8px;border-left:3px solid var(--blue);margin-bottom:4px;background:#E3F2FD;border-radius:0 4px 4px 0"><b>4. 任务分配</b> → 按人员负载分派</div>'+
-          '<div style="padding:4px 8px;border-left:3px solid var(--orange);margin-bottom:4px;background:#FFF3E0;border-radius:0 4px 4px 0"><b>5. 标注</b> → 场景化多模态标注</div>'+
-          '<div style="padding:4px 8px;border-left:3px solid #5E35B1;margin-bottom:4px;background:#F3E5F5;border-radius:0 4px 4px 0"><b>6. 审核</b> → 逐条校验通过/退回</div>'+
-          '<div style="padding:4px 8px;border-left:3px solid var(--g2);background:var(--g8);border-radius:0 4px 4px 0"><b>7. 归库</b> → 版本管控样本入库</div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="sr-card"><h5>👥 人员负载</h5>'+
-        '<div class="qc-row"><span>李琳</span><span class="qc-val">3 个任务</span></div>'+
-        '<div class="qc-row"><span>高金萱</span><span class="qc-val">2 个任务</span></div>'+
-        '<div class="qc-row"><span>梁爽</span><span class="qc-val">2 个任务</span></div>'+
-      '</div>'+
-      '<div class="sr-card" style="background:#f0f7f4;border-color:#c8e6c9"><h5>💡 提示</h5>'+
-        '<div style="font-size:9px;line-height:1.6;color:var(--text2)">点击任务卡片可跳转到该任务当前所处步骤；点击"推进"将任务流转到下一步；新建任务后自动进入导入环节。</div>'+
-      '</div>'+
-    '</div>'+
-  '</div>';
+    '<div class="tm-summary">合计：<b>'+tasks.length+'</b>个任务 · 任务量 <b>'+tot+'</b> · 已分配/待分配 <b>'+ta+'/'+tn+'</b> · 标注 <b>'+ta2+'</b> · 待审核 <b>'+tpr+'</b> · 已审核 <b>'+tr+'</b> · 已完成 <b>'+tc+'</b></div>'+
+    '<div class="tm-table-wrap"><table class="tm-table"><thead><tr><th>#</th><th>任务名称</th><th>场景</th><th>负责人</th><th>任务量</th><th>已分配/待分配</th><th>标注量</th><th>待审核</th><th>已审核</th><th>已完成</th><th>当前步骤</th><th>操作</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
 }
 
 function renderImportStep(c){
@@ -1451,13 +1395,13 @@ function renderScene(idx){
 function switchTool(id){document.querySelectorAll('.tool-tab').forEach((t,i)=>{t.classList.toggle('active',['ws','tasks','arch'][i]===id)});document.querySelectorAll('.tool-panel').forEach(p=>{p.classList.toggle('active',p.id==='tp-'+id)})}
 // 任务管理
 var _tmData=[
-  {id:1,name:'电能表条形码+读数标注',scene:'meter',assignee:'李琳',status:'annotating',pipeStep:4,total:500,done:42,date:'6/15-7/10',desc:'DNB条形码和液晶读数识别标注'},
-  {id:2,name:'电能表异常场景标注',scene:'meter',assignee:'高金萱',status:'pending',pipeStep:0,total:300,done:0,date:'9/16-9/30',desc:'电能表Err-04等异常状态识别'},
-  {id:3,name:'电费记录OCR标注',scene:'bill',assignee:'李琳',status:'reviewing',pipeStep:5,total:200,done:156,date:'8/17-9/15',desc:'电费账单4字段OCR提取标注'},
-  {id:4,name:'交费订单11字段标注',scene:'order',assignee:'梁爽',status:'pending',pipeStep:1,total:400,done:0,date:'8/1-9/15',desc:'网上国网交费订单11字段联合标注'},
-  {id:5,name:'报错信息场景标注',scene:'error',assignee:'高金萱',status:'annotating',pipeStep:4,total:350,done:88,date:'8/1-8/31',desc:'网上国网报错信息3字段标注'},
-  {id:6,name:'实名认证提取标注',scene:'order',assignee:'李琳',status:'done',pipeStep:6,total:150,done:150,date:'6/1-6/30',desc:'实名认证信息提取标注已完成'},
-  {id:7,name:'语料意图+实体标注',scene:'error',assignee:'梁爽',status:'annotating',pipeStep:4,total:600,done:210,date:'8/17-9/30',desc:'报错语料意图识别+实体标注'}
+  {id:1,name:'电能表条形码+读数标注',scene:'meter',assignee:'李琳',status:'annotating',pipeStep:4,total:500,assigned:400,annotated:42,pendingReview:0,reviewed:0,completed:0,date:'6/15-7/10',desc:'DNB条形码和液晶读数识别标注'},
+  {id:2,name:'电能表异常场景标注',scene:'meter',assignee:'高金萱',status:'pending',pipeStep:0,total:300,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:'9/16-9/30',desc:'电能表Err-04等异常状态识别'},
+  {id:3,name:'电费记录OCR标注',scene:'bill',assignee:'李琳',status:'reviewing',pipeStep:5,total:200,assigned:200,annotated:200,pendingReview:120,reviewed:36,completed:0,date:'8/17-9/15',desc:'电费账单4字段OCR提取标注'},
+  {id:4,name:'交费订单11字段标注',scene:'order',assignee:'梁爽',status:'pending',pipeStep:1,total:400,assigned:200,annotated:0,pendingReview:0,reviewed:0,completed:0,date:'8/1-9/15',desc:'网上国网交费订单11字段联合标注'},
+  {id:5,name:'报错信息场景标注',scene:'error',assignee:'高金萱',status:'annotating',pipeStep:4,total:350,assigned:350,annotated:88,pendingReview:0,reviewed:0,completed:0,date:'8/1-8/31',desc:'网上国网报错信息3字段标注'},
+  {id:6,name:'实名认证提取标注',scene:'order',assignee:'李琳',status:'done',pipeStep:6,total:150,assigned:150,annotated:150,pendingReview:0,reviewed:150,completed:150,date:'6/1-6/30',desc:'实名认证信息提取标注已完成'},
+  {id:7,name:'语料意图+实体标注',scene:'error',assignee:'梁爽',status:'annotating',pipeStep:4,total:600,assigned:600,annotated:210,pendingReview:0,reviewed:0,completed:0,date:'8/17-9/30',desc:'报错语料意图识别+实体标注'}
 ];
 var _tmNextId=8;
 var _tmSceneMap={meter:'⚡ 电能表识别',bill:'💰 电费记录',order:'🧾 交费订单',error:'⚠️ 异常提示'};
@@ -1473,46 +1417,48 @@ function renderTaskList(){
     if(stf&&t.status!==stf)return false;
     return true;
   });
-  var counts={pending:0,annotating:0,reviewing:0,done:0};
-  _tmData.forEach(function(t){counts[t.status]=(counts[t.status]||0)+1});
-  document.getElementById('tmStats').innerHTML=
-    '<div class="tm-stat" style="background:#FFF3E0;color:#E65100"><span class="n">'+counts.pending+'</span>待分配</div>'+
-    '<div class="tm-stat" style="background:#E3F2FD;color:#1565C0"><span class="n">'+counts.annotating+'</span>标注中</div>'+
-    '<div class="tm-stat" style="background:#F3E5F5;color:#5E35B1"><span class="n">'+counts.reviewing+'</span>审核中</div>'+
-    '<div class="tm-stat" style="background:#E8F5E9;color:#006B54"><span class="n">'+counts.done+'</span>已完成</div>';
+  var tot=0,ta=0,tn=0,ta2=0,tpr=0,tr=0,tc=0;
+  list.forEach(function(t){tot+=t.total;ta+=t.assigned;tn+=t.total-t.assigned;ta2+=t.annotated;tpr+=t.pendingReview;tr+=t.reviewed;tc+=t.completed});
+  var sumHtml='<div class="tm-summary">合计：<b>'+list.length+'</b>个任务 · 任务量 <b>'+tot+'</b> · 已分配/待分配 <b>'+ta+'/'+tn+'</b> · 标注 <b>'+ta2+'</b> · 待审核 <b>'+tpr+'</b> · 已审核 <b>'+tr+'</b> · 已完成 <b>'+tc+'</b></div>';
   if(!list.length){document.getElementById('tmList').innerHTML='<div style="text-align:center;padding:20px;color:#999;font-size:11px">暂无匹配任务</div>';return}
-  var html='';
+  var h=sumHtml+'<div class="tm-table-wrap"><table class="tm-table"><thead><tr><th>#</th><th>任务名称</th><th>场景</th><th>负责人</th><th>任务量</th><th>已分配/待分配</th><th>标注量</th><th>待审核</th><th>已审核</th><th>已完成</th><th>当前步骤</th><th>操作</th></tr></thead><tbody>';
   list.forEach(function(t){
-    var pct=t.total?Math.round(t.done/t.total*100):0;
-    var barColor=_tmSceneColor[t.scene]||'#999';
-    var pipeStep=t.pipeStep!==undefined?t.pipeStep:0;
-    var stepInfo=_pipeStepIcons[pipeStep]+' '+_pipeStepShort[pipeStep];
-    // Mini pipeline
-    var miniPipe='<div style="display:flex;gap:1px;align-items:center;margin-top:3px">';
-    for(var i=0;i<7;i++){
-      var bg2=i<pipeStep?'var(--g2)':i===pipeStep?'var(--g4)':'#e8e8e8';
-      var col2=i<pipeStep?'#fff':i===pipeStep?'#fff':'#bbb';
-      miniPipe+='<div style="flex:1;height:10px;border-radius:2px;background:'+bg2+';display:flex;align-items:center;justify-content:center;font-size:5px;color:'+col2+'">'+i+'</div>';
-    }
-    miniPipe+='</div>';
-    html+='<div class="tm-card'+(t.status==='done'?' done':'')+'" style="cursor:pointer" onclick="jumpToTaskStep('+t.id+')">'+
-      '<div class="tm-idx" style="background:'+barColor+'">'+t.id+'</div>'+
-      '<div class="tm-info"><div class="tm-name">'+t.name+'</div>'+
-      '<div class="tm-meta"><span>'+_tmSceneMap[t.scene]+'</span><span>👤 '+t.assignee+'</span><span>📅 '+t.date+'</span><span>'+t.done+'/'+t.total+'</span><span style="color:var(--g2);font-weight:500">'+stepInfo+'</span></div></div>'+
-      '<div class="tm-badge '+t.status+'">'+_tmStatusMap[t.status]+'</div>'+
-      '<div class="tm-progress"><div class="tm-progress-bar" style="width:'+pct+'%;background:'+barColor+'"></div></div>'+
-      miniPipe+
-      '<div class="tm-actions">'+
-      (pipeStep<6?'<button class="tm-act" onclick="event.stopPropagation();advanceTask('+t.id+')" title="推进步骤">▶</button>':'')+
-      '<button class="tm-act" style="background:#E3F2FD;color:#1565C0" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')" title="跳转到当前步骤">↗</button>'+
-      '<button class="tm-act del" onclick="event.stopPropagation();deleteTask('+t.id+')" title="删除">✕</button></div></div>';
+    var ps=t.pipeStep||0;
+    var unassign=t.total-t.assigned;
+    h+='<tr>'+
+      '<td style="font-weight:600;color:var(--text3)">'+t.id+'</td>'+
+      '<td class="td-name" title="'+t.name+'" onclick="jumpToTaskStep('+t.id+')">'+t.name+'</td>'+
+      '<td style="font-size:9px;color:var(--text3)">'+(_tmSceneMap[t.scene]||t.scene)+'</td>'+
+      '<td style="font-size:9px">'+t.assignee+'</td>'+
+      '<td style="font-weight:600">'+t.total+'</td>'+
+      '<td class="td-assign"><b>'+t.assigned+'</b>/'+unassign+'</td>'+
+      '<td>'+t.annotated+'</td>'+
+      '<td>'+t.pendingReview+'</td>'+
+      '<td>'+t.reviewed+'</td>'+
+      '<td style="font-weight:600;color:var(--g2)">'+t.completed+'</td>'+
+      '<td class="td-step">'+_pipeStepIcons[ps]+' '+_pipeStepShort[ps]+'</td>'+
+      '<td class="td-acts">'+
+        (ps<6?'<button class="btn-adv" onclick="event.stopPropagation();advanceTask('+t.id+')">▶</button>':'')+
+        '<button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')" title="进入">↗</button>'+
+        '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+')" title="删除">✕</button>'+
+      '</td></tr>';
   });
-  document.getElementById('tmList').innerHTML=html;
+  h+='</tbody></table></div>';
+  document.getElementById('tmList').innerHTML=h;
 }
 function advanceTask(id){
   var t=_tmData.find(function(x){return x.id===id});
   if(!t)return;
-  if(t.pipeStep<6){t.pipeStep++;if(t.pipeStep>=4&&t.status==='pending')t.status='annotating';if(t.pipeStep>=5&&t.status==='annotating')t.status='reviewing';if(t.pipeStep>=6)t.status='done';renderTaskList();renderTaskMgmtStep(document.getElementById('stepContainer'));showToast('任务#'+id+'已推进至'+_pipeStepShort[t.pipeStep],'success')}
+  if(t.pipeStep<6){
+    t.pipeStep++;
+    if(t.pipeStep>=3&&t.assigned===0)t.assigned=Math.round(t.total*0.8);
+    if(t.pipeStep>=4&&t.annotated===0)t.annotated=Math.round(t.assigned*0.2);
+    if(t.pipeStep>=5&&t.pendingReview===0)t.pendingReview=t.annotated;
+    if(t.pipeStep>=6){t.reviewed=t.pendingReview;t.completed=t.reviewed;t.pendingReview=0}
+    if(t.pipeStep>=4&&t.status==='pending')t.status='annotating';
+    if(t.pipeStep>=5&&t.status==='annotating')t.status='reviewing';
+    if(t.pipeStep>=6)t.status='done';
+    renderTaskList();renderTaskMgmtStep(document.getElementById('stepContainer'));showToast('任务#'+id+'已推进至'+_pipeStepShort[t.pipeStep],'success')}
 }
 function jumpToTaskStep(taskId){
   var t=_tmData.find(function(x){return x.id===taskId});
@@ -1537,7 +1483,7 @@ function addTmTask(){
   var date=document.getElementById('tmNewDate').value.trim();
   var desc=document.getElementById('tmNewDesc').value.trim();
   if(!name){showToast('请输入任务名称','error');return}
-  _tmData.unshift({id:_tmNextId++,name:name,scene:scene||'meter',assignee:assignee||'未分配',status:'pending',pipeStep:0,total:total,done:0,date:date||'待定',desc:desc||''});
+  _tmData.unshift({id:_tmNextId++,name:name,scene:scene||'meter',assignee:assignee||'未分配',status:'pending',pipeStep:0,total:total,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:date||'待定',desc:desc||''});
   closeTmModal();renderTaskList();showToast('任务创建成功','success');
   document.getElementById('tmNewName').value='';document.getElementById('tmNewAssignee').value='';
   document.getElementById('tmNewTotal').value='';document.getElementById('tmNewDate').value='';
@@ -1617,7 +1563,7 @@ function doNewPipeTask(){
   var desc=document.getElementById('np_desc').value.trim();
   if(!name){showToast('请输入任务名称','error');return}
   var newId=_tmNextId++;
-  _tmData.unshift({id:newId,name:name,scene:scene||'meter',assignee:assignee||'未分配',status:'pending',pipeStep:0,total:total,done:0,date:date||'待定',desc:desc||''});
+  _tmData.unshift({id:newId,name:name,scene:scene||'meter',assignee:assignee||'未分配',status:'pending',pipeStep:0,total:total,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:date||'待定',desc:desc||''});
   closeNewPipeModal();
   showToast('任务"'+name+'"创建成功，正在跳转导入…','success');
   // Advance to import step (pipeStep 1) and switch view
