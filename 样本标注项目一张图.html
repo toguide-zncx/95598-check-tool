@@ -176,11 +176,13 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .dlv-status.done{background:var(--g8);color:var(--g2)}
 .dlv-upload{display:inline-flex;align-items:center;gap:2px;padding:2px 8px;border-radius:5px;font-size:9px;font-weight:500;border:1px dashed #ddd;background:#FAFAFA;color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
 .dlv-upload:hover{border-color:var(--g4);color:var(--g2);background:var(--g8)}
-.dlv-upload.uploaded{border-style:solid;border-color:var(--g5);color:var(--g2);background:var(--g8);cursor:default}
-.dlv-del{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;font-size:9px;background:#FFEBEE;color:var(--red);cursor:pointer;transition:all .15s;margin-left:2px;flex-shrink:0;line-height:1}
-.dlv-del:hover{background:var(--red);color:#fff;transform:scale(1.15)}
-.dlv-dl{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;font-size:9px;background:var(--g8);color:var(--g2);cursor:pointer;transition:all .15s;margin-left:2px;flex-shrink:0;line-height:1;text-decoration:none}
-.dlv-dl:hover{background:var(--g4);color:#fff;transform:scale(1.15)}
+.dlv-upload.uploaded{border-style:solid;border-color:var(--g5);color:var(--g2);background:var(--g8);cursor:default;gap:4px;padding:2px 6px}
+.dlv-fname{font-size:9px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dlv-acts{display:inline-flex;gap:3px;margin-left:2px;flex-shrink:0}
+.dlv-del{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:4px;font-size:10px;background:#FFEBEE;color:var(--red);cursor:pointer;transition:all .15s;flex-shrink:0;line-height:1}
+.dlv-del:hover{background:var(--red);color:#fff;transform:scale(1.1)}
+.dlv-dl{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:4px;font-size:10px;background:var(--g8);color:var(--g2);cursor:pointer;transition:all .15s;flex-shrink:0;line-height:1;text-decoration:none;border:1px solid var(--g5)}
+.dlv-dl:hover{background:var(--g4);color:#fff;transform:scale(1.1);border-color:var(--g4)}
 @media(max-width:768px){.dlv-row{flex-wrap:wrap;gap:4px}.dlv-name{min-width:120px}.dlv-time{display:none}}
 .expand-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1.5px solid var(--g4);background:var(--g8);color:var(--g2);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:all .2s}
 .expand-btn:hover{background:var(--g4);color:#fff}
@@ -1374,7 +1376,7 @@ function loadDlvData(){
         uploadEl.setAttribute('data-fname',item.fileName);
         uploadEl.onclick=null;
         var shortName=item.fileName.length>10?item.fileName.substring(0,10)+'...':item.fileName;
-        uploadEl.innerHTML='📄 '+shortName+'<span class="dlv-dl" onclick="downloadDlv(event,this,'+id+')">⬇</span><span class="dlv-del" onclick="removeDlv(event,this,'+id+')">✕</span>';
+        uploadEl.innerHTML='<span class="dlv-fname">'+shortName+'</span><span class="dlv-acts"><span class="dlv-dl" onclick="downloadDlv(event,this,'+id+')" title="下载">⬇</span><span class="dlv-del" onclick="removeDlv(event,this,'+id+')" title="删除">✕</span></span>';
       }
     });
     updateDlvStats();
@@ -1392,7 +1394,7 @@ function uploadDlv(el,idx){
       el.setAttribute('data-fname',fname);
       el.onclick=null;
       var shortName=fname.length>10?fname.substring(0,10)+'...':fname;
-      el.innerHTML='📄 '+shortName+'<span class="dlv-dl" onclick="downloadDlv(event,this,'+idx+')">⬇</span><span class="dlv-del" onclick="removeDlv(event,this,'+idx+')">✕</span>';
+      el.innerHTML='<span class="dlv-fname">'+shortName+'</span><span class="dlv-acts"><span class="dlv-dl" onclick="downloadDlv(event,this,'+idx+')" title="下载">⬇</span><span class="dlv-del" onclick="removeDlv(event,this,'+idx+')" title="删除">✕</span></span>';
       var statusEl=el.closest('.dlv-row').querySelector('.dlv-status');
       if(statusEl){
         statusEl.className='dlv-status done';
