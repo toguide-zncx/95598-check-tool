@@ -520,7 +520,6 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 <h3>🏷️ 标注工具 · Label Studio CE</h3>
 <div class="tool-tabs">
 <div class="tool-tab active" onclick="switchTool('ws')">🖼️ 标注工作台</div>
-<div class="tool-tab" onclick="switchTool('tasks')">📋 任务管理</div>
 <div class="tool-tab" onclick="switchTool('arch')">🏗️ 功能架构</div>
 
 </div>
@@ -530,30 +529,6 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 <div class="scene-tabs" id="sceneTabs"></div>
 <div class="pipeline-bar" id="pipelineBar"></div>
 <div id="stepContainer"></div>
-</div>
-
-<!-- 任务管理 -->
-<div class="tool-panel" id="tp-tasks">
-<div class="tm-toolbar">
-<button class="tm-add-btn" onclick="showAddTaskModal()">+ 新建任务</button>
-<div class="tm-filters">
-<select class="tm-filter" id="tmSceneFilter" onchange="renderTaskList()">
-<option value="">全部场景</option>
-<option value="meter">⚡ 电能表识别</option>
-<option value="bill">💰 电费记录</option>
-<option value="order">🧾 交费订单</option>
-<option value="error">⚠️ 异常提示</option>
-</select>
-<select class="tm-filter" id="tmStatusFilter" onchange="renderTaskList()">
-<option value="">全部状态</option>
-<option value="pending">待分配</option>
-<option value="annotating">标注中</option>
-<option value="reviewing">审核中</option>
-<option value="done">已完成</option>
-</select>
-</div>
-</div>
-<div id="tmList"></div>
 </div>
 
 <!-- 功能架构 -->
@@ -1392,7 +1367,7 @@ function renderScene(idx){
   document.getElementById('wsPanel').innerHTML=h;
 }
 
-function switchTool(id){document.querySelectorAll('.tool-tab').forEach((t,i)=>{t.classList.toggle('active',['ws','tasks','arch'][i]===id)});document.querySelectorAll('.tool-panel').forEach(p=>{p.classList.toggle('active',p.id==='tp-'+id)})}
+function switchTool(id){document.querySelectorAll('.tool-tab').forEach((t,i)=>{t.classList.toggle('active',['ws','arch'][i]===id)});document.querySelectorAll('.tool-panel').forEach(p=>{p.classList.toggle('active',p.id==='tp-'+id)})}
 // 任务管理
 var _tmData=[
   {id:1,name:'电能表条形码+读数标注',scene:'meter',assignee:'李琳',status:'annotating',pipeStep:4,total:500,assigned:400,annotated:42,pendingReview:0,reviewed:0,completed:0,date:'6/15-7/10',desc:'DNB条形码和液晶读数识别标注'},
