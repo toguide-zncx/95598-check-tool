@@ -186,6 +186,50 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 @media(max-width:768px){.dlv-row{flex-wrap:wrap;gap:4px}.dlv-name{min-width:120px}.dlv-time{display:none}}
 .expand-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1.5px solid var(--g4);background:var(--g8);color:var(--g2);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:all .2s}
 .expand-btn:hover{background:var(--g4);color:#fff}
+.tm-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.tm-add-btn{padding:5px 14px;border-radius:6px;font-size:11px;font-weight:600;background:var(--g2);color:#fff;border:none;cursor:pointer;transition:all .15s}
+.tm-add-btn:hover{background:var(--g3);transform:translateY(-1px)}
+.tm-filters{display:flex;gap:6px;margin-left:auto}
+.tm-filter{padding:4px 10px;border-radius:5px;font-size:10px;border:1px solid #ddd;background:#FAFAFA;color:var(--text2);cursor:pointer;font-family:inherit}
+.tm-filter:focus{border-color:var(--g4);outline:none}
+.tm-stats{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.tm-stat{padding:5px 12px;border-radius:6px;font-size:10px;font-weight:500;display:flex;align-items:center;gap:4px}
+.tm-stat .n{font-size:14px;font-weight:700}
+.tm-list{display:flex;flex-direction:column;gap:6px}
+.tm-card{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;border:1.5px solid #eee;background:#fff;transition:all .15s}
+.tm-card:hover{border-color:var(--g5);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.tm-card.done{opacity:.7;background:#FAFAFA}
+.tm-idx{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.tm-info{flex:1;min-width:0}
+.tm-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px}
+.tm-meta{font-size:10px;color:var(--text3);display:flex;gap:8px;flex-wrap:wrap}
+.tm-meta span{display:inline-flex;align-items:center;gap:2px}
+.tm-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:9.5px;font-weight:600;white-space:nowrap;flex-shrink:0}
+.tm-badge.pending{background:#FFF3E0;color:#E65100}
+.tm-badge.annotating{background:#E3F2FD;color:#1565C0}
+.tm-badge.reviewing{background:#F3E5F5;color:#5E35B1}
+.tm-badge.done{background:var(--g8);color:var(--g2)}
+.tm-progress{width:80px;height:6px;border-radius:3px;background:#eee;flex-shrink:0;overflow:hidden}
+.tm-progress-bar{height:100%;border-radius:3px;transition:width .3s}
+.tm-actions{display:flex;gap:4px;flex-shrink:0}
+.tm-act{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;border:none;cursor:pointer;transition:all .15s;background:#f5f5f5;color:var(--text3)}
+.tm-act:hover{background:var(--g8);color:var(--g2)}
+.tm-act.del:hover{background:#FFEBEE;color:var(--red)}
+.tm-modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center}
+.tm-modal-overlay.show{display:flex}
+.tm-modal{background:#fff;border-radius:12px;padding:20px;width:90%;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,.15);animation:fadeIn .2s}
+.tm-modal h4{font-size:14px;font-weight:700;margin-bottom:12px;color:var(--text)}
+.tm-field{margin-bottom:10px}
+.tm-field label{display:block;font-size:10.5px;font-weight:600;color:var(--text3);margin-bottom:3px}
+.tm-field input,.tm-field select,.tm-field textarea{width:100%;padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:11px;font-family:inherit;transition:border .15s}
+.tm-field input:focus,.tm-field select:focus,.tm-field textarea:focus{border-color:var(--g4);outline:none}
+.tm-field textarea{resize:vertical;min-height:50px}
+.tm-modal-acts{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+.tm-modal-acts button{padding:6px 16px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.tm-btn-cancel{background:#f5f5f5;color:var(--text3)}
+.tm-btn-cancel:hover{background:#eee}
+.tm-btn-ok{background:var(--g2);color:#fff}
+.tm-btn-ok:hover{background:var(--g3)}
 /* 标注工具section */
 .tool-section{background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .tool-section h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:5px}
@@ -476,6 +520,7 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 <h3>🏷️ 标注工具 · Label Studio CE</h3>
 <div class="tool-tabs">
 <div class="tool-tab active" onclick="switchTool('ws')">🖼️ 标注工作台</div>
+<div class="tool-tab" onclick="switchTool('tasks')">📋 任务管理</div>
 <div class="tool-tab" onclick="switchTool('arch')">🏗️ 功能架构</div>
 
 </div>
@@ -485,6 +530,31 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 <div class="scene-tabs" id="sceneTabs"></div>
 <div class="pipeline-bar" id="pipelineBar"></div>
 <div id="stepContainer"></div>
+</div>
+
+<!-- 任务管理 -->
+<div class="tool-panel" id="tp-tasks">
+<div class="tm-toolbar">
+<button class="tm-add-btn" onclick="showAddTaskModal()">+ 新建任务</button>
+<div class="tm-filters">
+<select class="tm-filter" id="tmSceneFilter" onchange="renderTaskList()">
+<option value="">全部场景</option>
+<option value="meter">⚡ 电能表识别</option>
+<option value="bill">💰 电费记录</option>
+<option value="order">🧾 交费订单</option>
+<option value="error">⚠️ 异常提示</option>
+</select>
+<select class="tm-filter" id="tmStatusFilter" onchange="renderTaskList()">
+<option value="">全部状态</option>
+<option value="pending">待分配</option>
+<option value="annotating">标注中</option>
+<option value="reviewing">审核中</option>
+<option value="done">已完成</option>
+</select>
+</div>
+</div>
+<div class="tm-stats" id="tmStats"></div>
+<div class="tm-list" id="tmList"></div>
 </div>
 
 <!-- 功能架构 -->
@@ -1254,7 +1324,82 @@ function renderScene(idx){
   document.getElementById('wsPanel').innerHTML=h;
 }
 
-function switchTool(id){document.querySelectorAll('.tool-tab').forEach((t,i)=>{t.classList.toggle('active',['ws','arch'][i]===id)});document.querySelectorAll('.tool-panel').forEach(p=>{p.classList.toggle('active',p.id==='tp-'+id)})}
+function switchTool(id){document.querySelectorAll('.tool-tab').forEach((t,i)=>{t.classList.toggle('active',['ws','tasks','arch'][i]===id)});document.querySelectorAll('.tool-panel').forEach(p=>{p.classList.toggle('active',p.id==='tp-'+id)})}
+// 任务管理
+var _tmData=[
+  {id:1,name:'电能表条形码+读数标注',scene:'meter',assignee:'李琳',status:'annotating',total:500,done:42,date:'6/15-7/10',desc:'DNB条形码和液晶读数识别标注'},
+  {id:2,name:'电能表异常场景标注',scene:'meter',assignee:'高金萱',status:'pending',total:300,done:0,date:'9/16-9/30',desc:'电能表Err-04等异常状态识别'},
+  {id:3,name:'电费记录OCR标注',scene:'bill',assignee:'李琳',status:'reviewing',total:200,done:156,date:'8/17-9/15',desc:'电费账单4字段OCR提取标注'},
+  {id:4,name:'交费订单11字段标注',scene:'order',assignee:'梁爽',status:'pending',total:400,done:0,date:'8/1-9/15',desc:'网上国网交费订单11字段联合标注'},
+  {id:5,name:'报错信息场景标注',scene:'error',assignee:'高金萱',status:'annotating',total:350,done:88,date:'8/1-8/31',desc:'网上国网报错信息3字段标注'},
+  {id:6,name:'实名认证提取标注',scene:'order',assignee:'李琳',status:'done',total:150,done:150,date:'6/1-6/30',desc:'实名认证信息提取标注已完成'},
+  {id:7,name:'语料意图+实体标注',scene:'error',assignee:'梁爽',status:'annotating',total:600,done:210,date:'8/17-9/30',desc:'报错语料意图识别+实体标注'}
+];
+var _tmNextId=8;
+var _tmSceneMap={meter:'⚡ 电能表识别',bill:'💰 电费记录',order:'🧾 交费订单',error:'⚠️ 异常提示'};
+var _tmSceneColor={meter:'#E65100',bill:'#1565C0',order:'#5E35B1',error:'#C62828'};
+var _tmStatusMap={pending:'待分配',annotating:'标注中',reviewing:'审核中',done:'已完成'};
+function renderTaskList(){
+  var sf=document.getElementById('tmSceneFilter').value;
+  var stf=document.getElementById('tmStatusFilter').value;
+  var list=_tmData.filter(function(t){
+    if(sf&&t.scene!==sf)return false;
+    if(stf&&t.status!==stf)return false;
+    return true;
+  });
+  var counts={pending:0,annotating:0,reviewing:0,done:0};
+  _tmData.forEach(function(t){counts[t.status]=(counts[t.status]||0)+1});
+  document.getElementById('tmStats').innerHTML=
+    '<div class="tm-stat" style="background:#FFF3E0;color:#E65100"><span class="n">'+counts.pending+'</span>待分配</div>'+
+    '<div class="tm-stat" style="background:#E3F2FD;color:#1565C0"><span class="n">'+counts.annotating+'</span>标注中</div>'+
+    '<div class="tm-stat" style="background:#F3E5F5;color:#5E35B1"><span class="n">'+counts.reviewing+'</span>审核中</div>'+
+    '<div class="tm-stat" style="background:#E8F5E9;color:#006B54"><span class="n">'+counts.done+'</span>已完成</div>';
+  if(!list.length){document.getElementById('tmList').innerHTML='<div style="text-align:center;padding:20px;color:#999;font-size:11px">暂无匹配任务</div>';return}
+  var html='';
+  list.forEach(function(t){
+    var pct=t.total?Math.round(t.done/t.total*100):0;
+    var barColor=_tmSceneColor[t.scene]||'#999';
+    html+='<div class="tm-card'+(t.status==='done'?' done':'')+'">'+
+      '<div class="tm-idx" style="background:'+barColor+'">'+t.id+'</div>'+
+      '<div class="tm-info"><div class="tm-name">'+t.name+'</div>'+
+      '<div class="tm-meta"><span>'+_tmSceneMap[t.scene]+'</span><span>👤 '+t.assignee+'</span><span>📅 '+t.date+'</span><span>'+t.done+'/'+t.total+'</span></div></div>'+
+      '<div class="tm-badge '+t.status+'">'+_tmStatusMap[t.status]+'</div>'+
+      '<div class="tm-progress"><div class="tm-progress-bar" style="width:'+pct+'%;background:'+barColor+'"></div></div>'+
+      '<div class="tm-actions">'+
+      (t.status!=='done'?'<button class="tm-act" onclick="advanceTask('+t.id+')" title="推进状态">▶</button>':'')+
+      '<button class="tm-act del" onclick="deleteTask('+t.id+')" title="删除">✕</button></div></div>';
+  });
+  document.getElementById('tmList').innerHTML=html;
+}
+function advanceTask(id){
+  var t=_tmData.find(function(x){return x.id===id});
+  if(!t)return;
+  var order=['pending','annotating','reviewing','done'];
+  var i=order.indexOf(t.status);
+  if(i<order.length-1){t.status=order[i+1];renderTaskList();showToast('任务#'+id+'已推进至'+_tmStatusMap[t.status],'success')}
+}
+function deleteTask(id){
+  _tmData=_tmData.filter(function(x){return x.id!==id});
+  renderTaskList();showToast('任务#'+id+'已删除','success');
+}
+function showAddTaskModal(){
+  var ol=document.getElementById('tmModal');if(!ol)return;ol.classList.add('show');
+}
+function closeTmModal(){var ol=document.getElementById('tmModal');if(ol)ol.classList.remove('show')}
+function addTmTask(){
+  var name=document.getElementById('tmNewName').value.trim();
+  var scene=document.getElementById('tmNewScene').value;
+  var assignee=document.getElementById('tmNewAssignee').value.trim();
+  var total=parseInt(document.getElementById('tmNewTotal').value)||0;
+  var date=document.getElementById('tmNewDate').value.trim();
+  var desc=document.getElementById('tmNewDesc').value.trim();
+  if(!name){showToast('请输入任务名称','error');return}
+  _tmData.unshift({id:_tmNextId++,name:name,scene:scene||'meter',assignee:assignee||'未分配',status:'pending',total:total,done:0,date:date||'待定',desc:desc||''});
+  closeTmModal();renderTaskList();showToast('任务创建成功','success');
+  document.getElementById('tmNewName').value='';document.getElementById('tmNewAssignee').value='';
+  document.getElementById('tmNewTotal').value='';document.getElementById('tmNewDate').value='';
+  document.getElementById('tmNewDesc').value='';
+}
 
 // 同步功能
 function showToast(msg,type='info',duration=3000){
@@ -1575,6 +1720,23 @@ window.addEventListener('DOMContentLoaded',function(){
     })
     .catch(()=>{});
 });
+// 初始化任务管理
+document.addEventListener('DOMContentLoaded',function(){renderTaskList()});
 </script>
+
+<!-- 新建任务弹窗 -->
+<div class="tm-modal-overlay" id="tmModal">
+<div class="tm-modal">
+<h4>📋 新建标注任务</h4>
+<div class="tm-field"><label>任务名称 *</label><input id="tmNewName" placeholder="如：电能表条形码标注"></div>
+<div class="tm-field"><label>业务场景</label><select id="tmNewScene"><option value="meter">⚡ 电能表识别</option><option value="bill">💰 电费记录</option><option value="order">🧾 交费订单</option><option value="error">⚠️ 异常提示</option></select></div>
+<div class="tm-field"><label>负责人</label><input id="tmNewAssignee" placeholder="如：李琳"></div>
+<div class="tm-field"><label>样本总量</label><input id="tmNewTotal" type="number" placeholder="如：500"></div>
+<div class="tm-field"><label>计划时间</label><input id="tmNewDate" placeholder="如：7/1-7/31"></div>
+<div class="tm-field"><label>描述</label><textarea id="tmNewDesc" placeholder="任务描述（可选）"></textarea></div>
+<div class="tm-modal-acts"><button class="tm-btn-cancel" onclick="closeTmModal()">取消</button><button class="tm-btn-ok" onclick="addTmTask()">创建</button></div>
+</div>
+</div>
+
 </body>
 </html>
