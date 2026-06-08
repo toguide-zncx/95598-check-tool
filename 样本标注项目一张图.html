@@ -785,11 +785,12 @@ function renderTaskMgmtStep(c){
   var rows=tasks.map(function(t){
     var ps=t.pipeStep||0;
     var unassign=t.total-t.assigned;
+    var assigneeStr=t.assignments&&t.assignments.length?t.assignments.map(function(a){return a.person}).join('、'):'未分配';
     return '<tr>'+
       '<td style="font-weight:600;color:var(--text3)">'+t.id+'</td>'+
       '<td class="td-name" title="'+t.name+'" onclick="jumpToTaskStep('+t.id+')">'+t.name+'</td>'+
       '<td style="font-size:9px;color:var(--text3)">'+(_tmSceneMap[t.scene]||t.scene)+'</td>'+
-      '<td style="font-size:9px">'+t.assignee+'</td>'+
+      '<td style="font-size:9px" title="'+(t.assignments&&t.assignments.length?t.assignments.map(function(a){return a.person+':'+a.qty}).join(' '):'')+'">'+assigneeStr+'</td>'+
       '<td style="font-weight:600">'+t.total+'</td>'+
       '<td class="td-assign"><b>'+t.assigned+'</b>/'+unassign+'</td>'+
       '<td>'+t.annotated+'</td>'+
@@ -979,99 +980,70 @@ function renderAnnotateStep(c){
 
 function renderTaskAssignStep(c){
   var s=getSceneCtx();
-  // Get tasks that are at pipeStep 3 (分配)
-  var assignTasks=_tmData.filter(function(t){return t.pipeStep>=3});
-  var pendingTasks=_tmData.filter(function(t){return t.pipeStep===3});
+  var people=['李琳','高金萱','梁爽'];
+  // Tasks that have reached pipeStep >= 3 (ready for assignment or already assigned)
+  var assignTasks=_tmData.filter(function(t){return t.pipeStep>=2});
+  var pendingTasks=_tmData.filter(function(t){return t.pipeStep===2||t.pipeStep===3});
 
-  var assignData=[
-    {person:'李琳',role:'标注员',tasks:assignTasks.filter(function(t){return t.assignee==='李琳'})},
-    {person:'高金萱',role:'标注员',tasks:assignTasks.filter(function(t){return t.assignee==='高金萱'})},
-    {person:'梁爽',role:'标注员',tasks:assignTasks.filter(function(t){return t.assignee==='梁爽'})}
-  ];
+  // Per-person summary
+  var personSummary=people.map(function(p){
+    var tasks=assignTasks.filter(function(t){return t.assignments&&t.assignments.some(function(a){return a.person===p})});
+    var totalQty=tasks.reduce(function(s,t){var a=t.assignments.find(function(x){return x.person===p});return s+(a?a.qty:0)},0);
+    return {person:p,taskCount:tasks.length,totalQty:totalQty};
+  });
 
-  var assignCards=assignData.map(function(a){
-    if(!a.tasks.length) return '';
-    var totalAssigned=a.tasks.reduce(function(s,t){return s+t.total},0);
-    var totalDone=a.tasks.reduce(function(s,t){return s+t.done},0);
-    var pct=totalAssigned>0?Math.round(totalDone/totalAssigned*100):0;
-    var taskItems=a.tasks.map(function(t){
-      var tp=t.total>0?Math.round(t.done/t.total*100):0;
-      var scColor=_tmSceneColor[t.scene]||'var(--g2)';
-      return '<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:6px;background:#fafafa;margin-bottom:4px">'+
-        '<span style="width:3px;height:20px;border-radius:2px;background:'+scColor+';flex-shrink:0"></span>'+
-        '<div style="flex:1;min-width:0">'+
-          '<div style="font-size:10px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+t.name+'</div>'+
-          '<div style="font-size:9px;color:var(--text3)">'+(_tmSceneMap[t.scene]||t.scene)+' · '+t.done+'/'+t.total+'</div>'+
-        '</div>'+
-        '<span style="font-size:9px;font-weight:600;color:'+scColor+'">'+tp+'%</span>'+
-      '</div>';
+  // Task rows with assignment inputs
+  var taskRows=pendingTasks.map(function(t){
+    var ps=t.pipeStep||0;
+    var assignedTotal=t.assignments?t.assignments.reduce(function(s,a){return s+a.qty},0):0;
+    var remain=t.total-assignedTotal;
+    var assignCells=people.map(function(p){
+      var existing=t.assignments?t.assignments.find(function(a){return a.person===p}):null;
+      var val=existing?existing.qty:0;
+      return '<td style="padding:4px 6px"><input type="number" min="0" max="'+t.total+'" value="'+val+'" style="width:48px;padding:3px 5px;border:1px solid #ddd;border-radius:4px;font-size:9px;text-align:center" data-task="'+t.id+'" data-person="'+p+'" onchange="updateTaskAssign(this)"></td>';
     }).join('');
-    return '<div style="padding:10px 12px;border-radius:8px;border:1.5px solid #e8e8e8;margin-bottom:8px">'+
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">'+
-        '<div style="display:flex;align-items:center;gap:6px">'+
-          '<div style="width:28px;height:28px;border-radius:50%;background:var(--g8);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--g2)">'+a.person.charAt(0)+'</div>'+
-          '<div><div style="font-size:11px;font-weight:600;color:var(--text)">'+a.person+'</div><div style="font-size:9px;color:var(--text3)">'+a.role+' · '+a.tasks.length+'个任务</div></div>'+
-        '</div>'+
-        '<div style="text-align:right">'+
-          '<div style="font-size:12px;font-weight:700;color:var(--g2)">'+pct+'%</div>'+
-          '<div style="font-size:9px;color:var(--text3)">'+totalDone+'/'+totalAssigned+'</div>'+
-        '</div>'+
-      '</div>'+
-      '<div style="height:4px;background:#eee;border-radius:2px;overflow:hidden;margin-bottom:8px">'+
-        '<div style="width:'+pct+'%;height:100%;background:var(--g2);border-radius:2px;transition:width .3s"></div>'+
-      '</div>'+
-      taskItems+
+    return '<tr>'+
+      '<td style="font-weight:600;color:var(--text3)">'+t.id+'</td>'+
+      '<td class="td-name" title="'+t.name+'">'+t.name+'</td>'+
+      '<td style="font-size:9px;font-weight:600">'+t.total+'</td>'+
+      assignCells+
+      '<td class="td-assign"><b>'+assignedTotal+'</b>/'+remain+'</td>'+
+      '<td class="td-step">'+_pipeStepIcons[ps]+' '+_pipeStepShort[ps]+'</td>'+
+    '</tr>';
+  }).join('');
+
+  // Person summary cards
+  var personCards=personSummary.map(function(ps){
+    return '<div style="display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:6px;background:#fafafa;border:1px solid #eee">'+
+      '<div style="width:24px;height:24px;border-radius:50%;background:var(--g8);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--g2)">'+ps.person.charAt(0)+'</div>'+
+      '<div style="flex:1"><div style="font-size:10px;font-weight:600;color:var(--text)">'+ps.person+'</div><div style="font-size:9px;color:var(--text3)">'+ps.taskCount+'个任务 · '+ps.totalQty+'条</div></div>'+
     '</div>';
   }).join('');
 
-  // Unassigned tasks
-  var unassigned=_tmData.filter(function(t){return t.pipeStep>=2&&t.assignee==='未分配'});
-  var unassignedHtml=unassigned.length?'<div style="padding:10px 12px;border-radius:8px;border:1.5px dashed #FFB74D;margin-bottom:8px;background:#FFF8E1">'+
-    '<div style="font-size:11px;font-weight:600;color:var(--orange);margin-bottom:6px">⚠️ 待分配任务 ('+unassigned.length+')</div>'+
-    unassigned.map(function(t){
-      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;font-size:10px">'+
-        '<span>'+t.name+'</span>'+
-        '<div style="display:flex;gap:4px">'+
-          ['李琳','高金萱','梁爽'].map(function(p){return '<button style="padding:2px 6px;border-radius:3px;border:1px solid #ddd;background:#fff;font-size:8px;cursor:pointer" onclick="assignTaskTo('+t.id+',\''+p+'\')">'+p.charAt(0)+'</button>'}).join('')+
-        '</div>'+
-      '</div>';
-    }).join('')+
-  '</div>':'';
+  c.innerHTML=
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">'+
+      '<div style="font-size:11px;font-weight:600;color:var(--text)">👥 任务分配</div>'+
+      '<div style="font-size:9px;color:var(--text3)">'+assignTasks.length+'个任务</div>'+
+    '</div>'+
+    '<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">'+personCards+'</div>'+
+    '<div class="tm-table-wrap"><table class="tm-table"><thead><tr><th>#</th><th>任务名称</th><th>总量</th>'+people.map(function(p){return '<th>'+p+'</th>'}).join('')+'<th>已分配/待分配</th><th>步骤</th></tr></thead><tbody>'+taskRows+'</tbody></table></div>'+
+    '<div style="font-size:9px;color:var(--text3);margin-top:6px">💡 输入每人分配数量，自动汇总。分配完成后点击"推进"进入标注环节。</div>';
+}
 
-  c.innerHTML='<div class="sv-grid">'+
-    '<div class="sv-left" style="padding:16px">'+
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'+
-        '<div style="font-size:12px;font-weight:600;color:var(--text)">👥 任务分配 · 人员负载</div>'+
-        '<div style="font-size:10px;color:var(--text3)">'+assignTasks.length+' 个进行中任务</div>'+
-      '</div>'+
-      unassignedHtml+
-      assignCards+
-    '</div>'+
-    '<div class="sv-right">'+
-      '<div class="sr-card"><h5>📊 分配统计</h5>'+
-        '<div class="wf"><div class="wf-label">当前场景</div><div class="wf-val" style="color:var(--g2);font-weight:600">'+s.name+'</div></div>'+
-        '<div class="wf"><div class="wf-label">待分配</div><div class="wf-val" style="color:var(--orange)">'+pendingTasks.length+'</div></div>'+
-        '<div class="wf"><div class="wf-label">已分配</div><div class="wf-val" style="color:var(--g2)">'+(assignTasks.length-pendingTasks.length)+'</div></div>'+
-        '<div class="wf"><div class="wf-label">整体进度</div><div class="wf-val" style="color:var(--g2);font-weight:600">'+(assignTasks.length>0?Math.round(assignTasks.reduce(function(s,t){return s+t.done},0)/assignTasks.reduce(function(s,t){return s+t.total},0)*100):0)+'%</div></div>'+
-      '</div>'+
-      '<div class="sr-card"><h5>⚖️ 分配规则</h5>'+
-        '<div style="font-size:9px;line-height:1.8;color:var(--text2)">'+
-          '<div style="display:flex;align-items:center;gap:4px"><span style="color:var(--g2)">●</span> 按场景专业度优先分配</div>'+
-          '<div style="display:flex;align-items:center;gap:4px"><span style="color:var(--g2)">●</span> 单人并行任务≤3个</div>'+
-          '<div style="display:flex;align-items:center;gap:4px"><span style="color:var(--g2)">●</span> 按日产能动态调配</div>'+
-          '<div style="display:flex;align-items:center;gap:4px"><span style="color:var(--g2)">●</span> 新人需审核人带教</div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="sr-card"><h5>📅 产能规划</h5>'+
-        '<div class="qc-row"><span>日均标注量</span><span class="qc-val">80条/人</span></div>'+
-        '<div class="qc-row"><span>预计完成</span><span class="qc-val" style="color:var(--g2)">9月30日</span></div>'+
-        '<div class="qc-row"><span>剩余工作量</span><span class="qc-val" style="color:var(--orange)">1,854条</span></div>'+
-      '</div>'+
-      '<div class="sr-card" style="background:#f0f7f4;border-color:#c8e6c9"><h5>💡 提示</h5>'+
-        '<div style="font-size:9px;line-height:1.6;color:var(--text2)">任务分配需根据标注员专业领域和当前负载合理调配。分配完成后任务进入标注环节，退回的样本自动返回标注人重做。</div>'+
-      '</div>'+
-    '</div>'+
-  '</div>';
+function updateTaskAssign(el){
+  var taskId=parseInt(el.getAttribute('data-task'));
+  var person=el.getAttribute('data-person');
+  var qty=parseInt(el.value)||0;
+  var t=_tmData.find(function(x){return x.id===taskId});
+  if(!t)return;
+  if(!t.assignments)t.assignments=[];
+  var existing=t.assignments.find(function(a){return a.person===person});
+  if(existing){existing.qty=qty}else{t.assignments.push({person:person,qty:qty})}
+  // Remove zero entries
+  t.assignments=t.assignments.filter(function(a){return a.qty>0});
+  // Recalc assigned total
+  t.assigned=t.assignments.reduce(function(s,a){return s+a.qty},0);
+  renderTaskAssignStep(document.getElementById('stepContainer'));
 }
 
 function renderReviewStep(c){
@@ -1370,13 +1342,13 @@ function renderScene(idx){
 function switchTool(id){document.querySelectorAll('.tool-tab').forEach((t,i)=>{t.classList.toggle('active',['ws','arch'][i]===id)});document.querySelectorAll('.tool-panel').forEach(p=>{p.classList.toggle('active',p.id==='tp-'+id)})}
 // 任务管理
 var _tmData=[
-  {id:1,name:'电能表条形码+读数标注',scene:'meter',assignee:'李琳',status:'annotating',pipeStep:4,total:500,assigned:400,annotated:42,pendingReview:0,reviewed:0,completed:0,date:'6/15-7/10',desc:'DNB条形码和液晶读数识别标注'},
-  {id:2,name:'电能表异常场景标注',scene:'meter',assignee:'高金萱',status:'pending',pipeStep:0,total:300,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:'9/16-9/30',desc:'电能表Err-04等异常状态识别'},
-  {id:3,name:'电费记录OCR标注',scene:'bill',assignee:'李琳',status:'reviewing',pipeStep:5,total:200,assigned:200,annotated:200,pendingReview:120,reviewed:36,completed:0,date:'8/17-9/15',desc:'电费账单4字段OCR提取标注'},
-  {id:4,name:'交费订单11字段标注',scene:'order',assignee:'梁爽',status:'pending',pipeStep:1,total:400,assigned:200,annotated:0,pendingReview:0,reviewed:0,completed:0,date:'8/1-9/15',desc:'网上国网交费订单11字段联合标注'},
-  {id:5,name:'报错信息场景标注',scene:'error',assignee:'高金萱',status:'annotating',pipeStep:4,total:350,assigned:350,annotated:88,pendingReview:0,reviewed:0,completed:0,date:'8/1-8/31',desc:'网上国网报错信息3字段标注'},
-  {id:6,name:'实名认证提取标注',scene:'order',assignee:'李琳',status:'done',pipeStep:6,total:150,assigned:150,annotated:150,pendingReview:0,reviewed:150,completed:150,date:'6/1-6/30',desc:'实名认证信息提取标注已完成'},
-  {id:7,name:'语料意图+实体标注',scene:'error',assignee:'梁爽',status:'annotating',pipeStep:4,total:600,assigned:600,annotated:210,pendingReview:0,reviewed:0,completed:0,date:'8/17-9/30',desc:'报错语料意图识别+实体标注'}
+  {id:1,name:'电能表条形码+读数标注',scene:'meter',status:'annotating',pipeStep:4,total:500,assigned:400,annotated:42,pendingReview:0,reviewed:0,completed:0,date:'6/15-7/10',desc:'DNB条形码和液晶读数识别标注',assignments:[{person:'李琳',qty:250},{person:'高金萱',qty:150}]},
+  {id:2,name:'电能表异常场景标注',scene:'meter',status:'pending',pipeStep:0,total:300,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:'9/16-9/30',desc:'电能表Err-04等异常状态识别',assignments:[]},
+  {id:3,name:'电费记录OCR标注',scene:'bill',status:'reviewing',pipeStep:5,total:200,assigned:200,annotated:200,pendingReview:120,reviewed:36,completed:0,date:'8/17-9/15',desc:'电费账单4字段OCR提取标注',assignments:[{person:'李琳',qty:120},{person:'梁爽',qty:80}]},
+  {id:4,name:'交费订单11字段标注',scene:'order',status:'pending',pipeStep:1,total:400,assigned:200,annotated:0,pendingReview:0,reviewed:0,completed:0,date:'8/1-9/15',desc:'网上国网交费订单11字段联合标注',assignments:[{person:'梁爽',qty:200}]},
+  {id:5,name:'报错信息场景标注',scene:'error',status:'annotating',pipeStep:4,total:350,assigned:350,annotated:88,pendingReview:0,reviewed:0,completed:0,date:'8/1-8/31',desc:'网上国网报错信息3字段标注',assignments:[{person:'高金萱',qty:200},{person:'梁爽',qty:150}]},
+  {id:6,name:'实名认证提取标注',scene:'order',status:'done',pipeStep:6,total:150,assigned:150,annotated:150,pendingReview:0,reviewed:150,completed:150,date:'6/1-6/30',desc:'实名认证信息提取标注已完成',assignments:[{person:'李琳',qty:150}]},
+  {id:7,name:'语料意图+实体标注',scene:'error',status:'annotating',pipeStep:4,total:600,assigned:600,annotated:210,pendingReview:0,reviewed:0,completed:0,date:'8/17-9/30',desc:'报错语料意图识别+实体标注',assignments:[{person:'高金萱',qty:300},{person:'梁爽',qty:300}]}
 ];
 var _tmNextId=8;
 var _tmSceneMap={meter:'⚡ 电能表识别',bill:'💰 电费记录',order:'🧾 交费订单',error:'⚠️ 异常提示'};
@@ -1400,11 +1372,12 @@ function renderTaskList(){
   list.forEach(function(t){
     var ps=t.pipeStep||0;
     var unassign=t.total-t.assigned;
+    var assigneeStr=t.assignments&&t.assignments.length?t.assignments.map(function(a){return a.person}).join('、'):'未分配';
     h+='<tr>'+
       '<td style="font-weight:600;color:var(--text3)">'+t.id+'</td>'+
       '<td class="td-name" title="'+t.name+'" onclick="jumpToTaskStep('+t.id+')">'+t.name+'</td>'+
       '<td style="font-size:9px;color:var(--text3)">'+(_tmSceneMap[t.scene]||t.scene)+'</td>'+
-      '<td style="font-size:9px">'+t.assignee+'</td>'+
+      '<td style="font-size:9px">'+assigneeStr+'</td>'+
       '<td style="font-weight:600">'+t.total+'</td>'+
       '<td class="td-assign"><b>'+t.assigned+'</b>/'+unassign+'</td>'+
       '<td>'+t.annotated+'</td>'+
@@ -1453,14 +1426,13 @@ function closeTmModal(){var ol=document.getElementById('tmModal');if(ol)ol.class
 function addTmTask(){
   var name=document.getElementById('tmNewName').value.trim();
   var scene=document.getElementById('tmNewScene').value;
-  var assignee=document.getElementById('tmNewAssignee').value.trim();
   var total=parseInt(document.getElementById('tmNewTotal').value)||0;
   var date=document.getElementById('tmNewDate').value.trim();
   var desc=document.getElementById('tmNewDesc').value.trim();
   if(!name){showToast('请输入任务名称','error');return}
-  _tmData.unshift({id:_tmNextId++,name:name,scene:scene||'meter',assignee:assignee||'未分配',status:'pending',pipeStep:0,total:total,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:date||'待定',desc:desc||''});
+  _tmData.unshift({id:_tmNextId++,name:name,scene:scene||'meter',status:'pending',pipeStep:0,total:total,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:date||'待定',desc:desc||'',assignments:[]});
   closeTmModal();renderTaskList();showToast('任务创建成功','success');
-  document.getElementById('tmNewName').value='';document.getElementById('tmNewAssignee').value='';
+  document.getElementById('tmNewName').value='';
   document.getElementById('tmNewTotal').value='';document.getElementById('tmNewDate').value='';
   document.getElementById('tmNewDesc').value='';
 }
@@ -1484,15 +1456,8 @@ function showNewPipeTaskModal(){
       '<div style="margin-bottom:14px"><div style="font-size:10.5px;font-weight:600;color:var(--text);margin-bottom:5px">任务名称 <span style="color:var(--red)">*</span></div>'+
         '<input id="np_name" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px" placeholder="如：电能表条形码+读数标注">'+
       '</div>'+
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">'+
-        '<div><div style="font-size:10.5px;font-weight:600;color:var(--text);margin-bottom:5px">标注场景 <span style="color:var(--red)">*</span></div>'+
-          '<select id="np_scene" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px">'+sceneOpts+'</select>'+
-        '</div>'+
-        '<div><div style="font-size:10.5px;font-weight:600;color:var(--text);margin-bottom:5px">负责人</div>'+
-          '<select id="np_assignee" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px">'+
-            '<option value="李琳">李琳</option><option value="高金萱">高金萱</option><option value="梁爽">梁爽</option><option value="未分配">未分配</option>'+
-          '</select>'+
-        '</div>'+
+      '<div style="margin-bottom:14px"><div style="font-size:10.5px;font-weight:600;color:var(--text);margin-bottom:5px">标注场景 <span style="color:var(--red)">*</span></div>'+
+        '<select id="np_scene" style="width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:11px">'+sceneOpts+'</select>'+
       '</div>'+
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">'+
         '<div><div style="font-size:10.5px;font-weight:600;color:var(--text);margin-bottom:5px">样本总量</div>'+
@@ -1532,13 +1497,12 @@ function closeNewPipeModal(){
 function doNewPipeTask(){
   var name=document.getElementById('np_name').value.trim();
   var scene=document.getElementById('np_scene').value;
-  var assignee=document.getElementById('np_assignee').value;
   var total=parseInt(document.getElementById('np_total').value)||0;
   var date=document.getElementById('np_date').value.trim();
   var desc=document.getElementById('np_desc').value.trim();
   if(!name){showToast('请输入任务名称','error');return}
   var newId=_tmNextId++;
-  _tmData.unshift({id:newId,name:name,scene:scene||'meter',assignee:assignee||'未分配',status:'pending',pipeStep:0,total:total,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:date||'待定',desc:desc||''});
+  _tmData.unshift({id:newId,name:name,scene:scene||'meter',status:'pending',pipeStep:0,total:total,assigned:0,annotated:0,pendingReview:0,reviewed:0,completed:0,date:date||'待定',desc:desc||'',assignments:[]});
   closeNewPipeModal();
   showToast('任务"'+name+'"创建成功，正在跳转导入…','success');
   // Advance to import step (pipeStep 1) and switch view
@@ -1551,10 +1515,14 @@ function doNewPipeTask(){
 }
 function assignTaskTo(id,person){
   var t=_tmData.find(function(x){return x.id===id});
-  if(t){t.assignee=person;showToast('任务#'+id+'已分配给'+person,'success');
-  var c=document.getElementById('stepContainer');
-  if(c&&_activeStep===3)renderTaskAssignStep(c);
-  if(c&&_activeStep===0)renderTaskMgmtStep(c);}
+  if(t){
+    if(!t.assignments)t.assignments=[];
+    var existing=t.assignments.find(function(a){return a.person===person});
+    if(!existing){t.assignments.push({person:person,qty:0})}
+    showToast('任务#'+id+'已分配给'+person,'success');
+    var c=document.getElementById('stepContainer');
+    if(c&&_activeStep===3)renderTaskAssignStep(c);
+    if(c&&_activeStep===0)renderTaskMgmtStep(c);}
 }
 
 // 同步功能
@@ -1886,7 +1854,6 @@ document.addEventListener('DOMContentLoaded',function(){renderTaskList()});
 <h4>📋 新建标注任务</h4>
 <div class="tm-field"><label>任务名称 *</label><input id="tmNewName" placeholder="如：电能表条形码标注"></div>
 <div class="tm-field"><label>业务场景</label><select id="tmNewScene"><option value="meter">⚡ 电能表识别</option><option value="bill">💰 电费记录</option><option value="order">🧾 交费订单</option><option value="error">⚠️ 异常提示</option></select></div>
-<div class="tm-field"><label>负责人</label><input id="tmNewAssignee" placeholder="如：李琳"></div>
 <div class="tm-field"><label>样本总量</label><input id="tmNewTotal" type="number" placeholder="如：500"></div>
 <div class="tm-field"><label>计划时间</label><input id="tmNewDate" placeholder="如：7/1-7/31"></div>
 <div class="tm-field"><label>描述</label><textarea id="tmNewDesc" placeholder="任务描述（可选）"></textarea></div>
