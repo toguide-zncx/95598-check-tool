@@ -339,6 +339,18 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .as-info{flex:1}
 .as-label{font-size:9px;color:#999}
 .as-val{font-size:14px;font-weight:500;color:var(--text)}
+.arch-kpi{flex:1;min-width:80px;background:#fafafa;padding:8px 12px;border-radius:6px}
+.ak-val{font-size:16px;font-weight:700;line-height:1.2}
+.ak-label{font-size:9px;color:var(--text3);margin-top:2px}
+.arch-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f0f0f0}
+.arch-row:last-child{border-bottom:none}
+.arch-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.arch-info{flex:1;min-width:0}
+.arch-name{font-size:10px;font-weight:500;color:var(--text)}
+.arch-meta{font-size:9px;color:var(--text3)}
+.arch-bar{flex:1;height:5px;background:#eee;border-radius:3px;overflow:hidden;min-width:40px}
+.arch-fill{height:100%;border-radius:3px;transition:width .3s}
+.arch-pct{font-size:10px;font-weight:600;min-width:32px;text-align:right}
 .export-opt{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1.5px solid #eee;border-radius:8px;cursor:pointer;transition:all .15s;margin-bottom:6px}
 .export-opt:hover{border-color:var(--g4)}
 .export-opt.selected{border-color:var(--g2);background:var(--g8)}
@@ -1136,37 +1148,50 @@ function reviewAction(btn,action){
 
 function renderArchiveStep(c){
   var s=getSceneCtx();
-  var shortName=s.label||s.name;
   var scenes=_scenes;
   var totalAll=scenes.reduce(function(a,sc){return a+sc.qc.pass},0);
+  var totalDone=scenes.reduce(function(a,sc){return a+sc.qc.done},0);
 
-  c.innerHTML='<div class="sv-grid">'+
-    '<div class="sv-left" style="padding:16px">'+
-      '<div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:12px">📦 归库管理 · 样本库总览</div>'+
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">'+
-        scenes.map(function(sc){return '<div class="arch-stat"><div class="as-icon" style="background:'+sc.colorBg+'">'+sc.icon+'</div><div class="as-info"><div class="as-label">'+sc.label+'</div><div class="as-val">'+sc.qc.pass+'</div></div></div>'}).join('')+
-      '</div>'+
-      '<div style="font-size:11px;font-weight:600;color:var(--text);margin:12px 0 8px">📤 导出格式</div>'+
-      '<div class="export-opt selected" onclick="selectExport(this)"><div class="eo-radio"></div><div class="eo-info"><div class="eo-name">JSON (Label Studio 格式)</div><div class="eo-desc">完整标注信息，可直接用于模型训练</div></div></div>'+
-      '<div class="export-opt" onclick="selectExport(this)"><div class="eo-radio"></div><div class="eo-info"><div class="eo-name">COCO 格式</div><div class="eo-desc">目标检测标准格式，兼容主流框架</div></div></div>'+
-      '<div class="export-opt" onclick="selectExport(this)"><div class="eo-radio"></div><div class="eo-info"><div class="eo-name">CSV + 图片包</div><div class="eo-desc">标注字段导出CSV，图片按场景打包</div></div></div>'+
-      '<div style="margin-top:14px;text-align:center"><button style="padding:8px 28px;border-radius:8px;border:none;background:var(--g2);color:#fff;font-size:11px;font-weight:600;cursor:pointer" onclick="doArchive(this)">📦 执行归库导出</button></div>'+
+  // Scene archive rows
+  var sceneRows=scenes.map(function(sc){
+    var pct=sc.total>0?Math.round(sc.qc.pass/sc.total*100):0;
+    return '<div class="arch-row">'+
+      '<div class="arch-icon" style="background:'+sc.colorBg+';color:'+sc.color+'">'+sc.icon+'</div>'+
+      '<div class="arch-info"><div class="arch-name">'+sc.label+'</div><div class="arch-meta">'+sc.qc.pass+'/'+sc.total+' 已归库</div></div>'+
+      '<div class="arch-bar"><div class="arch-fill" style="width:'+pct+'%;background:'+sc.color+'"></div></div>'+
+      '<div class="arch-pct" style="color:'+sc.color+'">'+pct+'%</div>'+
+    '</div>';
+  }).join('');
+
+  c.innerHTML='<div style="display:flex;flex-direction:column;gap:10px;padding:14px 16px">'+
+    // Summary stats
+    '<div style="display:flex;gap:10px;flex-wrap:wrap">'+
+      '<div class="arch-kpi" style="border-left:3px solid var(--g2)"><div class="ak-val" style="color:var(--g2)">'+totalAll+'</div><div class="ak-label">累计归库</div></div>'+
+      '<div class="arch-kpi" style="border-left:3px solid var(--g4)"><div class="ak-val" style="color:var(--g4)">'+totalDone+'</div><div class="ak-label">已审核</div></div>'+
+      '<div class="arch-kpi" style="border-left:3px solid var(--blue)"><div class="ak-val" style="color:var(--blue)">v1.3</div><div class="ak-label">当前版本</div></div>'+
+      '<div class="arch-kpi" style="border-left:3px solid var(--orange)"><div class="ak-val" style="color:var(--orange)">≥98%</div><div class="ak-label">准确率</div></div>'+
     '</div>'+
-    '<div class="sv-right">'+
-      '<div class="sr-card"><h5>📊 归库统计</h5>'+
-        '<div class="wf"><div class="wf-label">累计归库样本</div><div class="wf-val" style="color:var(--g2);font-weight:600">'+totalAll+'</div></div>'+
-        '<div class="wf"><div class="wf-label">当前版本</div><div class="wf-val">v1.3</div></div>'+
-        '<div class="wf"><div class="wf-label">归库时间</div><div class="wf-val">2026-06-22</div></div>'+
-        '<div class="wf"><div class="wf-label">准确率</div><div class="wf-val" style="color:var(--g2)">≥ 98%</div></div>'+
+    // Scene archive progress
+    '<div style="background:#fafafa;border-radius:8px;padding:10px 12px;border:1px solid #eee">'+
+      '<div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px">📦 各场景归库进度</div>'+
+      sceneRows+
+    '</div>'+
+    // Export + Version in two columns
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'+
+      '<div style="background:#fafafa;border-radius:8px;padding:10px 12px;border:1px solid #eee">'+
+        '<div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px">📤 导出格式</div>'+
+        '<div class="export-opt selected" onclick="selectExport(this)"><div class="eo-radio"></div><div class="eo-info"><div class="eo-name">JSON (Label Studio)</div><div class="eo-desc">完整标注，可直接训练</div></div></div>'+
+        '<div class="export-opt" onclick="selectExport(this)"><div class="eo-radio"></div><div class="eo-info"><div class="eo-name">COCO 格式</div><div class="eo-desc">目标检测标准格式</div></div></div>'+
+        '<div class="export-opt" onclick="selectExport(this)"><div class="eo-radio"></div><div class="eo-info"><div class="eo-name">CSV + 图片包</div><div class="eo-desc">字段CSV+图片按场景打包</div></div></div>'+
+        '<div style="margin-top:10px;text-align:center"><button style="padding:7px 24px;border-radius:8px;border:none;background:var(--g2);color:#fff;font-size:10px;font-weight:600;cursor:pointer" onclick="doArchive(this)">📦 执行归库导出</button></div>'+
       '</div>'+
-      '<div class="sr-card"><h5>📋 版本记录 <span class="field-tag offset" style="font-size:9px">二次开发</span></h5>'+
+      '<div style="background:#fafafa;border-radius:8px;padding:10px 12px;border:1px solid #eee">'+
+        '<div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px">📋 版本记录 <span class="field-tag offset" style="font-size:9px">二次开发</span></div>'+
         '<div class="qc-row"><span>v1.3 · 6/22</span><span class="qc-val" style="color:var(--g2)">+'+Math.round(totalAll*0.3)+'</span></div>'+
         '<div class="qc-row"><span>v1.2 · 6/18</span><span class="qc-val">+'+Math.round(totalAll*0.25)+'</span></div>'+
         '<div class="qc-row"><span>v1.1 · 6/15</span><span class="qc-val">+'+Math.round(totalAll*0.2)+'</span></div>'+
         '<div class="qc-row"><span>v1.0 · 6/10</span><span class="qc-val">初始归库</span></div>'+
-      '</div>'+
-      '<div class="sr-card" style="background:#f0f7f4;border-color:#c8e6c9"><h5>💡 提示</h5>'+
-        '<div style="font-size:9px;line-height:1.6;color:var(--text2)">归库后样本进入样本库，支持版本管控和增量更新。年度新增样本≥5000条，准确率≥98%为项目考核指标。</div>'+
+        '<div style="margin-top:8px;font-size:9px;line-height:1.5;color:var(--text2);padding:6px 8px;background:#f0f7f4;border-radius:5px">归库后样本进入样本库，支持版本管控和增量更新。年度新增≥5000条，准确率≥98%为考核指标。</div>'+
       '</div>'+
     '</div>'+
   '</div>';
