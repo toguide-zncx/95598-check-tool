@@ -204,8 +204,9 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .tm-table .td-assign{font-size:9.5px;color:var(--text2)}
 .tm-table .td-assign b{color:var(--g2);font-weight:600}
 .tm-table .td-step{font-size:9px;white-space:nowrap}
-.tm-table .td-acts{white-space:nowrap}
-.tm-table .td-acts button{padding:2px 8px;border-radius:4px;font-size:9px;font-weight:500;border:1px solid #ddd;background:#fff;cursor:pointer;margin:0 2px;transition:all .12s}
+.tm-table .td-acts{white-space:nowrap;display:flex;align-items:center;justify-content:space-between;gap:2px}
+.tm-table .td-acts .td-acts-r{display:flex;gap:2px}
+.tm-table .td-acts button{padding:2px 8px;border-radius:4px;font-size:9px;font-weight:500;border:1px solid #ddd;background:#fff;cursor:pointer;transition:all .12s}
 .tm-table .td-acts button:hover{background:var(--g8);border-color:var(--g4)}
 .tm-table .td-acts .btn-del{color:var(--red);border-color:#f0c0c0}
 .tm-table .td-acts .btn-del:hover{background:#FFEBEE;border-color:var(--red)}
@@ -812,8 +813,8 @@ function renderTaskMgmtStep(c){
       '<td class="td-step">'+_pipeStepIcons[ps]+' '+_pipeStepShort[ps]+'</td>'+
       '<td class="td-acts">'+
         (ps<6?'<button class="btn-adv" onclick="event.stopPropagation();advanceTask('+t.id+')">'+_pipeStepShort[ps+1]+'</button>':'')+
-        '<button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')">查看</button>'+
-        '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+');renderTaskMgmtStep(document.getElementById(\'stepContainer\'))">删除</button>'+
+        '<span class="td-acts-r"><button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')">查看</button>'+
+        '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+');renderTaskMgmtStep(document.getElementById(\'stepContainer\'))">删除</button></span>'+
       '</td></tr>';
   }).join('');
   c.innerHTML=
@@ -1420,8 +1421,8 @@ function renderTaskList(){
       '<td class="td-step">'+_pipeStepIcons[ps]+' '+_pipeStepShort[ps]+'</td>'+
       '<td class="td-acts">'+
         (ps<6?'<button class="btn-adv" onclick="event.stopPropagation();advanceTask('+t.id+')">'+_pipeStepShort[ps+1]+'</button>':'')+
-        '<button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')">查看</button>'+
-        '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+')">删除</button>'+
+        '<span class="td-acts-r"><button class="btn-go" onclick="event.stopPropagation();jumpToTaskStep('+t.id+')">查看</button>'+
+        '<button class="btn-del" onclick="event.stopPropagation();deleteTask('+t.id+')">删除</button></span>'+
       '</td></tr>';
   });
   h+='</tbody></table></div>';
