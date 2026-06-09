@@ -352,6 +352,62 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .arch-bar{flex:1;height:5px;background:#eee;border-radius:3px;overflow:hidden;min-width:40px}
 .arch-fill{height:100%;border-radius:3px;transition:width .3s}
 .arch-pct{font-size:10px;font-weight:600;min-width:32px;text-align:right}
+/* 任务分配指派弹窗 */
+.as-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:none;align-items:center;justify-content:center}
+.as-modal-overlay.show{display:flex}
+.as-modal{background:#fff;border-radius:14px;width:680px;max-width:92vw;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,.2)}
+.as-modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #eee}
+.as-modal-title{font-size:14px;font-weight:600;color:var(--text)}
+.as-modal-body{flex:1;overflow-y:auto;padding:14px 16px}
+.as-modal-footer{padding:12px 18px;border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between}
+.as-close{background:none;border:none;font-size:20px;cursor:pointer;color:#999;padding:2px 6px}
+.as-close:hover{color:var(--red)}
+.as-assign-area{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-height:320px}
+.as-pool{background:#f7f8fa;border-radius:10px;padding:12px;min-height:280px}
+.as-pool-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.as-pool-title{font-size:12px;font-weight:600;color:var(--text2)}
+.as-batch-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;background:var(--g2);color:#fff;font-size:10.5px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.as-batch-btn:hover{background:var(--g3)}
+.as-pool-group{margin-bottom:8px}
+.as-group-header{display:flex;align-items:center;gap:6px;padding:6px 8px;cursor:pointer;border-radius:6px;transition:background .15s;user-select:none}
+.as-group-header:hover{background:rgba(0,0,0,.04)}
+.as-group-arrow{font-size:10px;color:var(--text3);transition:transform .2s}
+.as-group-arrow.collapsed{transform:rotate(0deg)}
+.as-group-arrow.expanded{transform:rotate(90deg)}
+.as-group-name{font-size:11.5px;font-weight:600;color:var(--text)}
+.as-group-count{font-size:10px;color:var(--text3);margin-left:2px}
+.as-group-check{margin-left:auto;font-size:10.5px;color:var(--g2);cursor:pointer;display:flex;align-items:center;gap:3px}
+.as-group-check input{accent-color:var(--g2);cursor:pointer}
+.as-group-members{display:flex;flex-direction:column;gap:5px;padding:4px 0 4px 20px}
+.as-person-card{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:all .15s}
+.as-person-card:hover{border-color:var(--g4);box-shadow:0 2px 8px rgba(0,107,84,.1)}
+.as-person-card.checked{border-color:var(--g2);background:var(--g8)}
+.as-person-check{flex-shrink:0}
+.as-person-check input{accent-color:var(--g2);width:14px;height:14px;cursor:pointer}
+.as-person-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.as-person-info{flex:1;min-width:0}
+.as-person-name{font-size:11.5px;font-weight:600;color:var(--text)}
+.as-person-data{font-size:9.5px;color:var(--text3);margin-top:1px}
+.as-person-load{text-align:right;flex-shrink:0}
+.as-load-pct{font-size:12px;font-weight:700}
+.as-load-label{font-size:9px;color:var(--text3)}
+.as-selected{background:#E8F5E9;border:2px dashed var(--g5);border-radius:10px;padding:12px;min-height:280px;position:relative}
+.as-selected-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.as-selected-title{font-size:12px;font-weight:600;color:var(--g2)}
+.as-selected-count{font-size:10.5px;color:var(--text3)}
+.as-clear-btn{padding:3px 8px;border-radius:5px;background:#fff;color:var(--text3);font-size:10px;font-weight:500;cursor:pointer;border:1px solid #ddd;transition:all .15s}
+.as-clear-btn:hover{background:#FFEBEE;color:var(--red);border-color:var(--red)}
+.as-selected-empty{text-align:center;padding:50px 10px;color:rgba(0,107,84,.35);font-size:11px;line-height:1.6}
+.as-selected-card{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:5px}
+.as-selected-card .as-person-avatar{border:2px solid var(--g5)}
+.as-remove-btn{margin-left:auto;width:20px;height:20px;border-radius:50%;background:#FFEBEE;color:var(--red);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:none;transition:all .15s}
+.as-remove-btn:hover{background:var(--red);color:#fff}
+.as-confirm-btn{padding:8px 20px;border-radius:8px;background:var(--g2);color:#fff;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.as-confirm-btn:hover{background:var(--g3)}
+.as-confirm-btn:disabled{background:#ccc;cursor:not-allowed}
+.as-task-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;padding:10px;background:#FAFAFA;border-radius:8px}
+.as-task-tag{display:inline-block;padding:3px 8px;border-radius:10px;background:var(--g8);color:var(--g2);font-size:10.5px;font-weight:500}
+.as-hint{font-size:9.5px;color:var(--text3);padding:8px 0 0}
 .export-opt{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border:1.5px solid #eee;border-radius:8px;cursor:pointer;transition:all .15s;margin-bottom:6px}
 .export-opt:hover{border-color:var(--g4)}
 .export-opt.selected{border-color:var(--g2);background:var(--g8)}
@@ -361,8 +417,7 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .eo-info{flex:1}
 .eo-name{font-size:10.5px;font-weight:500;color:var(--text)}
 .eo-desc{font-size:10.5px;color:#999}
-@media(max-width:768px){.sv-grid{grid-template-columns:1fr}}
-/* 标注字段标签 */
+@media(max-width:768px){.sv-grid{grid-template-columns:1fr}} 
 .field-tag{display:inline-block;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:500;vertical-align:middle}
 .field-tag.core{background:var(--g8);color:var(--g2)}
 .field-tag.offset{background:#FFF3E0;color:var(--orange)}
@@ -822,7 +877,7 @@ function renderTaskMgmtStep(c){
       '<div style="font-size:11px;font-weight:600;color:var(--text)">📋 任务管理</div>'+
       '<button style="padding:4px 12px;border-radius:5px;border:none;background:var(--g2);color:#fff;font-size:10px;font-weight:600;cursor:pointer" onclick="showNewPipeTaskModal()">＋ 新建任务</button>'+
     '</div>'+
-    '<div class="tm-table-wrap"><table class="tm-table"><thead><tr><th>#</th><th>任务名称</th><th>场景</th><th>负责人</th><th>任务量</th><th>已分配/待分配</th><th>标注量</th><th>待审核</th><th>已审核</th><th>已完成</th><th>当前步骤</th><th>操作</th></tr></thead><tbody>'+rows+'</tbody><tfoot><tr style="background:var(--g8);font-weight:600;font-size:9px"><td colspan="4">合计：'+tasks.length+'个任务</td><td>'+tot+'</td><td>'+ta+'/'+tn+'</td><td>'+ta2+'</td><td>'+tpr+'</td><td>'+tr+'</td><td style="color:var(--g2)">'+tc+'</td><td colspan="2"></td></tr></tfoot></table></div>';
+    '<div class="tm-table-wrap"><table class="tm-table"><thead><tr><th>#</th><th>任务名称</th><th>场景</th><th>负责人</th><th>任务量</th><th>已分配/待分配</th><th>标注量</th><th>待审核</th><th>已审核</th><th>已归库</th><th>当前步骤</th><th>操作</th></tr></thead><tbody>'+rows+'</tbody><tfoot><tr style="background:var(--g8);font-weight:600;font-size:9px"><td colspan="4">合计：'+tasks.length+'个任务</td><td>'+tot+'</td><td>'+ta+'/'+tn+'</td><td>'+ta2+'</td><td>'+tpr+'</td><td>'+tr+'</td><td style="color:var(--g2)">'+tc+'</td><td colspan="2"></td></tr></tfoot></table></div>';
 }
 
 function renderImportStep(c){
@@ -925,7 +980,7 @@ function renderPreprocessStep(c){
     '<div class="sv-left" style="padding:16px">'+
       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'+
         '<div style="font-size:12px;font-weight:600;color:var(--text)">🧹 预处理任务清单 · '+s.name+'</div>'+
-        '<div style="font-size:10px;color:var(--text3)">已完成 '+checkedCount+'/'+tasks.length+'</div>'+
+        '<div style="font-size:10px;color:var(--text3)">已归库 '+checkedCount+'/'+tasks.length+'</div>'+
       '</div>'+
       '<div style="height:6px;background:#eee;border-radius:3px;margin-bottom:14px;overflow:hidden"><div style="width:'+Math.round(checkedCount/tasks.length*100)+'%;height:100%;background:var(--g2);border-radius:3px;transition:width .3s"></div></div>'+
       taskHtml+
@@ -935,7 +990,7 @@ function renderPreprocessStep(c){
       '<div class="sr-card"><h5>📊 预处理统计</h5>'+
         '<div class="wf"><div class="wf-label">当前场景</div><div class="wf-val" style="color:var(--g2);font-weight:600">'+s.name+'</div></div>'+
         '<div class="wf"><div class="wf-label">待处理样本</div><div class="wf-val">'+s.cur+' 张</div></div>'+
-        '<div class="wf"><div class="wf-label">已完成预处理</div><div class="wf-val">'+Math.round(s.cur*0.8)+' 张</div></div>'+
+        '<div class="wf"><div class="wf-label">已归库预处理</div><div class="wf-val">'+Math.round(s.cur*0.8)+' 张</div></div>'+
         '<div class="wf"><div class="wf-label">异常样本</div><div class="wf-val" style="color:var(--red)">'+Math.round(s.cur*0.03)+' 张</div></div>'+
       '</div>'+
       '<div class="sr-card"><h5>🔍 质量初检结果</h5>'+
@@ -1371,13 +1426,13 @@ var _tmData=[
   {id:3,name:'电费记录OCR标注',scene:'bill',status:'reviewing',pipeStep:5,total:200,assigned:200,annotated:200,pendingReview:120,reviewed:36,completed:0,date:'8/17-9/15',desc:'电费账单4字段OCR提取标注',assignments:[{person:'李琳',qty:120},{person:'梁爽',qty:80}]},
   {id:4,name:'交费订单11字段标注',scene:'order',status:'pending',pipeStep:1,total:400,assigned:200,annotated:0,pendingReview:0,reviewed:0,completed:0,date:'8/1-9/15',desc:'网上国网交费订单11字段联合标注',assignments:[{person:'梁爽',qty:200}]},
   {id:5,name:'报错信息场景标注',scene:'error',status:'annotating',pipeStep:4,total:350,assigned:350,annotated:88,pendingReview:0,reviewed:0,completed:0,date:'8/1-8/31',desc:'网上国网报错信息3字段标注',assignments:[{person:'高金萱',qty:200},{person:'梁爽',qty:150}]},
-  {id:6,name:'实名认证提取标注',scene:'order',status:'done',pipeStep:6,total:150,assigned:150,annotated:150,pendingReview:0,reviewed:150,completed:150,date:'6/1-6/30',desc:'实名认证信息提取标注已完成',assignments:[{person:'李琳',qty:150}]},
+  {id:6,name:'实名认证提取标注',scene:'order',status:'done',pipeStep:6,total:150,assigned:150,annotated:150,pendingReview:0,reviewed:150,completed:150,date:'6/1-6/30',desc:'实名认证信息提取标注已归库',assignments:[{person:'李琳',qty:150}]},
   {id:7,name:'语料意图+实体标注',scene:'error',status:'annotating',pipeStep:4,total:600,assigned:600,annotated:210,pendingReview:0,reviewed:0,completed:0,date:'8/17-9/30',desc:'报错语料意图识别+实体标注',assignments:[{person:'高金萱',qty:300},{person:'梁爽',qty:300}]}
 ];
 var _tmNextId=8;
 var _tmSceneMap={meter:'⚡ 电能表识别',bill:'💰 电费记录',order:'🧾 交费订单',error:'⚠️ 异常提示'};
 var _tmSceneColor={meter:'#E65100',bill:'#1565C0',order:'#5E35B1',error:'#C62828'};
-var _tmStatusMap={pending:'待分配',annotating:'标注中',reviewing:'审核中',done:'已完成'};
+var _tmStatusMap={pending:'待分配',annotating:'标注中',reviewing:'审核中',done:'已归库'};
 var _pipeStepIcons=['📋','📥','🧹','👥','🏷️','✅','📦'];
 var _pipeStepShort=['任务','导入','预处理','分配','标注','审核','归库'];
 function renderTaskList(){
@@ -1396,7 +1451,7 @@ function renderTaskList(){
   var el=document.getElementById('tmList');
   if(!el)return;
   if(!list.length){el.innerHTML='<div style="text-align:center;padding:20px;color:#999;font-size:11px">暂无匹配任务</div>';return}
-  var h='<div class="tm-table-wrap"><table class="tm-table"><thead><tr><th>#</th><th>任务名称</th><th>场景</th><th>负责人</th><th>任务量</th><th>已分配/待分配</th><th>标注量</th><th>待审核</th><th>已审核</th><th>已完成</th><th>当前步骤</th><th>操作</th></tr></thead><tbody>';
+  var h='<div class="tm-table-wrap"><table class="tm-table"><thead><tr><th>#</th><th>任务名称</th><th>场景</th><th>负责人</th><th>任务量</th><th>已分配/待分配</th><th>标注量</th><th>待审核</th><th>已审核</th><th>已归库</th><th>当前步骤</th><th>操作</th></tr></thead><tbody>';
   list.forEach(function(t){
     var ps=t.pipeStep||0;
     var unassign=t.total-t.assigned;
@@ -1556,7 +1611,7 @@ function showToast(msg,type='info',duration=3000){
 function cycleDlvStatus(el){
   if(el.classList.contains('pending')){
     el.className='dlv-status done';
-    el.textContent='✓ 已完成';
+    el.textContent='✓ 已归库';
   }else{
     el.className='dlv-status pending';
     el.textContent='○ 待交付';
@@ -1659,7 +1714,7 @@ function loadDlvData(){
       var uploadEl=row.querySelector('.dlv-upload');
       if(statusEl){
         statusEl.className='dlv-status '+(item.status||'pending');
-        statusEl.textContent=item.status==='done'?'✓ 已完成':'○ 待交付';
+        statusEl.textContent=item.status==='done'?'✓ 已归库':'○ 待交付';
       }
       if(uploadEl&&item.fileName){
         uploadEl.classList.add('uploaded');
@@ -1688,7 +1743,7 @@ function uploadDlv(el,idx){
       var statusEl=el.closest('.dlv-row').querySelector('.dlv-status');
       if(statusEl){
         statusEl.className='dlv-status done';
-        statusEl.textContent='✓ 已完成';
+        statusEl.textContent='✓ 已归库';
       }
       updateDlvStats();
       saveDlvData();
