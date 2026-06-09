@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="version" content="20260609-1250">
 <title>样本标注项目落地实施一张图</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -1429,6 +1430,7 @@ function renderTaskList(){
   if(el)el.innerHTML=h;
 }
 function advanceTask(id){
+  console.log('[DEBUG] advanceTask called, id='+id);
   var t=_tmData.find(function(x){return x.id===id});
   if(!t)return;
   if(t.pipeStep<6){
@@ -1443,6 +1445,7 @@ function advanceTask(id){
     renderTaskList();renderTaskMgmtStep(document.getElementById('stepContainer'));showToast('任务#'+id+'已推进至'+_pipeStepShort[t.pipeStep],'success')}
 }
 function jumpToTaskStep(taskId){
+  console.log('[DEBUG] jumpToTaskStep called, taskId='+taskId);
   var t=_tmData.find(function(x){return x.id===taskId});
   if(!t)return;
   var scIdx=_scenes.findIndex(function(s){return s.id===t.scene});
@@ -1450,6 +1453,7 @@ function jumpToTaskStep(taskId){
   switchStep(t.pipeStep);
 }
 function deleteTask(id){
+  console.log('[DEBUG] deleteTask called, id='+id);
   _tmData=_tmData.filter(function(x){return x.id!==id});
   renderTaskList();showToast('任务#'+id+'已删除','success');
 }
