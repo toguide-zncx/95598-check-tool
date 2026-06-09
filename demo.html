@@ -1605,7 +1605,7 @@ a { text-decoration:none; color:inherit; }
             </div>
           </div>
           <table class="data-table" id="proj-table">
-            <thead><tr><th style="width:36px">#</th><th>项目名称</th><th style="width:70px">项目年份</th><th>项目负责人</th><th>项目成员</th><th>当前进展</th><th style="width:65px">是否延期</th></tr></thead>
+            <thead><tr><th style="width:36px">#</th><th>项目名称</th><th style="width:70px">项目年份</th><th>项目负责人</th><th>项目成员</th><th>当前进展</th><th style="width:65px">是否延期</th><th style="width:80px">操作</th></tr></thead>
             <tbody id="proj-table-body"></tbody>
           </table>
         </div>
@@ -1665,9 +1665,12 @@ a { text-decoration:none; color:inherit; }
                   </select>
                 </div>
               </div>
-              <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px">
-                <button onclick="closeProjectForm()" style="padding:7px 20px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:13px">取消</button>
-                <button onclick="saveProject()" style="padding:7px 20px;border:none;border-radius:6px;background:var(--primary);color:#fff;cursor:pointer;font-size:13px;font-weight:600">保存</button>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px">
+                <button id="pf-delete-btn" onclick="deleteProjectFromForm()" style="padding:7px 16px;border:1px solid #ef5350;border-radius:6px;background:#fff;cursor:pointer;font-size:13px;color:#ef5350;display:none">删除项目</button>
+                <div style="display:flex;gap:10px;margin-left:auto">
+                  <button onclick="closeProjectForm()" style="padding:7px 20px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:13px">取消</button>
+                  <button onclick="saveProject()" style="padding:7px 20px;border:none;border-radius:6px;background:var(--primary);color:#fff;cursor:pointer;font-size:13px;font-weight:600">保存</button>
+                </div>
               </div>
             </div>
           </div>
@@ -6711,7 +6714,7 @@ function renderProjectTable(){
   });
   var html='';
   if(list.length===0){
-    html='<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text-light)">暂无匹配项目</td></tr>';
+    html='<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light)">暂无匹配项目</td></tr>';
   }else{
   list.forEach(function(p,i){
     var rate=getProjectRate(p);
@@ -6720,16 +6723,13 @@ function renderProjectTable(){
     var hasUrl=!!p.url;
     html+='<tr>';
     html+='<td style="text-align:center;font-weight:600;color:var(--text-light)">'+(i+1)+'</td>';
-    html+='<td><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="font-weight:600;color:var(--primary);cursor:pointer" onclick="openProjectDetail('+p.id+')">'+p.name+'</div><div style="display:flex;gap:4px;flex-shrink:0">';
-    if(hasUrl)html+='<a href="'+p.url+'" target="_blank" style="background:var(--primary-pale);color:var(--primary);border:1px solid var(--primary);text-decoration:none;padding:1px 8px;border-radius:4px;font-size:11px;white-space:nowrap">📋一张图</a>';
-    html+='<button onclick="openProjectForm('+p.id+')" style="background:none;border:1px solid var(--border);border-radius:4px;padding:1px 8px;cursor:pointer;font-size:11px;color:var(--primary)">编辑</button>';
-    html+='<button onclick="deleteProject('+p.id+')" style="background:none;border:1px solid #ef5350;border-radius:4px;padding:1px 8px;cursor:pointer;font-size:11px;color:#ef5350">删除</button>';
-    html+='</div></div><div style="font-size:11px;color:var(--text-light);margin-top:2px">'+p.period+(p.partner?' · '+p.partner:'')+'</div></td>';
+    html+='<td><div style="font-weight:600;color:var(--primary);cursor:pointer" onclick="openProjectForm('+p.id+')">'+p.name+'</div><div style="font-size:11px;color:var(--text-light);margin-top:2px">'+p.period+(p.partner?' · '+p.partner:'')+'</div></td>';
     html+='<td style="text-align:center;font-weight:500">'+p.year+'</td>';
     html+='<td>'+p.lead+'</td>';
     html+='<td style="font-size:12px">'+p.members+'</td>';
     html+='<td><div style="display:flex;align-items:center;gap:8px"><span class="tag tag-primary" style="min-width:60px;text-align:center">'+phaseName+'</span><div style="flex:1;min-width:80px"><div style="background:#e8e8e8;border-radius:3px;height:6px;overflow:hidden"><div style="background:var(--primary);height:6px;border-radius:3px;width:'+rate+'%;transition:width .5s"></div></div></div><span style="font-size:12px;font-weight:600;color:var(--primary)">'+rate+'%</span></div></td>';
     html+='<td style="text-align:center">'+delayTag+'</td>';
+    html+='<td style="text-align:center">'+(hasUrl?'<a href="'+p.url+'" target="_blank" style="background:var(--primary-pale);color:var(--primary);border:1px solid var(--primary);text-decoration:none;padding:2px 10px;border-radius:4px;font-size:11px;white-space:nowrap">📋一张图</a>':'<span style="font-size:11px;color:var(--text-light)">—</span>')+'</td>';
     html+='</tr>';
   });
   }
@@ -6740,6 +6740,7 @@ function filterProjectTable(){renderProjectTable();}
 
 function openProjectForm(id){
   var modal=document.getElementById('proj-form-modal');
+  var delBtn=document.getElementById('pf-delete-btn');
   document.getElementById('pf-id').value='';
   document.getElementById('pf-name').value='';
   document.getElementById('pf-year').value=new Date().getFullYear().toString();
@@ -6764,8 +6765,10 @@ function openProjectForm(id){
     document.getElementById('pf-url').value=p.url;
     document.getElementById('pf-phase').value=p.phase;
     document.getElementById('pf-delayed').value=p.delayed?'1':'0';
+    delBtn.style.display='inline-block';
   }else{
     document.getElementById('proj-form-title').textContent='新增项目';
+    delBtn.style.display='none';
   }
   modal.style.display='block';
 }
@@ -6822,6 +6825,19 @@ function deleteProject(id){
   if(!p)return;
   if(!confirm('确定删除项目「'+p.name+'」？'))return;
   _projData=_projData.filter(function(x){return x.id!==id});
+  renderProjectKPI();
+  renderProjectTable();
+  showToast('项目已删除');
+}
+
+function deleteProjectFromForm(){
+  var editId=document.getElementById('pf-id').value;
+  if(!editId)return;
+  var p=_projData.find(function(x){return x.id===parseInt(editId)});
+  if(!p)return;
+  if(!confirm('确定删除项目「'+p.name+'」？'))return;
+  _projData=_projData.filter(function(x){return x.id!==p.id});
+  closeProjectForm();
   renderProjectKPI();
   renderProjectTable();
   showToast('项目已删除');
@@ -6986,6 +7002,7 @@ function init() {
   window.closeProjectForm = closeProjectForm;
   window.saveProject = saveProject;
   window.deleteProject = deleteProject;
+  window.deleteProjectFromForm = deleteProjectFromForm;
   window.filterProjectTable = filterProjectTable;
   window.afHandleFile = afHandleFile;
   window.afHandleDrop = afHandleDrop;
