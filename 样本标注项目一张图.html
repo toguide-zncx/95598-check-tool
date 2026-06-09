@@ -1270,41 +1270,31 @@ function confirmAssign(){
     showToast('请至少指派一名人员','error');
     return;
   }
-  var taskCount=_asTaskIds.length;
-  if(taskCount===0){
+  var taskIds=_asTaskIds;
+  if(taskIds.length===0){
     showToast('没有待分配的任务','error');
     return;
   }
   var personCount=_asSelectedPersons.length;
-  // 计算每人分配数量（平均分配，剩余优先给前面的）
-  var perPerson=Math.floor(taskCount/personCount);
-  var remainder=taskCount%personCount;
-  var idx=0;
-  _asSelectedPersons.forEach(function(name,i){
-    var count=perPerson+(i<remainder?1:0);
-    for(var j=0;j<count&&idx<_asTaskIds.length;j++,idx++){
-      var tId=_asTaskIds[idx];
-      var t=_tmData.find(function(x){return x.id===tId});
-      if(t){
-        if(!t.assignments)t.assignments=[];
-        var existing=t.assignments.find(function(a){return a.person===name});
-        if(existing){
-          existing.qty+=Math.ceil(t.total/personCount);
-        }else{
-          t.assignments.push({person:name,qty:Math.ceil(t.total/personCount)});
-        }
-        t.assigned=t.assignments.reduce(function(s,a){return s+a.qty},0);
-        // 更新任务状态为分配中
-        if(t.pipeStep===2)t.pipeStep=3;
-        if(t.status==='pending')t.status='annotating';
-      }
-    }
+  // 每个任务按任务量平均分配给选中人员
+  taskIds.forEach(function(tId){
+    var t=_tmData.find(function(x){return x.id===tId});
+    if(!t)return;
+    var perPerson=Math.floor(t.total/personCount);
+    var remainder=t.total%personCount;
+    t.assignments=[];
+    _asSelectedPersons.forEach(function(name,i){
+      var qty=perPerson+(i<remainder?1:0);
+      if(qty>0)t.assignments.push({person:name,qty:qty});
+    });
+    t.assigned=t.assignments.reduce(function(s,a){return s+a.qty},0);
+    if(t.pipeStep<=2)t.pipeStep=3;
+    if(t.status==='pending')t.status='annotating';
   });
   closeAssignModal();
-  // 刷新列表
   renderTaskList();
   var names=_asSelectedPersons.join('、');
-  showToast('已成功将 '+taskCount+' 个任务分配给 '+names,'success');
+  showToast('已成功分配 '+taskIds.length+' 个任务给 '+names,'success');
 }
 
 // 重写的任务分配步骤视图
@@ -1740,9 +1730,15 @@ function renderTaskList(){
 function advanceTask(id){
   var t=_tmData.find(function(x){return x.id===id});
   if(!t)return;
+  var nextStep=t.pipeStep+1;
+  // 分配步骤：打开指派弹窗而不是直接推进
+  if(nextStep===3){
+    openAssignModal([t.id]);
+    return;
+  }
   if(t.pipeStep<6){
     t.pipeStep++;
-    if(t.pipeStep>=3&&t.assigned===0)t.assigned=Math.round(t.total*0.8);
+    if(t.pipeStep>=4&&t.assigned===0)t.assigned=Math.round(t.total*0.8);
     if(t.pipeStep>=4&&t.annotated===0)t.annotated=Math.round(t.assigned*0.2);
     if(t.pipeStep>=5&&t.pendingReview===0)t.pendingReview=t.annotated;
     if(t.pipeStep>=6){t.reviewed=t.pendingReview;t.completed=t.reviewed;t.pendingReview=0}
