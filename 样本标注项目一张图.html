@@ -1432,9 +1432,10 @@ function renderTaskList(){
 function advanceTask(id){
   console.log('[DEBUG] advanceTask called, id='+id);
   var t=_tmData.find(function(x){return x.id===id});
-  if(!t)return;
+  if(!t){console.log('[DEBUG] task not found');return;}
   if(t.pipeStep<6){
     t.pipeStep++;
+    console.log('[DEBUG] task#'+id+' pipeStep now='+t.pipeStep);
     if(t.pipeStep>=3&&t.assigned===0)t.assigned=Math.round(t.total*0.8);
     if(t.pipeStep>=4&&t.annotated===0)t.annotated=Math.round(t.assigned*0.2);
     if(t.pipeStep>=5&&t.pendingReview===0)t.pendingReview=t.annotated;
@@ -1442,7 +1443,14 @@ function advanceTask(id){
     if(t.pipeStep>=4&&t.status==='pending')t.status='annotating';
     if(t.pipeStep>=5&&t.status==='annotating')t.status='reviewing';
     if(t.pipeStep>=6)t.status='done';
-    renderTaskList();renderTaskMgmtStep(document.getElementById('stepContainer'));showToast('任务#'+id+'已推进至'+_pipeStepShort[t.pipeStep],'success')}
+    var sc=document.getElementById('stepContainer');
+    console.log('[DEBUG] stepContainer found='+(!!sc)+' activeStep='+_activeStep);
+    renderTaskList();
+    if(_activeStep===0&&sc)renderTaskMgmtStep(sc);
+    showToast('任务#'+id+'已推进至'+_pipeStepShort[t.pipeStep],'success');
+  }else{
+    console.log('[DEBUG] task#'+id+' already at pipeStep 6, cannot advance');
+  }
 }
 function jumpToTaskStep(taskId){
   console.log('[DEBUG] jumpToTaskStep called, taskId='+taskId);
