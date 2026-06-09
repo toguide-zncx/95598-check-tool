@@ -1176,22 +1176,13 @@ function renderArchiveStep(c){
       '<div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px">📦 各场景归库进度</div>'+
       sceneRows+
     '</div>'+
-    // Export + Version in two columns
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'+
-      '<div style="background:#fafafa;border-radius:8px;padding:10px 12px;border:1px solid #eee">'+
+    // Export format
+    '<div style="background:#fafafa;border-radius:8px;padding:10px 12px;border:1px solid #eee">'+
         '<div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px">📤 导出格式</div>'+
         '<div class="export-opt selected" onclick="selectExport(this)"><div class="eo-radio"></div><div class="eo-info"><div class="eo-name">JSON (Label Studio)</div><div class="eo-desc">完整标注，可直接训练</div></div></div>'+
         '<div class="export-opt" onclick="selectExport(this)"><div class="eo-radio"></div><div class="eo-info"><div class="eo-name">COCO 格式</div><div class="eo-desc">目标检测标准格式</div></div></div>'+
         '<div class="export-opt" onclick="selectExport(this)"><div class="eo-radio"></div><div class="eo-info"><div class="eo-name">CSV + 图片包</div><div class="eo-desc">字段CSV+图片按场景打包</div></div></div>'+
         '<div style="margin-top:10px;text-align:center"><button style="padding:7px 24px;border-radius:8px;border:none;background:var(--g2);color:#fff;font-size:10px;font-weight:600;cursor:pointer" onclick="doArchive(this)">📦 执行归库导出</button></div>'+
-      '</div>'+
-      '<div style="background:#fafafa;border-radius:8px;padding:10px 12px;border:1px solid #eee">'+
-        '<div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px">📋 版本记录 <span class="field-tag offset" style="font-size:9px">二次开发</span></div>'+
-        '<div class="qc-row"><span>v1.3 · 6/22</span><span class="qc-val" style="color:var(--g2)">+'+Math.round(totalAll*0.3)+'</span></div>'+
-        '<div class="qc-row"><span>v1.2 · 6/18</span><span class="qc-val">+'+Math.round(totalAll*0.25)+'</span></div>'+
-        '<div class="qc-row"><span>v1.1 · 6/15</span><span class="qc-val">+'+Math.round(totalAll*0.2)+'</span></div>'+
-        '<div class="qc-row"><span>v1.0 · 6/10</span><span class="qc-val">初始归库</span></div>'+
-        '<div style="margin-top:8px;font-size:9px;line-height:1.5;color:var(--text2);padding:6px 8px;background:#f0f7f4;border-radius:5px">归库后样本进入样本库，支持版本管控和增量更新。年度新增≥5000条，准确率≥98%为考核指标。</div>'+
       '</div>'+
     '</div>'+
   '</div>';
