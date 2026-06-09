@@ -991,9 +991,8 @@ function confirmImport(){
   if(btn)btn.textContent='📥 确认导入';
   renderTaskList();
   showToast('导入成功，任务已进入预处理环节','success');
-  // 刷新导入步骤视图
-  var stepEl=document.getElementById('stepContainer');
-  if(stepEl)renderImportStep(stepEl);
+  // 返回任务管理页面
+  switchStep(0);
 }
 
 function renderPreprocessStep(c){
