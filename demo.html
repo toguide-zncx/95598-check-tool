@@ -2,8 +2,6 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<!-- v2.1 2026-06-03 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>智能服务运营管理平台 - 工单化运营</title>
 <style>
@@ -342,47 +340,6 @@ a { text-decoration:none; color:inherit; }
 .wr-v2 .wr-footer { text-align:center; color:rgba(255,255,255,0.7); padding:16px; font-size:12px; }
 .wr-v2 .wr-detail-link { color:#667eea; font-size:13px; cursor:pointer; }
 .wr-v2 .wr-detail-link:hover { text-decoration:underline; }
-
-/* ========== 项目管理 ========== */
-.project-card { background:var(--card-bg); border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); padding:20px; border:1px solid #f0f2f0; transition:all .2s; cursor:pointer; position:relative; }
-.project-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.12); transform:translateY(-2px); }
-.project-card .proj-status { position:absolute; top:16px; right:16px; }
-.project-card .proj-title { font-size:15px; font-weight:700; color:var(--text); margin-bottom:6px; display:flex; align-items:center; gap:6px; }
-.project-card .proj-meta { font-size:12px; color:var(--text-light); margin-bottom:12px; display:flex; gap:12px; flex-wrap:wrap; }
-.project-card .proj-progress { height:8px; background:#E8E8E8; border-radius:4px; overflow:hidden; margin-bottom:10px; }
-.project-card .proj-progress-bar { height:100%; border-radius:4px; transition:width .6s; }
-.project-card .proj-footer { display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--text-light); }
-.project-card .proj-milestones { display:flex; gap:4px; align-items:center; }
-.project-card .milestone-dot { width:10px; height:10px; border-radius:50%; border:2px solid #ccc; }
-.project-card .milestone-dot.done { background:var(--primary-bright); border-color:var(--primary); }
-.project-card .milestone-dot.current { background:#FFF; border-color:var(--primary); box-shadow:0 0 0 3px rgba(76,175,80,0.2); }
-.project-card .milestone-dot.future { background:#FFF; border-color:#ddd; }
-.milestone-connector { width:16px; height:2px; background:#ddd; }
-.milestone-connector.done { background:var(--primary-bright); }
-.gantt-row { display:flex; align-items:center; margin-bottom:6px; font-size:12px; }
-.gantt-label { width:140px; min-width:140px; padding-right:10px; text-align:right; color:var(--text-light); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.gantt-bar-container { flex:1; height:24px; position:relative; background:#f5f5f5; border-radius:4px; }
-.gantt-bar { position:absolute; height:100%; border-radius:4px; min-width:4px; display:flex; align-items:center; padding:0 6px; font-size:10px; color:#fff; font-weight:600; white-space:nowrap; overflow:hidden; }
-.gantt-today { position:absolute; top:0; bottom:0; width:2px; background:var(--danger); z-index:2; }
-.gantt-header { display:flex; align-items:center; margin-bottom:4px; font-size:10px; color:var(--text-light); }
-.gantt-header .gantt-label { font-weight:600; color:var(--text); }
-.gantt-header .gantt-bar-container { font-size:10px; display:flex; }
-.gantt-header .gantt-bar-container span { flex:1; text-align:center; }
-.proj-detail-modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:1000; display:flex; align-items:center; justify-content:center; }
-.proj-detail-content { background:#fff; border-radius:12px; width:90%; max-width:900px; max-height:85vh; overflow-y:auto; box-shadow:0 8px 32px rgba(0,0,0,0.2); }
-.proj-detail-header { padding:20px 24px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
-.proj-detail-body { padding:24px; }
-.milestone-item { display:flex; align-items:flex-start; gap:12px; padding:8px 0; position:relative; }
-.milestone-item:not(:last-child)::before { content:''; position:absolute; left:11px; top:28px; bottom:-8px; width:2px; background:#e0e0e0; }
-.milestone-item.done:not(:last-child)::before { background:var(--primary-bright); }
-.milestone-icon { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
-.milestone-icon.done { background:var(--primary-pale); color:var(--primary); }
-.milestone-icon.current { background:#FFF3E0; color:#E65100; animation:pulse 2s infinite; }
-.milestone-icon.future { background:#f5f5f5; color:#bbb; }
-.milestone-info { flex:1; }
-.milestone-info .ms-title { font-size:13px; font-weight:600; color:var(--text); }
-.milestone-info .ms-date { font-size:11px; color:var(--text-light); margin-top:2px; }
-.milestone-info .ms-desc { font-size:12px; color:var(--text-light); margin-top:4px; }
 </style>
 </head>
 <body>
@@ -407,8 +364,8 @@ a { text-decoration:none; color:inherit; }
       <div class="nav-item" data-page="analysis"><span class="nav-icon">📈</span><span>运营分析</span></div>
       <div class="nav-item" data-page="optimize"><span class="nav-icon">🔧</span><span>优化规范</span></div>
       <div class="nav-item" data-page="asset"><span class="nav-icon">🗄️</span><span>资产沉淀</span></div>
-      <div class="nav-item" data-page="ai-toolbox"><span class="nav-icon">🤖</span><span>AI 工具箱</span></div>
       <div class="nav-item" data-page="project"><span class="nav-icon">📁</span><span>项目管理</span></div>
+      <div class="nav-item" data-page="ai-toolbox"><span class="nav-icon">🤖</span><span>AI 工具箱</span></div>
     </div>
     <div class="sidebar-footer">智能服务运营管理平台 v2.0<br>工单化运营驱动</div>
   </div>
@@ -1629,7 +1586,49 @@ a { text-decoration:none; color:inherit; }
       </div>
     </div>
 
-    <!-- ==================== 12. AI 工具箱 ==================== -->
+    <!-- ==================== 12. 项目管理 ==================== -->
+    <div class="page-section" id="page-project">
+      <div class="page-header">
+        <h1>项目管理</h1>
+        <p>技术服务项目全生命周期跟踪 · 进度管控 · 风险预警</p>
+      </div>
+      <div class="page-body">
+        <!-- KPI -->
+        <div class="kpi-row" id="proj-kpi-row"></div>
+        <!-- 项目列表 -->
+        <div class="card">
+          <div class="card-title"><span class="dot"></span>项目列表<span style="margin-left:auto;font-size:12px;color:var(--text-light)" id="proj-sync-time"></span></div>
+          <table class="data-table" id="proj-table">
+            <thead><tr><th style="width:36px">#</th><th>项目名称</th><th>项目负责人</th><th>项目成员</th><th>当前进展</th><th>是否延期</th><th>操作</th></tr></thead>
+            <tbody id="proj-table-body"></tbody>
+          </table>
+        </div>
+        <!-- 项目详情弹窗 -->
+        <div id="proj-detail-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:1000;overflow-y:auto">
+          <div style="max-width:960px;margin:30px auto;background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.2);overflow:hidden">
+            <div style="background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:20px 24px;display:flex;justify-content:space-between;align-items:center">
+              <div><h2 style="font-size:18px;font-weight:700" id="proj-modal-title"></h2><p style="font-size:12px;opacity:.85;margin-top:4px" id="proj-modal-sub"></p></div>
+              <button onclick="closeProjectDetail()" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px">✕</button>
+            </div>
+            <div style="padding:20px 24px">
+              <!-- 阶段KPI -->
+              <div id="proj-modal-kpi" style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap"></div>
+              <!-- 阶段导航 -->
+              <div id="proj-phase-nav" style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap"></div>
+              <!-- 阶段面板 -->
+              <div id="proj-phase-content"></div>
+              <!-- 甘特图 -->
+              <div style="margin-top:18px">
+                <div class="card-title"><span class="dot"></span>项目总体时间线</div>
+                <div id="proj-gantt" style="overflow-x:auto"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== 13. AI 工具箱 ==================== -->
     <div class="page-section" id="page-ai-toolbox">
       <div class="page-header">
         <h1>AI 工具箱</h1>
@@ -1901,287 +1900,7 @@ a { text-decoration:none; color:inherit; }
         </div>
       </div>
     </div>
-    </div><!-- page-ai-toolbox end -->
 
-    <!-- ==================== 项目管理 ==================== -->
-    <div class="page-section" id="page-project">
-      <div class="page-header" style="background:linear-gradient(135deg,#004D3A,#006B54,#008667)">
-        <h1>项目管理</h1>
-        <p>运营项目全景一览 · 项目清单与进度跟踪</p>
-      </div>
-      <div class="page-body" style="padding:16px 20px">
-        <div class="card" style="padding:0;overflow:hidden">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #e0e8e4;background:linear-gradient(90deg,#f8faf9,#f0f5f2)">
-            <div style="display:flex;align-items:center;gap:8px">
-              <span style="font-size:15px;font-weight:700;color:#006B54">📋 项目清单</span>
-              <span id="pm-count-tag" style="font-size:11px;color:#999;background:#f0f5f2;padding:2px 8px;border-radius:4px"></span>
-            </div>
-            <div style="display:flex;gap:16px;align-items:center" id="pm-status-bar"></div>
-          </div>
-          <table style="width:100%;border-collapse:collapse;font-size:13px">
-            <thead>
-              <tr style="background:#f5f8f6;border-bottom:2px solid #d4e4dc">
-                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:50px">序号</th>
-                <th style="padding:10px 14px;text-align:left;color:#666;font-weight:600">项目名称</th>
-                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:80px">负责人</th>
-                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:100px">所属主线</th>
-                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:80px">项目阶段</th>
-                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:80px">优先级</th>
-                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:110px">计划周期</th>
-                <th style="padding:10px 14px;text-align:center;color:#666;font-weight:600;width:120px">进度</th>
-              </tr>
-            </thead>
-            <tbody id="pm-table-body"></tbody>
-          </table>
-        </div>
-        <div id="pm-detail-area"></div>
-
-        <!-- 样本梳理及标注项目 落地实施一张图 -->
-        <div class="card" style="padding:0;overflow:hidden;margin-top:16px">
-          <div style="padding:14px 20px;border-bottom:1px solid #e0e8e4;background:linear-gradient(90deg,#f8faf9,#f0f5f2)">
-            <div style="display:flex;align-items:center;gap:8px">
-              <span style="font-size:15px;font-weight:700;color:#006B54">🗺️ 样本梳理及标注项目 · 落地实施一张图</span>
-              <span style="font-size:11px;color:#fff;background:linear-gradient(135deg,#006B54,#008667);padding:2px 8px;border-radius:4px">新手必读</span>
-            </div>
-            <div style="font-size:12px;color:#888;margin-top:4px">从0到1完整落地路径 · 每一步都告诉你做什么、怎么做、谁来做、交付什么</div>
-          </div>
-          <div style="padding:20px" id="pm-impl-guide">
-            <!-- 四阶段流程条 -->
-            <div style="display:flex;gap:0;margin-bottom:24px;border-radius:8px;overflow:hidden">
-              <div style="flex:1;padding:12px 16px;background:linear-gradient(135deg,#006B54,#008667);color:#fff;text-align:center">
-                <div style="font-size:20px;font-weight:800">① 采</div><div style="font-size:11px;opacity:.85;margin-top:2px">数据采集</div>
-              </div>
-              <div style="flex:1;padding:12px 16px;background:linear-gradient(135deg,#1976D2,#42A5F5);color:#fff;text-align:center">
-                <div style="font-size:20px;font-weight:800">② 治</div><div style="font-size:11px;opacity:.85;margin-top:2px">数据治理</div>
-              </div>
-              <div style="flex:1;padding:12px 16px;background:linear-gradient(135deg,#F9A825,#FFD54F);color:#333;text-align:center">
-                <div style="font-size:20px;font-weight:800">③ 标</div><div style="font-size:11px;opacity:.85;margin-top:2px">数据标注</div>
-              </div>
-              <div style="flex:1;padding:12px 16px;background:linear-gradient(135deg,#7B1FA2,#AB47BC);color:#fff;text-align:center">
-                <div style="font-size:20px;font-weight:800">④ 用</div><div style="font-size:11px;opacity:.85;margin-top:2px">数据应用</div>
-              </div>
-            </div>
-
-            <!-- 阶段一：采 -->
-            <div style="border:1px solid #c8e6c9;border-radius:10px;margin-bottom:16px;overflow:hidden">
-              <div style="padding:10px 16px;background:linear-gradient(90deg,#e8f5e9,#f1f8e9);display:flex;align-items:center;gap:8px">
-                <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#006B54;color:#fff;font-weight:800;font-size:14px">1</span>
-                <span style="font-size:14px;font-weight:700;color:#006B54">采集阶段（采）</span>
-                <span style="font-size:11px;color:#666;margin-left:8px">目标：把散落在各系统的原始会话数据收过来</span>
-              </div>
-              <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
-                <div style="background:#fafcfa;border-radius:8px;padding:12px;border:1px solid #e8ece9">
-                  <div style="font-size:12px;font-weight:700;color:#006B54;margin-bottom:6px">📌 做什么</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    1. 确定数据来源（电话录音转写、在线聊天记录、工单文本）<br>
-                    2. 制定抽取规则（按时间段、场景类型、渠道筛选）<br>
-                    3. 脱敏处理（手机号、户号、姓名、地址打码）<br>
-                    4. 原始数据入库，建立样本台账
-                  </div>
-                </div>
-                <div style="background:#fafcfa;border-radius:8px;padding:12px;border:1px solid #e8ece9">
-                  <div style="font-size:12px;font-weight:700;color:#006B54;margin-bottom:6px">🎯 关键产出</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    ✅ 《数据来源清单》（哪些系统、哪些表、哪些字段）<br>
-                    ✅ 《脱敏规则文档》（正则+字段映射）<br>
-                    ✅ 原始样本库（Excel/数据库，含会话ID、时间、渠道、原文）<br>
-                    ✅ 数据量统计表（各渠道各场景样本数）
-                  </div>
-                </div>
-                <div style="background:#fafcfa;border-radius:8px;padding:12px;border:1px solid #e8ece9">
-                  <div style="font-size:12px;font-weight:700;color:#006B54;margin-bottom:6px">🔧 怎么做</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    • 找IT/运维同事开通数据接口或导出权限<br>
-                    • 用Python/SQL批量抽取，统一存为结构化格式<br>
-                    • 脱敏脚本自动跑一遍，人工抽查10%验证<br>
-                    • 建立样本台账，记录每批数据的来源和状态
-                  </div>
-                </div>
-                <div style="background:#fafcfa;border-radius:8px;padding:12px;border:1px solid #e8ece9">
-                  <div style="font-size:12px;font-weight:700;color:#006B54;margin-bottom:6px">👤 谁来做</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    • 数据工程师：抽取+脱敏+入库<br>
-                    • 业务运营：确认场景范围和数据需求<br>
-                    • IT运维：开通系统权限<br>
-                    ⏱ 建议周期：2~4周
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 阶段二：治 -->
-            <div style="border:1px solid #bbdefb;border-radius:10px;margin-bottom:16px;overflow:hidden">
-              <div style="padding:10px 16px;background:linear-gradient(90deg,#e3f2fd,#e8eaf6);display:flex;align-items:center;gap:8px">
-                <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#1976D2;color:#fff;font-weight:800;font-size:14px">2</span>
-                <span style="font-size:14px;font-weight:700;color:#1976D2">治理阶段（治）</span>
-                <span style="font-size:11px;color:#666;margin-left:8px">目标：把脏数据变干净，按场景切分好</span>
-              </div>
-              <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
-                <div style="background:#f8fafc;border-radius:8px;padding:12px;border:1px solid #d6e4f0">
-                  <div style="font-size:12px;font-weight:700;color:#1976D2;margin-bottom:6px">📌 做什么</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    1. 质量检查（空值、重复、超短会话、乱码过滤）<br>
-                    2. 会话切片（多轮对话按场景边界切分）<br>
-                    3. 场景初分类（停电查询、故障报修、缴费咨询…）<br>
-                    4. 去重与均衡（同一问题去重，少样本场景补充）
-                  </div>
-                </div>
-                <div style="background:#f8fafc;border-radius:8px;padding:12px;border:1px solid #d6e4f0">
-                  <div style="font-size:12px;font-weight:700;color:#1976D2;margin-bottom:6px">🎯 关键产出</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    ✅ 《数据质量报告》（各维度问题统计）<br>
-                    ✅ 《场景分类清单》（一级场景+二级场景）<br>
-                    ✅ 清洗后样本集（去重+切分+分类标注）<br>
-                    ✅ 各场景样本量分布表
-                  </div>
-                </div>
-                <div style="background:#f8fafc;border-radius:8px;padding:12px;border:1px solid #d6e4f0">
-                  <div style="font-size:12px;font-weight:700;color:#1976D2;margin-bottom:6px">🔧 怎么做</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    • 用脚本自动过滤空值/重复/超短（<3轮）会话<br>
-                    • 按话术关键词+会话转折点自动切分场景<br>
-                    • 现有意图识别模型辅助初分类，人工校验<br>
-                    • 少样本场景定向补充采集
-                  </div>
-                </div>
-                <div style="background:#f8fafc;border-radius:8px;padding:12px;border:1px solid #d6e4f0">
-                  <div style="font-size:12px;font-weight:700;color:#1976D2;margin-bottom:6px">👤 谁来做</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    • 数据工程师：脚本开发+批量清洗<br>
-                    • 业务运营：场景清单确认+分类校验<br>
-                    • 标注组长：样本质量把关<br>
-                    ⏱ 建议周期：2~3周
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 阶段三：标 -->
-            <div style="border:1px solid #fff9c4;border-radius:10px;margin-bottom:16px;overflow:hidden">
-              <div style="padding:10px 16px;background:linear-gradient(90deg,#fffde7,#fff8e1);display:flex;align-items:center;gap:8px">
-                <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#F9A825;color:#fff;font-weight:800;font-size:14px">3</span>
-                <span style="font-size:14px;font-weight:700;color:#E65100">标注阶段（标）⭐ 核心</span>
-                <span style="font-size:11px;color:#666;margin-left:8px">目标：高质量标注数据集，模型"吃得下、吃得好"</span>
-              </div>
-              <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
-                <div style="background:#fffef5;border-radius:8px;padding:12px;border:1px solid #f0e6a0">
-                  <div style="font-size:12px;font-weight:700;color:#E65100;margin-bottom:6px">📌 做什么</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    1. 制定标注规范（每个字段怎么填、边界case怎么判）<br>
-                    2. 搭建/选型标注工具（平台功能：多类型标注+质检）<br>
-                    3. 标注员培训（规范讲解+试标+考核≥95%一致率）<br>
-                    4. 正式标注（意图/实体/情感/话术/流程节点）<br>
-                    5. 交叉质检（双人标注+仲裁，准确率≥98%）<br>
-                    6. 标注数据入库（训练集/测试集/验证集拆分）
-                  </div>
-                </div>
-                <div style="background:#fffef5;border-radius:8px;padding:12px;border:1px solid #f0e6a0">
-                  <div style="font-size:12px;font-weight:700;color:#E65100;margin-bottom:6px">🎯 关键产出</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    ✅ 《标注规范文档》（含示例+常见错误）<br>
-                    ✅ 标注平台（含质检+统计+导出功能）<br>
-                    ✅ 高质量标注数据集（JSON/Excel）<br>
-                    ✅ 《质检报告》（标注一致率、问题分布）<br>
-                    ✅ 训练集/测试集/验证集（6:2:2拆分）
-                  </div>
-                </div>
-                <div style="background:#fffef5;border-radius:8px;padding:12px;border:1px solid #f0e6a0">
-                  <div style="font-size:12px;font-weight:700;color:#E65100;margin-bottom:6px">🔧 怎么做</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    • 标注规范：参考95598业务手册+历史会话提炼<br>
-                    • 工具选型：Label Studio / 自研标注平台<br>
-                    • 培训路径：听讲解→看示例→试标50条→纠偏→考核<br>
-                    • 交叉质检：每批抽20%双人标注，不一致项仲裁<br>
-                    • 数据拆分：按场景分层抽样，确保各场景均衡
-                  </div>
-                </div>
-                <div style="background:#fffef5;border-radius:8px;padding:12px;border:1px solid #f0e6a0">
-                  <div style="font-size:12px;font-weight:700;color:#E65100;margin-bottom:6px">👤 谁来做 + ⚠️ 常见坑</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    • 标注组长：规范制定+培训+质检仲裁<br>
-                    • 标注员（3~5人）：执行标注<br>
-                    • 数据工程师：工具搭建+数据拆分<br>
-                    ⚠️ 坑1：规范不细→标注不一致返工<br>
-                    ⚠️ 坑2：不做质检→数据质量不可控<br>
-                    ⚠️ 坑3：数据不均衡→模型偏科<br>
-                    ⏱ 建议周期：4~8周
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 阶段四：用 -->
-            <div style="border:1px solid #e1bee7;border-radius:10px;margin-bottom:16px;overflow:hidden">
-              <div style="padding:10px 16px;background:linear-gradient(90deg,#f3e5f5,#ede7f6);display:flex;align-items:center;gap:8px">
-                <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#7B1FA2;color:#fff;font-weight:800;font-size:14px">4</span>
-                <span style="font-size:14px;font-weight:700;color:#7B1FA2">应用阶段（用）</span>
-                <span style="font-size:11px;color:#666;margin-left:8px">目标：标注数据喂给模型，持续迭代出效果</span>
-              </div>
-              <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
-                <div style="background:#faf5fc;border-radius:8px;padding:12px;border:1px solid #d7c4e0">
-                  <div style="font-size:12px;font-weight:700;color:#7B1FA2;margin-bottom:6px">📌 做什么</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    1. 模型训练（用标注数据微调大模型/Skill）<br>
-                    2. 效果评测（意图识别率、对话完成率等）<br>
-                    3. BadCase分析（找出模型弱项场景）<br>
-                    4. 定向补标（弱项场景增量标注）<br>
-                    5. 样本库持续更新（年度增量≥5000条）
-                  </div>
-                </div>
-                <div style="background:#faf5fc;border-radius:8px;padding:12px;border:1px solid #d7c4e0">
-                  <div style="font-size:12px;font-weight:700;color:#7B1FA2;margin-bottom:6px">🎯 关键产出</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    ✅ 《模型评测报告》（各指标对比基线）<br>
-                    ✅ 《BadCase分析报告》（错误分布+改进方向）<br>
-                    ✅ 增量标注数据集（定向补标产出）<br>
-                    ✅ 持续更新的样本库（版本管理+增量记录）
-                  </div>
-                </div>
-                <div style="background:#faf5fc;border-radius:8px;padding:12px;border:1px solid #d7c4e0">
-                  <div style="font-size:12px;font-weight:700;color:#7B1FA2;margin-bottom:6px">🔧 怎么做</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    • 标注数据→训练集导入模型训练平台<br>
-                    • A/B测试对比基线模型效果<br>
-                    • BadCase按场景归因→反哺标注优先级<br>
-                    • 建立"评测→分析→补标→再训"迭代闭环<br>
-                    • 每月统计样本库增量，确保持续增长
-                  </div>
-                </div>
-                <div style="background:#faf5fc;border-radius:8px;padding:12px;border:1px solid #d7c4e0">
-                  <div style="font-size:12px;font-weight:700;color:#7B1FA2;margin-bottom:6px">👤 谁来做</div>
-                  <div style="font-size:12px;color:#444;line-height:1.8">
-                    • 模型工程师：训练+评测<br>
-                    • 业务运营：BadCase分析+补标需求<br>
-                    • 标注组长：定向补标执行<br>
-                    ⏱ 持续迭代，每月一个cycle
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 底部：关键提示 -->
-            <div style="background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-radius:10px;padding:16px;border:1px solid #c8e6c9">
-              <div style="font-size:13px;font-weight:700;color:#006B54;margin-bottom:8px">💡 新手落地关键提示</div>
-              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;font-size:12px;color:#444;line-height:1.7">
-                <div>
-                  <div style="font-weight:600;color:#E65100;margin-bottom:4px">⚡ 第一优先</div>
-                  先搞定标注规范！规范不清就开标 = 全员返工。找5个典型会话，全组一起标，讨论到一致再铺开。
-                </div>
-                <div>
-                  <div style="font-weight:600;color:#1976D2;margin-bottom:4px">📊 质量红线</div>
-                  标注准确率≥98%，双人一致率≥95%。达不到就加培训、改规范，不要带着问题往下走。
-                </div>
-                <div>
-                  <div style="font-weight:600;color:#7B1FA2;margin-bottom:4px">🔄 持续迭代</div>
-                  标注不是一次性工作。模型上线后持续收集BadCase→补标→再训，每月增量≥5000条才能跟上业务变化。
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
   </div><!-- main end -->
 </div><!-- layout end -->
 
@@ -3290,8 +3009,8 @@ function initPageCharts(page) {
     case 'monitor': initMonitorCharts(); break;
     case 'analysis': initAnalysisCharts(); break;
     case 'optimize': initOptimizeCharts(); break;
+    case 'project': initProjectPage(); break;
     case 'ai-toolbox': renderAIHistory(); break;
-    case 'project': pmRenderMaster(); setTimeout(pmRenderMaster, 500); break;
   }
 }
 
@@ -6866,6 +6585,147 @@ function initAnalysisTicketEff() {
 }
 
 // ---- Optimize ----
+// ========== 项目管理 ==========
+var _projData = [
+  {id:1,name:'智能客服大模型样本梳理及标注项目',lead:'高金萱',members:'李琳、梁爽、郭玮旻',phase:2,phases:[
+    {name:'项目启动',period:'5/25-6/3',tasks:6,done:6,dlv:4},
+    {name:'需求调研',period:'6/1-6/22',tasks:7,done:1.8,dlv:5},
+    {name:'项目实施',period:'6/1-12/15',tasks:23,done:2.3,dlv:14},
+    {name:'预验收',period:'12/16-12/30',tasks:3,done:0,dlv:0},
+    {name:'正式验收',period:'1/4-1/15',tasks:3,done:0,dlv:2}
+  ],delayed:false,period:'2026.5-2027.1',partner:'国电南瑞',url:'https://toguide-zncx.github.io/95598-check-tool/%E6%A0%B7%E6%9C%AC%E6%A0%87%E6%B3%A8%E9%A1%B9%E7%9B%AE%E4%B8%80%E5%BC%A0%E5%9B%BE.html'},
+  {id:2,name:'智能客服质量分析及运营优化项目',lead:'高金萱',members:'李琳、梁爽',phase:5,phases:[
+    {name:'项目启动',period:'3/1-3/15',tasks:4,done:4,dlv:2},
+    {name:'需求调研',period:'3/16-4/10',tasks:5,done:5,dlv:3},
+    {name:'项目实施',period:'4/11-10/31',tasks:12,done:12,dlv:6},
+    {name:'预验收',period:'11/1-11/15',tasks:3,done:3,dlv:1},
+    {name:'正式验收',period:'11/16-12/5',tasks:3,done:3,dlv:2}
+  ],delayed:false,period:'2025.3-2025.12',partner:'国电南瑞',url:''},
+  {id:3,name:'智能服务地址服务能力优化支撑项目',lead:'梁爽',members:'李琳、郭玮旻',phase:3,phases:[
+    {name:'项目启动',period:'4/1-4/15',tasks:4,done:4,dlv:2},
+    {name:'需求调研',period:'4/16-5/10',tasks:5,done:5,dlv:3},
+    {name:'项目实施',period:'5/11-11/30',tasks:10,done:4,dlv:3},
+    {name:'预验收',period:'12/1-12/15',tasks:3,done:0,dlv:0},
+    {name:'正式验收',period:'12/16-12/30',tasks:3,done:0,dlv:1}
+  ],delayed:true,period:'2025.4-2025.12',partner:'中电普华',url:''},
+  {id:4,name:'95598智能客服场景迭代优化项目',lead:'李琳',members:'高金萱、郭玮旻',phase:2,phases:[
+    {name:'项目启动',period:'6/1-6/15',tasks:4,done:4,dlv:2},
+    {name:'需求调研',period:'6/16-7/10',tasks:6,done:2,dlv:2},
+    {name:'项目实施',period:'7/11-2/28',tasks:15,done:0,dlv:0},
+    {name:'预验收',period:'3/1-3/15',tasks:3,done:0,dlv:0},
+    {name:'正式验收',period:'3/16-3/30',tasks:3,done:0,dlv:1}
+  ],delayed:false,period:'2026.6-2027.3',partner:'国电南瑞',url:''}
+];
+
+function initProjectPage(){
+  renderProjectKPI();
+  renderProjectTable();
+  fetch('./plan-data.json?t='+Date.now())
+    .then(function(r){if(!r.ok)throw new Error('');return r.json()})
+    .then(function(data){
+      if(data&&data.phases){
+        var p=_projData[0];
+        var pm=data.phases;
+        for(var i=0;i<5;i++){
+          var pd=pm[String(i+1)];
+          if(pd){p.phases[i].tasks=pd.tasks;p.phases[i].done=pd.done;p.phases[i].dlv=pd.deliverables;}
+        }
+        var totalDone=0,totalTasks=0;
+        p.phases.forEach(function(ph){totalDone+=ph.done;totalTasks+=ph.tasks});
+        p.phase=totalDone>=totalTasks?5:1;
+        for(var i=4;i>=0;i--){if(p.phases[i].done>0&&p.phases[i].done<p.phases[i].tasks){p.phase=i+1;break;}}
+        var hasDelay=data.tasks&&data.tasks.some(function(t){return t.delayed});
+        p.delayed=hasDelay;
+        renderProjectKPI();
+        renderProjectTable();
+        document.getElementById('proj-sync-time').textContent='已同步至 '+data.syncTime;
+      }
+    })
+    .catch(function(){});
+}
+
+function renderProjectKPI(){
+  var total=_projData.length;
+  var active=_projData.filter(function(p){return p.phase>=1&&p.phase<=3}).length;
+  var delayed=_projData.filter(function(p){return p.delayed}).length;
+  var completed=_projData.filter(function(p){return p.phase>=4}).length;
+  var html='<div class="kpi-card green"><div class="kpi-label">项目总数</div><div class="kpi-value">'+total+'</div></div>';
+  html+='<div class="kpi-card blue"><div class="kpi-label">进行中</div><div class="kpi-value">'+active+'</div></div>';
+  html+='<div class="kpi-card '+(delayed>0?'red':'orange')+'"><div class="kpi-label">延期项目</div><div class="kpi-value">'+delayed+'</div>'+(delayed>0?'<div class="kpi-badge">需关注</div>':'')+'</div>';
+  html+='<div class="kpi-card purple"><div class="kpi-label">已验收</div><div class="kpi-value">'+completed+'</div></div>';
+  document.getElementById('proj-kpi-row').innerHTML=html;
+}
+
+function renderProjectTable(){
+  var html='';
+  _projData.forEach(function(p,i){
+    var rate=getProjectRate(p);
+    var phaseName=getPhaseName(p.phase);
+    var delayTag=p.delayed?'<span class="tag tag-red">延期</span>':'<span class="tag tag-green">正常</span>';
+    var hasUrl=!!p.url;
+    html+='<tr>';
+    html+='<td style="text-align:center;font-weight:600;color:var(--text-light)">'+(i+1)+'</td>';
+    html+='<td><div style="font-weight:600;color:var(--primary);cursor:pointer" onclick="openProjectDetail('+p.id+')">'+p.name+'</div><div style="font-size:11px;color:var(--text-light);margin-top:2px">'+p.period+' · '+p.partner+'</div></td>';
+    html+='<td>'+p.lead+'</td>';
+    html+='<td style="font-size:12px">'+p.members+'</td>';
+    html+='<td><div style="display:flex;align-items:center;gap:8px"><span class="tag tag-primary" style="min-width:60px;text-align:center">'+phaseName+'</span><div style="flex:1;min-width:80px"><div style="background:#e8e8e8;border-radius:3px;height:6px;overflow:hidden"><div style="background:var(--primary);height:6px;border-radius:3px;width:'+rate+'%;transition:width .5s"></div></div></div><span style="font-size:12px;font-weight:600;color:var(--primary)">'+rate+'%</span></div></td>';
+    html+='<td style="text-align:center">'+delayTag+'</td>';
+    html+='<td style="text-align:center">'+(hasUrl?'<a href="'+p.url+'" target="_blank" class="btn btn-sm" style="background:var(--primary-pale);color:var(--primary);border:1px solid var(--primary);text-decoration:none">📋 一张图</a>':'<span style="font-size:11px;color:var(--text-light)">—</span>')+'</td>';
+    html+='</tr>';
+  });
+  document.getElementById('proj-table-body').innerHTML=html;
+}
+
+function getProjectRate(p){
+  var total=0,done=0;
+  p.phases.forEach(function(ph){total+=ph.tasks;done+=ph.done});
+  return total>0?Math.round(done/total*100):0;
+}
+
+function getPhaseName(idx){
+  var names=['项目启动','需求调研','项目实施','预验收','正式验收'];
+  return idx>=1&&idx<=5?names[idx-1]:'未知';
+}
+
+function openProjectDetail(id){
+  var p=_projData.find(function(x){return x.id===id});
+  if(!p)return;
+  if(p.url){window.open(p.url,'_blank');return;}
+  // 无一张图的项目，显示弹窗概览
+  document.getElementById('proj-modal-title').textContent=p.name;
+  document.getElementById('proj-modal-sub').textContent=p.period+' · 负责人：'+p.lead+' · 合作单位：'+p.partner;
+  var rate=getProjectRate(p);
+  var totalTasks=0,totalDlv=0;
+  p.phases.forEach(function(ph){totalTasks+=ph.tasks;totalDlv+=ph.dlv});
+  var kpiHtml='<div style="flex:1;min-width:120px;background:var(--primary-pale);border-radius:8px;padding:12px;text-align:center"><div style="font-size:24px;font-weight:700;color:var(--primary)">'+totalTasks+'</div><div style="font-size:11px;color:var(--text-light)">总任务数</div></div>';
+  kpiHtml+='<div style="flex:1;min-width:120px;background:#E3F2FD;border-radius:8px;padding:12px;text-align:center"><div style="font-size:24px;font-weight:700;color:var(--info)">'+totalDlv+'</div><div style="font-size:11px;color:var(--text-light)">成果物</div></div>';
+  kpiHtml+='<div style="flex:1;min-width:120px;background:#FFF3E0;border-radius:8px;padding:12px;text-align:center"><div style="font-size:24px;font-weight:700;color:var(--warning)">'+rate+'%</div><div style="font-size:11px;color:var(--text-light)">完成率</div></div>';
+  kpiHtml+='<div style="flex:1;min-width:120px;background:'+(p.delayed?'#FFEBEE':'var(--primary-pale)')+';border-radius:8px;padding:12px;text-align:center"><div style="font-size:24px;font-weight:700;color:'+(p.delayed?'var(--danger)':'var(--primary)')+'">'+(p.delayed?'延期':'正常')+'</div><div style="font-size:11px;color:var(--text-light)">项目状态</div></div>';
+  document.getElementById('proj-modal-kpi').innerHTML=kpiHtml;
+  // 阶段进度条
+  var phaseColors=['#006B54','#1565C0','#E65100','#5E35B1','#C62828'];
+  var phaseHtml='';
+  p.phases.forEach(function(ph,i){
+    var phRate=ph.tasks>0?Math.round(ph.done/ph.tasks*100):0;
+    phaseHtml+='<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0">';
+    phaseHtml+='<div style="min-width:80px;font-weight:600;font-size:13px;color:'+phaseColors[i]+'">'+ph.name+'</div>';
+    phaseHtml+='<div style="min-width:100px;font-size:12px;color:var(--text-light)">'+ph.period+'</div>';
+    phaseHtml+='<div style="flex:1"><div style="background:#e8e8e8;border-radius:3px;height:8px;overflow:hidden"><div style="background:'+phaseColors[i]+';height:8px;border-radius:3px;width:'+phRate+'%"></div></div></div>';
+    phaseHtml+='<div style="min-width:80px;text-align:right;font-size:13px;font-weight:600;color:'+phaseColors[i]+'">'+phRate+'% <span style="font-size:11px;color:var(--text-light);font-weight:400">('+ph.done+'/'+ph.tasks+')</span></div>';
+    phaseHtml+='</div>';
+  });
+  document.getElementById('proj-phase-content').innerHTML=phaseHtml;
+  document.getElementById('proj-phase-nav').style.display='none';
+  document.getElementById('proj-gantt').style.display='none';
+  document.getElementById('proj-detail-modal').style.display='block';
+}
+
+function closeProjectDetail(){
+  document.getElementById('proj-detail-modal').style.display='none';
+  document.getElementById('proj-phase-nav').style.display='flex';
+  document.getElementById('proj-gantt').style.display='block';
+}
+
 function initOptimizeCharts() {
   const c = getChart('chart-opt-effect');
   if(c) c.setOption({
@@ -6969,6 +6829,8 @@ function init() {
   window.viewAnnoTask = viewAnnoTask;
   window.openAITool = openAITool;
   window.closeAITool = closeAITool;
+  window.openProjectDetail = openProjectDetail;
+  window.closeProjectDetail = closeProjectDetail;
   window.afHandleFile = afHandleFile;
   window.afHandleDrop = afHandleDrop;
   window.afAnalyze = afAnalyze;
@@ -6987,140 +6849,6 @@ function init() {
 } // end startApp
 
 startApp();
-
-
-// ========== 项目管理 ==========
-var pmProjects = [
-  { id:'P001', name:'智能客服V3.0全面升级', line:'应用迭代', status:'进行中', priority:'高', owner:'张明', team:['陈磊','赵琳'], start:'2026-03-01', end:'2026-09-30', progress:62, milestones:[
-    {name:'需求评审',date:'2026-03-15',status:'done'},
-    {name:'核心开发',date:'2026-05-30',status:'done'},
-    {name:'灰度测试',date:'2026-07-31',status:'current'},
-    {name:'全量上线',date:'2026-09-30',status:'future'}
-  ], desc:'95598智能客服V3.0全面升级，提升意图识别与多轮对话能力'},
-  { id:'P002', name:'数据标注平台2.0', line:'数据供给', status:'进行中', priority:'高', owner:'赵琳', team:['王丽','李娜'], start:'2026-04-01', end:'2026-08-31', progress:48, milestones:[
-    {name:'平台选型',date:'2026-04-15',status:'done'},
-    {name:'功能开发',date:'2026-06-30',status:'current'},
-    {name:'试运行',date:'2026-08-01',status:'future'},
-    {name:'正式上线',date:'2026-08-31',status:'future'}
-  ], desc:'统一数据标注平台建设，支持多类型标注与质检'},
-  { id:'P003', name:'知识库智能化改造', line:'知识更新', status:'进行中', priority:'中', owner:'刘洋', team:['杨帆'], start:'2026-05-01', end:'2026-10-31', progress:35, milestones:[
-    {name:'知识梳理',date:'2026-05-31',status:'done'},
-    {name:'智能采编',date:'2026-08-15',status:'current'},
-    {name:'效果验证',date:'2026-10-01',status:'future'},
-    {name:'全面切换',date:'2026-10-31',status:'future'}
-  ], desc:'知识库从手动维护向智能采编转变'},
-  { id:'P004', name:'大模型评测与调优', line:'模型调优', status:'进行中', priority:'高', owner:'陈磊', team:['赵琳','吴强'], start:'2026-01-01', end:'2026-12-31', progress:40, milestones:[
-    {name:'评测体系',date:'2026-02-28',status:'done'},
-    {name:'基线评测',date:'2026-04-30',status:'done'},
-    {name:'Prompt调优',date:'2026-08-31',status:'current'},
-    {name:'Skill优化',date:'2026-10-31',status:'future'},
-    {name:'全量部署',date:'2026-12-31',status:'future'}
-  ], desc:'大模型全链路评测与持续调优'},
-  { id:'P005', name:'智能风控体系2期', line:'风控兜底', status:'进行中', priority:'高', owner:'马超', team:['周磊','韩冰'], start:'2026-02-01', end:'2026-11-30', progress:55, milestones:[
-    {name:'策略设计',date:'2026-02-28',status:'done'},
-    {name:'规则引擎',date:'2026-06-30',status:'current'},
-    {name:'联调测试',date:'2026-09-30',status:'future'},
-    {name:'正式上线',date:'2026-11-30',status:'future'}
-  ], desc:'智能风控体系2期建设，覆盖合规与舆情'},
-  { id:'P006', name:'运营指标体系落地', line:'应用迭代', status:'已完成', priority:'中', owner:'刘洋', team:['张明'], start:'2026-01-01', end:'2026-04-30', progress:100, milestones:[
-    {name:'指标设计',date:'2026-02-15',status:'done'},
-    {name:'数据对接',date:'2026-03-31',status:'done'},
-    {name:'看板上线',date:'2026-04-30',status:'done'}
-  ], desc:'四阶五线运营指标体系设计与看板落地'},
-  { id:'P007', name:'跨渠道知识复用', line:'知识更新', status:'待启动', priority:'中', owner:'杨帆', team:['刘洋'], start:'2026-07-01', end:'2026-12-31', progress:0, milestones:[
-    {name:'复用规划',date:'2026-08-15',status:'future'},
-    {name:'渠道对接',date:'2026-10-31',status:'future'},
-    {name:'效果验证',date:'2026-12-31',status:'future'}
-  ], desc:'跨渠道知识共享与复用能力建设'},
-  { id:'P008', name:'会话抽检工具优化', line:'应用迭代', status:'已完成', priority:'中', owner:'张明', team:['陈磊'], start:'2026-04-01', end:'2026-06-02', progress:100, milestones:[
-    {name:'业务完善',date:'2026-05-15',status:'done'},
-    {name:'部署上线',date:'2026-05-30',status:'done'},
-    {name:'文档归档',date:'2026-06-02',status:'done'}
-  ], desc:'95598会话抽检自动填充工具开发与部署'}
-];
-
-var pmLineColors = {"应用迭代":"#006B54","数据供给":"#1976D2","知识更新":"#F9A825","模型调优":"#7B1FA2","风控兜底":"#C62828"};
-
-function pmRenderTable() {
-  var tbody = document.getElementById("pm-table-body");
-  if (!tbody) return;
-  var statusMap = {"进行中":"tag-blue","待启动":"tag-gray","已完成":"tag-green"};
-  var priorityColors = {"高":"#E65100","中":"#1976D2","低":"#9E9E9E"};
-  var html = "";
-  pmProjects.forEach(function(p, i) {
-    var lc = pmLineColors[p.line] || "#006B54";
-    var stCls = statusMap[p.status] || "tag-gray";
-    var pc = priorityColors[p.priority] || "#9E9E9E";
-    var overdue = p.status !== "已完成" && new Date(p.end) < new Date();
-    var progressColor = p.progress >= 80 ? "#2E7D32" : p.progress >= 40 ? "#1976D2" : "#E65100";
-    html += '<tr style="border-bottom:1px solid #edf2ef;cursor:pointer;transition:background .15s" onmouseover="this.style.background=\'#f0f5f2\'" onmouseout="this.style.background=\'\'" onclick="pmShowDetail(' + i + ')">';
-    html += '<td style="padding:10px 14px;text-align:center;color:#999;font-size:12px">' + (i+1) + '</td>';
-    html += '<td style="padding:10px 14px"><div style="display:flex;align-items:center;gap:8px"><span style="display:inline-block;width:4px;height:28px;border-radius:2px;background:' + lc + ';flex-shrink:0"></span><div><div style="font-weight:600;color:#333">' + p.name + '</div><div style="font-size:11px;color:#999;margin-top:2px">' + p.id + (overdue ? ' <span style="color:#C62828">⚠逾期</span>' : '') + '</div></div></div></td>';
-    html += '<td style="padding:10px 14px;text-align:center;color:#333">' + p.owner + '</td>';
-    html += '<td style="padding:10px 14px;text-align:center"><span style="display:inline-block;font-size:11px;padding:2px 10px;border-radius:4px;background:' + lc + '18;color:' + lc + ';font-weight:600">' + p.line + '</span></td>';
-    html += '<td style="padding:10px 14px;text-align:center"><span class="tag ' + stCls + '">' + p.status + '</span></td>';
-    html += '<td style="padding:10px 14px;text-align:center"><span style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:3px;background:' + pc + '18;color:' + pc + ';font-weight:600">' + p.priority + '</span></td>';
-    html += '<td style="padding:10px 14px;text-align:center;font-size:12px;color:#666">' + p.start.slice(5) + ' ~ ' + p.end.slice(5) + '</td>';
-    html += '<td style="padding:10px 14px;text-align:center"><div style="display:flex;align-items:center;gap:6px;justify-content:center"><div style="width:52px;height:6px;background:#E8E8E8;border-radius:3px;overflow:hidden"><div style="height:100%;width:' + p.progress + '%;background:' + progressColor + ';border-radius:3px"></div></div><span style="font-size:11px;font-weight:600;color:' + progressColor + '">' + p.progress + '%</span></div></td>';
-    html += '</tr>';
-  });
-  tbody.innerHTML = html;
-  // Update header stats
-  var countTag = document.getElementById("pm-count-tag");
-  if (countTag) countTag.textContent = "共" + pmProjects.length + "个项目";
-  var statusBar = document.getElementById("pm-status-bar");
-  if (statusBar) {
-    var running = pmProjects.filter(function(p){return p.status==="进行中"}).length;
-    var pending = pmProjects.filter(function(p){return p.status==="待启动"}).length;
-    var done = pmProjects.filter(function(p){return p.status==="已完成"}).length;
-    statusBar.innerHTML = '<div style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#1976D2"></span><span style="font-size:11px;color:#666">进行中 ' + running + '</span></div><div style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#9E9E9E"></span><span style="font-size:11px;color:#666">待启动 ' + pending + '</span></div><div style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#2E7D32"></span><span style="font-size:11px;color:#666">已完成 ' + done + '</span></div>';
-  }
-}
-
-function pmShowDetail(idx) {
-  var p = pmProjects[idx];
-  if (!p) return;
-  var msHtml = "";
-  p.milestones.forEach(function(m) {
-    var iconCls = m.status === "done" ? "done" : m.status === "current" ? "current" : "future";
-    var icon = m.status === "done" ? "✓" : m.status === "current" ? "●" : "○";
-    msHtml += '<div class="milestone-item ' + iconCls + '"><div class="milestone-icon ' + iconCls + '"><span>' + icon + '</span></div><div class="milestone-info"><div class="ms-title">' + m.name + '</div><div class="ms-date">' + m.date + '</div></div></div>';
-  });
-  var progressColor = p.progress >= 80 ? "#2E7D32" : p.progress >= 40 ? "#1976D2" : "#E65100";
-  var overdue = p.status !== "已完成" && new Date(p.end) < new Date() ? " ⚠逾期" : "";
-  var teamStr = p.team.length > 0 ? p.team.join("、") : "-";
-  var statusTag = {"进行中":"tag-blue","待启动":"tag-gray","已完成":"tag-green"}[p.status] || "";
-  var modal = document.createElement("div");
-  modal.className = "proj-detail-modal";
-  modal.onclick = function() { modal.remove(); };
-  modal.innerHTML = '<div class="proj-detail-content" onclick="event.stopPropagation()"><div class="proj-detail-header"><div><div style="font-size:18px;font-weight:700">' + p.name + overdue + '</div><div style="font-size:12px;color:#666;margin-top:4px">' + p.id + " · " + p.line + " · " + p.owner + '</div></div><button class="btn btn-outline btn-sm" id="pm-close-btn">✕ 关闭</button></div><div class="proj-detail-body"><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px"><div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:#666">状态</div><div style="margin-top:4px"><span class="tag ' + statusTag + '">' + p.status + '</span></div></div><div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:#666">优先级</div><div style="margin-top:4px;font-weight:600">' + p.priority + '</div></div><div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:#666">时间</div><div style="margin-top:4px;font-size:13px">' + p.start.slice(5) + " ~ " + p.end.slice(5) + '</div></div><div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px"><div style="font-size:11px;color:#666">团队</div><div style="margin-top:4px;font-size:13px">' + teamStr + '</div></div></div><div style="margin-bottom:20px"><div style="font-size:13px;font-weight:600;margin-bottom:8px">项目描述</div><div style="font-size:13px;color:#666;line-height:1.6">' + p.desc + '</div></div><div style="margin-bottom:20px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:13px;font-weight:600">项目进度</span><span style="font-size:14px;font-weight:700;color:' + progressColor + '">' + p.progress + '%</span></div><div style="height:10px;background:#E8E8E8;border-radius:5px;overflow:hidden"><div style="height:100%;width:' + p.progress + '%;background:' + progressColor + ';border-radius:5px"></div></div></div><div><div style="font-size:13px;font-weight:600;margin-bottom:12px">里程碑</div>' + msHtml + '</div></div></div>';
-  document.body.appendChild(modal);
-  document.getElementById("pm-close-btn").onclick = function() { modal.remove(); };
-}
-
-// Init project page on navigation
-(function() {
-  var origIPC = initPageCharts;
-  initPageCharts = function(page) {
-    origIPC(page);
-    if (page === "project") { pmRenderTable(); }
-  };
-  var projSection = document.getElementById("page-project");
-  if (projSection) {
-    var observer = new MutationObserver(function(mutations) {
-      mutations.forEach(function(m) {
-        if (m.type === "attributes" && m.attributeName === "class" && projSection.classList.contains("active")) {
-          pmRenderTable();
-        }
-      });
-    });
-    observer.observe(projSection, { attributes: true, attributeFilter: ["class"] });
-  }
-})();
-
-
 </script>
 </body>
 </html>
-<!-- build: Wed Jun  3 06:51:01 CST 2026 -->
-
