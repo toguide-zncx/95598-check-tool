@@ -1597,9 +1597,15 @@ a { text-decoration:none; color:inherit; }
         <div class="kpi-row" id="proj-kpi-row"></div>
         <!-- 项目列表 -->
         <div class="card">
-          <div class="card-title"><span class="dot"></span>项目列表<span style="margin-left:auto;font-size:12px;color:var(--text-light)" id="proj-sync-time"></span></div>
+          <div class="card-title" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="dot"></span>项目列表
+            <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+              <span style="font-size:12px;color:var(--text-light)" id="proj-sync-time"></span>
+              <input id="proj-search" type="text" placeholder="搜索项目名称/负责人..." oninput="filterProjectTable()" style="padding:5px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;width:180px;outline:none">
+              <button onclick="openProjectForm()" style="background:var(--primary);color:#fff;border:none;padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap">＋ 新增项目</button>
+            </div>
+          </div>
           <table class="data-table" id="proj-table">
-            <thead><tr><th style="width:36px">#</th><th>项目名称</th><th>项目年份</th><th>项目负责人</th><th>项目成员</th><th>当前进展</th><th>是否延期</th><th>操作</th></tr></thead>
+            <thead><tr><th style="width:36px">#</th><th>项目名称</th><th style="width:70px">项目年份</th><th>项目负责人</th><th>项目成员</th><th>当前进展</th><th style="width:65px">是否延期</th><th style="width:160px">操作</th></tr></thead>
             <tbody id="proj-table-body"></tbody>
           </table>
         </div>
@@ -1621,6 +1627,47 @@ a { text-decoration:none; color:inherit; }
               <div style="margin-top:18px">
                 <div class="card-title"><span class="dot"></span>项目总体时间线</div>
                 <div id="proj-gantt" style="overflow-x:auto"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 新增/编辑项目弹窗 -->
+        <div id="proj-form-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:1001;overflow-y:auto">
+          <div style="max-width:640px;margin:60px auto;background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.2);overflow:hidden">
+            <div style="background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:16px 24px;display:flex;justify-content:space-between;align-items:center">
+              <h2 style="font-size:16px;font-weight:700" id="proj-form-title">新增项目</h2>
+              <button onclick="closeProjectForm()" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px">✕</button>
+            </div>
+            <div style="padding:20px 24px">
+              <input type="hidden" id="pf-id">
+              <div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:4px">项目名称 <span style="color:var(--danger)">*</span></label><input id="pf-name" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;box-sizing:border-box" placeholder="请输入项目名称"></div>
+              <div style="display:flex;gap:12px;margin-bottom:14px">
+                <div style="flex:1"><label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:4px">项目年份 <span style="color:var(--danger)">*</span></label><input id="pf-year" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;box-sizing:border-box" placeholder="如 2026"></div>
+                <div style="flex:1"><label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:4px">项目负责人 <span style="color:var(--danger)">*</span></label><input id="pf-lead" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;box-sizing:border-box" placeholder="请输入负责人"></div>
+              </div>
+              <div style="display:flex;gap:12px;margin-bottom:14px">
+                <div style="flex:1"><label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:4px">项目成员</label><input id="pf-members" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;box-sizing:border-box" placeholder="多人用、分隔"></div>
+                <div style="flex:1"><label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:4px">合作单位</label><input id="pf-partner" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;box-sizing:border-box" placeholder="如 国电南瑞"></div>
+              </div>
+              <div style="display:flex;gap:12px;margin-bottom:14px">
+                <div style="flex:1"><label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:4px">项目周期</label><input id="pf-period" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;box-sizing:border-box" placeholder="如 2026.5-2027.1"></div>
+                <div style="flex:1"><label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:4px">一张图URL</label><input id="pf-url" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;box-sizing:border-box" placeholder="有则填，无则留空"></div>
+              </div>
+              <div style="display:flex;gap:12px;margin-bottom:14px">
+                <div style="flex:1"><label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:4px">当前阶段</label>
+                  <select id="pf-phase" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;box-sizing:border-box">
+                    <option value="1">项目启动</option><option value="2">需求调研</option><option value="3">项目实施</option><option value="4">预验收</option><option value="5">正式验收</option>
+                  </select>
+                </div>
+                <div style="flex:1"><label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:4px">是否延期</label>
+                  <select id="pf-delayed" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;box-sizing:border-box">
+                    <option value="0">正常</option><option value="1">延期</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px">
+                <button onclick="closeProjectForm()" style="padding:7px 20px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:13px">取消</button>
+                <button onclick="saveProject()" style="padding:7px 20px;border:none;border-radius:6px;background:var(--primary);color:#fff;cursor:pointer;font-size:13px;font-weight:600">保存</button>
               </div>
             </div>
           </div>
@@ -6657,8 +6704,16 @@ function renderProjectKPI(){
 }
 
 function renderProjectTable(){
+  var kw=(document.getElementById('proj-search').value||'').trim().toLowerCase();
+  var list=_projData.filter(function(p){
+    if(!kw)return true;
+    return p.name.toLowerCase().indexOf(kw)>-1||p.lead.toLowerCase().indexOf(kw)>-1||(p.members||'').toLowerCase().indexOf(kw)>-1;
+  });
   var html='';
-  _projData.forEach(function(p,i){
+  if(list.length===0){
+    html='<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light)">暂无匹配项目</td></tr>';
+  }else{
+  list.forEach(function(p,i){
     var rate=getProjectRate(p);
     var phaseName=getPhaseName(p.phase);
     var delayTag=p.delayed?'<span class="tag tag-red">延期</span>':'<span class="tag tag-green">正常</span>';
@@ -6671,10 +6726,106 @@ function renderProjectTable(){
     html+='<td style="font-size:12px">'+p.members+'</td>';
     html+='<td><div style="display:flex;align-items:center;gap:8px"><span class="tag tag-primary" style="min-width:60px;text-align:center">'+phaseName+'</span><div style="flex:1;min-width:80px"><div style="background:#e8e8e8;border-radius:3px;height:6px;overflow:hidden"><div style="background:var(--primary);height:6px;border-radius:3px;width:'+rate+'%;transition:width .5s"></div></div></div><span style="font-size:12px;font-weight:600;color:var(--primary)">'+rate+'%</span></div></td>';
     html+='<td style="text-align:center">'+delayTag+'</td>';
-    html+='<td style="text-align:center">'+(hasUrl?'<a href="'+p.url+'" target="_blank" class="btn btn-sm" style="background:var(--primary-pale);color:var(--primary);border:1px solid var(--primary);text-decoration:none">📋 一张图</a>':'<span style="font-size:11px;color:var(--text-light)">—</span>')+'</td>';
+    html+='<td style="text-align:center;white-space:nowrap">';
+    if(hasUrl)html+='<a href="'+p.url+'" target="_blank" class="btn btn-sm" style="background:var(--primary-pale);color:var(--primary);border:1px solid var(--primary);text-decoration:none;padding:2px 8px;font-size:11px;margin-right:4px">📋一张图</a>';
+    html+='<button onclick="openProjectForm('+p.id+')" style="background:none;border:1px solid var(--border);border-radius:4px;padding:2px 8px;cursor:pointer;font-size:11px;color:var(--primary);margin-right:4px">编辑</button>';
+    html+='<button onclick="deleteProject('+p.id+')" style="background:none;border:1px solid #ef5350;border-radius:4px;padding:2px 8px;cursor:pointer;font-size:11px;color:#ef5350">删除</button>';
+    html+='</td>';
     html+='</tr>';
   });
+  }
   document.getElementById('proj-table-body').innerHTML=html;
+}
+
+function filterProjectTable(){renderProjectTable();}
+
+function openProjectForm(id){
+  var modal=document.getElementById('proj-form-modal');
+  document.getElementById('pf-id').value='';
+  document.getElementById('pf-name').value='';
+  document.getElementById('pf-year').value=new Date().getFullYear().toString();
+  document.getElementById('pf-lead').value='';
+  document.getElementById('pf-members').value='';
+  document.getElementById('pf-partner').value='';
+  document.getElementById('pf-period').value='';
+  document.getElementById('pf-url').value='';
+  document.getElementById('pf-phase').value='1';
+  document.getElementById('pf-delayed').value='0';
+  if(id){
+    var p=_projData.find(function(x){return x.id===id});
+    if(!p)return;
+    document.getElementById('proj-form-title').textContent='编辑项目';
+    document.getElementById('pf-id').value=p.id;
+    document.getElementById('pf-name').value=p.name;
+    document.getElementById('pf-year').value=p.year;
+    document.getElementById('pf-lead').value=p.lead;
+    document.getElementById('pf-members').value=p.members;
+    document.getElementById('pf-partner').value=p.partner;
+    document.getElementById('pf-period').value=p.period;
+    document.getElementById('pf-url').value=p.url;
+    document.getElementById('pf-phase').value=p.phase;
+    document.getElementById('pf-delayed').value=p.delayed?'1':'0';
+  }else{
+    document.getElementById('proj-form-title').textContent='新增项目';
+  }
+  modal.style.display='block';
+}
+
+function closeProjectForm(){
+  document.getElementById('proj-form-modal').style.display='none';
+}
+
+function saveProject(){
+  var name=document.getElementById('pf-name').value.trim();
+  var year=document.getElementById('pf-year').value.trim();
+  var lead=document.getElementById('pf-lead').value.trim();
+  if(!name){showToast('请输入项目名称');return;}
+  if(!year){showToast('请输入项目年份');return;}
+  if(!lead){showToast('请输入项目负责人');return;}
+  var editId=document.getElementById('pf-id').value;
+  var obj={
+    name:name,
+    year:year,
+    lead:lead,
+    members:document.getElementById('pf-members').value.trim(),
+    partner:document.getElementById('pf-partner').value.trim(),
+    period:document.getElementById('pf-period').value.trim(),
+    url:document.getElementById('pf-url').value.trim(),
+    phase:parseInt(document.getElementById('pf-phase').value),
+    delayed:document.getElementById('pf-delayed').value==='1',
+    phases:[
+      {name:'项目启动',period:'',tasks:0,done:0,dlv:0},
+      {name:'需求调研',period:'',tasks:0,done:0,dlv:0},
+      {name:'项目实施',period:'',tasks:0,done:0,dlv:0},
+      {name:'预验收',period:'',tasks:0,done:0,dlv:0},
+      {name:'正式验收',period:'',tasks:0,done:0,dlv:0}
+    ]
+  };
+  if(editId){
+    var p=_projData.find(function(x){return x.id===parseInt(editId)});
+    if(p){
+      obj.id=p.id;obj.phases=p.phases;
+      Object.assign(p,obj);
+    }
+    showToast('项目已更新');
+  }else{
+    obj.id=_projData.length>0?Math.max.apply(null,_projData.map(function(x){return x.id}))+1:1;
+    _projData.push(obj);
+    showToast('项目已添加');
+  }
+  closeProjectForm();
+  renderProjectKPI();
+  renderProjectTable();
+}
+
+function deleteProject(id){
+  var p=_projData.find(function(x){return x.id===id});
+  if(!p)return;
+  if(!confirm('确定删除项目「'+p.name+'」？'))return;
+  _projData=_projData.filter(function(x){return x.id!==id});
+  renderProjectKPI();
+  renderProjectTable();
+  showToast('项目已删除');
 }
 
 function getProjectRate(p){
@@ -6832,6 +6983,11 @@ function init() {
   window.closeAITool = closeAITool;
   window.openProjectDetail = openProjectDetail;
   window.closeProjectDetail = closeProjectDetail;
+  window.openProjectForm = openProjectForm;
+  window.closeProjectForm = closeProjectForm;
+  window.saveProject = saveProject;
+  window.deleteProject = deleteProject;
+  window.filterProjectTable = filterProjectTable;
   window.afHandleFile = afHandleFile;
   window.afHandleDrop = afHandleDrop;
   window.afAnalyze = afAnalyze;
