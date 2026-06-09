@@ -1665,7 +1665,7 @@ a { text-decoration:none; color:inherit; }
                   </select>
                 </div>
               </div>
-              <div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:4px">当前进度</label><textarea id="pf-progress" rows="3" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;box-sizing:border-box;resize:vertical" placeholder="描述项目当前进度情况，如：需求调研阶段，已完成2/7项任务"></textarea></div>
+              <div style="margin-bottom:14px"><label style="font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:4px">当前进度</label><div id="pf-progress-bar" style="display:flex;align-items:center;gap:8px"><div style="flex:1"><div style="background:#e8e8e8;border-radius:3px;height:8px;overflow:hidden"><div id="pf-progress-fill" style="background:var(--primary);height:8px;border-radius:3px;width:0%;transition:width .5s"></div></div></div><span id="pf-progress-text" style="font-size:13px;font-weight:600;color:var(--primary)">0%</span></div></div>
               <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px">
                 <button id="pf-delete-btn" onclick="deleteProjectFromForm()" style="padding:7px 16px;border:1px solid #ef5350;border-radius:6px;background:#fff;cursor:pointer;font-size:13px;color:#ef5350;display:none">删除项目</button>
                 <div style="display:flex;gap:10px;margin-left:auto">
@@ -6759,7 +6759,8 @@ function openProjectForm(id){
   document.getElementById('pf-url').value='';
   document.getElementById('pf-phase').value='1';
   document.getElementById('pf-delayed').value='0';
-  document.getElementById('pf-progress').value='';
+  document.getElementById('pf-progress-fill').style.width='0%';
+  document.getElementById('pf-progress-text').textContent='0%';
   if(id){
     var p=_projData.find(function(x){return x.id===id});
     if(!p)return;
@@ -6774,7 +6775,9 @@ function openProjectForm(id){
     document.getElementById('pf-url').value=p.url;
     document.getElementById('pf-phase').value=p.phase;
     document.getElementById('pf-delayed').value=p.delayed?'1':'0';
-    document.getElementById('pf-progress').value=p.progress||'';
+    var pRate=getProjectRate(p);
+    document.getElementById('pf-progress-fill').style.width=pRate+'%';
+    document.getElementById('pf-progress-text').textContent=pRate+'%';
     delBtn.style.display='inline-block';
   }else{
     document.getElementById('proj-form-title').textContent='新增项目';
@@ -6805,7 +6808,6 @@ function saveProject(){
     url:document.getElementById('pf-url').value.trim(),
     phase:parseInt(document.getElementById('pf-phase').value),
     delayed:document.getElementById('pf-delayed').value==='1',
-    progress:document.getElementById('pf-progress').value.trim(),
     phases:[
       {name:'项目启动',period:'',tasks:0,done:0,dlv:0},
       {name:'需求调研',period:'',tasks:0,done:0,dlv:0},
