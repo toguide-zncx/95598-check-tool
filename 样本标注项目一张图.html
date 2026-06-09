@@ -1053,73 +1053,326 @@ function renderAnnotateStep(c){
 }
 
 
+// ========== 任务分配指派弹窗相关 ==========
+var _asTaskIds=[]; // 当前待分配的任务ID列表
+var _asSelectedPersons=[]; // 已选中的人员名列表
+var _asGroupCollapsed={}; // 组折叠状态
+
+// 人员分组配置
+var _asPersonGroups=[
+  {name:'标注组',members:['李琳','高金萱']},
+  {name:'审核组',members:['梁爽']}
+];
+
+// 计算人员负载信息
+function getPersonWorkload(personName){
+  var pending=0,annotating=0,completed=0;
+  _tmData.forEach(function(t){
+    if(t.assignments&&t.assignments.length){
+      var a=t.assignments.find(function(x){return x.person===personName});
+      if(a){
+        // 标注中 = 已分配-已完成
+        var inProgress=Math.max(0,a.qty-(t.completed||0));
+        annotating+=inProgress;
+        completed+=(t.completed||0);
+        pending+=Math.max(0,a.qty-t.annotated);
+      }
+    }
+  });
+  var total=pending+annotating+completed;
+  var loadPct=total>0?Math.round((annotating/total)*100):0;
+  return {pending:pending,annotating:annotating,completed:completed,total:total,load:loadPct};
+}
+
+// 打开指派弹窗
+function openAssignModal(taskIds){
+  _asTaskIds=Array.isArray(taskIds)?taskIds:[taskIds];
+  _asSelectedPersons=[];
+  _asGroupCollapsed={};
+  
+  // 渲染任务标签
+  var tagsHtml=_asTaskIds.map(function(id){
+    var t=_tmData.find(function(x){return x.id===id});
+    return '<span class="as-task-tag">'+(t?t.name:'#'+id)+'</span>';
+  }).join('');
+  document.getElementById('asTaskTags').innerHTML=tagsHtml||'<span class="as-task-tag" style="background:#f5f5f5;color:#999">暂无待分配任务</span>';
+  
+  renderAssignPersonPool();
+  renderAssignSelectedPersons();
+  updateAssignSelectedCount();
+  document.getElementById('asModal').classList.add('show');
+}
+
+// 关闭指派弹窗
+function closeAssignModal(){
+  document.getElementById('asModal').classList.remove('show');
+  _asTaskIds=[];
+  _asSelectedPersons=[];
+}
+
+// 更新已选人数显示
+function updateAssignSelectedCount(){
+  var el=document.getElementById('asSelectedCount');
+  if(el)el.textContent=_asSelectedPersons.length+'人已指派';
+}
+
+// 渲染人员卡片（通用）
+function buildAssignPersonCard(name,showRemove){
+  var wl=getPersonWorkload(name);
+  var loadColor=wl.load>75?'#C62828':wl.load>50?'#E65100':'#2E7D32';
+  var loadBg=wl.load>75?'#FFEBEE':wl.load>50?'#FFF3E0':'#E8F5E9';
+  var isSelected=_asSelectedPersons.includes(name);
+  var removeBtn=showRemove?'<button class="as-remove-btn" onclick="event.stopPropagation();removePersonFromAssign(\''+name+'\')" title="移除">✕</button>':'';
+  var cardClass=isSelected&&!showRemove?'as-person-card checked':'as-person-card';
+  var checkInput=!showRemove?'<input type="checkbox" '+(isSelected?'checked':'')+' onclick="event.stopPropagation();togglePersonCheck(\''+name+'\',this.checked)" style="accent-color:var(--g2);width:14px;height:14px;cursor:pointer">':'';
+  return '<div class="'+cardClass+'" data-person="'+name+'" onclick="'+(showRemove?'':'togglePersonCheck(\''+name+'\',!this.querySelector(\'input\').checked)')+'">'+
+    '<div class="as-person-check">'+checkInput+'</div>'+
+    '<div class="as-person-avatar" style="background:'+loadBg+';color:'+loadColor+'">'+name.charAt(0)+'</div>'+
+    '<div class="as-person-info">'+
+      '<div class="as-person-name">'+name+'</div>'+
+      '<div class="as-person-data">待标注'+wl.pending+' · 进行中'+wl.annotating+' · 已归库'+wl.completed+'</div>'+
+    '</div>'+
+    '<div class="as-person-load">'+
+      '<div class="as-load-pct" style="color:'+loadColor+'">'+wl.load+'%</div>'+
+      '<div class="as-load-label">负载</div>'+
+    '</div>'+
+    removeBtn+
+  '</div>';
+}
+
+// 渲染左侧待选人员池
+function renderAssignPersonPool(){
+  var pool=document.getElementById('asPersonPool');
+  var html='';
+  _asPersonGroups.forEach(function(group){
+    var isCollapsed=_asGroupCollapsed[group.name];
+    var members=group.members;
+    // 计算组内已选人数
+    var selectedInGroup=members.filter(function(m){return _asSelectedPersons.includes(m)}).length;
+    var allSelected=selectedInGroup===members.length;
+    html+='<div class="as-pool-group">'+
+      '<div class="as-group-header" onclick="toggleAssignGroup(\''+group.name+'\')">'+
+        '<span class="as-group-arrow '+(isCollapsed?'collapsed':'expanded')+'">▶</span>'+
+        '<span class="as-group-name">'+group.name+'</span>'+
+        '<span class="as-group-count">('+selectedInGroup+'/'+members.length+')</span>'+
+        '<label class="as-group-check" onclick="event.stopPropagation()">'+
+          '<input type="checkbox" '+(allSelected?'checked':'')+' onclick="toggleGroupAllAssign(\''+group.name+'\')">'+
+          '全选'+
+        '</label>'+
+      '</div>';
+    if(!isCollapsed){
+      html+='<div class="as-group-members">';
+      members.forEach(function(name){
+        html+=buildAssignPersonCard(name,false);
+      });
+      html+='</div>';
+    }
+    html+='</div>';
+  });
+  pool.innerHTML=html||'<div style="text-align:center;padding:30px;color:#999;font-size:11px">暂无待分配人员</div>';
+}
+
+// 渲染右侧已选人员
+function renderAssignSelectedPersons(){
+  var area=document.getElementById('asPersonSelected');
+  if(_asSelectedPersons.length===0){
+    area.innerHTML='<div class="as-selected-empty">从左侧勾选人员到此处<br>支持批量指派多人</div>';
+  }else{
+    area.innerHTML=_asSelectedPersons.map(function(name){
+      return '<div class="as-selected-card">'+buildAssignPersonCard(name,true)+'</div>';
+    }).join('');
+  }
+}
+
+// 切换组折叠
+function toggleAssignGroup(groupName){
+  _asGroupCollapsed[groupName]=!_asGroupCollapsed[groupName];
+  renderAssignPersonPool();
+}
+
+// 切换人员勾选
+function togglePersonCheck(name,checked){
+  if(checked){
+    if(!_asSelectedPersons.includes(name)){
+      _asSelectedPersons.push(name);
+    }
+  }else{
+    _asSelectedPersons=_asSelectedPersons.filter(function(n){return n!==name});
+  }
+  renderAssignPersonPool();
+  renderAssignSelectedPersons();
+  updateAssignSelectedCount();
+}
+
+// 组全选/取消全选
+function toggleGroupAllAssign(groupName){
+  var group=_asPersonGroups.find(function(g){return g.name===groupName});
+  if(!group)return;
+  var allSelected=group.members.every(function(m){return _asSelectedPersons.includes(m)});
+  if(allSelected){
+    // 取消全选
+    group.members.forEach(function(m){
+      _asSelectedPersons=_asSelectedPersons.filter(function(n){return n!==m});
+    });
+  }else{
+    // 全选
+    group.members.forEach(function(m){
+      if(!_asSelectedPersons.includes(m)){
+        _asSelectedPersons.push(m);
+      }
+    });
+  }
+  renderAssignPersonPool();
+  renderAssignSelectedPersons();
+  updateAssignSelectedCount();
+}
+
+// 移除已选人员
+function removePersonFromAssign(name){
+  _asSelectedPersons=_asSelectedPersons.filter(function(n){return n!==name});
+  renderAssignPersonPool();
+  renderAssignSelectedPersons();
+  updateAssignSelectedCount();
+}
+
+// 清空已选
+function clearAllAssignSelected(){
+  _asSelectedPersons=[];
+  renderAssignPersonPool();
+  renderAssignSelectedPersons();
+  updateAssignSelectedCount();
+}
+
+// 批量指派（将左侧所有勾选的人移到右侧）
+function batchAssignPersons(){
+  var checked=document.querySelectorAll('.as-person-pool input[type="checkbox"]:checked');
+  if(checked.length===0){
+    showToast('请先勾选要指派的人员','error');
+    return;
+  }
+  checked.forEach(function(cb){
+    var name=cb.closest('.as-person-card').getAttribute('data-person');
+    if(!_asSelectedPersons.includes(name)){
+      _asSelectedPersons.push(name);
+    }
+  });
+  renderAssignPersonPool();
+  renderAssignSelectedPersons();
+  updateAssignSelectedCount();
+}
+
+// 确认分配
+function confirmAssign(){
+  if(_asSelectedPersons.length===0){
+    showToast('请至少指派一名人员','error');
+    return;
+  }
+  var taskCount=_asTaskIds.length;
+  if(taskCount===0){
+    showToast('没有待分配的任务','error');
+    return;
+  }
+  var personCount=_asSelectedPersons.length;
+  // 计算每人分配数量（平均分配，剩余优先给前面的）
+  var perPerson=Math.floor(taskCount/personCount);
+  var remainder=taskCount%personCount;
+  var idx=0;
+  _asSelectedPersons.forEach(function(name,i){
+    var count=perPerson+(i<remainder?1:0);
+    for(var j=0;j<count&&idx<_asTaskIds.length;j++,idx++){
+      var tId=_asTaskIds[idx];
+      var t=_tmData.find(function(x){return x.id===tId});
+      if(t){
+        if(!t.assignments)t.assignments=[];
+        var existing=t.assignments.find(function(a){return a.person===name});
+        if(existing){
+          existing.qty+=Math.ceil(t.total/personCount);
+        }else{
+          t.assignments.push({person:name,qty:Math.ceil(t.total/personCount)});
+        }
+        t.assigned=t.assignments.reduce(function(s,a){return s+a.qty},0);
+        // 更新任务状态为分配中
+        if(t.pipeStep===2)t.pipeStep=3;
+        if(t.status==='pending')t.status='annotating';
+      }
+    }
+  });
+  closeAssignModal();
+  // 刷新列表
+  renderTaskList();
+  var names=_asSelectedPersons.join('、');
+  showToast('已成功将 '+taskCount+' 个任务分配给 '+names,'success');
+}
+
+// 重写的任务分配步骤视图
 function renderTaskAssignStep(c){
   var s=getSceneCtx();
-  var people=['李琳','高金萱','梁爽'];
-  // Tasks that have reached pipeStep >= 3 (ready for assignment or already assigned)
-  var assignTasks=_tmData.filter(function(t){return t.pipeStep>=2});
-  var pendingTasks=_tmData.filter(function(t){return t.pipeStep===2||t.pipeStep===3});
-
-  // Per-person summary
-  var personSummary=people.map(function(p){
-    var tasks=assignTasks.filter(function(t){return t.assignments&&t.assignments.some(function(a){return a.person===p})});
-    var totalQty=tasks.reduce(function(s,t){var a=t.assignments.find(function(x){return x.person===p});return s+(a?a.qty:0)},0);
-    return {person:p,taskCount:tasks.length,totalQty:totalQty};
+  // 待分配任务（pipeStep>=2 预处理完成）
+  var pendingTasks=_tmData.filter(function(t){return t.pipeStep>=2&&t.total>0});
+  
+  // 人员统计卡片
+  var personStatsHtml='';
+  _asPersonGroups.forEach(function(group){
+    group.members.forEach(function(name){
+      var wl=getPersonWorkload(name);
+      var assignedTasks=pendingTasks.filter(function(t){
+        return t.assignments&&t.assignments.some(function(a){return a.person===name&&a.qty>0});
+      }).length;
+      personStatsHtml+='<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;background:#fafafa;border:1px solid #eee;min-width:140px">'+
+        '<div style="width:26px;height:26px;border-radius:50%;background:var(--g8);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--g2)">'+name.charAt(0)+'</div>'+
+        '<div style="flex:1">'+
+          '<div style="font-size:10px;font-weight:600;color:var(--text)">'+name+'</div>'+
+          '<div style="font-size:9px;color:var(--text3)">'+assignedTasks+'个任务 · 负载'+wl.load+'%</div>'+
+        '</div>'+
+      '</div>';
+    });
   });
-
-  // Task rows with assignment inputs
+  
+  // 任务表格
   var taskRows=pendingTasks.map(function(t){
     var ps=t.pipeStep||0;
-    var assignedTotal=t.assignments?t.assignments.reduce(function(s,a){return s+a.qty},0):0;
-    var remain=t.total-assignedTotal;
-    var assignCells=people.map(function(p){
-      var existing=t.assignments?t.assignments.find(function(a){return a.person===p}):null;
-      var val=existing?existing.qty:0;
-      return '<td style="padding:4px 6px"><input type="number" min="0" max="'+t.total+'" value="'+val+'" style="width:48px;padding:3px 5px;border:1px solid #ddd;border-radius:4px;font-size:9px;text-align:center" data-task="'+t.id+'" data-person="'+p+'" onchange="updateTaskAssign(this)"></td>';
-    }).join('');
+    var assigneeStr=t.assignments&&t.assignments.length>0?
+      t.assignments.filter(function(a){return a.qty>0}).map(function(a){return a.person+'('+a.qty+')'}).join('、'):
+      '<span style="color:#999">未分配</span>';
     return '<tr>'+
-      '<td style="font-weight:600;color:var(--text3)">'+t.id+'</td>'+
+      '<td style="font-weight:600;color:var(--text3);font-size:9.5px">'+t.id+'</td>'+
       '<td class="td-name" title="'+t.name+'">'+t.name+'</td>'+
-      '<td style="font-size:9px;font-weight:600">'+(t.total>0?t.total:'待导入')+'</td>'+
-      assignCells+
-      '<td class="td-assign"><b>'+assignedTotal+'</b>/'+remain+'</td>'+
+      '<td style="font-size:9.5px;font-weight:600">'+(t.total>0?t.total:'待导入')+'</td>'+
+      '<td style="font-size:9.5px">'+assigneeStr+'</td>'+
       '<td class="td-step">'+_pipeStepIcons[ps]+' '+_pipeStepShort[ps]+'</td>'+
+      '<td class="td-acts"><button class="btn-adv" onclick="openAssignModal(['+t.id+'])">指派</button></td>'+
     '</tr>';
   }).join('');
-
-  // Person summary cards
-  var personCards=personSummary.map(function(ps){
-    return '<div style="display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:6px;background:#fafafa;border:1px solid #eee">'+
-      '<div style="width:24px;height:24px;border-radius:50%;background:var(--g8);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--g2)">'+ps.person.charAt(0)+'</div>'+
-      '<div style="flex:1"><div style="font-size:10px;font-weight:600;color:var(--text)">'+ps.person+'</div><div style="font-size:9px;color:var(--text3)">'+ps.taskCount+'个任务 · '+ps.totalQty+'条</div></div>'+
-    '</div>';
-  }).join('');
-
+  
   c.innerHTML=
-    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">'+
-      '<div style="font-size:11px;font-weight:600;color:var(--text)">👥 任务分配</div>'+
-      '<div style="font-size:9px;color:var(--text3)">'+assignTasks.length+'个任务</div>'+
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">'+
+      '<div style="font-size:12px;font-weight:600;color:var(--text)">👥 任务分配</div>'+
+      '<div style="font-size:10px;color:var(--text3)">'+pendingTasks.length+'个任务待分配</div>'+
     '</div>'+
-    '<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">'+personCards+'</div>'+
-    '<div class="tm-table-wrap"><table class="tm-table"><thead><tr><th>#</th><th>任务名称</th><th>总量</th>'+people.map(function(p){return '<th>'+p+'</th>'}).join('')+'<th>已分配/待分配</th><th>步骤</th></tr></thead><tbody>'+taskRows+'</tbody></table></div>'+
-    '<div style="font-size:9px;color:var(--text3);margin-top:6px">💡 输入每人分配数量，自动汇总。分配完成后点击"推进"进入标注环节。</div>';
+    '<div style="margin-bottom:12px">'+
+      '<div style="font-size:10px;color:var(--text3);margin-bottom:6px;font-weight:500">人员负载</div>'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap">'+personStatsHtml+'</div>'+
+    '</div>'+
+    '<button class="tm-add-btn" onclick="openAssignModal(['+pendingTasks.map(function(t){return t.id}).join(',')+'])" style="margin-bottom:10px">📋 批量指派任务</button>'+
+    '<div class="tm-table-wrap">'+
+      '<table class="tm-table">'+
+        '<thead><tr><th>#</th><th>任务名称</th><th>任务量</th><th>已分配</th><th>当前步骤</th><th>操作</th></tr></thead>'+
+        '<tbody>'+taskRows+'</tbody>'+
+      '</table>'+
+    '</div>'+
+    '<div class="as-hint">💡 点击"指派"按钮可单独为任务分配人员，点击"批量指派"可一次性分配多个任务</div>';
 }
 
-function updateTaskAssign(el){
-  var taskId=parseInt(el.getAttribute('data-task'));
-  var person=el.getAttribute('data-person');
-  var qty=parseInt(el.value)||0;
-  var t=_tmData.find(function(x){return x.id===taskId});
-  if(!t)return;
-  if(!t.assignments)t.assignments=[];
-  var existing=t.assignments.find(function(a){return a.person===person});
-  if(existing){existing.qty=qty}else{t.assignments.push({person:person,qty:qty})}
-  // Remove zero entries
-  t.assignments=t.assignments.filter(function(a){return a.qty>0});
-  // Recalc assigned total
-  t.assigned=t.assignments.reduce(function(s,a){return s+a.qty},0);
-  renderTaskAssignStep(document.getElementById('stepContainer'));
-}
+// 暴露函数到全局
+window.openAssignModal=openAssignModal;
+window.closeAssignModal=closeAssignModal;
+window.toggleAssignGroup=toggleAssignGroup;
+window.togglePersonCheck=togglePersonCheck;
+window.toggleGroupAllAssign=toggleGroupAllAssign;
+window.removePersonFromAssign=removePersonFromAssign;
+window.clearAllAssignSelected=clearAllAssignSelected;
+window.batchAssignPersons=batchAssignPersons;
+window.confirmAssign=confirmAssign;
 
 function renderReviewStep(c){
   var s=getSceneCtx();
@@ -1932,6 +2185,43 @@ document.addEventListener('DOMContentLoaded',function(){renderTaskList()});
 <div class="tm-field"><label>业务场景</label><select id="tmNewScene"><option value="meter">⚡ 电能表识别</option><option value="bill">💰 电费记录</option><option value="order">🧾 交费订单</option><option value="error">⚠️ 异常提示</option></select></div>
 <div class="tm-field"><label>描述</label><textarea id="tmNewDesc" placeholder="任务描述（可选）"></textarea></div>
 <div class="tm-modal-acts"><button class="tm-btn-cancel" onclick="closeTmModal()">取消</button><button class="tm-btn-ok" onclick="addTmTask()">创建</button></div>
+</div>
+</div>
+
+<!-- 任务分配指派弹窗 -->
+<div class="as-modal-overlay" id="asModal">
+<div class="as-modal">
+<div class="as-modal-header">
+  <div class="as-modal-title">👥 指派校核人员</div>
+  <button class="as-close" onclick="closeAssignModal()">✕</button>
+</div>
+<div class="as-modal-body">
+  <div id="asTaskTags" class="as-task-tags"></div>
+  <div class="as-assign-area">
+    <div class="as-pool">
+      <div class="as-pool-header">
+        <div class="as-pool-title">待选人员</div>
+        <button class="as-batch-btn" onclick="batchAssignPersons()">批量指派 ▸</button>
+      </div>
+      <div id="asPersonPool" class="as-person-pool"></div>
+    </div>
+    <div class="as-selected">
+      <div class="as-selected-header">
+        <div class="as-selected-title">已指派人员</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="as-selected-count" id="asSelectedCount">0人已指派</span>
+          <button class="as-clear-btn" onclick="clearAllAssignSelected()">清空</button>
+        </div>
+      </div>
+      <div id="asPersonSelected"></div>
+    </div>
+  </div>
+  <div class="as-hint">💡 从左侧勾选人员后点击"批量指派"或直接点击添加到右侧，确认分配后任务将平均分配给选中人员</div>
+</div>
+<div class="as-modal-footer">
+  <div style="font-size:10px;color:var(--text3)">指派完成后任务将进入标注环节</div>
+  <button class="as-confirm-btn" onclick="confirmAssign()">✓ 确认分配</button>
+</div>
 </div>
 </div>
 
