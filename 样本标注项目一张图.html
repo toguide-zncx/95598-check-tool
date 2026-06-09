@@ -909,6 +909,9 @@ function renderImportStep(c){
         '<div class="log-item"><span class="li-icon">📄</span><div class="li-info"><div class="li-name">'+s.dataset+'-语料集.csv</div><div class="li-meta">234条语料 · 对话文本 · 2026-06-20 11:08</div></div><span class="li-status ok">✓ 已导入</span></div>'+
         '<div class="log-item"><span class="li-icon">🖼️</span><div class="li-info"><div class="li-name">'+s.dataset+'-batch03.zip</div><div class="li-meta">52张图片 · '+shortName+' · 2026-06-22 16:45</div></div><span class="li-status err">✗ 格式异常</span></div>'+
       '</div>'+
+      '<div style="margin-top:10px;text-align:right">'+
+        '<button class="tm-add-btn" onclick="simulateImport()" style="padding:6px 18px">📥 确认导入</button>'+
+      '</div>'+
     '</div>'+
     '<div class="sv-right">'+
       '<div class="sr-card"><h5>📊 导入统计</h5>'+
