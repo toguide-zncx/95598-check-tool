@@ -1432,12 +1432,10 @@ function renderTaskList(){
   if(el)el.innerHTML=h;
 }
 function advanceTask(id){
-  console.log('[DEBUG] advanceTask called, id='+id);
   var t=_tmData.find(function(x){return x.id===id});
-  if(!t){console.log('[DEBUG] task not found');return;}
+  if(!t)return;
   if(t.pipeStep<6){
     t.pipeStep++;
-    console.log('[DEBUG] task#'+id+' pipeStep now='+t.pipeStep);
     if(t.pipeStep>=3&&t.assigned===0)t.assigned=Math.round(t.total*0.8);
     if(t.pipeStep>=4&&t.annotated===0)t.annotated=Math.round(t.assigned*0.2);
     if(t.pipeStep>=5&&t.pendingReview===0)t.pendingReview=t.annotated;
@@ -1445,17 +1443,15 @@ function advanceTask(id){
     if(t.pipeStep>=4&&t.status==='pending')t.status='annotating';
     if(t.pipeStep>=5&&t.status==='annotating')t.status='reviewing';
     if(t.pipeStep>=6)t.status='done';
-    var sc=document.getElementById('stepContainer');
-    console.log('[DEBUG] stepContainer found='+(!!sc)+' activeStep='+_activeStep);
     renderTaskList();
-    if(_activeStep===0&&sc)renderTaskMgmtStep(sc);
     showToast('任务#'+id+'已推进至'+_pipeStepShort[t.pipeStep],'success');
-  }else{
-    console.log('[DEBUG] task#'+id+' already at pipeStep 6, cannot advance');
+    // 跳转到对应步骤页面
+    var scIdx=_scenes.findIndex(function(s){return s.id===t.scene});
+    if(scIdx>=0){_sceneIdx=scIdx;renderSceneTabs();}
+    switchStep(t.pipeStep);
   }
 }
 function jumpToTaskStep(taskId){
-  console.log('[DEBUG] jumpToTaskStep called, taskId='+taskId);
   var t=_tmData.find(function(x){return x.id===taskId});
   if(!t)return;
   var scIdx=_scenes.findIndex(function(s){return s.id===t.scene});
@@ -1463,7 +1459,6 @@ function jumpToTaskStep(taskId){
   switchStep(t.pipeStep);
 }
 function deleteTask(id){
-  console.log('[DEBUG] deleteTask called, id='+id);
   _tmData=_tmData.filter(function(x){return x.id!==id});
   renderTaskList();showToast('任务#'+id+'已删除','success');
 }
