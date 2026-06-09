@@ -6636,7 +6636,7 @@ function initAnalysisTicketEff() {
 
 // ---- Optimize ----
 // ========== 项目管理 ==========
-var _projData = [
+var _projDataDefault = [
   {id:1,name:'智能客服大模型样本梳理及标注项目',year:'2026',lead:'高金萱',members:'李琳、梁爽、郭玮旻',phase:2,phases:[
     {name:'项目启动',period:'5/25-6/3',tasks:6,done:6,dlv:4},
     {name:'需求调研',period:'6/1-6/22',tasks:7,done:1.8,dlv:5},
@@ -6666,6 +6666,11 @@ var _projData = [
     {name:'正式验收',period:'3/16-3/30',tasks:3,done:0,dlv:1}
   ],delayed:false,period:'2026.6-2027.3',partner:'国电南瑞',url:''}
 ];
+var _projData = JSON.parse(localStorage.getItem('proj_data')) || JSON.parse(JSON.stringify(_projDataDefault));
+
+function _saveProjData(){
+  localStorage.setItem('proj_data',JSON.stringify(_projData));
+}
 
 function initProjectPage(){
   renderProjectKPI();
@@ -6686,6 +6691,7 @@ function initProjectPage(){
         for(var i=4;i>=0;i--){if(p.phases[i].done>0&&p.phases[i].done<p.phases[i].tasks){p.phase=i+1;break;}}
         var hasDelay=data.tasks&&data.tasks.some(function(t){return t.delayed});
         p.delayed=hasDelay;
+        _saveProjData();
         renderProjectKPI();
         renderProjectTable();
         document.getElementById('proj-sync-time').textContent='已同步至 '+data.syncTime;
@@ -6816,6 +6822,7 @@ function saveProject(){
     showToast('项目已添加');
   }
   closeProjectForm();
+  _saveProjData();
   renderProjectKPI();
   renderProjectTable();
 }
@@ -6825,6 +6832,7 @@ function deleteProject(id){
   if(!p)return;
   if(!confirm('确定删除项目「'+p.name+'」？'))return;
   _projData=_projData.filter(function(x){return x.id!==id});
+  _saveProjData();
   renderProjectKPI();
   renderProjectTable();
   showToast('项目已删除');
@@ -6837,6 +6845,7 @@ function deleteProjectFromForm(){
   if(!p)return;
   if(!confirm('确定删除项目「'+p.name+'」？'))return;
   _projData=_projData.filter(function(x){return x.id!==p.id});
+  _saveProjData();
   closeProjectForm();
   renderProjectKPI();
   renderProjectTable();
