@@ -893,7 +893,7 @@ function renderImportStep(c){
         '<select id="importSceneSelect" onchange="switchImportScene(this.value)" style="flex:1;padding:5px 10px;border-radius:6px;border:1px solid #ddd;font-size:11px;background:#fff;color:var(--text);font-weight:500;cursor:pointer">'+sceneOpts+'</select>'+
         '<span style="font-size:10px;color:#999">选择数据所属场景</span>'+
       '</div>'+
-      '<div class="drop-zone" onclick="simulateImport()">'+
+      '<div class="drop-zone" onclick="simulateSelectFile()">'+
         '<div class="dz-icon">📂</div>'+
         '<div class="dz-title">点击选择文件 或 拖拽到此处</div>'+
         '<div class="dz-sub">支持批量导入，自动识别场景分类</div>'+
@@ -910,7 +910,7 @@ function renderImportStep(c){
         '<div class="log-item"><span class="li-icon">🖼️</span><div class="li-info"><div class="li-name">'+s.dataset+'-batch03.zip</div><div class="li-meta">52张图片 · '+shortName+' · 2026-06-22 16:45</div></div><span class="li-status err">✗ 格式异常</span></div>'+
       '</div>'+
       '<div style="margin-top:10px;text-align:right">'+
-        '<button class="tm-add-btn" onclick="simulateImport()" style="padding:6px 18px">📥 确认导入</button>'+
+        '<button class="tm-add-btn" id="confirmImportBtn" onclick="confirmImport()" style="padding:6px 18px">📥 确认导入</button>'+
       '</div>'+
     '</div>'+
     '<div class="sv-right">'+
@@ -942,25 +942,58 @@ function switchImportScene(idx){
   tabs.forEach(function(t,i){t.classList.toggle('active',i===_sceneIdx);});
 }
 
-function simulateImport(){
+var _importPending=0; // 待确认导入数量
+function simulateSelectFile(){
   var s=getSceneCtx();
   var shortName=s.label||s.name;
   var log=document.getElementById('importLog');
   if(!log)return;
   var items=log.querySelectorAll('.log-item');
   var count=Math.floor(Math.random()*80+20);
+  _importPending+=count;
   var newItem=document.createElement('div');
   newItem.className='log-item';
   newItem.style.animation='fadeIn .3s';
-  newItem.innerHTML='<span class="li-icon">🖼️</span><div class="li-info"><div class="li-name">'+s.dataset+'-batch04.zip</div><div class="li-meta">'+count+'张图片 · '+shortName+' · 刚刚</div></div><span class="li-status ok">✓ 已导入</span>';
+  newItem.innerHTML='<span class="li-icon">🖼️</span><div class="li-info"><div class="li-name">'+s.dataset+'-batch04.zip</div><div class="li-meta">'+count+'张图片 · '+shortName+' · 刚刚</div></div><span class="li-status" style="color:var(--orange);font-weight:600">⏳ 待确认</span>';
   log.insertBefore(newItem,items[0].nextSibling);
-  // Auto-update total for tasks in import step matching current scene
+  // 更新确认按钮显示待确认数量
+  var btn=document.getElementById('confirmImportBtn');
+  if(btn)btn.textContent='📥 确认导入 ('+_importPending+'张)';
+  showToast('已选择 '+count+' 张文件，请点击确认导入','info');
+}
+function confirmImport(){
+  if(_importPending===0){
+    showToast('请先选择要导入的文件','error');
+    return;
+  }
+  var s=getSceneCtx();
+  // 将待确认的记录标记为已导入
+  var log=document.getElementById('importLog');
+  if(log){
+    var pendings=log.querySelectorAll('.li-status');
+    pendings.forEach(function(el){
+      if(el.textContent.indexOf('待确认')>=0){
+        el.textContent='✓ 已导入';
+        el.style.color='var(--g2)';
+      }
+    });
+  }
+  // 更新匹配任务的总数并推进步骤
   _tmData.forEach(function(t){
     if(t.pipeStep===1 && t.scene===s.id){
-      t.total+=count;
-      renderTaskList();
+      t.total+=_importPending;
+      t.pipeStep=2; // 推进到预处理
+      if(t.status==='pending')t.status='annotating';
     }
   });
+  _importPending=0;
+  var btn=document.getElementById('confirmImportBtn');
+  if(btn)btn.textContent='📥 确认导入';
+  renderTaskList();
+  showToast('导入成功，任务已进入预处理环节','success');
+  // 刷新导入步骤视图
+  var stepEl=document.getElementById('stepContainer');
+  if(stepEl)renderImportStep(stepEl);
 }
 
 function renderPreprocessStep(c){
