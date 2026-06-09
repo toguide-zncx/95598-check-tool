@@ -1415,10 +1415,11 @@ function renderReviewStep(c){
     var reviewer=reviewers[i%3];
     var status=i<3?statuses[i%3]:'待审核';
     var stColor=i<3?statusColors[i%3]:'var(--orange)';
-    reviewItems+='<div class="review-item">'+
+    reviewItems+='<div class="review-item" data-ridx="'+i+'">'+
       '<div class="rq-idx" style="background:'+(i<2?'var(--g8)':'#FFEBEE')+';color:'+(i<2?'var(--g2)':'var(--red)')+'">'+idx+'</div>'+
       '<div class="rq-info"><div class="rq-name">'+s.sample+'_'+idx+'</div><div class="rq-meta">标注人: '+reviewer+' · '+s.boxes+'个区域 · '+shortName+'</div></div>'+
       '<div class="rq-actions">'+
+        '<button class="rq-btn view" onclick="openReviewDetail('+i+')" style="background:var(--g8);color:var(--g2)">查看</button>'+
         '<button class="rq-btn approve" onclick="reviewAction(this,\'approve\')">通过</button>'+
         '<button class="rq-btn return" onclick="reviewAction(this,\'return\')">退回</button>'+
         '<button class="rq-btn reject" onclick="reviewAction(this,\'reject\')">驳回</button>'+
@@ -1454,6 +1455,79 @@ function renderReviewStep(c){
       '</div>'+
     '</div>'+
   '</div>';
+}
+
+function openReviewDetail(ridx){
+  var s=getSceneCtx();
+  var shortName=s.label||s.name;
+  var idx=ridx+1;
+  var reviewers=['张明','李琳','王芳'];
+  var reviewer=reviewers[ridx%3];
+  // 构建字段标注详情
+  var fieldRows='';
+  if(s.fields&&s.fields.length){
+    s.fields.forEach(function(f,fi){
+      var tagCls=f.t==='core'?'core':f.t==='offset'?'offset':f.t==='privacy'?'privacy':'attr';
+      var tagLabel=f.t==='core'?'核心':f.t==='offset'?'抵扣':f.t==='privacy'?'隐私':'属性';
+      fieldRows+='<tr>'+
+        '<td style="padding:5px 8px;font-size:10px;font-weight:600;color:var(--text)">'+(fi+1)+'</td>'+
+        '<td style="padding:5px 8px;font-size:10px">'+f.l+'</td>'+
+        '<td style="padding:5px 8px;font-size:10px;color:var(--g2);font-weight:600">'+f.v+'</td>'+
+        '<td style="padding:5px 8px"><span class="field-tag '+tagCls+'" style="font-size:9px">'+tagLabel+'</span></td>'+
+        '<td style="padding:5px 8px;font-size:10px;color:var(--g2)">✓</td>'+
+      '</tr>';
+    });
+  }
+  // 获取样本预览内容（复用renderScene逻辑）
+  var previewHtml='';
+  if(s.id==='meter'){
+    previewHtml='<div style="width:280px;height:190px;background:#fff;border-radius:4px;position:relative;box-shadow:inset 0 1px 4px rgba(0,0,0,.05);margin:0 auto">'+
+      '<div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:9px;color:#333;font-weight:500">DDZY1296C-Z 单相费控智能电能表</div>'+
+      '<div style="position:absolute;top:28px;left:50%;transform:translateX(-50%);width:100px;height:36px;background:#1a1a1a;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#0f0;font-family:monospace;font-size:14px">02385</div>'+
+      '<div style="position:absolute;top:72px;left:50%;transform:translateX(-50%);font-size:9px;color:#888">||||||||||||||||</div>'+
+      '<div class="ws-box" style="top:80px;left:55px;width:170px;height:32px"><div class="bl">DNB-条形码</div></div>'+
+      '<div class="ws-box t-blue" style="top:24px;left:70px;width:140px;height:45px"><div class="bl">DNB-液晶读数</div></div>'+
+    '</div>';
+  }else if(s.id==='bill'){
+    previewHtml='<div style="width:220px;height:300px;background:#fff;border-radius:8px;overflow:hidden;margin:0 auto;position:relative;font-size:9px">'+
+      '<div style="background:var(--g2);color:#fff;padding:6px 10px;font-size:9px;font-weight:600">网上国网</div>'+
+      '<div style="padding:8px 10px"><div style="font-size:10px;color:#999">用电户号</div><div style="font-size:11px;font-weight:600;color:var(--text)">3201****8765</div></div>'+
+      '<div style="margin:0 10px;border-top:1px solid #f0f0f0"></div>'+
+      '<div style="padding:6px 10px"><div style="font-size:10px;font-weight:600;color:var(--text)">交费记录</div><div style="background:#f8f8f8;border-radius:6px;padding:6px;margin-top:4px"><div style="display:flex;justify-content:space-between;font-size:10px"><span>2026-06-15</span><span style="font-weight:600">¥256.80</span></div><div style="font-size:9px;color:var(--g4);margin-top:2px">✓ 已到账</div></div></div>'+
+    '</div>';
+  }else if(s.id==='order'){
+    previewHtml='<div style="width:220px;height:300px;background:#fff;border-radius:8px;overflow:hidden;margin:0 auto;position:relative;font-size:9px">'+
+      '<div style="background:var(--g2);color:#fff;padding:6px 10px;font-size:9px;font-weight:600">订单详情</div>'+
+      '<div style="padding:6px 10px;line-height:1.8">'+
+        '<div><span style="color:#999">订单编号</span> 202606150001</div>'+
+        '<div><span style="color:#999">订单时间</span> 06-15 14:32</div>'+
+        '<div><span style="color:#999">订单状态</span> <span style="color:var(--g4)">支付成功</span></div>'+
+        '<div><span style="color:#999">交费金额</span> ¥256.80</div>'+
+        '<div><span style="color:#999">实付金额</span> <b>¥239.30</b></div>'+
+      '</div>'+
+    '</div>';
+  }else{
+    previewHtml='<div style="width:220px;height:300px;background:#fff;border-radius:8px;overflow:hidden;margin:0 auto;position:relative;font-size:9px;padding:20px 10px">'+
+      '<div style="background:#fff;border-radius:12px;padding:14px;box-shadow:0 2px 12px rgba(0,0,0,.1)">'+
+        '<div style="font-size:11px;font-weight:600;color:var(--red);margin-bottom:6px">⚠️ 网络连接异常</div>'+
+        '<div style="font-size:10px;color:#666;line-height:1.6;margin-bottom:10px">当前网络不可用，请检查网络设置后重试</div>'+
+        '<div style="text-align:center"><span style="display:inline-block;background:var(--g2);color:#fff;padding:4px 24px;border-radius:16px;font-size:9px;font-weight:600">确定</span></div>'+
+      '</div>'+
+    '</div>';
+  }
+
+  var modal=document.getElementById('reviewDetailModal');
+  if(!modal)return;
+  document.getElementById('rvSampleName').textContent=s.sample+'_'+idx;
+  document.getElementById('rvReviewer').textContent=reviewer;
+  document.getElementById('rvScene').textContent=shortName;
+  document.getElementById('rvPreview').innerHTML=previewHtml;
+  document.getElementById('rvFields').innerHTML=fieldRows||'<tr><td colspan="5" style="text-align:center;padding:10px;color:#999;font-size:10px">暂无标注字段</td></tr>';
+  modal.classList.add('show');
+}
+
+function closeReviewDetail(){
+  document.getElementById('reviewDetailModal').classList.remove('show');
 }
 
 function reviewAction(btn,action){
@@ -2257,6 +2331,55 @@ document.addEventListener('DOMContentLoaded',function(){renderTaskList()});
   <div style="font-size:10px;color:var(--text3)">指派完成后任务将进入标注环节</div>
   <button class="as-confirm-btn" onclick="confirmAssign()">✓ 确认分配</button>
 </div>
+</div>
+</div>
+
+<!-- 审核详情弹窗 -->
+<div class="as-modal-overlay" id="reviewDetailModal">
+<div class="as-modal" style="max-width:720px">
+  <div class="as-modal-header">
+    <div class="as-modal-title">📋 审核详情</div>
+    <button class="modal-close" onclick="closeReviewDetail()" style="background:none;border:none;font-size:16px;cursor:pointer;color:#999">×</button>
+  </div>
+  <div class="as-modal-body" style="padding:14px 16px">
+    <!-- 顶部信息 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:8px 12px;background:var(--g8);border-radius:8px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:11px;font-weight:600;color:var(--text)" id="rvSampleName"></span>
+        <span class="field-tag core" style="font-size:9px">待审核</span>
+      </div>
+      <div style="font-size:10px;color:var(--text3)">
+        标注人: <b id="rvReviewer" style="color:var(--text)"></b> · <span id="rvScene"></span>
+      </div>
+    </div>
+    <!-- 左右分栏：预览+字段 -->
+    <div style="display:flex;gap:14px;min-height:260px">
+      <div style="flex:0 0 260px;background:#f5f5f5;border-radius:8px;padding:12px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+        <div id="rvPreview"></div>
+      </div>
+      <div style="flex:1;overflow-y:auto">
+        <div style="font-size:10px;font-weight:600;color:var(--text);margin-bottom:6px">📝 标注字段详情</div>
+        <table style="width:100%;border-collapse:collapse;font-size:10px">
+          <thead><tr style="background:var(--g8)">
+            <th style="padding:5px 8px;text-align:left;font-weight:600;font-size:9px;color:var(--text3)">#</th>
+            <th style="padding:5px 8px;text-align:left;font-weight:600;font-size:9px;color:var(--text3)">字段</th>
+            <th style="padding:5px 8px;text-align:left;font-weight:600;font-size:9px;color:var(--text3)">标注值</th>
+            <th style="padding:5px 8px;text-align:left;font-weight:600;font-size:9px;color:var(--text3)">类型</th>
+            <th style="padding:5px 8px;text-align:left;font-weight:600;font-size:9px;color:var(--text3)">状态</th>
+          </tr></thead>
+          <tbody id="rvFields"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="as-modal-footer">
+    <div style="font-size:10px;color:var(--text3)">请仔细核对标注内容后再操作</div>
+    <div style="display:flex;gap:6px">
+      <button class="rq-btn reject" onclick="closeReviewDetail()" style="padding:5px 14px;font-size:11px">驳回</button>
+      <button class="rq-btn return" onclick="closeReviewDetail()" style="padding:5px 14px;font-size:11px">退回</button>
+      <button class="as-confirm-btn" onclick="closeReviewDetail()" style="padding:5px 14px">✓ 通过</button>
+    </div>
+  </div>
 </div>
 </div>
 
