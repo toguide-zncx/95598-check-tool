@@ -1605,7 +1605,7 @@ a { text-decoration:none; color:inherit; }
             </div>
           </div>
           <table class="data-table" id="proj-table">
-            <thead><tr><th style="width:36px">#</th><th>项目名称</th><th style="width:70px">项目年份</th><th>项目负责人</th><th>项目成员</th><th>当前进展</th><th style="width:65px">是否延期</th><th style="width:160px">操作</th></tr></thead>
+            <thead><tr><th style="width:36px">#</th><th>项目名称</th><th style="width:70px">项目年份</th><th>项目负责人</th><th>项目成员</th><th>当前进展</th><th style="width:65px">是否延期</th></tr></thead>
             <tbody id="proj-table-body"></tbody>
           </table>
         </div>
@@ -6711,7 +6711,7 @@ function renderProjectTable(){
   });
   var html='';
   if(list.length===0){
-    html='<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light)">暂无匹配项目</td></tr>';
+    html='<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text-light)">暂无匹配项目</td></tr>';
   }else{
   list.forEach(function(p,i){
     var rate=getProjectRate(p);
@@ -6720,17 +6720,16 @@ function renderProjectTable(){
     var hasUrl=!!p.url;
     html+='<tr>';
     html+='<td style="text-align:center;font-weight:600;color:var(--text-light)">'+(i+1)+'</td>';
-    html+='<td><div style="font-weight:600;color:var(--primary);cursor:pointer" onclick="openProjectDetail('+p.id+')">'+p.name+'</div><div style="font-size:11px;color:var(--text-light);margin-top:2px">'+p.period+' · '+p.partner+'</div></td>';
+    html+='<td><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="font-weight:600;color:var(--primary);cursor:pointer" onclick="openProjectDetail('+p.id+')">'+p.name+'</div><div style="display:flex;gap:4px;flex-shrink:0">';
+    if(hasUrl)html+='<a href="'+p.url+'" target="_blank" style="background:var(--primary-pale);color:var(--primary);border:1px solid var(--primary);text-decoration:none;padding:1px 8px;border-radius:4px;font-size:11px;white-space:nowrap">📋一张图</a>';
+    html+='<button onclick="openProjectForm('+p.id+')" style="background:none;border:1px solid var(--border);border-radius:4px;padding:1px 8px;cursor:pointer;font-size:11px;color:var(--primary)">编辑</button>';
+    html+='<button onclick="deleteProject('+p.id+')" style="background:none;border:1px solid #ef5350;border-radius:4px;padding:1px 8px;cursor:pointer;font-size:11px;color:#ef5350">删除</button>';
+    html+='</div></div><div style="font-size:11px;color:var(--text-light);margin-top:2px">'+p.period+(p.partner?' · '+p.partner:'')+'</div></td>';
     html+='<td style="text-align:center;font-weight:500">'+p.year+'</td>';
     html+='<td>'+p.lead+'</td>';
     html+='<td style="font-size:12px">'+p.members+'</td>';
     html+='<td><div style="display:flex;align-items:center;gap:8px"><span class="tag tag-primary" style="min-width:60px;text-align:center">'+phaseName+'</span><div style="flex:1;min-width:80px"><div style="background:#e8e8e8;border-radius:3px;height:6px;overflow:hidden"><div style="background:var(--primary);height:6px;border-radius:3px;width:'+rate+'%;transition:width .5s"></div></div></div><span style="font-size:12px;font-weight:600;color:var(--primary)">'+rate+'%</span></div></td>';
     html+='<td style="text-align:center">'+delayTag+'</td>';
-    html+='<td style="text-align:center;white-space:nowrap">';
-    if(hasUrl)html+='<a href="'+p.url+'" target="_blank" class="btn btn-sm" style="background:var(--primary-pale);color:var(--primary);border:1px solid var(--primary);text-decoration:none;padding:2px 8px;font-size:11px;margin-right:4px">📋一张图</a>';
-    html+='<button onclick="openProjectForm('+p.id+')" style="background:none;border:1px solid var(--border);border-radius:4px;padding:2px 8px;cursor:pointer;font-size:11px;color:var(--primary);margin-right:4px">编辑</button>';
-    html+='<button onclick="deleteProject('+p.id+')" style="background:none;border:1px solid #ef5350;border-radius:4px;padding:2px 8px;cursor:pointer;font-size:11px;color:#ef5350">删除</button>';
-    html+='</td>';
     html+='</tr>';
   });
   }
