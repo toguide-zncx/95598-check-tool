@@ -2527,6 +2527,13 @@ window.addEventListener('DOMContentLoaded',function(){
     .then(r=>r.json())
     .then(data=>{
       document.getElementById('syncTime').textContent='上次同步：'+data.syncTime;
+      // 自动应用同步数据，避免硬编码旧数据与最新数据不一致
+      var phaseMap=data.phases;
+      for(var i=0;i<5;i++){
+        var pd=phaseMap[String(i+1)];
+        if(pd)updatePhasePanel(i,pd,data.tasks);
+      }
+      updateGanttFromSync(data);
     })
     .catch(()=>{});
 });
