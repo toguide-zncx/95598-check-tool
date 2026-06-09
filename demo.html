@@ -1599,7 +1599,7 @@ a { text-decoration:none; color:inherit; }
         <div class="card">
           <div class="card-title"><span class="dot"></span>项目列表<span style="margin-left:auto;font-size:12px;color:var(--text-light)" id="proj-sync-time"></span></div>
           <table class="data-table" id="proj-table">
-            <thead><tr><th style="width:36px">#</th><th>项目名称</th><th>项目负责人</th><th>项目成员</th><th>当前进展</th><th>是否延期</th><th>操作</th></tr></thead>
+            <thead><tr><th style="width:36px">#</th><th>项目名称</th><th>项目年份</th><th>项目负责人</th><th>项目成员</th><th>当前进展</th><th>是否延期</th><th>操作</th></tr></thead>
             <tbody id="proj-table-body"></tbody>
           </table>
         </div>
@@ -6587,28 +6587,28 @@ function initAnalysisTicketEff() {
 // ---- Optimize ----
 // ========== 项目管理 ==========
 var _projData = [
-  {id:1,name:'智能客服大模型样本梳理及标注项目',lead:'高金萱',members:'李琳、梁爽、郭玮旻',phase:2,phases:[
+  {id:1,name:'智能客服大模型样本梳理及标注项目',year:'2026',lead:'高金萱',members:'李琳、梁爽、郭玮旻',phase:2,phases:[
     {name:'项目启动',period:'5/25-6/3',tasks:6,done:6,dlv:4},
     {name:'需求调研',period:'6/1-6/22',tasks:7,done:1.8,dlv:5},
     {name:'项目实施',period:'6/1-12/15',tasks:23,done:2.3,dlv:14},
     {name:'预验收',period:'12/16-12/30',tasks:3,done:0,dlv:0},
     {name:'正式验收',period:'1/4-1/15',tasks:3,done:0,dlv:2}
   ],delayed:false,period:'2026.5-2027.1',partner:'国电南瑞',url:'https://toguide-zncx.github.io/95598-check-tool/%E6%A0%B7%E6%9C%AC%E6%A0%87%E6%B3%A8%E9%A1%B9%E7%9B%AE%E4%B8%80%E5%BC%A0%E5%9B%BE.html'},
-  {id:2,name:'智能客服质量分析及运营优化项目',lead:'高金萱',members:'李琳、梁爽',phase:5,phases:[
+  {id:2,name:'智能客服质量分析及运营优化项目',year:'2025',lead:'高金萱',members:'李琳、梁爽',phase:5,phases:[
     {name:'项目启动',period:'3/1-3/15',tasks:4,done:4,dlv:2},
     {name:'需求调研',period:'3/16-4/10',tasks:5,done:5,dlv:3},
     {name:'项目实施',period:'4/11-10/31',tasks:12,done:12,dlv:6},
     {name:'预验收',period:'11/1-11/15',tasks:3,done:3,dlv:1},
     {name:'正式验收',period:'11/16-12/5',tasks:3,done:3,dlv:2}
   ],delayed:false,period:'2025.3-2025.12',partner:'国电南瑞',url:''},
-  {id:3,name:'智能服务地址服务能力优化支撑项目',lead:'梁爽',members:'李琳、郭玮旻',phase:3,phases:[
+  {id:3,name:'智能服务地址服务能力优化支撑项目',year:'2025',lead:'梁爽',members:'李琳、郭玮旻',phase:3,phases:[
     {name:'项目启动',period:'4/1-4/15',tasks:4,done:4,dlv:2},
     {name:'需求调研',period:'4/16-5/10',tasks:5,done:5,dlv:3},
     {name:'项目实施',period:'5/11-11/30',tasks:10,done:4,dlv:3},
     {name:'预验收',period:'12/1-12/15',tasks:3,done:0,dlv:0},
     {name:'正式验收',period:'12/16-12/30',tasks:3,done:0,dlv:1}
   ],delayed:true,period:'2025.4-2025.12',partner:'中电普华',url:''},
-  {id:4,name:'95598智能客服场景迭代优化项目',lead:'李琳',members:'高金萱、郭玮旻',phase:2,phases:[
+  {id:4,name:'95598智能客服场景迭代优化项目',year:'2026',lead:'李琳',members:'高金萱、郭玮旻',phase:2,phases:[
     {name:'项目启动',period:'6/1-6/15',tasks:4,done:4,dlv:2},
     {name:'需求调研',period:'6/16-7/10',tasks:6,done:2,dlv:2},
     {name:'项目实施',period:'7/11-2/28',tasks:15,done:0,dlv:0},
@@ -6666,6 +6666,7 @@ function renderProjectTable(){
     html+='<tr>';
     html+='<td style="text-align:center;font-weight:600;color:var(--text-light)">'+(i+1)+'</td>';
     html+='<td><div style="font-weight:600;color:var(--primary);cursor:pointer" onclick="openProjectDetail('+p.id+')">'+p.name+'</div><div style="font-size:11px;color:var(--text-light);margin-top:2px">'+p.period+' · '+p.partner+'</div></td>';
+    html+='<td style="text-align:center;font-weight:500">'+p.year+'</td>';
     html+='<td>'+p.lead+'</td>';
     html+='<td style="font-size:12px">'+p.members+'</td>';
     html+='<td><div style="display:flex;align-items:center;gap:8px"><span class="tag tag-primary" style="min-width:60px;text-align:center">'+phaseName+'</span><div style="flex:1;min-width:80px"><div style="background:#e8e8e8;border-radius:3px;height:6px;overflow:hidden"><div style="background:var(--primary);height:6px;border-radius:3px;width:'+rate+'%;transition:width .5s"></div></div></div><span style="font-size:12px;font-weight:600;color:var(--primary)">'+rate+'%</span></div></td>';
