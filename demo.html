@@ -1605,7 +1605,7 @@ a { text-decoration:none; color:inherit; }
             </div>
           </div>
           <table class="data-table" id="proj-table">
-            <thead><tr><th style="width:36px">#</th><th>项目名称</th><th style="width:70px">项目年份</th><th>项目负责人</th><th>项目成员</th><th style="width:90px">项目阶段</th><th>当前进度</th><th style="width:65px">是否延期</th><th style="width:80px">操作</th></tr></thead>
+            <thead><tr><th>项目名称</th><th style="width:70px">项目年份</th><th>项目负责人</th><th>项目成员</th><th style="width:90px">项目阶段</th><th>当前进度</th><th style="width:65px">是否延期</th><th style="width:80px">操作</th></tr></thead>
             <tbody id="proj-table-body"></tbody>
           </table>
         </div>
@@ -6721,7 +6721,7 @@ function renderProjectTable(){
   });
   var html='';
   if(list.length===0){
-    html='<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--text-light)">暂无匹配项目</td></tr>';
+    html='<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light)">暂无匹配项目</td></tr>';
   }else{
   list.forEach(function(p,i){
     var rate=p.progress!=null?p.progress:getProjectRate(p);
@@ -6729,8 +6729,7 @@ function renderProjectTable(){
     var delayTag=p.delayed?'<span class="tag tag-red">延期</span>':'<span class="tag tag-green">正常</span>';
     var hasUrl=!!p.url;
     html+='<tr>';
-    html+='<td style="text-align:center;font-weight:600;color:var(--text-light)">'+(i+1)+'</td>';
-    html+='<td><div style="font-weight:600;color:var(--primary);cursor:pointer" onclick="openProjectForm('+p.id+')">'+p.name+'</div><div style="font-size:11px;color:var(--text-light);margin-top:2px">'+p.period+(p.partner?' · '+p.partner:'')+(p.progress?' · '+p.progress:'')+'</div></td>';
+    html+='<td><div style="font-weight:600;color:var(--primary);cursor:pointer" onclick="openProjectForm('+p.id+')">'+p.name+'</div><div style="font-size:11px;color:var(--text-light);margin-top:2px">'+p.period+(p.partner?' · '+p.partner:'')+'</div></td>';
     html+='<td style="text-align:center;font-weight:500">'+p.year+'</td>';
     html+='<td>'+p.lead+'</td>';
     html+='<td style="font-size:12px">'+p.members+'</td>';
