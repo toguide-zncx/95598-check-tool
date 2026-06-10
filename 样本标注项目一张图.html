@@ -486,7 +486,7 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
   <div class="bg-section">
     <h3>📌 项目背景：需求缺口驱动</h3>
     <div class="bg-intro">
-      当前互联网渠道座席工作台只能解析身份证、银行卡等部分图片信息，当客户发送电能表、电费记录、交费订单等图片时，人工座席需逐条查看图片并人工判断异常原因，耗时较长。本项目旨在为第二阶段4类图片场景<b>提供高质量标注样本数据</b>，支撑模型训练，实现图片智能识别能力闭环。
+      当前互联网渠道座席工作台只能解析身份证、银行卡等部分图片信息，当客户发送电能表、电费记录、交费订单等图片时，人工座席需逐条查看图片并人工判断异常原因，耗时较长。本项目旨在为第二阶段4类图片场景<b>提供高质量标注样本数据</b>，完成<b>不低于1000张图片</b>的非结构化数据标注，支撑模型训练，实现图片智能识别能力闭环。
     </div>
     <div class="bg-grid">
       <div class="bg-card done">
@@ -502,7 +502,7 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
       <div class="bg-card pending">
         <h4>🚧 第二阶段 · OCR无法覆盖，需标注样本数据 ← 本项目目标</h4>
         <div class="cap-list">
-          <div class="cap-item"><span class="cap-icon">⚡</span><div class="cap-info"><div class="cap-name">电能表信息识别</div><div class="cap-scene">电表报装/故障报修</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">1字段 ▾</span><div class="cap-detail"><div class="dt">电能表信息识别</div><div class="dd">需从实物照片定位条形码区域，提取电表表号1个字段</div><div class="dd" style="margin-top:3px">业务场景：客户拍摄电表照片，自动识别表号用于故障定位、换表申请</div></div></div>
+          <div class="cap-item"><span class="cap-icon">⚡</span><div class="cap-info"><div class="cap-name">电能表信息识别</div><div class="cap-scene">电表报装/故障报修</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">3字段 ▾</span><div class="cap-detail"><div class="dt">电能表信息识别</div><div class="dd">需从实物照片识别：电能表表号、指示灯、显示屏报错信息3个字段</div><div class="dd" style="margin-top:3px">业务场景：客户拍摄电表照片，自动识别表号及异常状态用于故障定位、换表申请</div></div></div>
           <div class="cap-item"><span class="cap-icon">💰</span><div class="cap-info"><div class="cap-name">电费记录信息识别</div><div class="cap-scene">缴费异常/到账查询</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">4字段 ▾</span><div class="cap-detail"><div class="dt">电费记录信息识别</div><div class="dd">需从APP截图识别：用电户号、交费金额、交费时间、付款状态4个字段</div><div class="dd" style="margin-top:3px">业务场景：客户发送电费截图，自动提取户号和交费状态辅助查账</div></div></div>
           <div class="cap-item"><span class="cap-icon">🧾</span><div class="cap-info"><div class="cap-name">交费订单信息识别</div><div class="cap-scene">订单纠纷/退费处理</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">11字段 ▾</span><div class="cap-detail"><div class="dt">交费订单信息识别</div><div class="dd">需提取：订单编号、订单时间、订单状态、交费金额、红包抵扣、积分抵扣、优惠券抵扣、实付金额、支付方式、交费渠道、户号户名11个字段</div><div class="dd" style="margin-top:3px">业务场景：客户发送订单截图，自动提取完整订单信息辅助争议处理</div></div></div>
           <div class="cap-item"><span class="cap-icon">⚠️</span><div class="cap-info"><div class="cap-name">系统异常提示识别</div><div class="cap-scene">APP使用异常</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">3字段 ▾</span><div class="cap-detail"><div class="dt">系统异常提示识别</div><div class="dd">需训练模型识别：异常标题、提示内容、APP版本3个字段</div><div class="dd" style="margin-top:3px">业务场景：自动识别报错弹窗，辅助座席快速定位问题</div></div></div>
@@ -511,7 +511,7 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
       </div>
     </div>
     <div class="arrow-to">⬇️</div>
-    <div class="bg-mission">标注项目使命：为第二阶段模型训练提供高质量标注数据，让智能客服具备异常提示/电能表/电费/订单图片识别能力</div>
+    <div class="bg-mission">标注项目使命：为第二阶段模型训练提供高质量标注数据，完成不低于1000张图片非结构化数据标注，让智能客服具备异常提示/电能表/电费/订单图片识别能力</div>
   </div>
 
 <!-- 采治标用四阶段 -->
@@ -834,9 +834,9 @@ function applyRoleView(){
 }
 var _stepNames=['📋 任务管理','📥 导入','🧹 预处理','👥 任务分配','🏷️ 标注','✅ 审核','📦 归库'];
 var _scenes=[
-{id:'meter',name:'⚡ 电能表识别',sub:'1字段 · 框选+OCR',icon:'⚡',label:'电能表识别',color:'var(--g2)',colorBg:'var(--g8)',
-dataset:'20260701-电能表-南方',sample:'DNB_条形码特写_042',total:500,cur:42,boxes:2,
-fields:[{l:'电表表号',v:'02385102678',t:'core'}],
+{id:'meter',name:'⚡ 电能表识别',sub:'3字段 · 框选+OCR',icon:'⚡',label:'电能表识别',color:'var(--g2)',colorBg:'var(--g8)',
+dataset:'20260701-电能表-南方',sample:'DNB_条形码特写_042',total:500,cur:42,boxes:3,
+fields:[{l:'电能表表号',v:'02385102678',t:'core'},{l:'指示灯',v:'红灯闪烁',t:'core'},{l:'显示屏报错信息',v:'Err-04',t:'core'}],
 corpus:{u:'我的电表显示Err-04，请帮我看看',b:'我正在识别您的电表信息...',n:'客户发送了电表照片 → 本样本来源'},
 qc:{done:38,pass:36,fail:2}},
 {id:'bill',name:'💰 电费记录',sub:'4字段 · OCR提取',icon:'💰',label:'电费记录',color:'var(--blue)',colorBg:'#E3F2FD',
