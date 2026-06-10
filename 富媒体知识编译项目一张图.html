@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="version" content="20260620-富媒体知识编译项目">
+<title>国网客服中心北方分中心2026年智能客服富媒体知识编译及应用分析项目</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--g1:#004D3A;--g2:#006B54;--g3:#008667;--g4:#4CAF50;--g5:#81C784;--g6:#A5D6A7;--g7:#C8E6C9;--g8:#E8F5E9;--g9:#F1F8E9;--orange:#E65100;--blue:#1565C0;--red:#C62828;--purple:#5E35B1;--text:#1a1a2e;--text2:#424242;--text3:#666;--bg:#f0f2f5;--card:#fff}
+html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans-serif;background:var(--bg);color:var(--text);font-weight:400;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.page{max-width:1280px;margin:0 auto;padding:10px 14px 16px;animation:fadeIn .6s}
+.header{text-align:center;margin-bottom:10px;padding:16px 18px 12px;background:linear-gradient(135deg,var(--g1),var(--g2),var(--g3));border-radius:12px;color:#fff;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-40%;right:-10%;width:300px;height:300px;background:rgba(255,255,255,.06);border-radius:50%}
+.header::after{content:'';position:absolute;bottom:-30%;left:5%;width:200px;height:200px;background:rgba(255,255,255,.04);border-radius:50%}
+.header h1{font-size:18px;font-weight:700;margin-bottom:4px;letter-spacing:1px;position:relative;z-index:1}
+.header .sub{font-size:12px;opacity:.85;position:relative;z-index:1}
+.header .badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px;position:relative;z-index:1}
+.header .badge{display:inline-block;background:rgba(255,255,255,.2);padding:3px 14px;border-radius:20px;font-size:11px}
+.bg-section{background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,.04);border-left:4px solid var(--red)}
+.bg-section h3{font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.bg-intro{font-size:11px;color:var(--text2);margin-bottom:8px;line-height:1.6;padding:8px 10px;background:#FAFAFA;border-radius:5px;border:1px solid #f0f0f0}
+.bg-intro b{color:var(--g2)}
+.bg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bg-card{padding:10px 12px;border-radius:8px;border:1.5px solid #e8e8e8}
+.bg-card h4{font-size:12px;font-weight:700;margin-bottom:5px;padding-bottom:4px;border-bottom:1px dashed rgba(0,0,0,.08)}
+.bg-card.done{background:var(--g8);border-color:var(--g5)}
+.bg-card.done h4{color:var(--g2)}
+.bg-card.pending{background:#FFF3E0;border-color:#FFB74D}
+.bg-card.pending h4{color:var(--orange)}
+.cap-list{display:flex;flex-direction:column;gap:4px}
+.cap-item{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;transition:background .15s;position:relative}
+.cap-item:hover{background:rgba(0,0,0,.03)}
+.cap-icon{flex-shrink:0;width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.bg-card.done .cap-icon{background:rgba(76,175,80,.12)}
+.bg-card.pending .cap-icon{background:rgba(230,81,0,.1)}
+.cap-info{flex:1;min-width:0}
+.cap-name{font-size:11.5px;font-weight:600;color:var(--text);line-height:1.3}
+.cap-scene{font-size:10px;color:var(--text3);line-height:1.3;margin-top:0}
+.cap-badge{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;padding:1px 7px;border-radius:10px;font-size:9.5px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .2s;user-select:none}
+.cap-badge:hover{filter:brightness(.9);transform:scale(1.05)}
+.cap-badge.green{background:var(--g6);color:#1B5E20}
+.cap-badge.orange{background:#FFE0B2;color:#BF360C}
+.cap-detail{display:none;position:absolute;right:0;top:100%;margin-top:4px;z-index:99;background:#fff;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.15);border:1px solid #e0e0e0;padding:10px 14px;min-width:200px;font-size:11px;line-height:1.7;color:var(--text2);animation:fadeIn .15s}
+.cap-detail.show{display:block}
+.cap-detail .dt{font-weight:600;color:var(--text);margin-bottom:4px;font-size:11.5px}
+.cap-detail .dd{color:var(--text3);font-size:10.5px}
+.bg-card .mission-note{margin-top:8px;padding:6px 10px;border-radius:5px;font-size:10px;font-weight:600;background:rgba(230,81,0,.06);border:1px dashed #FFB74D;color:var(--orange)}
+.bg-mission{margin-top:10px;padding:8px 14px;background:linear-gradient(135deg,var(--g8),#F1F8E9);border-radius:8px;border:1px solid var(--g5);text-align:center;font-size:12px;font-weight:600;color:var(--g2)}
+.arrow-to{grid-column:1/-1;text-align:center;font-size:20px;color:var(--g4);padding:2px 0}
+.data-flow-section{background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,.04);border-left:4px solid #006B54}
+.data-flow-section h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.data-flow-desc{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:16px;padding:8px 10px;background:#FAFAFA;border-radius:5px;border:1px solid #f0f0f0}
+.data-flow-desc b{color:var(--g2)}
+.df-pipeline{display:flex;gap:0;align-items:stretch;position:relative}
+.df-step{flex:1;position:relative;padding:12px 14px 12px 18px;border-radius:10px 0 0 10px;transition:all .2s;cursor:default;overflow:hidden}
+.df-step:first-child{border-radius:10px 0 0 10px}
+.df-step:last-child{border-radius:0 10px 10px 0}
+.df-step::after{content:'';position:absolute;right:-14px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:14px solid;border-top:18px solid transparent;border-bottom:18px solid transparent;z-index:2}
+.df-step::before{content:'';position:absolute;right:-14px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:14px solid rgba(0,0,0,.08);border-top:18px solid transparent;border-bottom:18px solid transparent;z-index:3}
+.df-step:last-child::after,.df-step:last-child::before{display:none}
+.df-step:hover{filter:brightness(1.05);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.df-idx{font-size:18px;font-weight:700;opacity:.2;position:absolute;top:2px;right:6px}
+.df-icon{font-size:22px;margin-bottom:2px}
+.df-title{font-size:11.5px;font-weight:600;color:#fff;margin-bottom:2px}
+.df-goal{font-size:10px;font-weight:500;opacity:.9;margin-bottom:4px;line-height:1.3;padding:2px 5px;background:rgba(255,255,255,.15);border-radius:3px;display:inline-block}
+.df-detail{font-size:10px;line-height:1.4;opacity:.8;color:#fff}
+.df-step.s1{background:linear-gradient(135deg,#006B54,#008667)}.df-step.s1::after{border-left-color:#008667}.df-step.s1::before{border-left-color:rgba(0,0,0,.08)}
+.df-step.s2{background:linear-gradient(135deg,#008667,#009672)}.df-step.s2::after{border-left-color:#009672}.df-step.s2::before{border-left-color:rgba(0,0,0,.08)}
+.df-step.s3{background:linear-gradient(135deg,#009672,#2E7D32)}.df-step.s3::after{border-left-color:#2E7D32}.df-step.s3::before{border-left-color:rgba(0,0,0,.08)}
+.df-step.highlight{box-shadow:0 0 0 3px var(--orange),0 4px 16px rgba(230,81,0,.2)}
+.df-step.highlight .df-idx{opacity:.35;color:var(--orange)}
+/* 三大核心流程 */
+.df3-pipeline{display:flex;gap:0;align-items:stretch;position:relative}
+.df3-card{flex:1;position:relative;padding:10px 12px;transition:all .2s;cursor:default;overflow:hidden;display:flex;flex-direction:column;gap:4px}
+.df3-card:first-child{border-radius:10px 0 0 10px}
+.df3-card:last-child{border-radius:0 10px 10px 0}
+.df3-card::after{content:'';position:absolute;right:-12px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:12px solid;border-top:16px solid transparent;border-bottom:16px solid transparent;z-index:2}
+.df3-card::before{content:'';position:absolute;right:-12px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:12px solid rgba(0,0,0,.08);border-top:16px solid transparent;border-bottom:16px solid transparent;z-index:3}
+.df3-card:last-child::after,.df3-card:last-child::before{display:none}
+.df3-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.df3-char{font-size:28px;font-weight:800;line-height:1;opacity:.5;position:absolute;top:2px;right:8px}
+.df3-head{display:flex;align-items:center;gap:6px}
+.df3-icon{font-size:18px}
+.df3-label{font-size:12px;font-weight:700}
+.df3-sub{font-size:9px;font-weight:500;color:#555;line-height:1.4;padding:2px 6px;background:rgba(0,0,0,.04);border-radius:3px;display:inline-block}
+.df3-items{display:flex;flex-direction:column;gap:2px;margin-top:4px}
+.df3-item{font-size:9.5px;color:#444;line-height:1.3;padding-left:8px;position:relative}
+.df3-item::before{content:'';position:absolute;left:0;top:5px;width:4px;height:4px;border-radius:50%}
+.df3-card.p0{background:#fff;border-left:4px solid #006B54;box-shadow:0 1px 4px rgba(0,0,0,.06)}.df3-card.p0::after{border-left-color:#fff}.df3-card.p0::before{border-left-color:rgba(0,0,0,.04)}.df3-card.p0 .df3-char{color:#006B54}.df3-card.p0 .df3-label{color:#006B54}.df3-card.p0 .df3-item::before{background:#006B54}
+.df3-card.p1{background:#fff;border-left:4px solid #1565C0;box-shadow:0 1px 4px rgba(0,0,0,.06)}.df3-card.p1::after{border-left-color:#fff}.df3-card.p1::before{border-left-color:rgba(0,0,0,.04)}.df3-card.p1 .df3-char{color:#1565C0}.df3-card.p1 .df3-label{color:#1565C0}.df3-card.p1 .df3-item::before{background:#1565C0}
+.df3-card.p2{background:#fff;border-left:4px solid #E65100;box-shadow:0 1px 4px rgba(0,0,0,.06)}.df3-card.p2::after{border-left-color:#fff}.df3-card.p2::before{border-left-color:rgba(0,0,0,.04)}.df3-card.p2 .df3-char{color:#E65100}.df3-card.p2 .df3-label{color:#E65100}.df3-card.p2 .df3-item::before{background:#E65100}
+.df3-card.highlight{box-shadow:0 0 0 3px var(--orange),0 4px 16px rgba(230,81,0,.2)}
+@media(max-width:768px){.df3-pipeline{flex-direction:column;gap:6px}.df3-card{border-radius:8px!important}.df3-card::after,.df3-card::before{display:none}}
+.gantt-section{background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.gantt-section h3{font-size:12px;font-weight:700;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.gantt-wrap{overflow-x:auto}
+.gantt{width:100%;min-width:900px;position:relative}
+.gantt-header{display:grid;grid-template-columns:120px repeat(9,1fr);border-bottom:2px solid #e0e0e0;padding-bottom:6px;margin-bottom:2px}
+.gh-label{font-size:10px;font-weight:600;color:var(--text3);padding-right:6px;text-align:right;align-self:end}
+.gh-month{font-size:10px;font-weight:600;color:var(--text3);text-align:center;padding:2px 0}
+.gantt-row{display:grid;grid-template-columns:120px repeat(9,1fr);align-items:center;padding:3px 0;min-height:26px}
+.gr-label{font-size:10px;font-weight:600;color:var(--text2);padding-right:6px;text-align:right;white-space:nowrap}
+.gantt-bar{border-radius:3px;height:20px;display:flex;align-items:center;padding:0 6px;font-size:10.5px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;transition:filter .2s}
+.gantt-bar:hover{filter:brightness(1.15)}
+.gantt-now{position:absolute;top:0;bottom:0;width:2px;background:var(--red);z-index:5;opacity:.7}
+.gantt-now::before{content:'\2605 今天';position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--red);font-weight:500;white-space:nowrap}
+.phase-nav{display:flex;gap:0;margin-bottom:8px;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.phase-tab{flex:1;padding:10px 4px;text-align:center;cursor:pointer;transition:all .25s;position:relative;color:#fff;font-weight:600;font-size:11px}
+.phase-tab:hover{filter:brightness(1.1)}
+.phase-tab .tab-num{font-size:16px;font-weight:800;opacity:.25;position:absolute;top:2px;right:6px}
+.phase-tab .tab-icon{font-size:14px;margin-bottom:1px}
+.phase-tab .tab-label{font-size:10px}
+.phase-tab .tab-sub{font-size:8px;opacity:.7;margin-top:1px}
+.phase-tab.active{filter:brightness(1.15);transform:scale(1.02);z-index:1;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.phase-panel{display:none;animation:fadeIn .5s}
+.phase-panel.active{display:block}
+.phase-overview{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.pov-card{flex:1;min-width:60px;padding:8px;border-radius:6px;text-align:center}
+.pov-card .pov-val{font-size:20px;font-weight:800}
+.pov-card .pov-label{font-size:10px;color:var(--text3);margin-top:2px}
+.task-card{background:var(--card);border-radius:10px;margin-bottom:6px;box-shadow:0 2px 8px rgba(0,0,0,.04);overflow:hidden;border-left:3px solid var(--g4);transition:box-shadow .2s}
+.task-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.task-header{display:flex;align-items:center;gap:6px;padding:8px 10px;cursor:pointer;user-select:none}
+.task-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#fff;flex-shrink:0}
+.task-title{font-size:12px;font-weight:600;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.task-period{font-size:9.5px;color:var(--text3);background:#f5f5f5;padding:2px 5px;border-radius:5px;white-space:nowrap}
+.task-status{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:600;padding:2px 6px;border-radius:8px;white-space:nowrap}
+.task-status.done{background:var(--g8);color:var(--g2)}
+.task-status.progress{background:#FFF3E0;color:var(--orange)}
+.task-status.pending{background:#f5f5f5;color:#999}
+.task-status.delayed{background:#FFEBEE;color:var(--red)}
+.sdot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.task-status.done .sdot{background:var(--g4)}
+.task-status.progress .sdot{background:var(--orange)}
+.task-status.pending .sdot{background:#bbb}
+.task-status.delayed .sdot{background:var(--red)}
+.task-toggle{font-size:11px;color:var(--text3);transition:transform .3s;width:14px;text-align:center;transform:rotate(90deg)}
+.task-card.closed .task-toggle{transform:rotate(0deg)}
+.task-body{padding:0 10px 8px 36px;animation:fadeIn .3s}
+.task-card.closed .task-body{display:none}
+.task-owner{font-size:9.5px;color:var(--text3);margin-bottom:3px}
+.task-owner span{display:inline-block;padding:1px 5px;border-radius:5px;background:var(--g8);color:var(--g2);margin-right:2px;font-weight:600;font-size:9px}
+.task-deliverable{font-size:9.5px;color:var(--g3);margin-top:3px;padding:2px 6px;background:var(--g8);border-radius:5px;display:inline-block}
+.sub-phase-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.sub-phase{padding:10px;border-radius:10px;border:1.5px solid #e8e8e8;background:#FFFBF5}
+.sub-phase h5{font-size:11px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.sp-badge{display:inline-block;padding:2px 7px;border-radius:6px;font-size:10.5px;font-weight:600;color:#fff}
+.bottom-row{background:var(--card);border-radius:10px;padding:12px 16px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.bottom-row h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.dlv-stats{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.dlv-stat{padding:4px 10px;border-radius:6px;font-size:10px;font-weight:500;display:flex;align-items:center;gap:4px}
+.dlv-stat .sv{font-size:15px;font-weight:600}
+.dlv-groups{display:flex;gap:8px}
+.dlv-group{flex:1;border-radius:8px;overflow:hidden;border:1px solid #f0f0f0;min-width:0}
+.dlv-group-head{padding:6px 12px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px}
+.dlv-group-head .dlv-gcount{font-size:10px;font-weight:500;padding:1px 8px;border-radius:10px;background:rgba(255,255,255,.3);margin-left:auto}
+.dlv-group.g1 .dlv-group-head{background:#E8F5E9;color:#006B54}
+.dlv-group.g1 .dlv-group-head .dlv-gcount{color:#006B54}
+.dlv-group.g2 .dlv-group-head{background:#E3F2FD;color:#1565C0}
+.dlv-group.g2 .dlv-group-head .dlv-gcount{color:#1565C0}
+.dlv-group.g3 .dlv-group-head{background:#FFF3E0;color:#E65100}
+.dlv-group.g3 .dlv-group-head .dlv-gcount{color:#E65100}
+.dlv-group.g4 .dlv-group-head{background:#F3E5F5;color:#5E35B1}
+.dlv-group.g4 .dlv-group-head .dlv-gcount{color:#5E35B1}
+.dlv-row{display:flex;align-items:center;gap:8px;padding:6px 12px;border-bottom:1px solid #f5f5f5;font-size:10px;transition:background .15s}
+.dlv-row:last-child{border-bottom:none}
+.dlv-row:hover{background:#FAFAFA}
+.dlv-idx{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#fff;flex-shrink:0}
+.dlv-name{flex:1;font-weight:500;color:var(--text);line-height:1.3;min-width:0}
+.dlv-time{color:#999;font-size:9px;white-space:nowrap;flex-shrink:0}
+.dlv-status{display:inline-flex;align-items:center;gap:2px;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .15s;user-select:none;flex-shrink:0}
+.dlv-status:hover{filter:brightness(.95);transform:scale(1.05)}
+.dlv-status.pending{background:#F5F5F5;color:#999}
+.dlv-status.done{background:var(--g8);color:var(--g2)}
+.dlv-upload{display:inline-flex;align-items:center;gap:2px;padding:2px 8px;border-radius:5px;font-size:9px;font-weight:500;border:1px dashed #ddd;background:#FAFAFA;color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.dlv-upload:hover{border-color:var(--g4);color:var(--g2);background:var(--g8)}
+.dlv-upload.uploaded{border-style:solid;border-color:var(--g5);color:var(--g2);background:var(--g8);cursor:default;gap:4px;padding:2px 4px}
+.dlv-fname{font-size:9px;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dlv-acts{display:inline-flex;gap:2px;margin-left:3px;flex-shrink:0}
+.dlv-dl{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:4px;font-size:11px;background:var(--g8);color:var(--g2);cursor:pointer;transition:all .15s;flex-shrink:0;line-height:1;text-decoration:none;border:1px solid var(--g5);pointer-events:auto}
+.dlv-dl:hover{background:var(--g4);color:#fff;border-color:var(--g4)}
+.dlv-del{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:4px;font-size:11px;background:#FFEBEE;color:var(--red);cursor:pointer;transition:all .15s;flex-shrink:0;line-height:1;pointer-events:auto}
+.dlv-del:hover{background:var(--red);color:#fff}
+@media(max-width:768px){.dlv-row{flex-wrap:wrap;gap:4px}.dlv-name{min-width:120px}.dlv-time{display:none}}
+.expand-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1.5px solid var(--g4);background:var(--g8);color:var(--g2);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:all .2s}
+.expand-btn:hover{background:var(--g4);color:#fff}
+/* 富媒体知识制作工具section */
+.tool-section{background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.tool-section h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.tool-intro{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:12px;padding:8px 10px;background:#FAFAFA;border-radius:5px;border:1px solid #f0f0f0}
+.tool-intro b{color:var(--g2)}
+.tool-flow{display:flex;gap:0;align-items:stretch;margin-bottom:12px}
+.tool-step{flex:1;position:relative;padding:10px 12px;background:#fff;border:1.5px solid #e8e8e8;border-radius:8px;transition:all .2s}
+.tool-step:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.tool-step::after{content:'';position:absolute;right:-16px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:14px solid #fff;border-top:14px solid transparent;border-bottom:14px solid transparent;z-index:2}
+.tool-step:last-child::after{display:none}
+.tf-num{font-size:20px;font-weight:800;opacity:.15;position:absolute;top:0;right:8px}
+.tf-icon{font-size:20px;margin-bottom:4px}
+.tf-title{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px}
+.tf-desc{font-size:9.5px;color:var(--text3);line-height:1.4}
+.tool-modules{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tool-mod{padding:10px;border-radius:8px;border:1.5px solid #e8e8e8;background:#fafafa;transition:all .2s}
+.tool-mod:hover{border-color:var(--g4);box-shadow:0 2px 8px rgba(76,175,80,.1)}
+.tm-icon{font-size:20px;margin-bottom:4px}
+.tm-title{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px}
+.tm-desc{font-size:9px;color:var(--text3);line-height:1.4}
+.tm-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px}
+.tm-tag{padding:1px 6px;border-radius:3px;font-size:8.5px;font-weight:500}
+.tm-tag.green{background:var(--g8);color:var(--g2)}
+.tm-tag.blue{background:#E3F2FD;color:#1565C0}
+.tm-tag.orange{background:#FFF3E0;color:#E65100}
+.tm-tag.purple{background:#F3E5F5;color:#5E35B1}
+@media(max-width:768px){.tool-modules{grid-template-columns:1fr 1fr}.tool-flow{flex-direction:column;gap:6px}.tool-step::after{display:none}.gantt-header,.gantt-row{grid-template-columns:80px repeat(9,1fr)}.phase-nav{flex-wrap:wrap}.phase-tab{flex:1 1 33%}.phase-overview{flex-wrap:wrap}.pov-card{flex:1 1 45%}.bg-grid{grid-template-columns:1fr}.sub-phase-grid{grid-template-columns:1fr}.dlv-groups{flex-direction:column}.dlv-row{flex-wrap:wrap;gap:4px}.dlv-name{min-width:120px}.dlv-time{display:none}}
+/* 同步功能 */
+.sync-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.sync-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;border-radius:8px;font-size:11.5px;font-weight:500;cursor:pointer;transition:all .25s;border:none}
+.sync-btn.primary{background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;box-shadow:0 2px 8px rgba(0,107,84,.2)}
+.sync-btn.primary:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,107,84,.3)}
+.sync-btn.primary:active{transform:translateY(0)}
+.sync-btn.primary.syncing{opacity:.7;pointer-events:none}
+.sync-time{font-size:10px;color:var(--text3)}
+.sync-toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:10px;color:#fff;font-size:12px;font-weight:500;z-index:9999;animation:fadeIn .3s;box-shadow:0 4px 20px rgba(0,0,0,.2);display:none}
+.sync-toast.show{display:block}
+.sync-toast.success{background:linear-gradient(135deg,var(--g2),var(--g4))}
+.sync-toast.error{background:var(--red)}
+.sync-toast.info{background:var(--blue)}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="header">
+<h1>国网客服中心北方分中心2026年智能客服富媒体知识编译及应用分析项目</h1>
+<div class="sub">落地实施一张图 · 承建单位：国电南瑞南京控制系统有限公司</div>
+<div class="badges">
+<div class="badge">🚀 项目启动 → 📋 需求调研 → 🔧 项目实施 → 📊 中期验收 → 📝 成果物评审 → ✅ 验收会</div>
+<div class="badge">📅 2026.5~2027.1 · 6阶段54项任务</div>
+<div class="badge">👤 负责人：马春悦</div>
+</div>
+</div>
+
+<!-- 项目背景 -->
+<div class="bg-section">
+<h3>📌 项目背景：智能客服富媒体知识应用挑战</h3>
+<div class="bg-intro">
+智能文本机器人作为重要服务载体，其<b>富媒体知识应用能力</b>直接影响服务体验与运营效率。目前，智能文本机器人在富媒体知识应用中面临<b>三大核心问题</b>：<b>① 内容生产依赖人工</b>（资源配置不足）、<b>② 缺乏效果评估体系</b>（优化闭环缺失）、<b>③ 服务性能存在隐患</b>（数据风险突出）。
+</div>
+<div class="bg-grid">
+<div class="bg-card pending">
+<h4>⚠️ 当前问题</h4>
+<div class="cap-list">
+<div class="cap-item"><span class="cap-icon">⏰</span><div class="cap-info"><div class="cap-name">内容生产依赖人工</div><div class="cap-scene">富媒体知识生产效率低，资源投入不足</div></div></div>
+<div class="cap-item"><span class="cap-icon">📊</span><div class="cap-info"><div class="cap-name">缺乏效果评估体系</div><div class="cap-scene">无法衡量知识应用效果，优化方向不清晰</div></div></div>
+<div class="cap-item"><span class="cap-icon">⚠️</span><div class="cap-info"><div class="cap-name">服务性能存在隐患</div><div class="cap-scene">传输异常、加载失败等风险难以提前预警</div></div></div>
+</div>
+<div class="mission-note">📌 现状痛点：知识生产靠人工拼图，效果无法量化，风险被动发现</div>
+</div>
+<div style="text-align:center;font-size:20px;color:var(--g4);display:flex;align-items:center;justify-content:center;padding:0 8px">⟹</div>
+<div class="bg-card done">
+<h4>✅ 解决思路：构建「生产-评估-监控」闭环体系</h4>
+<div class="cap-list">
+<div class="cap-item"><span class="cap-icon">🛠️</span><div class="cap-info"><div class="cap-name">知识梳理与适配场景</div><div class="cap-scene">盘点现有知识资产，梳理适配应答场景</div></div></div>
+<div class="cap-item"><span class="cap-icon">📝</span><div class="cap-info"><div class="cap-name">富媒体知识标准化生产</div><div class="cap-scene">自动化脚本+模板库，预期生成2000条</div></div></div>
+<div class="cap-item"><span class="cap-icon">📈</span><div class="cap-info"><div class="cap-name">效果评估与用户体验</div><div class="cap-scene">点击率、转人工率、满意度等核心指标</div></div></div>
+<div class="cap-item"><span class="cap-icon">🔍</span><div class="cap-info"><div class="cap-name">服务性能监控预警</div><div class="cap-scene">传输异常、加载失败等风险及时预警</div></div></div>
+</div>
+</div>
+</div>
+<div class="bg-mission">🎯 目标：实现内容运营降本增效、服务体验可衡量可优化，全面提升智能机器人服务质量与用户满意度</div>
+</div>
+
+<!-- 三大核心流程 -->
+<div class="data-flow-section">
+<h3>🔄 三大核心流程：「生产-评估-监控」闭环体系</h3>
+<div class="data-flow-desc">
+通过<b>富媒体知识适配场景梳理</b>确定"做什么"，通过<b>标准化生产与素材管理</b>实现高效产出，通过<b>效果评估与用户追踪</b>验证价值，通过<b>服务性能监控</b>保障稳定运行，形成完整的闭环体系。
+</div>
+<div class="df3-pipeline">
+<div class="df3-card p0">
+<div class="df3-char">生</div>
+<div class="df3-head"><span class="df3-icon">📝</span><span class="df3-label">知识梳理与生产</span></div>
+<div class="df3-sub">适配场景 · 素材生产 · 规范标准</div>
+<div class="df3-items">
+<div class="df3-item">富媒体知识适配应答场景梳理</div>
+<div class="df3-item">素材生产流程与模板资源库</div>
+<div class="df3-item">内容生成规范与质量审核</div>
+<div class="df3-item">自动化脚本开发（格式处理、素材管理）</div>
+</div>
+</div>
+<div class="df3-card p1">
+<div class="df3-char">评</div>
+<div class="df3-head"><span class="df3-icon">📊</span><span class="df3-label">效果评估与追踪</span></div>
+<div class="df3-sub">指标体系 · 用户体验 · 满意度分析</div>
+<div class="df3-items">
+<div class="df3-item">富媒体知识服务效果评估指标体系</div>
+<div class="df3-item">答案点击率、转人工率核心指标</div>
+<div class="df3-item">用户满意度分析与追踪报告</div>
+<div class="df3-item">持续优化建议与反馈机制</div>
+</div>
+</div>
+<div class="df3-card p2">
+<div class="df3-char">监</div>
+<div class="df3-head"><span class="df3-icon">🔍</span><span class="df3-label">服务性能监控</span></div>
+<div class="df3-sub">风险预警 · 异常分析 · 处置规范</div>
+<div class="df3-items">
+<div class="df3-item">富媒体知识穿透测试脚本</div>
+<div class="df3-item">网络质量检查与性能监控</div>
+<div class="df3-item">异常情况分析与根因定位</div>
+<div class="df3-item">风险预警与处置规范</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 四大运营内容 -->
+<div class="data-flow-section">
+<h3>📋 四大运营内容</h3>
+<div class="tool-modules">
+<div class="tool-mod">
+<div class="tm-icon">🔍</div>
+<div class="tm-title">知识梳理</div>
+<div class="tm-desc">富媒体知识适配应答场景梳理，盘点现有知识资产</div>
+<div class="tm-tags"><span class="tm-tag green">场景梳理</span><span class="tm-tag green">需求调研</span></div>
+</div>
+<div class="tool-mod">
+<div class="tm-icon">📝</div>
+<div class="tm-title">知识生产</div>
+<div class="tm-desc">富媒体知识素材生产流程与素材管理规范</div>
+<div class="tm-tags"><span class="tm-tag blue">素材生产</span><span class="tm-tag blue">模板库</span></div>
+</div>
+<div class="tool-mod">
+<div class="tm-icon">📈</div>
+<div class="tm-title">效果评估</div>
+<div class="tm-desc">富媒体知识应用效果评估与用户体验追踪</div>
+<div class="tm-tags"><span class="tm-tag orange">点击率</span><span class="tm-tag orange">满意度</span></div>
+</div>
+<div class="tool-mod">
+<div class="tm-icon">🔍</div>
+<div class="tm-title">服务分析</div>
+<div class="tm-desc">服务性能与风险分析，监控预警方案</div>
+<div class="tm-tags"><span class="tm-tag purple">风险监控</span><span class="tm-tag purple">预警处置</span></div>
+</div>
+</div>
+</div>
+
+<!-- 项目甘特图 -->
+<div class="gantt-section">
+<h3>📅 项目甘特图（2026年5月 - 2027年1月）</h3>
+<div class="sync-bar">
+<button class="sync-btn primary" id="syncBtn" onclick="syncFromKDocs()">🔄 同步项目计划</button>
+<span class="sync-time" id="syncTime">请通过Agent执行kdocs-cli更新plan-data.json</span>
+</div>
+<div class="gantt-wrap">
+<div class="gantt">
+<div class="gantt-header">
+<div class="gh-label">阶段</div>
+<div class="gh-month">2026.5</div>
+<div class="gh-month">2026.6</div>
+<div class="gh-month">2026.7</div>
+<div class="gh-month">2026.8</div>
+<div class="gh-month">2026.9</div>
+<div class="gh-month">2026.10</div>
+<div class="gh-month">2026.11</div>
+<div class="gh-month">2026.12</div>
+<div class="gh-month">2027.1</div>
+</div>
+<div class="gantt-row">
+<div class="gr-label">1.项目启动</div>
+<div class="gantt-bar" style="grid-column:1/2;background:#006B54">4项100%</div>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+</div>
+<div class="gantt-row">
+<div class="gr-label">2.需求调研</div>
+<div></div>
+<div class="gantt-bar" style="grid-column:2/3;background:#008667">7项进行中</div>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+</div>
+<div class="gantt-row">
+<div class="gr-label">3.项目实施</div>
+<div></div><div></div>
+<div class="gantt-bar" style="grid-column:3/8;background:#009672">31项 · 子模块4A/B/C/D</div>
+<div></div><div></div><div></div><div></div>
+<div></div>
+</div>
+<div class="gantt-row">
+<div class="gr-label">4.中期验收</div>
+<div></div><div></div><div></div><div></div><div></div><div></div>
+<div class="gantt-bar" style="grid-column:7/8;background:#2E7D32">5项</div>
+<div></div><div></div>
+</div>
+<div class="gantt-row">
+<div class="gr-label">5.成果物评审</div>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+<div class="gantt-bar" style="grid-column:8/9;background:#388E3C">2项</div>
+<div></div>
+</div>
+<div class="gantt-row">
+<div class="gr-label">6.验收会</div>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+<div class="gantt-bar" style="grid-column:9/10;background:#4CAF50">5项</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 阶段导航 -->
+<div class="phase-nav" id="phaseNav">
+<div class="phase-tab active" style="background:#006B54" onclick="switchPhase(0)"><span class="tab-num">1</span><span class="tab-icon">🚀</span><span class="tab-label">项目启动</span><span class="tab-sub">4项/100%</span></div>
+<div class="phase-tab" style="background:#008667" onclick="switchPhase(1)"><span class="tab-num">2</span><span class="tab-icon">📋</span><span class="tab-label">需求调研</span><span class="tab-sub">7项/32%</span></div>
+<div class="phase-tab" style="background:#009672" onclick="switchPhase(2)"><span class="tab-icon">🔧</span><span class="tab-label">项目实施</span><span class="tab-sub">31项/0%</span></div>
+<div class="phase-tab" style="background:#2E7D32" onclick="switchPhase(3)"><span class="tab-icon">📊</span><span class="tab-label">中期验收</span><span class="tab-sub">5项/0%</span></div>
+<div class="phase-tab" style="background:#388E3C" onclick="switchPhase(4)"><span class="tab-icon">📝</span><span class="tab-label">成果物评审</span><span class="tab-sub">2项/0%</span></div>
+<div class="phase-tab" style="background:#4CAF50" onclick="switchPhase(5)"><span class="tab-icon">✅</span><span class="tab-label">验收会</span><span class="tab-sub">5项/0%</span></div>
+</div>
+
+<!-- 阶段1：项目启动 -->
+<div class="phase-panel active" id="phase-0">
+<div class="phase-overview">
+<div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">4</div><div class="pov-label">任务</div></div>
+<div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">4</div><div class="pov-label">已完成</div></div>
+<div class="pov-card" style="background:var(--g8)"><div class="pov-val" style="color:var(--g2)">100%</div><div class="pov-label">完成率</div></div>
+</div>
+<div class="task-card" style="border-left-color:#006B54">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#006B54">1</div>
+<div class="task-title">项目启动会前准备 - 启动会材料准备</div>
+<div class="task-status done"><span class="sdot"></span>100%</div>
+<div class="task-toggle">▶</div>
+</div>
+<div class="task-body">
+<div class="task-owner">👤 负责人：<span>马春悦</span><span>张卜峥</span><span>张健宇</span><span>杨超</span></div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#006B54">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#006B54">2</div>
+<div class="task-title">完成启动会 - 会上汇报</div>
+<div class="task-status done"><span class="sdot"></span>100%</div>
+<div class="task-toggle">▶</div>
+</div>
+<div class="task-body">
+<div class="task-owner">👤 负责人：<span>马春悦</span><span>张卜峥</span><span>张健宇</span><span>杨超</span></div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#006B54">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#006B54">3</div>
+<div class="task-title">编制会议纪要、签到表</div>
+<div class="task-status done"><span class="sdot"></span>100%</div>
+<div class="task-toggle">▶</div>
+</div>
+<div class="task-body">
+<div class="task-owner">👤 负责人：<span>马春悦</span><span>张卜峥</span><span>张健宇</span><span>杨超</span></div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#006B54">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#006B54">4</div>
+<div class="task-title">会后签字</div>
+<div class="task-status done"><span class="sdot"></span>100%</div>
+<div class="task-toggle">▶</div>
+</div>
+<div class="task-body">
+<div class="task-owner">👤 负责人：<span>马春悦</span><span>张卜峥</span><span>张健宇</span><span>杨超</span></div>
+</div>
+</div>
+</div>
+
+<!-- 阶段2：需求调研 -->
+<div class="phase-panel" id="phase-1">
+<div class="phase-overview">
+<div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">7</div><div class="pov-label">任务</div></div>
+<div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">3</div><div class="pov-label">已完成</div></div>
+<div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:var(--orange)">32%</div><div class="pov-label">完成率</div></div>
+</div>
+<div class="task-card" style="border-left-color:#008667">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#008667">5</div>
+<div class="task-title">调研提纲准备 - 编制需求调研问题</div>
+<div class="task-status done"><span class="sdot"></span>100%</div>
+<div class="task-toggle">▶</div>
+</div>
+<div class="task-body">
+<div class="task-owner">👤 负责人：<span>马春悦</span><span>张卜峥</span><span>张健宇</span><span>杨超</span></div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#008667">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#008667">6</div>
+<div class="task-title">完成需求调研 - 开展需求调研</div>
+<div class="task-status done"><span class="sdot"></span>100%</div>
+<div class="task-toggle">▶</div>
+</div>
+<div class="task-body">
+<div class="task-owner">👤 负责人：<span>马春悦</span><span>张卜峥</span><span>张健宇</span><span>杨超</span></div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#008667">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#008667">7</div>
+<div class="task-title">编制需求调研表</div>
+<div class="task-status done"><span class="sdot"></span>100%</div>
+<div class="task-toggle">▶</div>
+</div>
+<div class="task-body">
+<div class="task-owner">👤 负责人：<span>马春悦</span><span>张卜峥</span><span>张健宇</span><span>杨超</span></div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#008667">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#008667">8</div>
+<div class="task-title">会后签字 - 完成需求调研表签字</div>
+<div class="task-status progress"><span class="sdot"></span>20%</div>
+<div class="task-toggle">▶</div>
+</div>
+<div class="task-body">
+<div class="task-owner">👤 负责人：<span>马春悦</span><span>张卜峥</span><span>张健宇</span><span>杨超</span></div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#008667">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#008667">9</div>
+<div class="task-title">编制需求调研报告</div>
+<div class="task-status progress"><span class="sdot"></span>5%</div>
+<div class="task-toggle">▶</div>
+</div>
+<div class="task-body">
+<div class="task-owner">👤 负责人：<span>马春悦</span><span>张卜峥</span><span>张健宇</span><span>杨超</span></div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#008667">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#008667">10</div>
+<div class="task-title">需求调研报告签字</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+<div class="task-body">
+<div class="task-owner">👤 负责人：<span>马春悦</span><span>张卜峥</span><span>张健宇</span><span>杨超</span></div>
+</div>
+</div>
+</div>
+
+<!-- 阶段3：项目实施 -->
+<div class="phase-panel" id="phase-2">
+<div class="phase-overview">
+<div class="pov-card" style="background:#F3E5F5"><div class="pov-val" style="color:#5E35B1">31</div><div class="pov-label">任务</div></div>
+<div class="pov-card" style="background:#F3E5F5"><div class="pov-val" style="color:#5E35B1">2</div><div class="pov-label">已完成</div></div>
+<div class="pov-card" style="background:#F3E5F5"><div class="pov-val" style="color:#5E35B1">6%</div><div class="pov-label">完成率</div></div>
+</div>
+<button class="expand-btn" onclick="toggleAll(2)">📋 展开/收起全部子模块</button>
+<div class="sub-phase-grid">
+<div class="sub-phase">
+<h5>🔧 3A: 富媒体知识适配应答场景梳理 <span class="sp-badge" style="background:#006B54">7月-9月</span></h5>
+<div class="task-card" style="border-left-color:#006B54"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#006B54">11</div><div class="task-title">盘点业务场景与现有知识资产（网上国网APP、网站渠道全量文本知识导出）</div><div class="task-status done"><span class="sdot"></span>100%</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#006B54"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#006B54">12</div><div class="task-title">富媒体知识（图片知识）下载路径对接，写脚本批量导出图片知识</div><div class="task-status progress"><span class="sdot"></span>5%</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#006B54"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#006B54">13</div><div class="task-title">梳理网上国网APP渠道会话树上的场景-知识对应关系</div><div class="task-status progress"><span class="sdot"></span>5%</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#006B54"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#006B54">14</div><div class="task-title">梳理微信小程序渠道会话树上的场景-知识对应关系</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#006B54"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#006B54">15</div><div class="task-title">梳理网站三大渠道会话树上的场景-知识对应关系</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#006B54"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#006B54">16</div><div class="task-title">核查每个场景下，各网省标问的富媒体知识配置情况</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#006B54"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#006B54">17</div><div class="task-title">制定优先级配置策略 - 结合历史运营数据评估现有富媒体知识应用效果</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+</div>
+<div class="sub-phase">
+<h5>📝 3B: 富媒体知识素材生产流程与素材管理规范 <span class="sp-badge" style="background:#1565C0">7月-11月</span></h5>
+<div class="task-card" style="border-left-color:#1565C0"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#1565C0">18</div><div class="task-title">盘点答案内容为"业务复杂需转人工处理"的知识清单</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#1565C0"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#1565C0">19</div><div class="task-title">调研业务侧重要场景及典型场景富媒体知识需求</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#1565C0"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#1565C0">20</div><div class="task-title">基于指标体系，对所有场景进行系统评分，应用"价值-成本"四象限法</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#1565C0"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#1565C0">21</div><div class="task-title">输出三大渠道适配场景清单 - 微信小程序、网上国网APP渠道</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#1565C0"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#1565C0">22</div><div class="task-title">网站渠道富媒体知识适配业务场景清单梳理</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#1565C0"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#1565C0">23</div><div class="task-title">三大渠道适配场景清单评审及修改</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#1565C0"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#1565C0">24</div><div class="task-title">建立富媒体知识场景适配性评估指标框架</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+</div>
+</div>
+<div class="sub-phase-grid">
+<div class="sub-phase">
+<h5>🎨 3C: 富媒体知识制作小工具与素材管理 <span class="sp-badge" style="background:#009672">8月-11月</span></h5>
+<div class="task-card" style="border-left-color:#009672"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#009672">25</div><div class="task-title">富媒体知识制作小工具设计 - 功能清单梳理</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#009672"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#009672">26</div><div class="task-title">原型设计（用AI直接生成页面）</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#009672"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#009672">27</div><div class="task-title">启动首批知识转化</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#009672"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#009672">28</div><div class="task-title">小工具功能内部评审、客户评审</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#009672"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#009672">29</div><div class="task-title">富媒体知识模板资源库</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#009672"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#009672">30</div><div class="task-title">富媒体知识生成 - 分批次完成2000条</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#009672"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#009672">31</div><div class="task-title">富媒体知识内容组织与格式处理脚本</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#009672"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#009672">32</div><div class="task-title">富媒体知识素材管理脚本</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#009672"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#009672">33</div><div class="task-title">功能开发（若存在内网应用需求）</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#009672"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#009672">34</div><div class="task-title">功能测试及应用</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#009672"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#009672">35</div><div class="task-title">制定素材质量审核指导手册</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#009672"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#009672">36</div><div class="task-title">制定内容生成规范与标准</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+</div>
+<div class="sub-phase">
+<h5>📊 3D: 效果评估与服务监控 <span class="sp-badge" style="background:#E65100">10月-11月</span></h5>
+<div class="task-card" style="border-left-color:#E65100"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#E65100">37</div><div class="task-title">制定富媒体知识服务效果评估指标体系</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#E65100"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#E65100">38</div><div class="task-title">制定富媒体知识服务满意度分析报告</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#E65100"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#E65100">39</div><div class="task-title">开发富媒体知识穿透测试脚本</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#E65100"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#E65100">40</div><div class="task-title">开发富媒体知识服务网络质量检查脚本</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#E65100"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#E65100">41</div><div class="task-title">异常情况分析</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+<div class="task-card" style="border-left-color:#E65100"><div class="task-header" onclick="toggleStep(this)"><div class="task-num" style="background:#E65100">42</div><div class="task-title">制定风险预警与处置规范</div><div class="task-status pending"><span class="sdot"></span>待开展</div><div class="task-toggle">▶</div></div></div>
+</div>
+</div>
+<div style="text-align:center;font-size:10.5px;color:var(--text3);margin:6px 0">→ 依赖关系：3A场景梳理完成 → 3B优先级策略 → 3C素材生产 → 3D效果评估与监控</div>
+</div>
+
+<!-- 阶段4：中期验收 -->
+<div class="phase-panel" id="phase-3">
+<div class="phase-overview">
+<div class="pov-card" style="background:#E3F2FD"><div class="pov-val" style="color:#1565C0">5</div><div class="pov-label">任务</div></div>
+<div class="pov-card" style="background:#E3F2FD"><div class="pov-val" style="color:#1565C0">0</div><div class="pov-label">已完成</div></div>
+<div class="pov-card" style="background:#E3F2FD"><div class="pov-val" style="color:#1565C0">0%</div><div class="pov-label">完成率</div></div>
+</div>
+<div class="task-card" style="border-left-color:#2E7D32">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#2E7D32">43</div>
+<div class="task-title">文档准备 - 中期成果物材料准备</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#2E7D32">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#2E7D32">44</div>
+<div class="task-title">汇报材料准备 - 中期评审汇报PPT准备</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#2E7D32">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#2E7D32">45</div>
+<div class="task-title">完成中期评审会 - 会上汇报</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#2E7D32">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#2E7D32">46</div>
+<div class="task-title">材料修改</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#2E7D32">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#2E7D32">47</div>
+<div class="task-title">会后签字</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+</div>
+</div>
+
+<!-- 阶段5：成果物评审 -->
+<div class="phase-panel" id="phase-4">
+<div class="phase-overview">
+<div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:#E65100">2</div><div class="pov-label">任务</div></div>
+<div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:#E65100">0</div><div class="pov-label">已完成</div></div>
+<div class="pov-card" style="background:#FFF3E0"><div class="pov-val" style="color:#E65100">0%</div><div class="pov-label">完成率</div></div>
+</div>
+<div class="task-card" style="border-left-color:#388E3C">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#388E3C">48</div>
+<div class="task-title">成果物内部评审</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#388E3C">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#388E3C">49</div>
+<div class="task-title">可研成果物客户评审及修改</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+</div>
+</div>
+
+<!-- 阶段6：验收会 -->
+<div class="phase-panel" id="phase-5">
+<div class="phase-overview">
+<div class="pov-card" style="background:#E8F5E9"><div class="pov-val" style="color:#4CAF50">5</div><div class="pov-label">任务</div></div>
+<div class="pov-card" style="background:#E8F5E9"><div class="pov-val" style="color:#4CAF50">0</div><div class="pov-label">已完成</div></div>
+<div class="pov-card" style="background:#E8F5E9"><div class="pov-val" style="color:#4CAF50">0%</div><div class="pov-label">完成率</div></div>
+</div>
+<div class="task-card" style="border-left-color:#4CAF50">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#4CAF50">50</div>
+<div class="task-title">文档准备 - 验收会方案</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#4CAF50">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#4CAF50">51</div>
+<div class="task-title">验收报告</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#4CAF50">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#4CAF50">52</div>
+<div class="task-title">会议签到表</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#4CAF50">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#4CAF50">53</div>
+<div class="task-title">完成验收会 - 会上汇报</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+</div>
+<div class="task-card" style="border-left-color:#4CAF50">
+<div class="task-header" onclick="toggleStep(this)">
+<div class="task-num" style="background:#4CAF50">54</div>
+<div class="task-title">会后签字</div>
+<div class="task-status pending"><span class="sdot"></span>待开展</div>
+<div class="task-toggle">▶</div>
+</div>
+</div>
+</div>
+
+<!-- 成果物交付计划 -->
+<div class="bottom-row">
+<h3>📦 成果物交付计划（13项）</h3>
+<div class="dlv-stats">
+<div class="dlv-stat" style="background:#E8F5E9"><span class="sv" style="color:#006B54" id="dlvDone">0</span><span>项已交付</span></div>
+<div class="dlv-stat" style="background:#FFF3E0"><span class="sv" style="color:#E65100" id="dlvPending">13</span><span>项待交付</span></div>
+</div>
+<div class="dlv-groups">
+<div class="dlv-group g1">
+<div class="dlv-group-head">📋 知识梳理 <span class="dlv-gcount">4项 · 7月</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#006B54">1</div><div class="dlv-name">《微信小程序渠道富媒体知识适配业务场景清单》</div><div class="dlv-time">2026.7</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,1)">📎 上传</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#006B54">2</div><div class="dlv-name">《网上国网APP渠道富媒体知识适配业务场景清单》</div><div class="dlv-time">2026.7</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,2)">📎 上传</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#006B54">3</div><div class="dlv-name">《网站渠道富媒体知识适配业务场景清单》</div><div class="dlv-time">2026.7</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,3)">📎 上传</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#006B54">4</div><div class="dlv-name">《富媒体知识场景适配性评估指标体系》</div><div class="dlv-time">2026.7</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,4)">📎 上传</span></div>
+</div>
+<div class="dlv-group g2">
+<div class="dlv-group-head">📝 知识生产 <span class="dlv-gcount">4项 · 9月</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#1565C0">5</div><div class="dlv-name">《富媒体知识内容组织与格式处理脚本》</div><div class="dlv-time">2026.9</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,5)">📎 上传</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#1565C0">6</div><div class="dlv-name">《富媒体知识素材管理脚本》</div><div class="dlv-time">2026.9</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,6)">📎 上传</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#1565C0">7</div><div class="dlv-name">《素材质量审核指导手册》</div><div class="dlv-time">2026.9</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,7)">📎 上传</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#1565C0">8</div><div class="dlv-name">《富媒体知识内容生成规范》</div><div class="dlv-time">2026.9</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,8)">📎 上传</span></div>
+</div>
+<div class="dlv-group g3">
+<div class="dlv-group-head">📊 效果评估 <span class="dlv-gcount">2项 · 10月</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#E65100">9</div><div class="dlv-name">《富媒体知识服务效果评估指标体系》</div><div class="dlv-time">2026.10</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,9)">📎 上传</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#E65100">10</div><div class="dlv-name">《富媒体知识服务满意度分析报告》</div><div class="dlv-time">2026.10</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,10)">📎 上传</span></div>
+</div>
+<div class="dlv-group g4">
+<div class="dlv-group-head">🔍 服务监控 <span class="dlv-gcount">3项 · 11月</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#5E35B1">11</div><div class="dlv-name">《富媒体知识穿透测试脚本》</div><div class="dlv-time">2026.11</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,11)">📎 上传</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#5E35B1">12</div><div class="dlv-name">《富媒体知识服务网络质量检查脚本》</div><div class="dlv-time">2026.11</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,12)">📎 上传</span></div>
+<div class="dlv-row"><div class="dlv-idx" style="background:#5E35B1">13</div><div class="dlv-name">《服务性能与风险监控报告》</div><div class="dlv-time">2026.11</div><span class="dlv-status pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload" onclick="uploadDlv(this,13)">📎 上传</span></div>
+</div>
+</div>
+</div>
+
+<!-- 富媒体知识制作工具概览 -->
+<div class="tool-section">
+<h3>🛠️ 富媒体知识制作工具概览</h3>
+<div class="tool-intro">
+富媒体知识制作工具是本项目的核心交付之一，通过<b>文本解析→模板匹配→标准生成</b>的自动化流程，实现富媒体知识的批量、高效、标准化的生产与管理。
+</div>
+<div class="tool-flow">
+<div class="tool-step">
+<div class="tf-num">1</div>
+<div class="tf-icon">📄</div>
+<div class="tf-title">文本解析</div>
+<div class="tf-desc">解析现有文本知识，提取关键结构和内容要素</div>
+</div>
+<div class="tool-step">
+<div class="tf-num">2</div>
+<div class="tf-icon">🎯</div>
+<div class="tf-title">模板匹配</div>
+<div class="tf-desc">基于模板资源库，智能匹配合适的富媒体模板</div>
+</div>
+<div class="tool-step">
+<div class="tf-num">3</div>
+<div class="tf-icon">✨</div>
+<div class="tf-title">标准生成</div>
+<div class="tf-desc">自动生成符合规范的富媒体知识内容</div>
+</div>
+<div class="tool-step">
+<div class="tf-num">4</div>
+<div class="tf-icon">✅</div>
+<div class="tf-title">质量审核</div>
+<div class="tf-desc">按照质量审核手册进行自动+人工双重审核</div>
+</div>
+</div>
+<div class="tool-modules">
+<div class="tool-mod">
+<div class="tm-icon">📁</div>
+<div class="tm-title">模板资源库</div>
+<div class="tm-desc">标准化模板管理，支持多场景分类与检索</div>
+<div class="tm-tags"><span class="tm-tag green">模板管理</span><span class="tm-tag green">分类检索</span></div>
+</div>
+<div class="tool-mod">
+<div class="tm-icon">📊</div>
+<div class="tm-title">素材管理</div>
+<div class="tm-desc">素材的批量导入、整理、版本控制与更新追踪</div>
+<div class="tm-tags"><span class="tm-tag blue">批量导入</span><span class="tm-tag blue">版本控制</span></div>
+</div>
+<div class="tool-mod">
+<div class="tm-icon">⚡</div>
+<div class="tm-title">知识生成</div>
+<div class="tm-desc">自动化脚本实现2000条富媒体知识的批量生成</div>
+<div class="tm-tags"><span class="tm-tag orange">自动生成</span><span class="tm-tag orange">批量处理</span></div>
+</div>
+<div class="tool-mod">
+<div class="tm-icon">📈</div>
+<div class="tm-title">效果评估</div>
+<div class="tm-desc">效果指标追踪、用户满意度分析与优化建议</div>
+<div class="tm-tags"><span class="tm-tag purple">指标追踪</span><span class="tm-tag purple">满意度分析</span></div>
+</div>
+</div>
+</div>
+
+<!-- Toast通知 -->
+<div class="sync-toast" id="syncToast"></div>
+
+<script>
+/* 阶段切换 */
+var _currentPhase = 0;
+function switchPhase(idx){
+  _currentPhase = idx;
+  document.querySelectorAll('.phase-tab').forEach(function(tab,i){
+    tab.classList.toggle('active', i===idx);
+  });
+  document.querySelectorAll('.phase-panel').forEach(function(panel,i){
+    panel.classList.toggle('active', i===idx);
+  });
+}
+
+/* 任务卡片展开/收起 */
+function toggleStep(el){
+  var card = el.closest('.task-card');
+  card.classList.toggle('closed');
+}
+
+/* 全部展开/收起（用于阶段3）*/
+function toggleAll(phaseIdx){
+  var panel = document.getElementById('phase-'+phaseIdx);
+  if(!panel)return;
+  var cards = panel.querySelectorAll('.task-card');
+  var isClosed = cards[0] && cards[0].classList.contains('closed');
+  cards.forEach(function(card){
+    if(isClosed){
+      card.classList.remove('closed');
+    }else{
+      card.classList.add('closed');
+    }
+  });
+}
+
+/* 成果物状态切换 */
+function cycleDlvStatus(el){
+  if(el.classList.contains('pending')){
+    el.className = 'dlv-status done';
+    el.textContent = '✓ 已交付';
+  }else{
+    el.className = 'dlv-status pending';
+    el.textContent = '○ 待交付';
+  }
+  updateDlvStats();
+  saveDlvData();
+}
+function updateDlvStats(){
+  var all = document.querySelectorAll('.dlv-status');
+  var done = 0, pending = 0;
+  all.forEach(function(el){
+    if(el.classList.contains('done')) done++;
+    else pending++;
+  });
+  var d = document.getElementById('dlvDone');
+  var n = document.getElementById('dlvPending');
+  if(d) d.textContent = done;
+  if(n) n.textContent = pending;
+}
+
+/* IndexedDB 文件持久化 */
+var _dlvDB = null;
+function openDlvDB(){
+  return new Promise(function(resolve,reject){
+    if(_dlvDB){resolve(_dlvDB);return}
+    var req = indexedDB.open('dlv_media_knowledge_db', 1);
+    req.onupgradeneeded = function(e){e.target.result.createObjectStore('files')};
+    req.onsuccess = function(e){_dlvDB = e.target.result;resolve(_dlvDB)};
+    req.onerror = function(e){reject(e)};
+  });
+}
+function saveFileToDB(idx, file){
+  return openDlvDB().then(function(db){
+    return new Promise(function(resolve,reject){
+      var tx = db.transaction('files','readwrite');
+      tx.objectStore('files').put(file, idx);
+      tx.oncomplete = function(){resolve()};
+      tx.onerror = function(e){reject(e)};
+    });
+  });
+}
+function getFileFromDB(idx){
+  return openDlvDB().then(function(db){
+    return new Promise(function(resolve,reject){
+      var tx = db.transaction('files','readonly');
+      var req = tx.objectStore('files').get(idx);
+      req.onsuccess = function(){resolve(req.result)};
+      req.onerror = function(e){reject(e)};
+    });
+  });
+}
+function deleteFileFromDB(idx){
+  return openDlvDB().then(function(db){
+    return new Promise(function(resolve,reject){
+      var tx = db.transaction('files','readwrite');
+      tx.objectStore('files').delete(idx);
+      tx.oncomplete = function(){resolve()};
+      tx.onerror = function(e){reject(e)};
+    });
+  });
+}
+function downloadDlv(e, el, idx){
+  e.stopPropagation();
+  getFileFromDB(String(idx)).then(function(file){
+    if(!file){showToast('文件不存在','error');return}
+    var url = URL.createObjectURL(file);
+    var a = document.createElement('a');
+    a.href = url; a.download = file.name || ('成果物#'+idx);
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url)},1000);
+  }).catch(function(){showToast('下载失败','error')});
+}
+function saveDlvData(){
+  var data = {};
+  document.querySelectorAll('.dlv-row').forEach(function(row){
+    var idx = row.querySelector('.dlv-idx');
+    if(!idx) return;
+    var id = idx.textContent.trim();
+    var statusEl = row.querySelector('.dlv-status');
+    var uploadEl = row.querySelector('.dlv-upload');
+    data[id] = {
+      status: statusEl ? (statusEl.classList.contains('done')?'done':'pending') : 'pending',
+      fileName: uploadEl && uploadEl.classList.contains('uploaded') ? uploadEl.getAttribute('data-fname') || '' : ''
+    };
+  });
+  try{localStorage.setItem('dlv_media_knowledge_data', JSON.stringify(data))}catch(e){}
+}
+function loadDlvData(){
+  try{
+    var raw = localStorage.getItem('dlv_media_knowledge_data');
+    if(!raw) return;
+    var data = JSON.parse(raw);
+    document.querySelectorAll('.dlv-row').forEach(function(row){
+      var idx = row.querySelector('.dlv-idx');
+      if(!idx) return;
+      var id = idx.textContent.trim();
+      var item = data[id];
+      if(!item) return;
+      var statusEl = row.querySelector('.dlv-status');
+      var uploadEl = row.querySelector('.dlv-upload');
+      if(statusEl){
+        statusEl.className = 'dlv-status ' + (item.status==='done'?'done':'pending');
+        statusEl.textContent = item.status==='done' ? '✓ 已交付' : '○ 待交付';
+      }
+      if(uploadEl && item.fileName){
+        uploadEl.classList.add('uploaded');
+        uploadEl.setAttribute('data-fname', item.fileName);
+        uploadEl.onclick = null;
+        var shortName = item.fileName.length>10 ? item.fileName.substring(0,10)+'...' : item.fileName;
+        uploadEl.innerHTML = '<span class="dlv-fname">'+shortName+'</span><span class="dlv-acts"><span class="dlv-dl" onclick="downloadDlv(event,this,'+id+')" title="下载">⬇</span><span class="dlv-del" onclick="removeDlv(event,this,'+id+')" title="删除">✕</span></span>';
+      }
+    });
+    updateDlvStats();
+  }catch(e){}
+}
+function uploadDlv(el, idx){
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.pdf,.docx,.xlsx,.pptx,.zip,.md,.txt,.doc,.xls,.ppt,.jpg,.png';
+  input.onchange = function(){
+    if(input.files.length>0){
+      var file = input.files[0];
+      var fname = file.name;
+      el.classList.add('uploaded');
+      el.setAttribute('data-fname', fname);
+      el.onclick = null;
+      var shortName = fname.length>10 ? fname.substring(0,10)+'...' : fname;
+      el.innerHTML = '<span class="dlv-fname">'+shortName+'</span><span class="dlv-acts"><span class="dlv-dl" onclick="downloadDlv(event,this,'+idx+')" title="下载">⬇</span><span class="dlv-del" onclick="removeDlv(event,this,'+idx+')" title="删除">✕</span></span>';
+      var statusEl = el.closest('.dlv-row').querySelector('.dlv-status');
+      if(statusEl){
+        statusEl.className = 'dlv-status done';
+        statusEl.textContent = '✓ 已交付';
+      }
+      updateDlvStats();
+      saveDlvData();
+      saveFileToDB(String(idx), file);
+      showToast('成果物 #'+idx+' 上传成功','success');
+    }
+  };
+  input.click();
+}
+function removeDlv(e, el, idx){
+  e.stopPropagation();
+  var uploadEl = el.parentElement;
+  uploadEl.classList.remove('uploaded');
+  uploadEl.removeAttribute('data-fname');
+  uploadEl.innerHTML = '📎 上传';
+  uploadEl.onclick = function(){uploadDlv(uploadEl,idx)};
+  var statusEl = uploadEl.closest('.dlv-row').querySelector('.dlv-status');
+  if(statusEl){
+    statusEl.className = 'dlv-status pending';
+    statusEl.textContent = '○ 待交付';
+  }
+  updateDlvStats();
+  saveDlvData();
+  deleteFileFromDB(String(idx));
+  showToast('成果物 #'+idx+' 已删除','success');
+}
+
+/* Toast通知 */
+function showToast(msg, type, duration){
+  if(!duration) duration = 3000;
+  var t = document.getElementById('syncToast');
+  t.textContent = msg;
+  t.className = 'sync-toast show ' + (type||'info');
+  setTimeout(function(){t.className = 'sync-toast'}, duration);
+}
+
+/* 从金山文档同步项目计划 */
+function syncFromKDocs(){
+  var btn = document.getElementById('syncBtn');
+  btn.classList.add('syncing');
+  btn.innerHTML = '⏳ 同步中...';
+  showToast('正在从金山文档获取最新数据...','info', 2000);
+  
+  fetch('./plan-data.json?t='+Date.now())
+    .then(function(r){if(!r.ok) throw new Error('数据文件未找到'); return r.json()})
+    .then(function(data){
+      document.getElementById('syncTime').textContent = '上次同步：'+data.syncTime;
+      // 应用同步数据更新阶段进度
+      if(data.phases){
+        for(var i=0;i<6;i++){
+          var pd = data.phases[String(i+1)];
+          if(pd){
+            var tab = document.querySelectorAll('.phase-tab')[i];
+            if(tab){
+              var subEl = tab.querySelector('.tab-sub');
+              if(subEl && pd.tasks){
+                var rate = Math.round((pd.done||0)/pd.tasks*100);
+                subEl.textContent = pd.tasks+'项/'+rate+'%';
+              }
+            }
+            // 更新overview卡片
+            var povCards = document.querySelectorAll('#phase-'+i+' .pov-card');
+            if(povCards.length >= 3 && pd.tasks){
+              var rate = Math.round((pd.done||0)/pd.tasks*100);
+              povCards[0].querySelector('.pov-val').textContent = pd.tasks;
+              povCards[1].querySelector('.pov-val').textContent = pd.done||0;
+              povCards[2].querySelector('.pov-val').textContent = rate+'%';
+            }
+          }
+        }
+      }
+      btn.classList.remove('syncing');
+      btn.innerHTML = '🔄 同步项目计划';
+      showToast('✅ 同步成功！已更新项目计划数据','success');
+    })
+    .catch(function(err){
+      btn.classList.remove('syncing');
+      btn.innerHTML = '🔄 同步项目计划';
+      showToast('❌ 同步失败：'+err.message+'。请通过Agent执行kdocs-cli更新plan-data.json','error', 5000);
+    });
+}
+
+/* 页面加载时自动加载保存的成果物状态 */
+window.addEventListener('DOMContentLoaded', function(){
+  loadDlvData();
+  // 尝试加载plan-data.json获取同步时间
+  fetch('./plan-data.json?t='+Date.now())
+    .then(function(r){return r.json()})
+    .then(function(data){
+      if(data.syncTime){
+        document.getElementById('syncTime').textContent = '上次同步：'+data.syncTime;
+      }
+    })
+    .catch(function(){});
+});
+</script>
+</body>
+</html>
