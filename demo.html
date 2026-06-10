@@ -6719,6 +6719,11 @@ function renderProjectTable(){
     if(!kw)return true;
     return p.name.toLowerCase().indexOf(kw)>-1||p.lead.toLowerCase().indexOf(kw)>-1||(p.members||'').toLowerCase().indexOf(kw)>-1;
   });
+  list.sort(function(a,b){
+    var ya=parseInt(a.year)||0, yb=parseInt(b.year)||0;
+    if(ya!==yb) return yb-ya;
+    return (a.phase||0)-(b.phase||0);
+  });
   var html='';
   if(list.length===0){
     html='<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light)">暂无匹配项目</td></tr>';
