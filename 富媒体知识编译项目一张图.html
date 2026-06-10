@@ -11,13 +11,18 @@
 html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans-serif;background:var(--bg);color:var(--text);font-weight:400;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .page{max-width:1280px;margin:0 auto;padding:10px 14px 16px;animation:fadeIn .6s}
-.header{text-align:center;margin-bottom:10px;padding:16px 18px 12px;background:linear-gradient(135deg,var(--g1),var(--g2),var(--g3));border-radius:12px;color:#fff;position:relative;overflow:hidden}
+.header{text-align:center;margin-bottom:10px;padding:18px 24px 14px;background:linear-gradient(135deg,var(--g1),var(--g2),var(--g3));border-radius:12px;color:#fff;position:relative;overflow:hidden}
 .header::before{content:'';position:absolute;top:-40%;right:-10%;width:300px;height:300px;background:rgba(255,255,255,.06);border-radius:50%}
 .header::after{content:'';position:absolute;bottom:-30%;left:5%;width:200px;height:200px;background:rgba(255,255,255,.04);border-radius:50%}
 .header h1{font-size:18px;font-weight:700;margin-bottom:4px;letter-spacing:1px;position:relative;z-index:1}
-.header .sub{font-size:12px;opacity:.85;position:relative;z-index:1}
-.header .badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px;position:relative;z-index:1}
-.header .badge{display:inline-block;background:rgba(255,255,255,.2);padding:3px 14px;border-radius:20px;font-size:11px}
+.header .sub{font-size:12px;opacity:.85;position:relative;z-index:1;margin-bottom:10px}
+.header .info-row{display:flex;align-items:center;justify-content:center;gap:16px;position:relative;z-index:1;flex-wrap:wrap}
+.header .phase-flow{display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:center}
+.header .phase-item{display:flex;align-items:center;gap:4px;font-size:11.5px;white-space:nowrap}
+.header .phase-icon{font-size:14px}
+.header .phase-name{font-weight:500}
+.header .phase-arrow{color:rgba(255,255,255,.5);font-size:12px;margin:0 1px}
+.header .summary-badge{background:rgba(255,255,255,.18);padding:4px 16px;border-radius:20px;font-size:11.5px;font-weight:500;white-space:nowrap;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.15)}
 .bg-section{background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,.04);border-left:4px solid var(--red)}
 .bg-section h3{font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;display:flex;align-items:center;gap:6px}
 .bg-intro{font-size:11px;color:var(--text2);margin-bottom:8px;line-height:1.6;padding:8px 10px;background:#FAFAFA;border-radius:5px;border:1px solid #f0f0f0}
@@ -231,13 +236,25 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 <body>
 <div class="page">
 <div class="header">
-<h1>国网客服中心北方分中心2026年智能客服富媒体知识编译及应用分析项目</h1>
-<div class="sub">落地实施一张图 · 承建单位：国电南瑞南京控制系统有限公司</div>
-<div class="badges">
-<div class="badge">🚀 项目启动 → 📋 需求调研 → 🔧 项目实施 → 📊 中期验收 → 📝 成果物评审 → ✅ 验收会</div>
-<div class="badge">📅 2026.5~2027.1 · 6阶段54项任务</div>
-<div class="badge">👤 负责人：马春悦</div>
+<h1>智能客服富媒体知识编译及应用分析项目</h1>
+<div class="sub">国网客服中心2026年北方分中心 · 落地实施一张图</div>
+<div class="info-row">
+<div class="phase-flow">
+<div class="phase-item"><span class="phase-icon">🚀</span><span class="phase-name">启动</span></div>
+<span class="phase-arrow">→</span>
+<div class="phase-item"><span class="phase-icon">📋</span><span class="phase-name">调研</span></div>
+<span class="phase-arrow">→</span>
+<div class="phase-item"><span class="phase-icon">🔧</span><span class="phase-name">实施</span></div>
+<span class="phase-arrow">→</span>
+<div class="phase-item"><span class="phase-icon">🔍</span><span class="phase-name">中期验收</span></div>
+<span class="phase-arrow">→</span>
+<div class="phase-item"><span class="phase-icon">📝</span><span class="phase-name">成果评审</span></div>
+<span class="phase-arrow">→</span>
+<div class="phase-item"><span class="phase-icon">✅</span><span class="phase-name">验收会</span></div>
 </div>
+<div class="summary-badge">6阶段54项任务 · 2026.5~2027.1</div>
+</div>
+<div class="sub" style="margin-bottom:0;margin-top:8px;font-size:10.5px;opacity:.6">承建单位：国电南瑞南京控制系统有限公司 · 负责人：马春悦</div>
 </div>
 
 <!-- 项目背景 -->
