@@ -610,6 +610,93 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 </div>
 
 
+
+<!-- 标注工具可视化 -->
+<div class="tool-section" id="tool-section">
+<h3>🏷️ 标注工具 · Label Studio CE</h3>
+<div class="role-bar" id="roleBar">
+  <span class="rb-label">🔑 当前角色</span>
+  <div class="rb-roles">
+    <button class="role-btn active" onclick="switchRole('admin')"><span class="rb-icon">👔</span>管理员</button>
+    <button class="role-btn" onclick="switchRole('reviewer')"><span class="rb-icon">🔍</span>审核员</button>
+    <button class="role-btn" onclick="switchRole('annotator')"><span class="rb-icon">🏷️</span>标注员</button>
+  </div>
+  <div class="role-info" id="roleInfo"><b>管理员</b> · 可访问全部功能</div>
+</div>
+<div class="tool-tabs">
+<div class="tool-tab active" onclick="switchTool('ws')">🖼️ 标注工作台</div>
+<div class="tool-tab" onclick="switchTool('arch')">🏗️ 功能架构</div>
+
+</div>
+
+<!-- 标注工作台 -->
+<div class="tool-panel active" id="tp-ws">
+<div class="scene-tabs" id="sceneTabs"></div>
+<div class="pipeline-bar" id="pipelineBar"></div>
+<div id="stepContainer"></div>
+</div>
+
+<!-- 功能架构 -->
+<div class="tool-panel" id="tp-arch">
+<div class="arch-grid">
+<div class="arch-col">
+<div class="arch-ct" style="background:linear-gradient(135deg,#006B54,#008667)">📥 预处理管理</div>
+<div class="arch-it"><div class="at">数据导入</div><div class="ad">图片/音频/视频/HTML/文本/CSV/JSON/PDF</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">数据集管理</div><div class="ad">场景锁定+生命周期管控+增删改查</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">精细化分类归档</div><div class="ad">二级细分归类，不跨场景混传</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">数据清洗</div><div class="ad">模糊/破损/重复/无效批量剔除</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">数据标准化</div><div class="ad">统一格式/编码/命名规范</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">数据安全脱敏</div><div class="ad">图片马赛克+文本PII替换</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">质量评估</div><div class="ad">完整性/准确性/一致性/唯一性</div><div class="ab cu">二次开发</div></div>
+</div>
+<div class="arch-col">
+<div class="arch-ct" style="background:linear-gradient(135deg,#E65100,#F57C00)">🏷️ 标注管理</div>
+<div class="arch-it"><div class="at">图片整体属性标注</div><div class="ad">场景/故障类型/设备状态分类</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">图片对象选框标注</div><div class="ad">矩形/多边形框选电表/身份证等</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">选框对象多属性标注</div><div class="ad">框选对象附加状态/等级属性</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">OCR文字提取标注</div><div class="ad">错误码/报错信息/设备信息提取</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">语料意图标注</div><div class="ad">用户咨询目的识别</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">语料实体标注</div><div class="ad">业务对象/设备对象识别</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">语料文本分类</div><div class="ad">故障类别/业务类别分类</div><div class="ab ls">Label Studio</div></div>
+<div class="arch-it"><div class="at">图文联合标注</div><div class="ad">图片+上下文语料关联标注</div><div class="ab ls">Label Studio</div></div>
+</div>
+<div class="arch-col">
+<div class="arch-ct" style="background:linear-gradient(135deg,#1565C0,#1976D2)">🔍 审核管理</div>
+<div class="arch-it"><div class="at">审核任务管理</div><div class="ad">自动同步+状态流转+筛选检索</div><div class="ab ha">Label Studio</div></div>
+<div class="arch-it"><div class="at">全量校核</div><div class="ad">逐条复核+问题标记+退回重标</div><div class="ab ha">Label Studio</div></div>
+<div class="arch-it"><div class="at">抽样审核</div><div class="ad">常规≥30%/复杂≥50%抽检</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">问题闭环</div><div class="ad">退回重标+备注原因+整改再提交</div><div class="ab ha">Label Studio</div></div>
+<div class="arch-it"><div class="at">审核台账</div><div class="ad">审核人/时间/问题/退回明细</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">歧义案例库</div><div class="ad">边界模糊样本归档+历史参考判例</div><div class="ab cu">二次开发</div></div>
+</div>
+<div class="arch-col">
+<div class="arch-ct" style="background:linear-gradient(135deg,#5E35B1,#7E57C2)">📊 质量评估</div>
+<div class="arch-it"><div class="at">效果评估体系</div><div class="ad">准确性+一致性+完整性+场景贴合度</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">数据集构建</div><div class="ad">分层抽样+验证集/测试集拆分</div><div class="ab cu">二次开发</div></div>
+<div class="arch-it"><div class="at">版本管控台账</div><div class="ad">版本号+来源+评测得分+变更记录</div><div class="ab cu">二次开发</div></div>
+</div>
+<div class="arch-col">
+<div class="arch-ct" style="background:linear-gradient(135deg,#C62828,#E53935)">⚙️ 系统设置</div>
+<div class="arch-it"><div class="at">角色权限管理</div><div class="ad">项目经理/标注/校核/审核四角色</div><div class="ab ha">Label Studio</div></div>
+<div class="arch-it"><div class="at">标签模板配置</div><div class="ad">图像+语料标签/标注界面模板</div><div class="ab ha">Label Studio</div></div>
+<div class="arch-it"><div class="at">平台参数配置</div><div class="ad">命名规则/抽检比例等全局参数</div><div class="ab cu">二次开发</div></div>
+</div>
+</div>
+<div style="margin-top:12px;padding:8px 12px;background:var(--g8);border-radius:8px;font-size:10.5px;color:var(--g2);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<span style="font-weight:500">📌 覆盖率:</span>
+<span class="ab ls">Label Studio原生: 10项</span>
+<span class="ab ha">LS+适配: 5项</span>
+<span class="ab cu">需二次开发: 13项</span>
+<span style="margin-left:auto;font-weight:500">总28项 | 原生覆盖54%</span>
+</div>
+</div>
+
+</div>
+
+<div class="bottom-row">
+<h3>📋 成果物交付计划（14项）</h3>
+
+
 <div class="bottom-row">
 <h3>📋 成果物交付计划（14项）</h3>
 <div class="dlv-stats">
