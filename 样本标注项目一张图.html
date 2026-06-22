@@ -152,6 +152,7 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .task-owner span{display:inline-block;padding:1px 5px;border-radius:5px;background:var(--g8);color:var(--g2);margin-right:2px;font-weight:600;font-size:9px}
 .task-deliverable{font-size:9.5px;color:var(--g3);margin-top:3px;padding:2px 6px;background:var(--g8);border-radius:5px;display:inline-block}
 .sub-phase-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+#phase-2 .sub-phase:nth-child(3){grid-column:span 2}
 .sub-phase{padding:10px;border-radius:10px;border:1.5px solid #e8e8e8;background:#FFFBF5}
 .sub-phase h5{font-size:11px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:4px}
 .sp-badge{display:inline-block;padding:2px 7px;border-radius:6px;font-size:10.5px;font-weight:600;color:#fff}
@@ -2377,7 +2378,7 @@ function updatePhasePanel(phaseIdx,phaseData,tasks){
       {label:'🏷️ 3B: 数据标注',badge:'8/1-9/30',filter:t=>t.sub==='3B'},
       {label:'🔬 3C: 辅助验证',badge:'9/1-12/15',filter:t=>t.sub==='3C'},
     ];
-    // 3 sub-phases in one row
+    // 3 sub-phases in 2 rows: row1=3A+3B, row2=3C(span 2 cols)
     taskHtml+='<div class="sub-phase-grid">';
     for(let si=0;si<3;si++){
       const sp=subPhases[si];
