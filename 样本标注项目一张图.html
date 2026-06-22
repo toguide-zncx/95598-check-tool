@@ -499,7 +499,7 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
   <div class="bg-section">
     <h3>📌 项目背景：需求缺口驱动</h3>
     <div class="bg-intro">
-      当前互联网渠道座席工作台只能解析身份证、银行卡等部分图片信息，当客户发送电能表、电费记录、交费订单等图片时，人工座席需逐条查看图片并人工判断异常原因，耗时较长。本项目旨在为第二阶段4类图片场景<b>提供高质量标注样本数据</b>，完成<b>不低于1000张图片</b>的非结构化数据标注，支撑模型训练，实现图片智能识别能力闭环。
+      当前互联网渠道座席工作台只能解析身份证、银行卡等部分图片信息，当客户发送电能表、交费订单、系统异常等图片时，人工座席需逐条查看图片并人工判断异常原因，耗时较长。本项目旨在为第二阶段3类图片场景<b>提供高质量标注样本数据</b>，完成<b>不低于1000张图片</b>的非结构化数据标注，支撑模型训练，实现图片智能识别能力闭环。
     </div>
     <div class="bg-grid">
       <div class="bg-card done">
@@ -515,16 +515,15 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
       <div class="bg-card pending">
         <h4>🚧 第二阶段 · OCR无法覆盖，需标注样本数据 ← 本项目目标</h4>
         <div class="cap-list">
-          <div class="cap-item"><span class="cap-icon">⚡</span><div class="cap-info"><div class="cap-name">电能表信息识别</div><div class="cap-scene">电表报装/故障报修</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">3字段 ▾</span><div class="cap-detail"><div class="dt">电能表信息识别</div><div class="dd">需从实物照片识别：①电能表表号、②指示灯、③显示屏报错信息3个字段</div><div class="dd" style="margin-top:3px">业务场景：客户拍摄电表照片，自动识别表号及异常状态用于故障定位、换表申请</div></div></div>
-          <div class="cap-item"><span class="cap-icon">💰</span><div class="cap-info"><div class="cap-name">电费记录信息识别</div><div class="cap-scene">缴费异常/到账查询</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">4字段 ▾</span><div class="cap-detail"><div class="dt">电费记录信息识别</div><div class="dd">需从APP截图识别：①用电户号、②交费金额、③交费时间、④付款状态4个字段</div><div class="dd" style="margin-top:3px">业务场景：客户发送电费截图，自动提取户号和交费状态辅助查账</div></div></div>
-          <div class="cap-item"><span class="cap-icon">🧾</span><div class="cap-info"><div class="cap-name">交费订单信息识别</div><div class="cap-scene">订单纠纷/退费处理</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">11字段 ▾</span><div class="cap-detail"><div class="dt">交费订单信息识别</div><div class="dd">需提取：①订单编号、②订单时间、③订单状态、④交费金额、⑤红包抵扣、⑥积分抵扣、⑦优惠券抵扣、⑧实付金额、⑨支付方式、⑩交费渠道、⑪户号户名11个字段</div><div class="dd" style="margin-top:3px">业务场景：客户发送订单截图，自动提取完整订单信息辅助争议处理</div></div></div>
-          <div class="cap-item"><span class="cap-icon">⚠️</span><div class="cap-info"><div class="cap-name">系统异常提示识别</div><div class="cap-scene">APP使用异常</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">3字段 ▾</span><div class="cap-detail"><div class="dt">系统异常提示识别</div><div class="dd">需训练模型识别：①异常标题、②提示内容、③APP版本3个字段</div><div class="dd" style="margin-top:3px">业务场景：自动识别报错弹窗，辅助座席快速定位问题</div></div></div>
+          <div class="cap-item"><span class="cap-icon">⚡</span><div class="cap-info"><div class="cap-name">电能表信息识别</div><div class="cap-scene">需求优先级：中</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">3字段 ▾</span><div class="cap-detail"><div class="dt">电能表信息识别</div><div class="dd">需从实物照片识别：①电表表号、②报错内容、③指示灯内容3个字段</div><div class="dd" style="margin-top:3px">应用方向：提取电表表号后根据表号判断是否为直供电，如果表号存在对应户号则展示对应的户号，展示方式可参考当前已上线的身份证</div></div></div>
+          <div class="cap-item"><span class="cap-icon">🧾</span><div class="cap-info"><div class="cap-name">交费订单信息识别</div><div class="cap-scene">需求优先级：高</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">11字段 ▾</span><div class="cap-detail"><div class="dt">交费订单信息识别</div><div class="dd">需提取：①订单编号、②订单时间、③订单状态、④订单金额、⑤红包抵扣金额、⑥积分抵扣金额、⑦优惠券抵扣金额、⑧实付金额、⑨支付方式、⑩交费渠道、⑪交费共计11个字段</div><div class="dd" style="margin-top:3px">应用方向：支持一键复制字段信息后自动填单</div></div></div>
+          <div class="cap-item"><span class="cap-icon">⚠️</span><div class="cap-info"><div class="cap-name">系统异常信息识别</div><div class="cap-scene">需求优先级：高（实名认证失败+发票开具失败）</div></div><span class="cap-badge orange" onclick="toggleDetail(this)">3字段 ▾</span><div class="cap-detail"><div class="dt">系统异常信息识别</div><div class="dd">需训练模型识别：①异常标题、②异常提示内容、③网上国网3个字段</div><div class="dd" style="margin-top:3px">子场景：实名认证失败截图（提取异常标题+提示内容+网上国网）、发票开具失败截图（提取异常提示内容）</div><div class="dd" style="margin-top:3px">应用方向：根据识别的提示语内容推送对应的处理操作或应对话术</div></div></div>
         </div>
-        <div class="mission-note">⬆ 四类场景必须训练专用模型 → 训练模型必须有标注数据 → 本项目核心价值</div>
+        <div class="mission-note">⬆ 三类场景必须训练专用模型 → 训练模型必须有标注数据 → 本项目核心价值</div>
       </div>
     </div>
     <div class="arrow-to">⬇️</div>
-    <div class="bg-mission">标注项目使命：为第二阶段模型训练提供高质量标注数据，完成不低于1000张图片非结构化数据标注，让智能客服具备异常提示/电能表/电费/订单图片识别能力</div>
+    <div class="bg-mission">标注项目使命：为第二阶段模型训练提供高质量标注数据，完成不低于1000张图片非结构化数据标注，让智能客服具备电能表/订单/异常提示图片识别能力</div>
   </div>
 
 <!-- 采治标用四阶段 -->
