@@ -127,6 +127,67 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 @keyframes toastIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 .toast.info{background:var(--blue)}.toast.success{background:var(--g3)}.toast.error{background:var(--red)}
 @media(max-width:768px){.phase-nav{flex-wrap:wrap}.phase-tab{flex:1 1 33%}.phase-overview{flex-wrap:wrap}.pov-card{flex:1 1 45%}.sub-phase-grid{grid-template-columns:1fr}.gantt-header,.gantt-row{grid-template-columns:60px repeat(9,1fr)}}
+/* bg-section project background */
+.bg-section{background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,.04);border-left:4px solid var(--red)}
+.bg-section h3{font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.bg-intro{font-size:11px;color:var(--text2);margin-bottom:8px;line-height:1.6;padding:8px 10px;background:#FAFAFA;border-radius:5px;border:1px solid #f0f0f0}
+.bg-intro b{color:var(--g2)}
+.bg-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.bg-card{padding:10px 12px;border-radius:8px;border:1.5px solid #e8e8e8}
+.bg-card h4{font-size:12px;font-weight:700;margin-bottom:5px;padding-bottom:4px;border-bottom:1px dashed rgba(0,0,0,.08)}
+.bg-card.problem{background:#FFF3E0;border-color:#FFB74D}
+.bg-card.problem h4{color:var(--orange)}
+.bg-card.solution{background:var(--g8);border-color:var(--g5)}
+.bg-card.solution h4{color:var(--g2)}
+.cap-list{display:flex;flex-direction:column;gap:4px}
+.cap-item{display:flex;align-items:flex-start;gap:8px;padding:4px 0;font-size:11px;line-height:1.5}
+.cap-num{flex-shrink:0;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.bg-card.problem .cap-num{background:var(--orange)}
+.bg-card.solution .cap-num{background:var(--g2)}
+.cap-text{flex:1;min-width:0}
+.cap-text b{color:var(--text)}
+.cap-text .sub{display:block;font-size:10px;color:var(--text3);margin-top:1px}
+.bg-mission{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:10px;padding:12px 16px;text-align:center;color:#fff;font-size:12px;font-weight:600;line-height:1.6;box-shadow:0 2px 8px rgba(0,77,58,.15)}
+.bg-mission b{color:#A5D6A7}
+.arrow-to{text-align:center;font-size:16px;margin:4px 0;color:var(--text3)}
+/* enhanced deliverables */
+.bottom-row{background:var(--card);border-radius:10px;padding:12px 16px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.bottom-row h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.dlv-stats{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.dlv-stat{padding:4px 10px;border-radius:6px;font-size:10px;font-weight:500;display:flex;align-items:center;gap:4px}
+.dlv-stat .sv{font-size:15px;font-weight:600}
+.dlv-groups-new{display:flex;gap:8px}
+.dlv-group{flex:1;border-radius:8px;overflow:hidden;border:1px solid #f0f0f0;min-width:0}
+.dlv-group-head{padding:6px 12px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px}
+.dlv-group-head .dlv-gcount{font-size:10px;font-weight:500;padding:1px 8px;border-radius:10px;background:rgba(255,255,255,.3);margin-left:auto}
+.dlv-group.g1 .dlv-group-head{background:#E8F5E9;color:#006B54}
+.dlv-group.g1 .dlv-group-head .dlv-gcount{color:#006B54}
+.dlv-group.g2 .dlv-group-head{background:#E3F2FD;color:#1565C0}
+.dlv-group.g2 .dlv-group-head .dlv-gcount{color:#1565C0}
+.dlv-group.g3 .dlv-group-head{background:#FFF3E0;color:#E65100}
+.dlv-group.g3 .dlv-group-head .dlv-gcount{color:#E65100}
+.dlv-group.g4 .dlv-group-head{background:#F3E5F5;color:#7B1FA2}
+.dlv-group.g4 .dlv-group-head .dlv-gcount{color:#7B1FA2}
+.dlv-row2{display:flex;align-items:center;gap:8px;padding:6px 12px;border-bottom:1px solid #f5f5f5;font-size:10px;transition:background .15s}
+.dlv-row2:last-child{border-bottom:none}
+.dlv-row2:hover{background:#FAFAFA}
+.dlv-idx{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#fff;flex-shrink:0}
+.dlv-name2{flex:1;font-weight:500;color:var(--text);line-height:1.3;min-width:0}
+.dlv-time2{color:#999;font-size:9px;white-space:nowrap;flex-shrink:0}
+.dlv-status2{display:inline-flex;align-items:center;gap:2px;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .15s;user-select:none;flex-shrink:0}
+.dlv-status2:hover{filter:brightness(.95);transform:scale(1.05)}
+.dlv-status2.pending{background:#F5F5F5;color:#999}
+.dlv-status2.done{background:var(--g8);color:var(--g2)}
+.dlv-upload2{display:inline-flex;align-items:center;gap:2px;padding:2px 8px;border-radius:5px;font-size:9px;font-weight:500;border:1px dashed #ddd;background:#FAFAFA;color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.dlv-upload2:hover{border-color:var(--g4);color:var(--g2);background:var(--g8)}
+.dlv-upload2.uploaded{border-style:solid;border-color:var(--g5);color:var(--g2);background:var(--g8);cursor:default;gap:4px;padding:2px 4px}
+.dlv-fname{font-size:9px;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dlv-acts{display:inline-flex;gap:2px;margin-left:3px;flex-shrink:0}
+.dlv-dl{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:4px;font-size:11px;background:var(--g8);color:var(--g2);cursor:pointer;transition:all .15s;flex-shrink:0;line-height:1;text-decoration:none;border:1px solid var(--g5);pointer-events:auto}
+.dlv-dl:hover{background:var(--g4);color:#fff;border-color:var(--g4)}
+.dlv-del{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:4px;font-size:11px;background:#FFEBEE;color:var(--red);cursor:pointer;transition:all .15s;flex-shrink:0;line-height:1;pointer-events:auto}
+.dlv-del:hover{background:var(--red);color:#fff}
+@media(max-width:768px){.bg-grid3{grid-template-columns:1fr}.dlv-groups-new{flex-direction:column}.dlv-row2{flex-wrap:wrap;gap:4px}.dlv-name2{min-width:120px}.dlv-time2{display:none}}
 </style>
 </head>
 <body>
@@ -154,6 +215,70 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 <div class="sync-row">
 <div class="left">数据来源：<a href="https://www.kdocs.cn/l/ch6yz0GXU4m2" target="_blank" style="color:var(--blue)">金山文档-工作计划0610</a></div>
 <div class="right"><span id="syncTime">上次同步：2026-06-23 00:10</span><button id="syncBtn" onclick="syncFromKDocs()">🔄 同步项目计划</button></div>
+</div>
+
+<div class="bg-section">
+<h3>📌 项目背景：三大核心问题驱动</h3>
+<div class="bg-intro">
+智能文本机器人作为重要服务载体，其<b>富媒体知识应用能力</b>直接影响服务体验与运营效率。目前，智能文本机器人在富媒体知识应用中面临<b>内容生产依赖人工、缺乏效果评估体系、服务性能存在隐患</b>三大核心问题，亟需系统性解决方案。
+</div>
+<div class="bg-grid3">
+<div class="bg-card problem">
+<h4>⚠️ 问题一 · 内容生产依赖人工</h4>
+<div class="cap-list">
+<div class="cap-item"><div class="cap-num">1</div><div class="cap-text"><b>生产效率低</b><span class="sub">富媒体知识内容生产高度依赖人工编排，资源配置不足</span></div></div>
+<div class="cap-item"><div class="cap-num">2</div><div class="cap-text"><b>缺乏标准化流程</b><span class="sub">无统一的内容生成规范、模板与自动化工具</span></div></div>
+<div class="cap-item"><div class="cap-num">3</div><div class="cap-text"><b>质量一致性差</b><span class="sub">各渠道内容风格不统一，质量参差不齐</span></div></div>
+</div>
+</div>
+<div class="bg-card problem">
+<h4>⚠️ 问题二 · 缺乏效果评估体系</h4>
+<div class="cap-list">
+<div class="cap-item"><div class="cap-num">1</div><div class="cap-text"><b>无法衡量效果</b><span class="sub">无系统化的效果评估机制，缺乏答案点击率、转人工率等核心指标</span></div></div>
+<div class="cap-item"><div class="cap-num">2</div><div class="cap-text"><b>优化闭环缺失</b><span class="sub">无法形成数据驱动的持续优化闭环</span></div></div>
+<div class="cap-item"><div class="cap-num">3</div><div class="cap-text"><b>用户体验无从追踪</b><span class="sub">无法系统采集与分析用户对富媒体知识的体验反馈</span></div></div>
+</div>
+</div>
+<div class="bg-card problem">
+<h4>⚠️ 问题三 · 服务性能存在隐患</h4>
+<div class="cap-list">
+<div class="cap-item"><div class="cap-num">1</div><div class="cap-text"><b>传输风险突出</b><span class="sub">内外网数据传输缺乏有效分析，富媒体加载失败等问题频发</span></div></div>
+<div class="cap-item"><div class="cap-num">2</div><div class="cap-text"><b>异常无预警</b><span class="sub">缺乏服务风险识别与排查流程，问题发现滞后</span></div></div>
+<div class="cap-item"><div class="cap-num">3</div><div class="cap-text"><b>处置无规范</b><span class="sub">无风险预警与应急处置流程，异常响应慢</span></div></div>
+</div>
+</div>
+</div>
+<div class="arrow-to">⬇️</div>
+<div class="bg-grid3">
+<div class="bg-card solution">
+<h4>✅ 解决思路一 · 智能化内容生产</h4>
+<div class="cap-list">
+<div class="cap-item"><div class="cap-num">1</div><div class="cap-text">引入<b>AI辅助内容生成</b>与模板化生产工具</div></div>
+<div class="cap-item"><div class="cap-num">2</div><div class="cap-text">脚本自动化生成<b>2000条</b>富媒体知识</div></div>
+<div class="cap-item"><div class="cap-num">3</div><div class="cap-text">建立素材质量审核与权限管理体系</div></div>
+</div>
+</div>
+<div class="bg-card solution">
+<h4>✅ 解决思路二 · 全链路效果评估</h4>
+<div class="cap-list">
+<div class="cap-item"><div class="cap-num">1</div><div class="cap-text">建立多维评估指标（点击率/转人工率/满意度）</div></div>
+<div class="cap-item"><div class="cap-num">2</div><div class="cap-text">形成<b>数据驱动</b>的效果度量机制</div></div>
+<div class="cap-item"><div class="cap-num">3</div><div class="cap-text">定期输出用户体验洞察分析报告</div></div>
+</div>
+</div>
+<div class="bg-card solution">
+<h4>✅ 解决思路三 · 实时服务性能监控</h4>
+<div class="cap-list">
+<div class="cap-item"><div class="cap-num">1</div><div class="cap-text">构建全链路监控与<b>智能预警</b>体系</div></div>
+<div class="cap-item"><div class="cap-num">2</div><div class="cap-text">实施内外网穿透分析与测试</div></div>
+<div class="cap-item"><div class="cap-num">3</div><div class="cap-text">制定风险预警与应急处置规范</div></div>
+</div>
+</div>
+</div>
+<div class="arrow-to">⬇️</div>
+<div class="bg-mission">
+项目使命：构建<b>「生产-评估-监控」</b>闭环体系，实现富媒体知识内容运营<b>降本增效</b>、服务体验<b>可衡量可优化</b>，全面提升智能机器人服务质量与用户满意度
+</div>
 </div>
 
 <div class="phase-nav">
@@ -659,15 +784,89 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 <div id="delayDetail"></div>
 </div>
 
-<div class="dlv-section">
-<h3>📦 核心成果物清单（13项）</h3>
-<div class="dlv-groups" id="dlvContainer"></div>
+<div class="bottom-row">
+<h3>📋 核心成果物交付计划（13项）</h3>
+<div class="dlv-stats">
+  <div class="dlv-stat" style="background:var(--g8);color:var(--g2)"><span class="sv">13</span>总成果物</div>
+  <div class="dlv-stat" style="background:var(--g8);color:var(--g2)"><span class="sv" id="dlvDone">0</span>已交付</div>
+  <div class="dlv-stat" style="background:#F5F5F5;color:#999"><span class="sv" id="dlvPending">13</span>待交付</div>
 </div>
-
+<div class="dlv-groups-new">
+  <!-- 3A 场景梳理与适配 -->
+  <div class="dlv-group g1">
+    <div class="dlv-group-head">📡 场景梳理与适配<span class="dlv-gcount">5项 · 7月</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#006B54">1</div><div class="dlv-name2">《微信小程序渠道富媒体知识适配业务场景清单》</div><div class="dlv-time2">7月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,1)">📎 上传</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#006B54">2</div><div class="dlv-name2">《网上国网APP渠道富媒体知识适配业务场景清单》</div><div class="dlv-time2">7月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,2)">📎 上传</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#006B54">3</div><div class="dlv-name2">《网站渠道富媒体知识适配业务场景清单》</div><div class="dlv-time2">7月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,3)">📎 上传</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#006B54">4</div><div class="dlv-name2">《渠道-场景-标问-富媒体知识对应清单》</div><div class="dlv-time2">7月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,4)">📎 上传</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#006B54">5</div><div class="dlv-name2">《适配性评估指标体系》</div><div class="dlv-time2">7月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,5)">📎 上传</span></div>
+  </div>
+  <!-- 3B 知识编译与工具设计 -->
+  <div class="dlv-group g2">
+    <div class="dlv-group-head">🎨 知识编译与工具设计<span class="dlv-gcount">5项 · 7-9月</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#1565C0">6</div><div class="dlv-name2">《富媒体知识内容组织与格式处理脚本》</div><div class="dlv-time2">7月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,6)">📎 上传</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#1565C0">7</div><div class="dlv-name2">《富媒体知识素材管理脚本》</div><div class="dlv-time2">7月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,7)">📎 上传</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#1565C0">8</div><div class="dlv-name2">《素材质量审核指导手册》</div><div class="dlv-time2">9月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,8)">📎 上传</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#1565C0">9</div><div class="dlv-name2">《富媒体知识内容生成规范》</div><div class="dlv-time2">9月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,9)">📎 上传</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#1565C0">10</div><div class="dlv-name2">富媒体知识制作小工具</div><div class="dlv-time2">8月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,10)">📎 上传</span></div>
+  </div>
+  <!-- 3C 效果评估与风险监控 -->
+  <div class="dlv-group g3">
+    <div class="dlv-group-head">📈 效果评估与风险监控<span class="dlv-gcount">3项 · 8-11月</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#E65100">11</div><div class="dlv-name2">《效果评估指标体系》</div><div class="dlv-time2">8月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,11)">📎 上传</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#E65100">12</div><div class="dlv-name2">《满意度分析报告》</div><div class="dlv-time2">10月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,12)">📎 上传</span></div>
+    <div class="dlv-row2"><div class="dlv-idx" style="background:#E65100">13</div><div class="dlv-name2">《穿透测试脚本》《风险监控报告》</div><div class="dlv-time2">11月</div><span class="dlv-status2 pending" onclick="cycleDlvStatus(this)">○ 待交付</span><span class="dlv-upload2" onclick="uploadDlv(this,13)">📎 上传</span></div>
+  </div>
 </div>
-
+</div>
 <script>
 
+function cycleDlvStatus(el){
+  var s=el.classList.contains('pending')?'done':'pending';
+  el.className='dlv-status2 '+s;
+  el.textContent=s==='done'?'✓ 已交付':'○ 待交付';
+  var done=0,pending=0;
+  document.querySelectorAll('.dlv-status2').forEach(function(e){
+    if(e.classList.contains('done'))done++;else pending++;
+  });
+  var d=document.getElementById('dlvDone');
+  var p=document.getElementById('dlvPending');
+  if(d)d.textContent=done;
+  if(p)p.textContent=pending;
+}
+function uploadDlv(el,idx){
+  var input=document.createElement('input');
+  input.type='file';input.accept='.pdf,.docx,.doc,.xlsx,.xls,.pptx,.zip,.rar';
+  input.onchange=function(e){
+    var file=e.target.files[0];if(!file)return;
+    var row=el.closest('.dlv-row2')||el.parentElement;
+    el.outerHTML='<span class="dlv-upload2 uploaded">✅ <span class="dlv-fname">'+file.name+'</span></span><span class="dlv-acts"><a class="dlv-dl" title="下载">⬇</a><span class="dlv-del" onclick="removeUpload(this,'+idx+')" title="删除">✕</span></span>';
+    var statusEl=row.querySelector('.dlv-status2');
+    if(statusEl&&statusEl.classList.contains('pending')){
+      statusEl.className='dlv-status2 done';statusEl.textContent='✓ 已交付';
+    }
+    var done=0,pending=0;
+    document.querySelectorAll('.dlv-status2').forEach(function(e){if(e.classList.contains('done'))done++;else pending++;});
+    var d=document.getElementById('dlvDone');var p=document.getElementById('dlvPending');
+    if(d)d.textContent=done;if(p)p.textContent=pending;
+  };
+  input.click();
+}
+function removeUpload(el,idx){
+  var row=el.closest('.dlv-row2')||el.parentElement;
+  var acts=el.closest('.dlv-acts');
+  var uploaded=acts.previousElementSibling;
+  if(uploaded)uploaded.outerHTML='<span class="dlv-upload2" onclick="uploadDlv(this,'+idx+')">📎 上传</span>';
+  acts.remove();
+  var statusEl=row.querySelector('.dlv-status2');
+  if(statusEl&&statusEl.classList.contains('done')){
+    statusEl.className='dlv-status2 pending';statusEl.textContent='○ 待交付';
+  }
+  var done=0,pending=0;
+  document.querySelectorAll('.dlv-status2').forEach(function(e){if(e.classList.contains('done'))done++;else pending++;});
+  var d=document.getElementById('dlvDone');var p=document.getElementById('dlvPending');
+  if(d)d.textContent=done;if(p)p.textContent=pending;
+}
 var TASKS = [{"id": 1, "phase": 0, "title": "启动会材料准备", "detail": "完成项目启动会相关材料编制", "deliverable": "《工作方案》《建设方案》《签到表》《会议纪要》", "start": "2026-05-18", "end": "2026-05-28", "status": "100%", "owner": "马春悦、张卜峥、张健宇"}, {"id": 2, "phase": 0, "title": "会上汇报", "detail": "完成启动会汇报", "deliverable": "", "start": "2026-05-29", "end": "2026-05-29", "status": "100%", "owner": "杨超、张卜峥、张健宇"}, {"id": 3, "phase": 0, "title": "编制会议纪要/签到表", "detail": "完成会议纪要、签到表编制", "deliverable": "", "start": "2026-05-29", "end": "2026-05-29", "status": "100%", "owner": "张卜峥、张健宇"}, {"id": 4, "phase": 0, "title": "会后签字", "detail": "完成签到表、会议纪要签字", "deliverable": "", "start": "2026-05-29", "end": "2026-06-01", "status": "100%", "owner": "杨超"}, {"id": 5, "phase": 1, "title": "编制需求调研问题", "detail": "完成需求调研问题编制", "deliverable": "《需求调研问题》《调研表》《调研报告》", "start": "2026-05-29", "end": "2026-06-04", "status": "100%", "owner": "马春悦、张卜峥、张健宇"}, {"id": 6, "phase": 1, "title": "开展需求调研", "detail": "完成需求调研", "deliverable": "", "start": "2026-06-05", "end": "2026-06-05", "status": "100%", "owner": "杨超、马春悦、张卜峥、张健宇"}, {"id": 7, "phase": 1, "title": "编制需求调研表", "detail": "完成需求调研表编制", "deliverable": "", "start": "2026-06-08", "end": "2026-06-08", "status": "100%", "owner": "马春悦"}, {"id": 8, "phase": 1, "title": "需求调研表签字", "detail": "完成需求调研表签字", "deliverable": "", "start": "2026-06-09", "end": "2026-06-12", "status": "100%", "owner": "杨超"}, {"id": 9, "phase": 1, "title": "编制需求调研报告", "detail": "完成需求调研报告编制", "deliverable": "", "start": "2026-06-10", "end": "2026-06-12", "status": "100%", "owner": "马春悦"}, {"id": 10, "phase": 1, "title": "需求调研报告签字", "detail": "完成需求调研报告签字", "deliverable": "", "start": "2026-06-12", "end": "2026-06-15", "status": "未开始", "owner": "杨超"}, {"id": 11, "phase": 2, "sub": "3A", "title": "全量文本知识导出", "detail": "网上国网APP、网站渠道全量文本知识导出", "deliverable": "《渠道-场景-标问-富媒体知识对应清单》", "start": "2026-06-09", "end": "2026-06-09", "status": "100%", "owner": "马春悦"}, {"id": 12, "phase": 2, "sub": "3A", "title": "图片知识批量导出", "detail": "富媒体知识图片知识下载路径对接，批量导出", "deliverable": "", "start": "2026-06-09", "end": "2026-06-11", "status": "100%", "owner": "马春悦、陈臣"}, {"id": 13, "phase": 2, "sub": "3A", "title": "APP渠道场景-知识对应表", "detail": "梳理网上国网APP渠道会话树场景-知识对应表", "deliverable": "", "start": "2026-06-10", "end": "2026-06-12", "status": "100%", "owner": "张卜峥"}, {"id": 14, "phase": 2, "sub": "3A", "title": "微信小程序场景-知识对应表", "detail": "梳理微信小程序渠道会话树场景-知识对应表", "deliverable": "", "start": "2026-06-12", "end": "2026-06-12", "status": "100%", "owner": "张卜峥"}, {"id": 15, "phase": 2, "sub": "3A", "title": "网站渠道场景-知识对应表", "detail": "梳理网站三大渠道会话树场景-知识对应表", "deliverable": "", "start": "2026-06-10", "end": "2026-06-12", "status": "100%", "owner": "张卜峥"}, {"id": 16, "phase": 2, "sub": "3A", "title": "标问富媒体知识配置核查", "detail": "核查各网省标问富媒体知识配置，建立对应表", "deliverable": "", "start": "2026-06-15", "end": "2026-06-15", "status": "100%", "owner": "马春悦"}, {"id": 17, "phase": 2, "sub": "3A", "title": "评估现有知识应用效果", "detail": "结合运营数据评估富媒体知识应用效果", "deliverable": "", "start": "2026-06-15", "end": "2026-06-15", "status": "100%", "owner": "张卜峥"}, {"id": 18, "phase": 2, "sub": "3A", "title": "盘点转人工知识清单", "detail": "盘点答案为'业务复杂需转人工'的知识清单", "deliverable": "", "start": "2026-06-15", "end": "2026-06-15", "status": "100%", "owner": "张卜峥"}, {"id": 19, "phase": 2, "sub": "3A", "title": "四象限法优先级划分", "detail": "价值-成本四象限法划分P0/P1/P2/暂缓", "deliverable": "", "start": "2026-06-17", "end": "2026-06-18", "status": "100%", "owner": "马春悦"}, {"id": 20, "phase": 2, "sub": "3A", "title": "微信/APP渠道场景清单", "detail": "微信小程序、网上国网APP渠道场景清单梳理", "deliverable": "", "start": "2026-06-18", "end": "2026-06-22", "status": "80%", "owner": "马春悦"}, {"id": 21, "phase": 2, "sub": "3A", "title": "网站渠道场景清单", "detail": "网站渠道场景清单梳理", "deliverable": "", "start": "2026-06-18", "end": "2026-06-22", "status": "80%", "owner": "马春悦"}, {"id": 22, "phase": 2, "sub": "3A", "title": "场景清单评审及修改", "detail": "三大渠道适配场景清单评审及修改", "deliverable": "", "start": "2026-06-23", "end": "2026-06-26", "status": "未开始", "owner": "马春悦"}, {"id": 23, "phase": 2, "sub": "3A", "title": "适配性评估指标框架", "detail": "知识复杂度/操作可行性/用户接受度三维评估", "deliverable": "《适配性评估指标体系》", "start": "2026-06-15", "end": "2026-07-22", "status": "未开始", "owner": "马春悦"}, {"id": 24, "phase": 2, "sub": "3B", "title": "P0优先级知识编译", "detail": "按适配清单P0优先级编译", "deliverable": "", "start": "2026-06-29", "end": "2026-07-10", "status": "未开始", "owner": "马春悦、张卜峥、张健宇"}, {"id": 25, "phase": 2, "sub": "3B", "title": "P1优先级知识编译", "detail": "按适配清单P1优先级编译", "deliverable": "", "start": "2026-07-13", "end": "2026-07-24", "status": "未开始", "owner": "马春悦、张卜峥、张健宇"}, {"id": 26, "phase": 2, "sub": "3B", "title": "P2优先级知识编译", "detail": "按适配清单P2优先级编译", "deliverable": "", "start": "2026-07-27", "end": "2026-08-28", "status": "未开始", "owner": "马春悦、张卜峥、张健宇"}, {"id": 27, "phase": 2, "sub": "3B", "title": "小工具功能需求调研", "detail": "调研富媒体知识类型、素材模板及小工具功能需求", "deliverable": "", "start": "2026-06-22", "end": "2026-06-22", "status": "未开始", "owner": "张卜峥"}, {"id": 28, "phase": 2, "sub": "3B", "title": "功能清单梳理", "detail": "模板资源库、知识管理等模块功能清单", "deliverable": "小工具原型/页面、《模板清单》、《2000条知识清单》", "start": "2026-06-22", "end": "2026-06-24", "status": "未开始", "owner": "张卜峥、张健宇"}, {"id": 29, "phase": 2, "sub": "3B", "title": "原型设计", "detail": "AI生成页面或画原型", "deliverable": "", "start": "2026-06-25", "end": "2026-06-30", "status": "未开始", "owner": "张卜峥"}, {"id": 30, "phase": 2, "sub": "3B", "title": "首批知识转化", "detail": "启动首批知识转化，给客户展示效果", "deliverable": "", "start": "2026-06-25", "end": "2026-06-30", "status": "未开始", "owner": "马春悦、张卜峥、张健宇"}, {"id": 31, "phase": 2, "sub": "3B", "title": "小工具评审及优化", "detail": "内部评审、客户评审，按评审意见优化", "deliverable": "", "start": "2026-07-01", "end": "2026-07-15", "status": "未开始", "owner": "张卜峥"}, {"id": 32, "phase": 2, "sub": "3B", "title": "模板资源库设计", "detail": "按业务场景设计模板资源库和样式规范", "deliverable": "", "start": "2026-06-23", "end": "2026-06-26", "status": "未开始", "owner": "张健宇、马春悦"}, {"id": 33, "phase": 2, "sub": "3B", "title": "内容组织与格式处理脚本", "detail": "富媒体知识内容组织与格式处理脚本", "deliverable": "《格式处理脚本》", "start": "2026-07-01", "end": "2026-07-15", "status": "未开始", "owner": "张卜峥、研发"}, {"id": 34, "phase": 2, "sub": "3B", "title": "素材管理脚本", "detail": "富媒体知识素材管理脚本", "deliverable": "《素材管理脚本》", "start": "2026-07-01", "end": "2026-07-15", "status": "未开始", "owner": "张卜峥、研发"}, {"id": 35, "phase": 2, "sub": "3B", "title": "功能开发（内网需求）", "detail": "功能开发（若存在内网应用需求）", "deliverable": "富媒体知识制作小工具", "start": "2026-07-16", "end": "2026-07-31", "status": "未开始", "owner": "研发"}, {"id": 36, "phase": 2, "sub": "3B", "title": "功能测试及应用", "detail": "功能测试及应用", "deliverable": "", "start": "2026-08-01", "end": "2026-08-30", "status": "未开始", "owner": "张卜峥、张健宇、研发"}, {"id": 37, "phase": 2, "sub": "3B", "title": "素材质量审核指导手册", "detail": "制定素材质量审核指导手册及权限管理方案", "deliverable": "《素材质量审核指导手册》", "start": "2026-06-24", "end": "2026-09-22", "status": "未开始", "owner": "张健宇"}, {"id": 38, "phase": 2, "sub": "3B", "title": "内容生成规范与标准", "detail": "制定内容生成规范与标准", "deliverable": "《内容生成规范》", "start": "2026-06-24", "end": "2026-09-22", "status": "未开始", "owner": "张健宇"}, {"id": 39, "phase": 2, "sub": "3C", "title": "效果评估指标体系", "detail": "制定富媒体知识服务效果评估指标体系", "deliverable": "《效果评估指标体系》", "start": "2026-08-01", "end": "2026-10-22", "status": "未开始", "owner": "马春悦"}, {"id": 40, "phase": 2, "sub": "3C", "title": "服务满意度分析报告", "detail": "制定富媒体知识服务满意度分析报告", "deliverable": "《满意度分析报告》", "start": "2026-08-01", "end": "2026-10-22", "status": "未开始", "owner": "张卜峥"}, {"id": 41, "phase": 2, "sub": "3C", "title": "穿透测试脚本开发", "detail": "开发富媒体知识穿透测试脚本", "deliverable": "《穿透测试脚本》", "start": "2026-09-01", "end": "2026-11-22", "status": "未开始", "owner": "研发、张健宇"}, {"id": 42, "phase": 2, "sub": "3C", "title": "网络质量检查脚本开发", "detail": "开发富媒体知识服务网络质量检查脚本", "deliverable": "《网络质量检查脚本》", "start": "2026-09-01", "end": "2026-11-22", "status": "未开始", "owner": "研发、张健宇"}, {"id": 43, "phase": 2, "sub": "3C", "title": "风险异常识别与排查", "detail": "定期批量检查3渠道富文本展示，编制排查流程", "deliverable": "《风险监控报告》", "start": "2026-09-01", "end": "2026-11-22", "status": "未开始", "owner": "马春悦、张卜峥、张健宇"}, {"id": 44, "phase": 2, "sub": "3C", "title": "风险预警与处置规范", "detail": "编制风险预警与处置规范", "deliverable": "", "start": "", "end": "", "status": "未开始", "owner": "张健宇"}, {"id": 45, "phase": 3, "title": "中期成果物材料准备", "detail": "完成中期成果物材料选定", "deliverable": "", "start": "", "end": "", "status": "未开始", "owner": ""}, {"id": 46, "phase": 3, "title": "中期评审汇报PPT准备", "detail": "中期评审汇报PPT准备", "deliverable": "", "start": "", "end": "", "status": "未开始", "owner": ""}, {"id": 47, "phase": 3, "title": "中期评审会汇报", "detail": "会上一人汇报，记录会议纪要", "deliverable": "", "start": "", "end": "", "status": "未开始", "owner": ""}, {"id": 48, "phase": 3, "title": "材料修改", "detail": "按照中期评审意见进行材料修改", "deliverable": "", "start": "", "end": "", "status": "未开始", "owner": ""}, {"id": 49, "phase": 3, "title": "会后签字", "detail": "会后完成会议纪要签字工作", "deliverable": "", "start": "", "end": "", "status": "未开始", "owner": ""}, {"id": 50, "phase": 4, "title": "成果物内部评审及修改", "detail": "项目组内部评审已交付的成果物是否合格", "deliverable": "", "start": "", "end": "", "status": "未开始", "owner": ""}, {"id": 51, "phase": 4, "title": "成果物客户评审及修改", "detail": "客户评审已交付的成果物是否合格", "deliverable": "", "start": "", "end": "", "status": "未开始", "owner": ""}, {"id": 52, "phase": 4, "title": "验收会方案", "detail": "准备会议需要的文档", "deliverable": "《验收申请表》《验收报告》《验收意见》", "start": "", "end": "2027-01-22", "status": "未开始", "owner": ""}, {"id": 53, "phase": 4, "title": "验收报告编制", "detail": "完成验收报告编制", "deliverable": "", "start": "", "end": "2027-01-22", "status": "未开始", "owner": ""}, {"id": 54, "phase": 4, "title": "会议签到表", "detail": "准备会议签到表文件", "deliverable": "", "start": "", "end": "", "status": "未开始", "owner": ""}, {"id": 55, "phase": 4, "title": "验收会汇报", "detail": "会上一人汇报，一人记录会议纪要", "deliverable": "", "start": "", "end": "", "status": "未开始", "owner": ""}, {"id": 56, "phase": 4, "title": "会后签字", "detail": "会后完成会议纪要签字工作", "deliverable": "", "start": "", "end": "", "status": "未开始", "owner": ""}];
 
 var phaseNames = ['项目启动','需求调研','项目实施','预验收','验收会'];
@@ -922,5 +1121,6 @@ window.addEventListener('DOMContentLoaded',function(){
     .catch(function(){});
 });
 </script>
+</div>
 </body>
 </html>
