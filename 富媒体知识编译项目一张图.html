@@ -188,6 +188,33 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .dlv-del{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:4px;font-size:11px;background:#FFEBEE;color:var(--red);cursor:pointer;transition:all .15s;flex-shrink:0;line-height:1;pointer-events:auto}
 .dlv-del:hover{background:var(--red);color:#fff}
 @media(max-width:768px){.bg-grid3{grid-template-columns:1fr}.dlv-groups-new{flex-direction:column}.dlv-row2{flex-wrap:wrap;gap:4px}.dlv-name2{min-width:120px}.dlv-time2{display:none}}
+
+/* 运营内容全流程pipeline */
+.data-flow-section{background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,.04);border-left:4px solid #006B54}
+.data-flow-section h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.data-flow-desc{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:16px;padding:8px 10px;background:#FAFAFA;border-radius:5px;border:1px solid #f0f0f0}
+.data-flow-desc b{color:var(--g2)}
+.df4-pipeline{display:flex;gap:0;align-items:stretch;position:relative}
+.df4-card{flex:1;position:relative;padding:10px 12px;transition:all .2s;cursor:default;overflow:hidden;display:flex;flex-direction:column;gap:4px}
+.df4-card:first-child{border-radius:10px 0 0 10px}
+.df4-card:last-child{border-radius:0 10px 10px 0}
+.df4-card::after{content:'';position:absolute;right:-12px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:12px solid;border-top:16px solid transparent;border-bottom:16px solid transparent;z-index:2}
+.df4-card::before{content:'';position:absolute;right:-12px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:12px solid rgba(0,0,0,.08);border-top:16px solid transparent;border-bottom:16px solid transparent;z-index:3}
+.df4-card:last-child::after,.df4-card:last-child::before{display:none}
+.df4-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.df4-char{font-size:32px;font-weight:800;line-height:1;opacity:.55;position:absolute;top:2px;right:8px}
+.df4-head{display:flex;align-items:center;gap:6px}
+.df4-icon{font-size:20px}
+.df4-label{font-size:13px;font-weight:700}
+.df4-sub{font-size:10px;font-weight:500;color:#555;line-height:1.4;padding:2px 6px;background:rgba(0,0,0,.04);border-radius:3px;display:inline-block}
+.df4-items{display:flex;flex-direction:column;gap:2px;margin-top:2px}
+.df4-item{font-size:9.5px;color:#444;line-height:1.3;padding-left:8px;position:relative}
+.df4-item::before{content:'';position:absolute;left:0;top:5px;width:4px;height:4px;border-radius:50%}
+.df4-card.p0{background:#fff;border-left:4px solid #006B54;box-shadow:0 1px 4px rgba(0,0,0,.06)}.df4-card.p0::after{border-left-color:#fff}.df4-card.p0::before{border-left-color:rgba(0,0,0,.04)}.df4-card.p0 .df4-char{color:#006B54}.df4-card.p0 .df4-label{color:#006B54}.df4-card.p0 .df4-item::before{background:#006B54}
+.df4-card.p1{background:#fff;border-left:4px solid #008667;box-shadow:0 1px 4px rgba(0,0,0,.06)}.df4-card.p1::after{border-left-color:#fff}.df4-card.p1::before{border-left-color:rgba(0,0,0,.04)}.df4-card.p1 .df4-char{color:#008667}.df4-card.p1 .df4-label{color:#008667}.df4-card.p1 .df4-item::before{background:#008667}
+.df4-card.p2{background:#fff;border-left:4px solid #2E7D32;box-shadow:0 1px 4px rgba(0,0,0,.06)}.df4-card.p2::after{border-left-color:#fff}.df4-card.p2::before{border-left-color:rgba(0,0,0,.04)}.df4-card.p2 .df4-char{color:#2E7D32}.df4-card.p2 .df4-label{color:#2E7D32}.df4-card.p2 .df4-item::before{background:#2E7D32}
+.df4-card.p3{background:#fff;border-left:4px solid #4CAF50;box-shadow:0 1px 4px rgba(0,0,0,.06)}.df4-card.p3::after{border-left-color:#fff}.df4-card.p3::before{border-left-color:rgba(0,0,0,.04)}.df4-card.p3 .df4-char{color:#4CAF50}.df4-card.p3 .df4-label{color:#4CAF50}.df4-card.p3 .df4-item::before{background:#4CAF50}
+@media(max-width:768px){.df4-pipeline{flex-direction:column;gap:6px}.df4-card{border-radius:8px!important}.df4-card::after,.df4-card::before{display:none}}
 </style>
 </head>
 <body>
@@ -209,6 +236,63 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 <div class="phase-item"><span class="phase-icon">✅</span><span class="phase-name">验收会</span></div>
 </div>
 <span class="summary-badge">📋 56项任务 · 🎯32%完成 · 📦13项成果物</span>
+</div>
+</div>
+
+<div class="data-flow-section">
+<h3>📥 四大运营内容 · 全流程闭环</h3>
+<div class="data-flow-desc">
+针对智能客服富媒体知识应用，按<b>梳理→生产→评估→监控</b>四大运营内容推进，建立从场景适配到效果追踪的全流程规范，实现2000条富媒体知识高质量交付与服务闭环。
+</div>
+<div class="df4-pipeline">
+<div class="df4-card p0" onclick="document.getElementById('phase-2').scrollIntoView({behavior:'smooth',block:'start'})" style="cursor:pointer">
+<div class="df4-char">梳</div>
+<div class="df4-head"><span class="df4-icon">🔍</span><span class="df4-label">知识梳理</span></div>
+<div class="df4-sub">🎯 场景适配评估，明确优先配置策略</div>
+<div class="df4-items">
+<div class="df4-item">全面盘点业务场景与现有标问标答语料素材</div>
+<div class="df4-item">系统梳理各渠道富媒体知识配置现状</div>
+<div class="df4-item">建立适配性评估指标框架（复杂度/可行性/接受度）</div>
+<div class="df4-item">制定场景优先级分级配置策略</div>
+<div class="df4-item">输出微信/APP/网站三渠道适配场景清单</div>
+</div>
+</div>
+<div class="df4-card p1" onclick="document.getElementById('phase-2').scrollIntoView({behavior:'smooth',block:'start'})" style="cursor:pointer">
+<div class="df4-char">产</div>
+<div class="df4-head"><span class="df4-icon">🎨</span><span class="df4-label">知识生产</span></div>
+<div class="df4-sub">🎯 自动化生产2000条富媒体知识</div>
+<div class="df4-items">
+<div class="df4-item">搭建富媒体知识生成工具与模板资源库</div>
+<div class="df4-item">设计内容组织与格式处理脚本</div>
+<div class="df4-item">编制素材管理脚本，统一上传/分类/检索</div>
+<div class="df4-item">制定素材质量审核指导手册</div>
+<div class="df4-item">制定内容生成规范与标准</div>
+</div>
+</div>
+<div class="df4-card p2" onclick="document.getElementById('phase-2').scrollIntoView({behavior:'smooth',block:'start'})" style="cursor:pointer">
+<div class="df4-char">评</div>
+<div class="df4-head"><span class="df4-icon">📊</span><span class="df4-label">效果评估</span></div>
+<div class="df4-sub">🎯 数据驱动评估，持续优化服务效果</div>
+<div class="df4-items">
+<div class="df4-item">确定核心评估指标（答案点击率/转人工率/满意度）</div>
+<div class="df4-item">建立三大渠道运营指标数据采集流程</div>
+<div class="df4-item">设计多维数据运营监控与统计分析框架</div>
+<div class="df4-item">定期输出用户体验洞察分析报告</div>
+<div class="df4-item">形成数据驱动的效果度量机制</div>
+</div>
+</div>
+<div class="df4-card p3" onclick="document.getElementById('phase-2').scrollIntoView({behavior:'smooth',block:'start'})" style="cursor:pointer">
+<div class="df4-char">控</div>
+<div class="df4-head"><span class="df4-icon">🛡️</span><span class="df4-label">风险监控</span></div>
+<div class="df4-sub">🎯 实时监控预警，保障服务稳定性</div>
+<div class="df4-items">
+<div class="df4-item">构建端到端服务连通性与质量查验流程</div>
+<div class="df4-item">制定服务风险异常识别与排查流程</div>
+<div class="df4-item">梳理全方位服务性能监控指标</div>
+<div class="df4-item">制定风险预警与应急处置规范</div>
+<div class="df4-item">实施内外网穿透分析与测试</div>
+</div>
+</div>
 </div>
 </div>
 
