@@ -128,17 +128,17 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .toast.info{background:var(--blue)}.toast.success{background:var(--g3)}.toast.error{background:var(--red)}
 @media(max-width:768px){.phase-nav{flex-wrap:wrap}.phase-tab{flex:1 1 33%}.phase-overview{flex-wrap:wrap}.pov-card{flex:1 1 45%}.sub-phase-grid{grid-template-columns:1fr}.gantt-header,.gantt-row{grid-template-columns:60px repeat(9,1fr)}}
 /* bg-section project background */
-.bg-section{background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid var(--g2)}
-.bg-section h3{font-size:13px;font-weight:700;color:var(--g2);margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.bg-intro{font-size:11px;color:var(--text2);margin-bottom:8px;line-height:1.6;padding:8px 10px;background:var(--g8);border-radius:6px;border:1px solid var(--g7)}
+.bg-section{background:var(--card);border-radius:10px;padding:12px 16px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.bg-section h3{font-size:13px;font-weight:700;color:var(--g2);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.bg-intro{font-size:11px;color:var(--text2);margin-bottom:10px;line-height:1.6;padding:8px 10px;background:var(--g8);border-radius:6px;border:1px solid var(--g7)}
 .bg-intro b{color:var(--g2)}
-.bg-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.bg-card{padding:10px 12px;border-radius:8px;border:1.5px solid #e8e8e8}
-.bg-card h4{font-size:12px;font-weight:700;margin-bottom:5px;padding-bottom:4px;border-bottom:1px dashed rgba(0,0,0,.08)}
+.bg-grid3{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bg-card{padding:12px 14px;border-radius:10px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.bg-card h4{font-size:12px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
 .bg-card.problem{background:#FAFAFA;border-color:#CFD8DC}
 .bg-card.problem h4{color:#546E7A}
 .bg-card.solution{background:#F1F8E9;border-color:var(--g5)}
-.bg-card.solution h4{color:var(--g2)}
+.bg-card.solution h4{color:#1B5E20}
 .cap-list{display:flex;flex-direction:column;gap:4px}
 .cap-item{display:flex;align-items:flex-start;gap:8px;padding:4px 0;font-size:11px;line-height:1.5}
 .cap-num{flex-shrink:0;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
@@ -242,48 +242,38 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 <div class="bg-section">
 <h3>📌 项目背景：富媒体知识升级驱动</h3>
 <div class="bg-intro">
-当前<b>网上国网APP、微信小程序、网站</b>等互联网渠道的智能客服仅支持<b>纯文本+单调图片</b>的知识形态，无法承载复杂业务场景。项目将通过<b>梳理场景、制定标准、产出2000条富媒体知识</b>等步骤实现升级。
+当前互联网渠道（网上国网APP、微信小程序、网站）智能客服仅支持纯文本+图片两种知识形态，图片形式单调（仅表格类和固定模板图片），无法有效承载操作指引、故障排查等复杂业务场景，导致客户理解困难、解决率低、转人工率高。
 </div>
-<div class="bg-grid3" style="grid-template-columns:1fr 1fr;gap:12px">
-<div style="border-radius:10px;overflow:hidden;border:1.5px solid #CFD8DC">
-<div style="background:linear-gradient(135deg,#ECEFF1,#CFD8DC);padding:8px 12px;font-size:12px;font-weight:700;color:#37474F;display:flex;align-items:center;gap:6px">⚠️ 当前现状 · 纯文本+单调图片</div>
-<div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px">
-<div class="bg-card problem" style="margin:0">
-<h4 style="color:#546E7A;font-size:11px;border:none;padding:0;margin:0 0 3px 0">纯文本知识为主</h4>
-<div style="font-size:10px;color:var(--text2);line-height:1.5">以文字问答为主，缺乏视频/图文/步骤指引等富媒体形态，用户体验单一</div>
-<div style="margin-top:4px"><span style="background:#ECEFF1;color:#546E7A;font-size:9px;font-weight:600;padding:1px 8px;border-radius:10px">理解成本高</span></div>
+<div class="bg-grid3">
+<div class="bg-card problem">
+<h4>📄 纯文本知识为主</h4>
+<div style="font-size:10px;color:var(--text2);line-height:1.5;margin-bottom:6px">大量复杂操作、故障排查场景仅用文字描述，客户难以理解</div>
+<span style="background:#FFEBEE;color:#C62828;font-size:9px;font-weight:600;padding:2px 10px;border-radius:10px">❌ 理解成本高</span>
 </div>
-<div class="bg-card problem" style="margin:0">
-<h4 style="color:#546E7A;font-size:11px;border:none;padding:0;margin:0 0 3px 0">图片形态单一</h4>
-<div style="font-size:10px;color:var(--text2);line-height:1.5">仅支持简单配图，无法适配不同渠道的展示规范，缺乏场景适配评估体系</div>
-<div style="margin-top:4px"><span style="background:#ECEFF1;color:#546E7A;font-size:9px;font-weight:600;padding:1px 8px;border-radius:10px">表达力不足</span></div>
+<div class="bg-card problem">
+<h4>🖼️ 图片形态单一</h4>
+<div style="font-size:10px;color:var(--text2);line-height:1.5;margin-bottom:6px">仅支持表格类图片和固定模板图片，缺乏视频、图文组合等富媒体形式</div>
+<span style="background:#FFEBEE;color:#C62828;font-size:9px;font-weight:600;padding:2px 10px;border-radius:10px">❌ 表达力不足</span>
 </div>
-<div class="bg-card problem" style="margin:0">
-<h4 style="color:#546E7A;font-size:11px;border:none;padding:0;margin:0 0 3px 0">复杂场景转人工</h4>
-<div style="font-size:10px;color:var(--text2);line-height:1.5">故障报修、电费查询等复杂场景缺乏富媒体引导，用户无法自助解决，转人工率高</div>
-<div style="margin-top:4px"><span style="background:#ECEFF1;color:#546E7A;font-size:9px;font-weight:600;padding:1px 8px;border-radius:10px">解决率低</span></div>
+<div class="bg-card problem">
+<h4>🔄 复杂场景转人工</h4>
+<div style="font-size:10px;color:var(--text2);line-height:1.5;margin-bottom:6px">部分知识答案标注"业务复杂需转人工处理"，未尝试富媒体降本</div>
+<span style="background:#FFEBEE;color:#C62828;font-size:9px;font-weight:600;padding:2px 10px;border-radius:10px">❌ 解决率低</span>
 </div>
+<div class="bg-card solution">
+<h4>🎥 视频/图文/步骤指引</h4>
+<div style="font-size:10px;color:var(--text2);line-height:1.5;margin-bottom:6px">对高价值场景配置视频教程、图文组合、分步操作指引等富媒体知识</div>
+<span style="background:#E8F5E9;color:#2E7D32;font-size:9px;font-weight:600;padding:2px 10px;border-radius:10px">✅ 客户易理解</span>
 </div>
+<div class="bg-card solution">
+<h4>📊 场景适配评估体系</h4>
+<div style="font-size:10px;color:var(--text2);line-height:1.5;margin-bottom:6px">建立"价值-成本"四象限评估，P0优先覆盖、P1有序推进、暂缓低价值场景</div>
+<span style="background:#E8F5E9;color:#2E7D32;font-size:9px;font-weight:600;padding:2px 10px;border-radius:10px">✅ 资源精准投放</span>
 </div>
-<div style="border-radius:10px;overflow:hidden;border:1.5px solid #A5D6A7">
-<div style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9);padding:8px 12px;font-size:12px;font-weight:700;color:#1B5E20;display:flex;align-items:center;gap:6px">✅ 升级目标 · 富媒体知识全覆盖</div>
-<div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px">
-<div class="bg-card solution" style="margin:0">
-<h4 style="color:#2E7D32;font-size:11px;border:none;padding:0;margin:0 0 3px 0">视频/图文/步骤指引</h4>
-<div style="font-size:10px;color:var(--text2);line-height:1.5">引入AI辅助生成工具，自动化产出视频、图文、步骤指引等富媒体知识内容</div>
-<div style="margin-top:4px"><span style="background:#E8F5E9;color:#2E7D32;font-size:9px;font-weight:600;padding:1px 8px;border-radius:10px">客户易理解</span></div>
-</div>
-<div class="bg-card solution" style="margin:0">
-<h4 style="color:#2E7D32;font-size:11px;border:none;padding:0;margin:0 0 3px 0">场景适配评估体系</h4>
-<div style="font-size:10px;color:var(--text2);line-height:1.5">建立知识复杂度/操作可行性/用户接受度三维评估，按渠道分级配置优先场景</div>
-<div style="margin-top:4px"><span style="background:#E8F5E9;color:#2E7D32;font-size:9px;font-weight:600;padding:1px 8px;border-radius:10px">资源精准投放</span></div>
-</div>
-<div class="bg-card solution" style="margin:0">
-<h4 style="color:#2E7D32;font-size:11px;border:none;padding:0;margin:0 0 3px 0">制作工具+质量规范</h4>
-<div style="font-size:10px;color:var(--text2);line-height:1.5">搭建制作小工具，制定素材审核手册与内容生成规范，确保质量可控、风格统一</div>
-<div style="margin-top:4px"><span style="background:#E8F5E9;color:#2E7D32;font-size:9px;font-weight:600;padding:1px 8px;border-radius:10px">规模可复制</span></div>
-</div>
-</div>
+<div class="bg-card solution">
+<h4>🔧 制作工具+质量规范</h4>
+<div style="font-size:10px;color:var(--text2);line-height:1.5;margin-bottom:6px">富媒体知识制作小工具+模板资源库+质量审核手册，2000条知识标准化产出</div>
+<span style="background:#E8F5E9;color:#2E7D32;font-size:9px;font-weight:600;padding:2px 10px;border-radius:10px">✅ 规模可复制</span>
 </div>
 </div>
 <div class="arrow-to">⬇️</div>
