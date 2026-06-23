@@ -215,6 +215,21 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 .df4-card.p2{background:#fff;border-left:4px solid #2E7D32;box-shadow:0 1px 4px rgba(0,0,0,.06)}.df4-card.p2::after{border-left-color:#fff}.df4-card.p2::before{border-left-color:rgba(0,0,0,.04)}.df4-card.p2 .df4-char{color:#2E7D32}.df4-card.p2 .df4-label{color:#2E7D32}.df4-card.p2 .df4-item::before{background:#2E7D32}
 .df4-card.p3{background:#fff;border-left:4px solid #4CAF50;box-shadow:0 1px 4px rgba(0,0,0,.06)}.df4-card.p3::after{border-left-color:#fff}.df4-card.p3::before{border-left-color:rgba(0,0,0,.04)}.df4-card.p3 .df4-char{color:#4CAF50}.df4-card.p3 .df4-label{color:#4CAF50}.df4-card.p3 .df4-item::before{background:#4CAF50}
 @media(max-width:768px){.df4-pipeline{flex-direction:column;gap:6px}.df4-card{border-radius:8px!important}.df4-card::after,.df4-card::before{display:none}}
+
+/* Six Forms Section */
+.six-forms-section{background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,.04);border-left:4px solid #E65100}
+.six-forms-section h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.six-forms-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:8px}
+.sf-card{background:#fff;border:1px solid #E0E0E0;border-radius:8px;padding:10px 8px;text-align:center;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px}
+.sf-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.sf-icon{font-size:24px;margin-bottom:2px}
+.sf-title{font-size:11px;font-weight:700;color:#333}
+.sf-desc{font-size:9px;color:#666;line-height:1.3}
+.sf-tag{display:inline-block;font-size:8px;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:2px}
+.sf-tag.p0{background:#E0F7FA;color:#00695C}
+.sf-tag.p1{background:#E8EAF6;color:#283593}
+.sf-tag.p2{background:#FFF3E0;color:#E65100}
+@media(max-width:768px){.six-forms-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -358,6 +373,49 @@ html,body{height:100%;font-family:"PingFang SC","Microsoft YaHei",-apple-system,
 <div class="df4-item">制定风险预警与应急处置规范</div>
 <div class="df4-item">实施内外网穿透分析与测试</div>
 </div>
+</div>
+</div>
+</div>
+
+
+<div class="six-forms-section">
+<h3>🎨 富媒体知识 · 六大形态</h3>
+<div class="six-forms-grid">
+<div class="sf-card">
+<div class="sf-icon">🎬</div>
+<div class="sf-title">操作视频</div>
+<div class="sf-desc">电表报装、复电操作等步骤指引</div>
+<div class="sf-tag p0">P0优先</div>
+</div>
+<div class="sf-card">
+<div class="sf-icon">🖼️</div>
+<div class="sf-title">图文组合</div>
+<div class="sf-desc">文字+配图+标注，替代纯文字说明</div>
+<div class="sf-tag p0">P0优先</div>
+</div>
+<div class="sf-card">
+<div class="sf-icon">📋</div>
+<div class="sf-title">步骤指引</div>
+<div class="sf-desc">分步操作流程卡片，可交互</div>
+<div class="sf-tag p1">P1推进</div>
+</div>
+<div class="sf-card">
+<div class="sf-icon">📊</div>
+<div class="sf-title">信息图卡</div>
+<div class="sf-desc">电价政策、费用结构等可视化呈现</div>
+<div class="sf-tag p1">P1推进</div>
+</div>
+<div class="sf-card">
+<div class="sf-icon">❓</div>
+<div class="sf-title">FAQ卡片</div>
+<div class="sf-desc">常见问题折叠卡片，快速定位答案</div>
+<div class="sf-tag p2">P2补充</div>
+</div>
+<div class="sf-card">
+<div class="sf-icon">🔗</div>
+<div class="sf-title">链接跳转</div>
+<div class="sf-desc">跳转业务办理页面，缩短操作链路</div>
+<div class="sf-tag p2">P2补充</div>
 </div>
 </div>
 </div>
