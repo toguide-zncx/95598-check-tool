@@ -97,12 +97,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .binding-card .bc-status.pending{color:var(--orange);font-weight:600}
 @media(min-width:768px){.binding-grid{grid-template-columns:repeat(4,1fr);gap:10px}.binding-card .bc-name{font-size:12px}.binding-card .bc-ring{width:56px;height:56px}.binding-card .bc-ring svg{width:56px;height:56px}}
 
-/* Risk table */
-.plan-table{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px}
-.plan-table th{background:var(--g1);color:#fff;padding:6px 8px;text-align:left;font-weight:600;white-space:nowrap;font-size:10px}
-.plan-table td{padding:5px 8px;border-bottom:1px solid var(--border);vertical-align:top;font-size:10px}
-.plan-table tr:hover td{background:var(--g5)}
-@media(min-width:768px){.plan-table{font-size:12px}.plan-table th{padding:8px 10px;font-size:11px}.plan-table td{padding:7px 10px;font-size:12px}}
+
 
 /* Day Timeline */
 .sync-bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
@@ -348,7 +343,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('phases')">🕐 阶段</button>
   <button class="tab-btn" onclick="switchTab('binding')">☎️ 绑定</button>
-  <button class="tab-btn" onclick="switchTab('risk')">⚠️ 风险</button>
 </div>
 
 <!-- Tab: Phases -->
@@ -423,24 +417,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 </div>
 </div>
 
-<!-- Tab: Risk -->
-<div class="tab-panel" id="tab-risk">
-<div class="section orange">
-<h2>⚠️ 风险预警与应对</h2>
-<table class="plan-table">
-<thead>
-<tr><th>#</th><th>风险项</th><th>等级</th><th>影响</th><th>应对措施</th><th>责任人</th></tr>
-</thead>
-<tbody>
-<tr><td>1</td><td>服务器到货延迟</td><td><span class="tag tag-critical">高</span></td><td>整体部署推迟，影响6.26试用启动</td><td>提前确认供应商库存，备选云服务器方案</td><td><span class="owner-tag">王维</span></td></tr>
-<tr><td>2</td><td>GPU工作站到货延迟</td><td><span class="tag tag-critical">高</span></td><td>7B模型无法按时部署，影响联调</td><td>6.23确认到货时间，备选云GPU方案</td><td><span class="owner-tag">钟明原</span></td></tr>
-<tr><td>3</td><td>80台电脑配置差异大</td><td><span class="tag tag-important">中</span></td><td>安装时间超预期</td><td>6.25收集配置清单，提前筛选不满足的机器</td><td><span class="owner-tag">李琳/梁嵩</span></td></tr>
-<tr><td>4</td><td>7B模型推理性能不达标</td><td><span class="tag tag-important">中</span></td><td>推理延迟过高影响体验</td><td>准备INT4/INT8量化方案，备选API降级</td><td><span class="owner-tag">钟明原</span></td></tr>
-<tr><td>5</td><td>网络/安全配置阻断</td><td><span class="tag tag-important">中</span></td><td>座席端无法连接服务端</td><td>6.24完成安全配置，预留6.25联调窗口</td><td><span class="owner-tag">钟明原</span></td></tr>
-<tr><td>6</td><td>话机型号杂乱兼容性差</td><td><span class="tag tag-important">中</span></td><td>部分话机无法正常采集语音</td><td>6.25收集话机型号，提前准备USB转接线</td><td><span class="owner-tag">梁嵩</span></td></tr>
-<tr><td>7</td><td>试用首日集中报障</td><td><span class="tag tag-normal">低</span></td><td>用户体验差</td><td>研发全员值守，FAQ速查手册，专属问题群</td><td><span class="owner-tag">钟明原/白家宝</span></td></tr>
-</tbody>
-</table>
+<!-- 延期工作项明细 -->
+<div class="section" id="delayedSection" style="border-left-color:var(--red)">
+<h2 style="color:var(--red)">⚠️ 延期的工作项</h2>
+<div id="delayedList" style="display:grid;gap:6px">
+  <div class="day-task critical" data-task-id="3" style="margin:0">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+      <span class="tag tag-critical" style="font-size:10px">⚠️延期</span>
+      <span style="font-weight:700;font-size:12px">#3 服务器登录方式确认</span>
+    </div>
+    <div style="font-size:11px;color:var(--text2)">截止 6月24日 · 负责人 <span class="owner-tag">白家宝</span></div>
+  </div>
+  <div class="day-task important" data-task-id="7" style="margin:0">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+      <span class="tag tag-critical" style="font-size:10px">⚠️延期</span>
+      <span style="font-weight:700;font-size:12px">#7 座席助手安装包准备</span>
+    </div>
+    <div style="font-size:11px;color:var(--text2)">截止 6月24日 · 负责人 <span class="owner-tag">钟明原</span></div>
+  </div>
 </div>
 </div>
 
@@ -455,7 +449,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.remove('active')});
   document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});
-  var tabs=['phases','binding','risk'];
+  var tabs=['phases','binding'];
   var idx=tabs.indexOf(name);
   document.querySelectorAll('.tab-btn')[idx].classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
@@ -504,8 +498,9 @@ function applySyncData(data){
     else pending++;
   });
   var delayed=0;
+  var delayedTasks=[];
   data.tasks.forEach(function(t){
-    if(t.delayed)delayed++;
+    if(t.delayed){delayed++;delayedTasks.push(t);}
   });
   var kpis=document.querySelectorAll('.kc-num');
   if(kpis.length>=5){
@@ -514,6 +509,24 @@ function applySyncData(data){
     kpis[2].textContent=doing;
     kpis[3].textContent=pending;
     kpis[4].textContent=delayed;
+  }
+  // Update delayed section
+  var dl=document.getElementById('delayedList');
+  if(dl){
+    dl.innerHTML='';
+    delayedTasks.forEach(function(t){
+      var div=document.createElement('div');
+      div.className='day-task '+(t.priority==='关键'?'critical':'important');
+      div.setAttribute('data-task-id',t.id);
+      div.style.margin='0';
+      var endParts=t.end.split('-');
+      var endDate=parseInt(endParts[1])+'月'+parseInt(endParts[2])+'日';
+      div.innerHTML='<div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">'+
+        '<span class="tag tag-critical" style="font-size:10px">⚠️延期</span>'+
+        '<span style="font-weight:700;font-size:12px">#'+t.id+' '+t.name+'</span></div>'+
+        '<div style="font-size:11px;color:var(--text2)">截止 '+endDate+' · 负责人 <span class="owner-tag">'+t.owner+'</span></div>';
+      dl.appendChild(div);
+    });
   }
   
   // Update timeline tasks status
