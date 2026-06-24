@@ -191,125 +191,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 </div>
 <div class="sync-toast" id="syncToast"></div>
 
-<!-- 本周实施时间线 -->
+<!-- 今日待办事项 -->
 <div class="section">
-<h2>📊 本周实施时间线</h2>
-<div class="day-timeline">
-  <div class="day-col">
-    <div class="day-header tue">周二 · 组织动员</div>
-    <div class="day-date">6月23日</div>
-    <div class="day-body">
-      <div class="day-task normal" data-task-id="1">
-                <div class="task-name">业管部发布试用通知</div>
-        <div class="task-owner">👤 王维</div>
-        <div class="task-status done">✅ 已完成</div>
-      </div>
-      <div class="day-task critical" data-task-id="4">
-                <div class="task-name">确定南（北）分中心对接人</div>
-        <div class="task-owner">👤 王维</div>
-        <div class="task-status doing">🔄 进行中</div>
-      </div>
-      <div class="day-task critical" data-task-id="2">
-                <div class="task-name">2台服务器线上申请</div>
-        <div class="task-owner">👤 王维</div>
-        <div class="task-status doing">🔄 进行中</div>
-      </div>
-      <div class="day-task important" data-task-id="5">
-                <div class="task-name">安全加密研发</div>
-        <div class="task-owner">👤 钟明原</div>
-        <div class="task-status doing">🔄 进行中</div>
-      </div>
-      <div class="day-task important" data-task-id="6">
-                <div class="task-name">遗留问题缺陷整改</div>
-        <div class="task-owner">👤 钟明原</div>
-        <div class="task-status doing">🔄 进行中</div>
-      </div>
-      <div class="day-task normal" data-task-id="8">
-                <div class="task-name">安装包存储位置确定</div>
-        <div class="task-owner">👤 鄂丽丽</div>
-        <div class="task-status done">✅ 已完成</div>
-      </div>
-    </div>
-    <div class="day-arrow">→</div>
+<h2>📋 今日待办事项</h2>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+
+  <div class="day-task normal">
+    <div class="task-name">#5 安全加密研发</div>
+    <div class="task-owner">👤 钟明原</div>
+    <div class="task-status doing">🔄 进行中</div>
   </div>
-  <div class="day-col">
-    <div class="day-header wed">周三 · 服务器到位</div>
-    <div class="day-date">6月24日</div>
-    <div class="day-body">
-      <div class="day-task critical" data-task-id="3">
-                <div class="task-name">服务器到货验收及登录确认</div>
-        <div class="task-owner">👤 白家宝</div>
-        <div class="task-status doing">🔄 进行中</div>
-      </div>
-      <div class="day-task important" data-task-id="7">
-                <div class="task-name">座席助手安装包准备</div>
-        <div class="task-owner">👤 钟明原</div>
-        <div class="task-status doing">🔄 进行中</div>
-      </div>
-      
-      
-    </div>
-    <div class="day-arrow">→</div>
+
+  <div class="day-task important">
+    <div class="task-name">#6 遗留问题缺陷整改</div>
+    <div class="task-owner">👤 钟明原</div>
+    <div class="task-status doing">🔄 进行中</div>
   </div>
-  <div class="day-col">
-    <div class="day-header thu">周四 · 部署测试</div>
-    <div class="day-date">6月25日</div>
-    <div class="day-body">
-      <div class="day-task critical" data-task-id="10">
-                <div class="task-name">产品服务部署（Docker/MySQL）</div>
-        <div class="task-owner">👤 白家宝</div>
-        <div class="task-status todo">⏳ 待开展</div>
-      </div>
-      <div class="day-task critical" data-task-id="9">
-                <div class="task-name">收集确认80人工位及话机清单</div>
-        <div class="task-owner">👤 李琳/梁嵩</div>
-        <div class="task-status todo">⏳ 待开展</div>
-      </div>
-      <div class="day-task important" data-task-id="11">
-                <div class="task-name">内部测试环境功能验证</div>
-        <div class="task-owner">👤 梁嵩</div>
-        <div class="task-status todo">⏳ 待开展</div>
-      </div>
-    </div>
-    <div class="day-arrow">→</div>
+
+  <div class="day-task important">
+    <div class="task-name">#7 95598座席助手安装包准备</div>
+    <div class="task-owner">👤 钟明原</div>
+    <div class="task-status doing">🔄 进行中</div>
   </div>
-  <div class="day-col">
-    <div class="day-header fri">周五 · 正式试用</div>
-    <div class="day-date">6月26日</div>
-    <div class="day-body">
-      <div class="day-task critical" data-task-id="12">
-                <div class="task-name">80台电脑安装座席助手软件</div>
-        <div class="task-owner">👤 白家宝</div>
-        <div class="task-status todo">⏳ 待开展</div>
-      </div>
-      <div class="day-task critical" data-task-id="13">
-                <div class="task-name">80话机坐席绑定及联调确认</div>
-        <div class="task-owner">👤 梁嵩</div>
-        <div class="task-status todo">⏳ 待开展</div>
-      </div>
-      <div class="day-task critical" data-task-id="14">
-                <div class="task-name">全链路功能集成测试</div>
-        <div class="task-owner">👤 梁嵩</div>
-        <div class="task-status todo">⏳ 待开展</div>
-      </div>
-      <div class="day-task important" data-task-id="15">
-                <div class="task-name">座席助手操作培训</div>
-        <div class="task-owner">👤 梁嵩</div>
-        <div class="task-status todo">⏳ 待开展</div>
-      </div>
-      <div class="day-task critical" data-task-id="16">
-                <div class="task-name">🚀 正式开启试用</div>
-        <div class="task-owner">👤 鄂丽丽</div>
-        <div class="task-status todo">⏳ 待开展</div>
-      </div>
-      <div class="day-task important" data-task-id="17">
-                <div class="task-name">试用值守保障及问题收集</div>
-        <div class="task-owner">👤 钟明原/白家宝</div>
-        <div class="task-status todo">⏳ 待开展</div>
-      </div>
-    </div>
-  </div>
+
 </div>
+<div style="text-align:center;font-size:11px;color:#999;margin-top:10px">📅 2026年6月24日 · 今日无待开展任务，3项进行中需推进</div>
 </div>
 
 <!-- Mobile Tab Bar -->
