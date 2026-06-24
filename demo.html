@@ -6667,7 +6667,14 @@ var _projDataDefault = [
     {name:'项目实施',period:'7/11-2/28',tasks:15,done:0,dlv:0},
     {name:'预验收',period:'3/1-3/15',tasks:3,done:0,dlv:0},
     {name:'正式验收',period:'3/16-3/30',tasks:3,done:0,dlv:1}
-  ],delayed:false,period:'2026.6-2027.3',partner:'国电南瑞',url:''}
+  ],delayed:false,period:'2026.6-2027.3',partner:'国电南瑞',url:''},
+  {id:5,name:'智能客服富媒体知识编译及应用分析项目',year:'2026',lead:'马春悦',members:'',phase:2,phases:[
+    {name:'项目启动',period:'5/25-6/3',tasks:4,done:4,dlv:4},
+    {name:'需求调研',period:'6/1-6/22',tasks:6,done:0,dlv:0},
+    {name:'项目实施',period:'6/1-12/15',tasks:34,done:0,dlv:0},
+    {name:'预验收',period:'12/16-12/30',tasks:5,done:0,dlv:0},
+    {name:'正式验收',period:'1/4-1/15',tasks:7,done:0,dlv:0}
+  ],delayed:false,period:'2026.5-2027.1',partner:'国电南瑞',url:'https://toguide-zncx.github.io/95598-check-tool/%E5%AF%8C%E5%AA%92%E4%BD%93%E7%9F%A5%E8%AF%86%E7%BC%96%E8%AF%91%E9%A1%B9%E7%9B%AE%E4%B8%80%E5%BC%A0%E5%9B%BE.html'}
 ];
 var _projData = JSON.parse(localStorage.getItem('proj_data')) || JSON.parse(JSON.stringify(_projDataDefault));
 
@@ -6679,7 +6686,7 @@ function initProjectPage(){
   renderProjectKPI();
   renderProjectTable();
   // 1. Fetch full project list from remote proj-data.json
-  fetch('./proj-data.json?t='+Date.now())
+  fetch('https://toguide-zncx.github.io/95598-check-tool/proj-data.json?t='+Date.now())
     .then(function(r){if(!r.ok)throw new Error('');return r.json()})
     .then(function(data){
       if(data&&data.projects&&data.projects.length>0){
@@ -6704,7 +6711,7 @@ function initProjectPage(){
     })
     .catch(function(){});
   // 2. Also fetch plan-data.json for first project detailed progress
-  fetch('./plan-data.json?t='+Date.now())
+  fetch('https://toguide-zncx.github.io/95598-check-tool/plan-data.json?t='+Date.now())
     .then(function(r){if(!r.ok)throw new Error('');return r.json()})
     .then(function(data){
       if(data&&data.phases){
