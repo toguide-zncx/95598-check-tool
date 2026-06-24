@@ -97,8 +97,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .binding-card .bc-status.pending{color:#E65100;font-weight:600}
 @media(min-width:768px){.binding-grid{grid-template-columns:repeat(4,1fr);gap:10px}.binding-card .bc-name{font-size:12px}.binding-card .bc-ring{width:56px;height:56px}.binding-card .bc-ring svg{width:56px;height:56px}}
 
-
-
 /* Day Timeline */
 .sync-bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
 .sync-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;transition:all .25s;border:none}
@@ -178,7 +176,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 <div class="kpi-grid">
   <div class="kpi-card total"><div class="kc-num">21</div><div class="kc-label">总任务</div><div class="kc-bar"><div class="kc-bar-fill" style="width:100%;background:#006B54"></div></div></div>
   <div class="kpi-card done"><div class="kc-num">5</div><div class="kc-label">已完成</div><div class="kc-bar"><div class="kc-bar-fill" style="width:24%;background:#4CAF50"></div></div></div>
-  <div class="kpi-card doing"><div class="kc-num">3</div><div class="kc-label">进行中</div><div class="kc-bar"><div class="kc-bar-fill" style="width:14%;background:#1565C0"></div></div></div>
+  <div class="kpi-card doing"><div class="kc-num">2</div><div class="kc-label">进行中</div><div class="kc-bar"><div class="kc-bar-fill" style="width:14%;background:#1565C0"></div></div></div>
   <div class="kpi-card wait"><div class="kc-num">1</div><div class="kc-label">今日待开展</div><div class="kc-bar"><div class="kc-bar-fill" style="width:0%;background:#E65100"></div></div></div>
   <div class="kpi-card critical"><div class="kc-num">0</div><div class="kc-label">延期的工作项</div><div class="kc-bar"><div class="kc-bar-fill" style="width:0%;background:#C62828"></div></div></div>
 </div>
@@ -186,7 +184,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 <!-- 同步栏 -->
 <div class="sync-bar">
   <button class="sync-btn primary" id="syncBtn" onclick="syncFromCloud()">🔄 同步项目计划</button>
-  <span class="sync-time" id="syncTime">上次同步：2026-06-24 20:05</span>
+  <span class="sync-time" id="syncTime">上次同步：2026-06-24 20:07</span>
   <span style="font-size:10px;color:#999;margin-left:auto">数据来源：<a href="https://www.kdocs.cn/l/cp5h5LVYzFo3" target="_blank" style="color:#008667;text-decoration:none">金山文档</a></span>
 </div>
 <div class="sync-toast" id="syncToast"></div>
@@ -199,11 +197,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
     <div class="day-header tue">周二 · 组织动员</div>
     <div class="day-date">6月23日</div>
     <div class="day-body">
-      <div class="day-task critical" data-task-id="1">
-        <div class="task-name">业管部发布试用通知</div>
-        <div class="task-owner">👤 王维</div>
-        <div class="task-status done">✅ 已完成</div>
-      </div>
+
       <div class="day-task important" data-task-id="6">
         <div class="task-name">遗留问题缺陷整改</div>
         <div class="task-owner">👤 钟明原</div>
@@ -212,7 +206,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
       <div class="day-task important" data-task-id="7">
         <div class="task-name">95598座席助手安装包准备</div>
         <div class="task-owner">👤 钟明原</div>
-        <div class="task-status doing">🔄 进行中</div>
+        <div class="task-status todo">⏳ 待开展</div>
       </div>
     </div>
     <div class="day-arrow">→</div>
@@ -244,7 +238,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
       <div class="day-task important" data-task-id="5">
         <div class="task-name">安全加密研发</div>
         <div class="task-owner">👤 钟明原</div>
-        <div class="task-status doing">🔄 进行中</div>
+        <div class="task-status todo">⏳ 待开展</div>
       </div>
       <div class="day-task important" data-task-id="6">
         <div class="task-name">遗留问题缺陷整改</div>
@@ -254,7 +248,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
       <div class="day-task important" data-task-id="7">
         <div class="task-name">95598座席助手安装包准备</div>
         <div class="task-owner">👤 钟明原</div>
-        <div class="task-status doing">🔄 进行中</div>
+        <div class="task-status todo">⏳ 待开展</div>
       </div>
       <div class="day-task critical" data-task-id="10">
         <div class="task-name">产品服务部署</div>
@@ -423,9 +417,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
     <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:0%;background:#6A1B9A"></div></div>
     <div class="pi-stats"><span>4项</span><span style="color:#E65100">待开展4</span><span><b>0%</b></span></div>
     <div class="pi-tasks">
-      
-      
-      
+
     </div>
   </div>
 
