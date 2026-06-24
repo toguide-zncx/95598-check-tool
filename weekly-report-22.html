@@ -469,12 +469,13 @@ areaStyle:{color:'rgba(16,185,129,0.1)'},lineStyle:{color:G,type:'dashed',width:
 const cBar=echarts.init(document.getElementById('chart-internet-bar'));
 cBar.setOption({
 tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
-legend:{data:['本期','同比变化'],bottom:0,textStyle:{fontSize:11}},
+legend:{data:['本期','同比变化','目标线'],bottom:0,textStyle:{fontSize:11}},
 grid:{left:40,right:20,top:20,bottom:40},
 xAxis:{type:'category',data:['网上国网','微信小程序','95598互动网站'],axisLabel:{fontSize:11}},
-yAxis:{type:'value',axisLabel:{formatter:'{value}%',fontSize:11}},series:[
-{type:'bar',name:'本期',data:[77.21,68.36,52.15],barWidth:30,itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:P},{offset:1,color:PU}])},label:{show:true,position:'top',formatter:'{c}%',fontSize:11}},
-{type:'bar',name:'同比变化',data:[6.23,-4.77,46.99],barWidth:30,itemStyle:{color:function(p){return p.value>=0?G:R}},label:{show:true,position:'top',formatter:function(p){return(p.value>=0?'+':'')+p.value+'%'},fontSize:10}}
+yAxis:{type:'value',axisLabel:{formatter:'{value}%',fontSize:11},max:100},series:[
+{type:'bar',name:'本期',data:[77.21,68.36,52.15],barWidth:30,itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:P},{offset:1,color:PU}])},label:{show:true,position:'top',formatter:'{c}%',fontSize:11},markLine:{silent:true,symbol:'none',lineStyle:{color:'#ef4444',type:'dashed',width:2},label:{position:'end',formatter:'目标80%',fontSize:11,color:'#ef4444'},data:[{yAxis:80}]}},
+{type:'bar',name:'同比变化',data:[6.23,-4.77,46.99],barWidth:30,itemStyle:{color:function(p){return p.value>=0?G:R}},label:{show:true,position:'top',formatter:function(p){return(p.value>=0?'+':'')+p.value+'%'},fontSize:10}},
+{type:'line',name:'目标线',data:[80,80,80],lineStyle:{color:'#ef4444',type:'dashed',width:2},symbol:'none',tooltip:{show:false}}
 ]});
 
 // 3. 需求饼图
