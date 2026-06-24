@@ -1,0 +1,106 @@
+{
+  "syncTime": "2026-06-24 09:20",
+  "source": "智能服务运营平台-项目管理",
+  "projects": [
+    {
+      "id": 1,
+      "name": "智能客服大模型样本梳理及标注项目",
+      "year": "2026",
+      "lead": "高金萱",
+      "members": "李琳、梁爽、郭玮旻",
+      "phase": 2,
+      "phases": [
+        {"name": "项目启动", "period": "5/25-6/3", "tasks": 6, "done": 6, "dlv": 4},
+        {"name": "需求调研", "period": "6/1-6/22", "tasks": 7, "done": 1.8, "dlv": 5},
+        {"name": "项目实施", "period": "6/1-12/15", "tasks": 23, "done": 2.3, "dlv": 14},
+        {"name": "预验收", "period": "12/16-12/30", "tasks": 3, "done": 0, "dlv": 0},
+        {"name": "正式验收", "period": "1/4-1/15", "tasks": 3, "done": 0, "dlv": 2}
+      ],
+      "delayed": false,
+      "period": "2026.5-2027.1",
+      "partner": "国电南瑞",
+      "url": "https://toguide-zncx.github.io/95598-check-tool/%E6%A0%B7%E6%9C%AC%E6%A0%87%E6%B3%A8%E9%A1%B9%E7%9B%AE%E4%B8%80%E5%BC%A0%E5%9B%BE.html",
+      "progress": null
+    },
+    {
+      "id": 2,
+      "name": "智能客服质量分析及运营优化项目",
+      "year": "2025",
+      "lead": "高金萱",
+      "members": "李琳、梁爽",
+      "phase": 5,
+      "phases": [
+        {"name": "项目启动", "period": "3/1-3/15", "tasks": 4, "done": 4, "dlv": 2},
+        {"name": "需求调研", "period": "3/16-4/10", "tasks": 5, "done": 5, "dlv": 3},
+        {"name": "项目实施", "period": "4/11-10/31", "tasks": 12, "done": 12, "dlv": 6},
+        {"name": "预验收", "period": "11/1-11/15", "tasks": 3, "done": 3, "dlv": 1},
+        {"name": "正式验收", "period": "11/16-12/5", "tasks": 3, "done": 3, "dlv": 2}
+      ],
+      "delayed": false,
+      "period": "2025.3-2025.12",
+      "partner": "国电南瑞",
+      "url": "",
+      "progress": null
+    },
+    {
+      "id": 3,
+      "name": "智能服务地址服务能力优化支撑项目",
+      "year": "2025",
+      "lead": "梁爽",
+      "members": "李琳、郭玮旻",
+      "phase": 3,
+      "phases": [
+        {"name": "项目启动", "period": "4/1-4/15", "tasks": 4, "done": 4, "dlv": 2},
+        {"name": "需求调研", "period": "4/16-5/10", "tasks": 5, "done": 5, "dlv": 3},
+        {"name": "项目实施", "period": "5/11-11/30", "tasks": 10, "done": 4, "dlv": 3},
+        {"name": "预验收", "period": "12/1-12/15", "tasks": 3, "done": 0, "dlv": 0},
+        {"name": "正式验收", "period": "12/16-12/30", "tasks": 3, "done": 0, "dlv": 1}
+      ],
+      "delayed": true,
+      "period": "2025.4-2025.12",
+      "partner": "中电普华",
+      "url": "",
+      "progress": null
+    },
+    {
+      "id": 4,
+      "name": "95598智能客服场景迭代优化项目",
+      "year": "2026",
+      "lead": "李琳",
+      "members": "高金萱、郭玮旻",
+      "phase": 2,
+      "phases": [
+        {"name": "项目启动", "period": "6/1-6/15", "tasks": 4, "done": 4, "dlv": 2},
+        {"name": "需求调研", "period": "6/16-7/10", "tasks": 6, "done": 2, "dlv": 2},
+        {"name": "项目实施", "period": "7/11-2/28", "tasks": 15, "done": 0, "dlv": 0},
+        {"name": "预验收", "period": "3/1-3/15", "tasks": 3, "done": 0, "dlv": 0},
+        {"name": "正式验收", "period": "3/16-3/30", "tasks": 3, "done": 0, "dlv": 1}
+      ],
+      "delayed": false,
+      "period": "2026.6-2027.3",
+      "partner": "国电南瑞",
+      "url": "",
+      "progress": null
+    },
+    {
+      "id": 5,
+      "name": "智能客服富媒体知识编译及应用分析项目",
+      "year": "2026",
+      "lead": "马春悦",
+      "members": "",
+      "phase": 2,
+      "phases": [
+        {"name": "项目启动", "period": "5/25-6/3", "tasks": 4, "done": 4, "dlv": 4},
+        {"name": "需求调研", "period": "6/1-6/22", "tasks": 6, "done": 0, "dlv": 0},
+        {"name": "项目实施", "period": "6/1-12/15", "tasks": 34, "done": 0, "dlv": 0},
+        {"name": "预验收", "period": "12/16-12/30", "tasks": 5, "done": 0, "dlv": 0},
+        {"name": "正式验收", "period": "1/4-1/15", "tasks": 7, "done": 0, "dlv": 0}
+      ],
+      "delayed": false,
+      "period": "2026.5-2027.1",
+      "partner": "国电南瑞",
+      "url": "https://toguide-zncx.github.io/95598-check-tool/%E5%AF%8C%E5%AA%92%E4%BD%93%E7%9F%A5%E8%AF%86%E7%BC%96%E8%AF%91%E9%A1%B9%E7%9B%AE%E4%B8%80%E5%BC%A0%E5%9B%BE.html",
+      "progress": null
+    }
+  ]
+}
