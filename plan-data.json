@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-24 19:54",
+  "syncTime": "2026-06-24 20:05",
   "source": "金山文档 - 95598智能座席助手实施计划表",
   "sourceUrl": "https://www.kdocs.cn/l/cp5h5LVYzFo3",
   "fileId": "dCYHGzpaJrMUMcY8UtM71xqMXeDjLSUsv",
@@ -145,7 +145,7 @@
       "owner": "梁嵩、鄂丽丽",
       "priority": "重要",
       "status": "待开展",
-      "delayed": true
+      "delayed": false
     },
     {
       "id": 12,
@@ -341,7 +341,7 @@
       "done": 1,
       "doing": 0,
       "pending": 1,
-      "delayed": 1,
+      "delayed": 0,
       "total": 2,
       "pct": 50
     },
