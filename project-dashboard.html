@@ -184,7 +184,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
   <div class="kpi-card done"><div class="kc-num">2</div><div class="kc-label">已完成</div><div class="kc-bar"><div class="kc-bar-fill" style="width:10%;background:var(--g3)"></div></div></div>
   <div class="kpi-card doing"><div class="kc-num">4</div><div class="kc-label">进行中</div><div class="kc-bar"><div class="kc-bar-fill" style="width:19%;background:var(--blue)"></div></div></div>
   <div class="kpi-card wait"><div class="kc-num">15</div><div class="kc-label">待开展</div><div class="kc-bar"><div class="kc-bar-fill" style="width:71%;background:var(--orange)"></div></div></div>
-  <div class="kpi-card critical"><div class="kc-num">5</div><div class="kc-label">关键路径</div><div class="kc-bar"><div class="kc-bar-fill" style="width:24%;background:var(--red)"></div></div></div>
+  <div class="kpi-card critical"><div class="kc-num">10</div><div class="kc-label">关键路径</div><div class="kc-bar"><div class="kc-bar-fill" style="width:24%;background:var(--red)"></div></div></div>
 </div>
 
 <!-- 同步栏 -->
@@ -574,7 +574,7 @@ function syncFromCloud(){
   btn.innerHTML='⏳ 同步中...';
   showToast('正在从金山文档获取最新数据...','info',2000);
   
-  fetch('./plan-data.json?t='+Date.now())
+  fetch('https://toguide-zncx.github.io/95598-check-tool/plan-data.json?t='+Date.now())
     .then(function(r){if(!r.ok)throw new Error('数据文件未找到');return r.json()})
     .then(function(data){
       applySyncData(data);
@@ -591,7 +591,7 @@ function syncFromCloud(){
 
 // Auto-load on page load
 window.addEventListener('DOMContentLoaded',function(){
-  fetch('./plan-data.json?t='+Date.now())
+  fetch('https://toguide-zncx.github.io/95598-check-tool/plan-data.json?t='+Date.now())
     .then(function(r){return r.json()})
     .then(function(data){applySyncData(data)})
     .catch(function(){});
