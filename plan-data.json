@@ -1,12 +1,12 @@
 {
-  "syncTime": "2026-06-24 20:05",
+  "syncTime": "2026-06-24 20:07",
   "source": "金山文档 - 95598智能座席助手实施计划表",
   "sourceUrl": "https://www.kdocs.cn/l/cp5h5LVYzFo3",
   "fileId": "dCYHGzpaJrMUMcY8UtM71xqMXeDjLSUsv",
   "tasks": [
     {
       "id": 1,
-      "start": "2026-06-23",
+      "start": "2026-06-24",
       "end": "2026-06-24",
       "category": "运营",
       "name": "业管部发布试用通知",
@@ -92,7 +92,7 @@
       "deliverable": "部署包",
       "owner": "钟明原",
       "priority": "重要",
-      "status": "进行中",
+      "status": "待开展",
       "delayed": false
     },
     {
@@ -329,8 +329,8 @@
       "name": "一、组织动员与资源准备",
       "tasks": 9,
       "done": 4,
-      "doing": 3,
-      "pending": 2,
+      "doing": 2,
+      "pending": 3,
       "delayed": 0,
       "total": 9,
       "pct": 44
