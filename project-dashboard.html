@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>95598智能座席助手项目实施看板</title>
 <style>
-:root{--g1:#006B54;--g2:#008667;--g3:#4CAF50;--g4:#C8E6C9;--g5:#E8F5E9;--orange:#E65100;--red:#C62828;--blue:#1565C0;--purple:#6A1B9A;--card:#fff;--text:#222;--text2:#555;--text3:#999;--bg:#F5F5F5;--border:#E0E0E0}
+
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#F5F5F5;color:#222;line-height:1.5;-webkit-tap-highlight-color:transparent}
 .page{max-width:1200px;margin:0 auto;padding:16px}
 @media(min-width:768px){.page{padding:20px}}
 
 /* Header */
-.header{background:linear-gradient(135deg,var(--g1),var(--g2),var(--g3));color:#fff;border-radius:12px;padding:20px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,77,58,.2)}
+.header{background:linear-gradient(135deg,#006B54,#008667,#4CAF50);color:#fff;border-radius:12px;padding:20px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,77,58,.2)}
 .header h1{font-size:18px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
 .header .sub{font-size:12px;opacity:.9;margin-bottom:10px}
 .header .meta{display:flex;gap:8px;flex-wrap:wrap}
@@ -21,25 +21,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 @media(min-width:768px){.header{padding:24px 28px}.header h1{font-size:20px}.header .meta{gap:16px}.header .meta-item{padding:6px 14px;font-size:12px}}
 
 /* Section */
-.section{background:var(--card);border-radius:10px;padding:14px 16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.05);border-left:4px solid var(--g1)}
-.section h2{font-size:13px;font-weight:700;color:var(--g1);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.section.orange{border-left-color:var(--orange)}.section.orange h2{color:var(--orange)}
-.section.purple{border-left-color:var(--purple)}.section.purple h2{color:var(--purple)}
-.section.blue{border-left-color:var(--blue)}.section.blue h2{color:var(--blue)}
+.section{background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.05);border-left:4px solid #006B54}
+.section h2{font-size:13px;font-weight:700;color:#006B54;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.section.orange{border-left-color:#E65100}.section.orange h2{color:#E65100}
+.section.purple{border-left-color:#6A1B9A}.section.purple h2{color:#6A1B9A}
+.section.blue{border-left-color:#1565C0}.section.blue h2{color:#1565C0}
 @media(min-width:768px){.section{padding:16px 20px}.section h2{font-size:14px}}
 
 /* KPI Cards */
 .kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
-.kpi-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 8px;text-align:center;position:relative;overflow:hidden}
+.kpi-card{background:#fff;border:1px solid #E0E0E0;border-radius:8px;padding:10px 8px;text-align:center;position:relative;overflow:hidden}
 .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.kpi-card.total::before{background:var(--g1)}.kpi-card.done::before{background:var(--g3)}
-.kpi-card.doing::before{background:var(--blue)}.kpi-card.wait::before{background:var(--orange)}
-.kpi-card.critical::before{background:var(--red)}
+.kpi-card.total::before{background:#006B54}.kpi-card.done::before{background:#4CAF50}
+.kpi-card.doing::before{background:#1565C0}.kpi-card.wait::before{background:#E65100}
+.kpi-card.critical::before{background:#C62828}
 .kpi-card .kc-num{font-size:24px;font-weight:800;line-height:1}
-.kpi-card.total .kc-num{color:var(--g1)}.kpi-card.done .kc-num{color:var(--g3)}
-.kpi-card.doing .kc-num{color:var(--blue)}.kpi-card.wait .kc-num{color:var(--orange)}
-.kpi-card.critical .kc-num{color:var(--red)}
-.kpi-card .kc-label{font-size:10px;color:var(--text3);margin-top:2px}
+.kpi-card.total .kc-num{color:#006B54}.kpi-card.done .kc-num{color:#4CAF50}
+.kpi-card.doing .kc-num{color:#1565C0}.kpi-card.wait .kc-num{color:#E65100}
+.kpi-card.critical .kc-num{color:#C62828}
+.kpi-card .kc-label{font-size:10px;color:#999;margin-top:2px}
 .kpi-card .kc-bar{height:3px;background:#e8e8e8;border-radius:2px;margin-top:6px;overflow:hidden}
 .kpi-card .kc-bar-fill{height:100%;border-radius:2px}
 @media(min-width:768px){.kpi-card{padding:14px}.kpi-card .kc-num{font-size:32px}.kpi-card .kc-label{font-size:11px;margin-top:4px}}
@@ -51,26 +51,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 
 /* Phase Progress */
 .phase-list{display:grid;gap:10px}
-.phase-item{background:#FAFAFA;border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.phase-item{background:#FAFAFA;border:1px solid #E0E0E0;border-radius:8px;padding:12px 14px}
 .phase-item .pi-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .phase-item .pi-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.phase-item .pi-dot.done{background:var(--g3)}
-.phase-item .pi-dot.active{background:var(--blue);box-shadow:0 0 0 3px rgba(21,101,192,.2)}
+.phase-item .pi-dot.done{background:#4CAF50}
+.phase-item .pi-dot.active{background:#1565C0;box-shadow:0 0 0 3px rgba(21,101,192,.2)}
 .phase-item .pi-dot.pending{background:#BDBDBD}
 .phase-item .pi-title{font-size:12px;font-weight:700;flex:1}
-.phase-item .pi-date{font-size:10px;color:var(--text3)}
+.phase-item .pi-date{font-size:10px;color:#999}
 .phase-item .pi-bar-wrap{height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;margin-bottom:4px}
 .phase-item .pi-bar-fill{height:100%;border-radius:3px;transition:width .6s}
-.phase-item .pi-stats{display:flex;gap:10px;font-size:10px;color:var(--text2);flex-wrap:wrap}
+.phase-item .pi-stats{display:flex;gap:10px;font-size:10px;color:#555;flex-wrap:wrap}
 .phase-item .pi-stats b{font-weight:700}
 .phase-item .pi-tasks{margin-top:6px;display:grid;gap:3px}
 .phase-item .pi-task{display:flex;align-items:center;gap:6px;font-size:11px;padding:4px 8px;background:#fff;border-radius:4px;border:1px solid #f0f0f0}
 .phase-item .pi-task .pt-idx{min-width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0}
-.phase-item .pi-task .pt-idx.critical{background:var(--red)}
-.phase-item .pi-task .pt-idx.important{background:var(--orange)}
-.phase-item .pi-task .pt-idx.normal{background:var(--g3)}
+.phase-item .pi-task .pt-idx.critical{background:#C62828}
+.phase-item .pi-task .pt-idx.important{background:#E65100}
+.phase-item .pi-task .pt-idx.normal{background:#4CAF50}
 .phase-item .pi-task .pt-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.phase-item .pi-task .pt-owner{font-size:10px;color:var(--blue);white-space:nowrap}
+.phase-item .pi-task .pt-owner{font-size:10px;color:#1565C0;white-space:nowrap}
 @media(min-width:768px){.phase-item{padding:14px 16px}.phase-item .pi-title{font-size:13px}}
 
 /* Tags */
@@ -87,14 +87,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 
 /* Binding Grid */
 .binding-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.binding-card{background:#FAFAFA;border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center}
-.binding-card .bc-name{font-size:11px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.binding-card{background:#FAFAFA;border:1px solid #E0E0E0;border-radius:8px;padding:10px;text-align:center}
+.binding-card .bc-name{font-size:11px;font-weight:700;margin-bottom:6px;color:#222}
 .binding-card .bc-ring{margin:0 auto 4px;position:relative;width:50px;height:50px}
 .binding-card .bc-ring svg{width:50px;height:50px}
-.binding-card .bc-count{font-size:10px;color:var(--text2);margin-top:2px}
+.binding-card .bc-count{font-size:10px;color:#555;margin-top:2px}
 .binding-card .bc-status{font-size:9px;margin-top:1px}
-.binding-card .bc-status.ready{color:var(--g3);font-weight:600}
-.binding-card .bc-status.pending{color:var(--orange);font-weight:600}
+.binding-card .bc-status.ready{color:#4CAF50;font-weight:600}
+.binding-card .bc-status.pending{color:#E65100;font-weight:600}
 @media(min-width:768px){.binding-grid{grid-template-columns:repeat(4,1fr);gap:10px}.binding-card .bc-name{font-size:12px}.binding-card .bc-ring{width:56px;height:56px}.binding-card .bc-ring svg{width:56px;height:56px}}
 
 
@@ -102,16 +102,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 /* Day Timeline */
 .sync-bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
 .sync-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;transition:all .25s;border:none}
-.sync-btn.primary{background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;box-shadow:0 2px 8px rgba(0,107,84,.2)}
+.sync-btn.primary{background:linear-gradient(135deg,#008667,#4CAF50);color:#fff;box-shadow:0 2px 8px rgba(0,107,84,.2)}
 .sync-btn.primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
 .sync-btn.primary:active{transform:translateY(0)}
 .sync-btn.primary.syncing{opacity:.7;pointer-events:none}
-.sync-time{font-size:10px;color:var(--text3)}
+.sync-time{font-size:10px;color:#999}
 .sync-toast{position:fixed;top:20px;right:20px;padding:10px 18px;border-radius:10px;color:#fff;font-size:12px;font-weight:500;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.2);display:none}
 .sync-toast.show{display:block;animation:fadeIn .3s}
-.sync-toast.success{background:linear-gradient(135deg,var(--g2),var(--g3))}
-.sync-toast.error{background:var(--red)}
-.sync-toast.info{background:var(--blue)}
+.sync-toast.success{background:linear-gradient(135deg,#008667,#4CAF50)}
+.sync-toast.error{background:#C62828}
+.sync-toast.info{background:#1565C0}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 
 .day-timeline{display:flex;gap:0;position:relative}
@@ -121,21 +121,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .day-header.wed{background:linear-gradient(135deg,#42A5F5,#1565C0)}
 .day-header.thu{background:linear-gradient(135deg,#66BB6A,#2E7D32)}
 .day-header.fri{background:linear-gradient(135deg,#AB47BC,#6A1B9A)}
-.day-date{text-align:center;font-size:10px;color:var(--text3);padding:3px 0;background:#fafafa;border-bottom:1px solid var(--border)}
-.day-body{background:#FAFAFA;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;padding:6px;min-height:120px}
-.day-task{background:#fff;border:1px solid var(--border);border-radius:6px;padding:6px 8px;margin-bottom:4px;font-size:11px;line-height:1.4}
-.day-task .task-time{font-size:9px;color:var(--text3);margin-bottom:2px}
-.day-task .task-name{font-weight:600;color:var(--text);margin-bottom:2px;font-size:11px}
-.day-task .task-owner{font-size:10px;color:var(--blue);display:flex;align-items:center;gap:3px}
+.day-date{text-align:center;font-size:10px;color:#999;padding:3px 0;background:#fafafa;border-bottom:1px solid #E0E0E0}
+.day-body{background:#FAFAFA;border:1px solid #E0E0E0;border-top:none;border-radius:0 0 8px 8px;padding:6px;min-height:120px}
+.day-task{background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:6px 8px;margin-bottom:4px;font-size:11px;line-height:1.4}
+.day-task .task-time{font-size:9px;color:#999;margin-bottom:2px}
+.day-task .task-name{font-weight:600;color:#222;margin-bottom:2px;font-size:11px}
+.day-task .task-owner{font-size:10px;color:#1565C0;display:flex;align-items:center;gap:3px}
 .day-task .task-status{display:inline-block;font-size:9px;padding:1px 6px;border-radius:8px;font-weight:600;margin-top:2px}
 .day-task .task-status.todo{background:#FFF3E0;color:#E65100}
 .day-task .task-status.doing{background:#E3F2FD;color:#1565C0}
 .day-task .task-status.done{background:#E8F5E9;color:#2E7D32}
 .day-task .task-status.delayed{background:#FFCDD2;color:#B71C1C;font-weight:700}
-.day-task.critical{border-left:3px solid var(--red)}
-.day-task.important{border-left:3px solid var(--orange)}
-.day-task.normal{border-left:3px solid var(--g3)}
-.day-arrow{position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--text3);z-index:2}
+.day-task.critical{border-left:3px solid #C62828}
+.day-task.important{border-left:3px solid #E65100}
+.day-task.normal{border-left:3px solid #4CAF50}
+.day-arrow{position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:14px;color:#999;z-index:2}
 @media(max-width:767px){
   .day-timeline{flex-direction:column;gap:8px}
   .day-arrow{display:none}
@@ -150,9 +150,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 }
 
 /* Tab switch for mobile */
-.tab-bar{display:flex;gap:0;margin-bottom:12px;background:var(--card);border-radius:8px;overflow:hidden;border:1px solid var(--border)}
-.tab-btn{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;border:none;background:none;transition:all .2s}
-.tab-btn.active{color:#fff;background:var(--g1)}
+.tab-bar{display:flex;gap:0;margin-bottom:12px;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #E0E0E0}
+.tab-btn{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:600;color:#555;cursor:pointer;border:none;background:none;transition:all .2s}
+.tab-btn.active{color:#fff;background:#006B54}
 .tab-panel{display:none}
 .tab-panel.active{display:block}
 @media(min-width:768px){.tab-bar{display:none}.tab-panel{display:block!important}}
@@ -176,18 +176,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 
 <!-- KPI Cards -->
 <div class="kpi-grid">
-  <div class="kpi-card total"><div class="kc-num">21</div><div class="kc-label">总任务</div><div class="kc-bar"><div class="kc-bar-fill" style="width:100%;background:var(--g1)"></div></div></div>
-  <div class="kpi-card done"><div class="kc-num">6</div><div class="kc-label">已完成</div><div class="kc-bar"><div class="kc-bar-fill" style="width:29%;background:var(--g3)"></div></div></div>
-  <div class="kpi-card doing"><div class="kc-num">3</div><div class="kc-label">进行中</div><div class="kc-bar"><div class="kc-bar-fill" style="width:14%;background:var(--blue)"></div></div></div>
-  <div class="kpi-card wait"><div class="kc-num">12</div><div class="kc-label">待开展</div><div class="kc-bar"><div class="kc-bar-fill" style="width:57%;background:var(--orange)"></div></div></div>
-  <div class="kpi-card critical"><div class="kc-num">0</div><div class="kc-label">延期的工作项</div><div class="kc-bar"><div class="kc-bar-fill" style="width:0%;background:var(--red)"></div></div></div>
+  <div class="kpi-card total"><div class="kc-num">21</div><div class="kc-label">总任务</div><div class="kc-bar"><div class="kc-bar-fill" style="width:100%;background:#006B54"></div></div></div>
+  <div class="kpi-card done"><div class="kc-num">6</div><div class="kc-label">已完成</div><div class="kc-bar"><div class="kc-bar-fill" style="width:29%;background:#4CAF50"></div></div></div>
+  <div class="kpi-card doing"><div class="kc-num">3</div><div class="kc-label">进行中</div><div class="kc-bar"><div class="kc-bar-fill" style="width:14%;background:#1565C0"></div></div></div>
+  <div class="kpi-card wait"><div class="kc-num">12</div><div class="kc-label">待开展</div><div class="kc-bar"><div class="kc-bar-fill" style="width:57%;background:#E65100"></div></div></div>
+  <div class="kpi-card critical"><div class="kc-num">0</div><div class="kc-label">延期的工作项</div><div class="kc-bar"><div class="kc-bar-fill" style="width:0%;background:#C62828"></div></div></div>
 </div>
 
 <!-- 同步栏 -->
 <div class="sync-bar">
   <button class="sync-btn primary" id="syncBtn" onclick="syncFromCloud()">🔄 同步项目计划</button>
   <span class="sync-time" id="syncTime">上次同步：暂无</span>
-  <span style="font-size:10px;color:var(--text3);margin-left:auto">数据来源：<a href="https://www.kdocs.cn/l/cp5h5LVYzFo3" target="_blank" style="color:var(--g2);text-decoration:none">金山文档</a></span>
+  <span style="font-size:10px;color:#999;margin-left:auto">数据来源：<a href="https://www.kdocs.cn/l/cp5h5LVYzFo3" target="_blank" style="color:#008667;text-decoration:none">金山文档</a></span>
 </div>
 <div class="sync-toast" id="syncToast"></div>
 
@@ -205,7 +205,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
         <div class="task-status done">✅ 已完成</div>
       </div>
       <div class="day-task critical" data-task-id="4">
-                <div class="task-name">8个客服部各组建10人试用小组</div>
+                <div class="task-name">确定南（北）分中心对接人</div>
         <div class="task-owner">👤 王维</div>
         <div class="task-status doing">🔄 进行中</div>
       </div>
@@ -220,7 +220,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
         <div class="task-status doing">🔄 进行中</div>
       </div>
       <div class="day-task important" data-task-id="6">
-                <div class="task-name">缺陷整改</div>
+                <div class="task-name">遗留问题缺陷整改</div>
         <div class="task-owner">👤 钟明原</div>
         <div class="task-status doing">🔄 进行中</div>
       </div>
@@ -246,16 +246,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
         <div class="task-owner">👤 钟明原</div>
         <div class="task-status doing">🔄 进行中</div>
       </div>
-      <div class="day-task important" data-task-id="5">
-                <div class="task-name">安全加密配置完成</div>
-        <div class="task-owner">👤 钟明原</div>
-        <div class="task-status todo">⏳ 待开展</div>
-      </div>
-      <div class="day-task normal" data-task-id="5">
-                <div class="task-name">传输加密研发完成</div>
-        <div class="task-owner">👤 钟明原</div>
-        <div class="task-status todo">⏳ 待开展</div>
-      </div>
+      
+      
     </div>
     <div class="day-arrow">→</div>
   </div>
@@ -334,15 +326,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 
   <div class="phase-item" data-phase="1">
     <div class="pi-header"><div class="pi-dot active"></div><div class="pi-title">一、组织动员与资源准备</div><div class="pi-date">6.23-6.24</div></div>
-    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:33%;background:var(--blue)"></div></div>
-    <div class="pi-stats"><span>9项</span><span style="color:var(--g3)">已完成5</span><span style="color:var(--blue)">进行中3</span><span style="color:var(--orange)">待开展1</span><span><b>56%</b></span></div>
+    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:33%;background:#1565C0"></div></div>
+    <div class="pi-stats"><span>9项</span><span style="color:#4CAF50">已完成5</span><span style="color:#1565C0">进行中3</span><span style="color:#E65100">待开展1</span><span><b>56%</b></span></div>
     <div class="pi-tasks">
       <div class="pi-task" data-task-id="1"><span class="pt-idx normal">1</span><span class="pt-name">业管部发布试用通知</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">王维</span></div>
       <div class="pi-task" data-task-id="2"><span class="pt-idx critical">2</span><span class="pt-name">2台服务器到位</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">王维</span></div>
       <div class="pi-task" data-task-id="3"><span class="pt-idx critical">3</span><span class="pt-name">服务器登录方式确认</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">白家宝</span></div>
       <div class="pi-task" data-task-id="4"><span class="pt-idx critical">4</span><span class="pt-name">确定南（北）分中心对接人</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">王维</span></div>
       <div class="pi-task" data-task-id="5"><span class="pt-idx important">5</span><span class="pt-name">安全加密研发</span><span class="tag tag-sec">🔄进行中</span><span class="pt-owner">钟明原</span></div>
-      <div class="pi-task" data-task-id="6"><span class="pt-idx important">6</span><span class="pt-name">缺陷整改</span><span class="tag tag-rd">🔄进行中</span><span class="pt-owner">钟明原</span></div>
+      <div class="pi-task" data-task-id="6"><span class="pt-idx important">6</span><span class="pt-name">遗留问题缺陷整改</span><span class="tag tag-rd">🔄进行中</span><span class="pt-owner">钟明原</span></div>
       <div class="pi-task" data-task-id="7"><span class="pt-idx important">7</span><span class="pt-name">95598座席助手安装包准备</span><span class="tag tag-sec">🔄进行中</span><span class="pt-owner">钟明原</span></div>
       <div class="pi-task" data-task-id="8"><span class="pt-idx normal">8</span><span class="pt-name">安装包存储位置确定</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">鄂丽丽</span></div>
       <div class="pi-task" data-task-id="9"><span class="pt-idx critical">9</span><span class="pt-name">收集并确认80人工位、电脑及话机清单</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">李琳/梁嵩</span></div>
@@ -351,7 +343,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 
   <div class="phase-item" data-phase="2">
     <div class="pi-header"><div class="pi-dot pending"></div><div class="pi-title">二、产品部署及联通测试</div><div class="pi-date">6.25</div></div>
-    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:0%;background:var(--orange)"></div></div>
+    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:0%;background:#E65100"></div></div>
     <div class="pi-stats"><span>2项</span><span><b>0%</b></span></div>
     <div class="pi-tasks">
       <div class="pi-task" data-task-id="10"><span class="pt-idx critical">10</span><span class="pt-name">产品服务部署（Docker/MySQL等）</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">白家宝</span></div>
@@ -361,7 +353,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 
   <div class="phase-item" data-phase="3">
     <div class="pi-header"><div class="pi-dot pending"></div><div class="pi-title">三、客服终端部署</div><div class="pi-date">6.26</div></div>
-    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:0%;background:var(--purple)"></div></div>
+    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:0%;background:#6A1B9A"></div></div>
     <div class="pi-stats"><span>3项</span><span><b>0%</b></span></div>
     <div class="pi-tasks">
       <div class="pi-task" data-task-id="12"><span class="pt-idx critical">12</span><span class="pt-name">80台电脑安装座席助手软件</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">白家宝</span></div>
@@ -372,7 +364,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 
   <div class="phase-item" data-phase="4">
     <div class="pi-header"><div class="pi-dot pending"></div><div class="pi-title">四、正式试用启动</div><div class="pi-date">6.26-7.20</div></div>
-    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:0%;background:var(--g3)"></div></div>
+    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:0%;background:#4CAF50"></div></div>
     <div class="pi-stats"><span>7项</span><span><b>0%</b></span></div>
     <div class="pi-tasks">
       <div class="pi-task" data-task-id="15"><span class="pt-idx important">15</span><span class="pt-name">座席助手操作培训</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">梁嵩</span></div>
@@ -393,20 +385,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 <div class="tab-panel" id="tab-binding">
 <div class="section purple">
 <h2>☎️ 80话机坐席绑定与监控台账</h2>
-<div style="font-size:11px;color:var(--text2);margin-bottom:10px">数据来源：金山文档实时同步 | 更新时间：6月24日</div>
+<div style="font-size:11px;color:#555;margin-bottom:10px">数据来源：金山文档实时同步 | 更新时间：6月24日</div>
 <div class="binding-grid" id="bindingGrid"></div>
 </div>
 </div>
 
 <!-- 延期工作项明细 -->
-<div class="section" id="delayedSection" style="border-left-color:var(--red)">
-<h2 style="color:var(--red)">⚠️ 延期的工作项</h2>
+<div class="section" id="delayedSection" style="border-left-color:#C62828">
+<h2 style="color:#C62828">⚠️ 延期的工作项</h2>
 <div id="delayedList" style="display:grid;gap:6px">
-  <div style="font-size:12px;color:var(--text3);padding:8px 0;text-align:center">暂无延期工作项 🎉</div>
+  <div style="font-size:12px;color:#999;padding:8px 0;text-align:center">暂无延期工作项 🎉</div>
 </div>
 </div>
 
-<div style="text-align:center;font-size:10px;color:var(--text3);padding:10px 0">
+<div style="text-align:center;font-size:10px;color:#999;padding:10px 0">
 95598智能座席助手项目实施看板 · 数据来源：金山文档 · 2026年6月
 </div>
 
@@ -483,7 +475,7 @@ function applySyncData(data){
   if(dl){
     dl.innerHTML='';
     if(delayedTasks.length===0){
-      dl.innerHTML='<div style="font-size:12px;color:var(--text3);padding:8px 0;text-align:center">暂无延期工作项 🎉</div>';
+      dl.innerHTML='<div style="font-size:12px;color:#999;padding:8px 0;text-align:center">暂无延期工作项 🎉</div>';
     } else {
       delayedTasks.forEach(function(t){
       var div=document.createElement('div');
@@ -495,7 +487,7 @@ function applySyncData(data){
       div.innerHTML='<div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">'+
         '<span class="tag tag-critical" style="font-size:10px">⚠️延期</span>'+
         '<span style="font-weight:700;font-size:12px">#'+t.id+' '+t.name+'</span></div>'+
-        '<div style="font-size:11px;color:var(--text2)">截止 '+endDate+' · 负责人 <span class="owner-tag">'+t.owner+'</span></div>';
+        '<div style="font-size:11px;color:#555">截止 '+endDate+' · 负责人 <span class="owner-tag">'+t.owner+'</span></div>';
       dl.appendChild(div);
     });
     }
@@ -530,9 +522,9 @@ function applySyncData(data){
     var statsEl=phaseEl.querySelector('.pi-stats');
     if(statsEl){
       statsEl.innerHTML='<span>'+pd.tasks+'项</span>'+
-        (pd.done?'<span style="color:var(--g3)">已完成'+pd.done+'</span>':'')+
-        (pd.doing?'<span style="color:var(--blue)">进行中'+pd.doing+'</span>':'')+
-        '<span style="color:var(--orange)">待开展'+pd.pending+'</span>'+
+        (pd.done?'<span style="color:#4CAF50">已完成'+pd.done+'</span>':'')+
+        (pd.doing?'<span style="color:#1565C0">进行中'+pd.doing+'</span>':'')+
+        '<span style="color:#E65100">待开展'+pd.pending+'</span>'+
         '<span><b>'+rate+'%</b></span>';
     }
     // Update task statuses inside phase
