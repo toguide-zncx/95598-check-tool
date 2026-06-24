@@ -181,10 +181,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 <!-- KPI Cards -->
 <div class="kpi-grid">
   <div class="kpi-card total"><div class="kc-num">21</div><div class="kc-label">总任务</div><div class="kc-bar"><div class="kc-bar-fill" style="width:100%;background:var(--g1)"></div></div></div>
-  <div class="kpi-card done"><div class="kc-num">2</div><div class="kc-label">已完成</div><div class="kc-bar"><div class="kc-bar-fill" style="width:10%;background:var(--g3)"></div></div></div>
-  <div class="kpi-card doing"><div class="kc-num">4</div><div class="kc-label">进行中</div><div class="kc-bar"><div class="kc-bar-fill" style="width:19%;background:var(--blue)"></div></div></div>
+  <div class="kpi-card done"><div class="kc-num">3</div><div class="kc-label">已完成</div><div class="kc-bar"><div class="kc-bar-fill" style="width:14%;background:var(--g3)"></div></div></div>
+  <div class="kpi-card doing"><div class="kc-num">3</div><div class="kc-label">进行中</div><div class="kc-bar"><div class="kc-bar-fill" style="width:14%;background:var(--blue)"></div></div></div>
   <div class="kpi-card wait"><div class="kc-num">15</div><div class="kc-label">待开展</div><div class="kc-bar"><div class="kc-bar-fill" style="width:71%;background:var(--orange)"></div></div></div>
-  <div class="kpi-card critical"><div class="kc-num">10</div><div class="kc-label">关键路径</div><div class="kc-bar"><div class="kc-bar-fill" style="width:24%;background:var(--red)"></div></div></div>
+  <div class="kpi-card critical"><div class="kc-num">2</div><div class="kc-label">延期</div><div class="kc-bar"><div class="kc-bar-fill" style="width:5%;background:var(--red)"></div></div></div>
 </div>
 
 <!-- 同步栏 -->
@@ -500,12 +500,17 @@ function applySyncData(data){
     else if(t.status==='进行中')doing++;
     else pending++;
   });
+  var delayed=0;
+  data.tasks.forEach(function(t){
+    if(t.delayed)delayed++;
+  });
   var kpis=document.querySelectorAll('.kc-num');
-  if(kpis.length>=4){
+  if(kpis.length>=5){
     kpis[0].textContent=data.tasks.length;
     kpis[1].textContent=done;
     kpis[2].textContent=doing;
     kpis[3].textContent=pending;
+    kpis[4].textContent=delayed;
   }
   
   // Update timeline tasks status
