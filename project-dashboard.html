@@ -179,7 +179,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
   <div class="kpi-card total"><div class="kc-num">21</div><div class="kc-label">总任务</div><div class="kc-bar"><div class="kc-bar-fill" style="width:100%;background:#006B54"></div></div></div>
   <div class="kpi-card done"><div class="kc-num">6</div><div class="kc-label">已完成</div><div class="kc-bar"><div class="kc-bar-fill" style="width:29%;background:#4CAF50"></div></div></div>
   <div class="kpi-card doing"><div class="kc-num">3</div><div class="kc-label">进行中</div><div class="kc-bar"><div class="kc-bar-fill" style="width:14%;background:#1565C0"></div></div></div>
-  <div class="kpi-card wait"><div class="kc-num">12</div><div class="kc-label">待开展</div><div class="kc-bar"><div class="kc-bar-fill" style="width:57%;background:#E65100"></div></div></div>
+  <div class="kpi-card wait"><div class="kc-num">0</div><div class="kc-label">今日待开展</div><div class="kc-bar"><div class="kc-bar-fill" style="width:0%;background:#E65100"></div></div></div>
   <div class="kpi-card critical"><div class="kc-num">0</div><div class="kc-label">延期的工作项</div><div class="kc-bar"><div class="kc-bar-fill" style="width:0%;background:#C62828"></div></div></div>
 </div>
 
@@ -472,12 +472,19 @@ function applySyncData(data){
   data.tasks.forEach(function(t){
     if(t.delayed){delayed++;delayedTasks.push(t);}
   });
+  // Calculate today's pending tasks
+  var today=new Date();
+  var todayStr=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+  var todayPending=0;
+  data.tasks.forEach(function(t){
+    if(t.status==='待开展'&&t.start<=todayStr&&t.end>=todayStr){todayPending++;}
+  });
   var kpis=document.querySelectorAll('.kc-num');
   if(kpis.length>=5){
     kpis[0].textContent=data.tasks.length;
     kpis[1].textContent=done;
     kpis[2].textContent=doing;
-    kpis[3].textContent=pending;
+    kpis[3].textContent=todayPending;
     kpis[4].textContent=delayed;
   }
   // Update delayed section
