@@ -179,14 +179,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
   <div class="kpi-card total"><div class="kc-num">21</div><div class="kc-label">总任务</div><div class="kc-bar"><div class="kc-bar-fill" style="width:100%;background:#006B54"></div></div></div>
   <div class="kpi-card done"><div class="kc-num">6</div><div class="kc-label">已完成</div><div class="kc-bar"><div class="kc-bar-fill" style="width:29%;background:#4CAF50"></div></div></div>
   <div class="kpi-card doing"><div class="kc-num">3</div><div class="kc-label">进行中</div><div class="kc-bar"><div class="kc-bar-fill" style="width:14%;background:#1565C0"></div></div></div>
-  <div class="kpi-card wait"><div class="kc-num">0</div><div class="kc-label">今日待开展</div><div class="kc-bar"><div class="kc-bar-fill" style="width:0%;background:#E65100"></div></div></div>
+  <div class="kpi-card wait"><div class="kc-num">1</div><div class="kc-label">今日待开展</div><div class="kc-bar"><div class="kc-bar-fill" style="width:0%;background:#E65100"></div></div></div>
   <div class="kpi-card critical"><div class="kc-num">0</div><div class="kc-label">延期的工作项</div><div class="kc-bar"><div class="kc-bar-fill" style="width:0%;background:#C62828"></div></div></div>
 </div>
 
 <!-- 同步栏 -->
 <div class="sync-bar">
   <button class="sync-btn primary" id="syncBtn" onclick="syncFromCloud()">🔄 同步项目计划</button>
-  <span class="sync-time" id="syncTime">上次同步：2026-06-24 18:40</span>
+  <span class="sync-time" id="syncTime">上次同步：2026-06-24 19:42</span>
   <span style="font-size:10px;color:#999;margin-left:auto">数据来源：<a href="https://www.kdocs.cn/l/cp5h5LVYzFo3" target="_blank" style="color:#008667;text-decoration:none">金山文档</a></span>
 </div>
 <div class="sync-toast" id="syncToast"></div>
@@ -224,11 +224,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
         <div class="task-owner">👤 钟明原</div>
         <div class="task-status doing">🔄 进行中</div>
       </div>
-      <div class="day-task normal" data-task-id="8">
-                <div class="task-name">安装包存储位置确定</div>
-        <div class="task-owner">👤 鄂丽丽</div>
-        <div class="task-status done">✅ 已完成</div>
-      </div>
+      
+      
+      
+      
     </div>
     <div class="day-arrow">→</div>
   </div>
@@ -275,11 +274,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
         <div class="task-owner">👤 李琳/梁嵩</div>
         <div class="task-status todo">⏳ 待开展</div>
       </div>
-      <div class="day-task important" data-task-id="11">
-                <div class="task-name">内部测试</div>
+      <div class="day-task important" data-task-id="8">
+                <div class="task-name">安装包存储位置确定</div>
+        <div class="task-owner">👤 鄂丽丽</div>
+        <div class="task-status done">✅ 已完成</div>
+      </div>
+      <div class="day-task critical" data-task-id="12">
+                <div class="task-name">80台电脑安装座席助手软件</div>
+        <div class="task-owner">👤 白家宝</div>
+        <div class="task-status todo">⏳ 待开展</div>
+      </div>
+      <div class="day-task critical" data-task-id="13">
+                <div class="task-name">80话机坐席绑定及联调确认</div>
         <div class="task-owner">👤 梁嵩</div>
         <div class="task-status todo">⏳ 待开展</div>
       </div>
+      <div class="day-task critical" data-task-id="14">
+                <div class="task-name">全链路功能集成测试</div>
+        <div class="task-owner">👤 梁嵩</div>
+        <div class="task-status todo">⏳ 待开展</div>
+      </div>
+
     </div>
     <div class="day-arrow">→</div>
   </div>
@@ -335,7 +350,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 <div class="phase-list">
 
   <div class="phase-item" data-phase="1">
-    <div class="pi-header"><div class="pi-dot active"></div><div class="pi-title">一、组织动员与资源准备</div><div class="pi-date">6.23-6.24</div></div>
+    <div class="pi-header"><div class="pi-dot active"></div><div class="pi-title">一、组织动员与资源准备</div><div class="pi-date">6.23-6.25</div></div>
     <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:33%;background:#1565C0"></div></div>
     <div class="pi-stats"><span>9项</span><span style="color:#4CAF50">已完成5</span><span style="color:#1565C0">进行中3</span><span style="color:#E65100">待开展1</span><span><b>56%</b></span></div>
     <div class="pi-tasks">
@@ -352,23 +367,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
   </div>
 
   <div class="phase-item" data-phase="2">
-    <div class="pi-header"><div class="pi-dot pending"></div><div class="pi-title">二、产品部署及联通测试</div><div class="pi-date">6.25</div></div>
-    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:0%;background:#E65100"></div></div>
+    <div class="pi-header"><div class="pi-dot pending"></div><div class="pi-title">二、产品部署及联通测试</div><div class="pi-date">6.24-6.25</div></div>
+    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:20%;background:#E65100"></div></div>
     <div class="pi-stats"><span>5项</span><span style="color:#4CAF50">已完成1</span><span style="color:#E65100">待开展4</span><span><b>20%</b></span></div>
     <div class="pi-tasks">
       <div class="pi-task" data-task-id="10"><span class="pt-idx critical">10</span><span class="pt-name">产品服务部署</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">白家宝</span></div>
       <div class="pi-task" data-task-id="11"><span class="pt-idx important">11</span><span class="pt-name">内部测试</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">梁嵩</span></div>
+      <div class="pi-task" data-task-id="12"><span class="pt-idx critical">12</span><span class="pt-name">80台电脑安装座席助手软件</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">白家宝</span></div>
+      <div class="pi-task" data-task-id="13"><span class="pt-idx critical">13</span><span class="pt-name">80话机坐席绑定及联调确认</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">梁嵩</span></div>
+      <div class="pi-task" data-task-id="14"><span class="pt-idx critical">14</span><span class="pt-name">全链路功能集成测试</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">梁嵩</span></div>
     </div>
   </div>
 
   <div class="phase-item" data-phase="3">
-    <div class="pi-header"><div class="pi-dot pending"></div><div class="pi-title">三、客服终端部署</div><div class="pi-date">6.26</div></div>
+    <div class="pi-header"><div class="pi-dot pending"></div><div class="pi-title">三、客服终端部署</div><div class="pi-date">6.26-6.27</div></div>
     <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:0%;background:#6A1B9A"></div></div>
     <div class="pi-stats"><span>4项</span><span style="color:#E65100">待开展4</span><span><b>0%</b></span></div>
     <div class="pi-tasks">
-      <div class="pi-task" data-task-id="12"><span class="pt-idx critical">12</span><span class="pt-name">80台电脑安装座席助手软件</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">白家宝</span></div>
-      <div class="pi-task" data-task-id="13"><span class="pt-idx critical">13</span><span class="pt-name">80话机坐席绑定及联调确认</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">梁嵩</span></div>
-      <div class="pi-task" data-task-id="14"><span class="pt-idx critical">14</span><span class="pt-name">全链路功能集成测试</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">梁嵩</span></div>
+      
+      
+      
     </div>
   </div>
 
