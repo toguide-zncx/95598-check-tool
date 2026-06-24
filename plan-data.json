@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-24 18:11",
+  "syncTime": "2026-06-24 18:22",
   "source": "金山文档 - 95598智能座席助手实施计划表",
   "sourceUrl": "https://www.kdocs.cn/l/cp5h5LVYzFo3",
   "fileId": "dCYHGzpaJrMUMcY8UtM71xqMXeDjLSUsv",
@@ -40,7 +40,7 @@
       "deliverable": "资源确认单",
       "owner": "白家宝",
       "priority": "关键",
-      "status": "进行中",
+      "status": "已完成",
       "delayed": false
     },
     {
@@ -53,7 +53,7 @@
       "deliverable": "牵头人：北中心对接孔梅娟 、南中心对接郭晓芸",
       "owner": "王维",
       "priority": "关键",
-      "status": "进行中",
+      "status": "已完成",
       "delayed": false
     },
     {
@@ -123,8 +123,8 @@
     },
     {
       "id": 10,
-      "start": "2026-06-25",
-      "end": "2026-06-25",
+      "start": "2026-06-24",
+      "end": "2026-06-24",
       "category": "运维",
       "name": "产品服务部署",
       "detail": "完成docker、数据库（MySQL)等服务部署\n验收标准：所有服务健康检查通过",
@@ -132,7 +132,7 @@
       "owner": "白家宝",
       "priority": "关键",
       "status": "待开展",
-      "delayed": false
+      "delayed": true
     },
     {
       "id": 11,
@@ -328,8 +328,8 @@
     "1": {
       "name": "一、组织动员与资源准备",
       "tasks": 9,
-      "done": 3,
-      "doing": 5,
+      "done": 5,
+      "doing": 3,
       "pending": 1,
       "delayed": 0
     },
@@ -339,7 +339,7 @@
       "done": 0,
       "doing": 0,
       "pending": 2,
-      "delayed": 0
+      "delayed": 1
     },
     "3": {
       "name": "三、试用与推广",
