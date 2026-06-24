@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-24 21:05",
+  "syncTime": "2026-06-24 21:12",
   "source": "金山文档 - 95598智能座席助手实施计划表",
   "sourceUrl": "https://www.kdocs.cn/l/cp5h5LVYzFo3",
   "fileId": "dCYHGzpaJrMUMcY8UtM71xqMXeDjLSUsv",
@@ -144,7 +144,7 @@
       "deliverable": "测试用例清单",
       "owner": "梁嵩、鄂丽丽",
       "priority": "重要",
-      "status": "待开展",
+      "status": "已完成",
       "delayed": false
     },
     {
@@ -338,12 +338,12 @@
     "2": {
       "name": "二、产品部署及联通测试",
       "tasks": 2,
-      "done": 1,
+      "done": 2,
       "doing": 0,
-      "pending": 1,
+      "pending": 0,
       "delayed": 0,
       "total": 2,
-      "pct": 50
+      "pct": 100
     },
     "3": {
       "name": "三、客服终端部署",
