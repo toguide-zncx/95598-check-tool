@@ -136,6 +136,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .day-task .task-status.todo{background:#FFF3E0;color:#E65100}
 .day-task .task-status.doing{background:#E3F2FD;color:#1565C0}
 .day-task .task-status.done{background:#E8F5E9;color:#2E7D32}
+.day-task .task-status.delayed{background:#FFCDD2;color:#B71C1C;font-weight:700}
 .day-task.critical{border-left:3px solid var(--red)}
 .day-task.important{border-left:3px solid var(--orange)}
 .day-task.normal{border-left:3px solid var(--g3)}
@@ -184,7 +185,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
   <div class="kpi-card done"><div class="kc-num">3</div><div class="kc-label">已完成</div><div class="kc-bar"><div class="kc-bar-fill" style="width:14%;background:var(--g3)"></div></div></div>
   <div class="kpi-card doing"><div class="kc-num">3</div><div class="kc-label">进行中</div><div class="kc-bar"><div class="kc-bar-fill" style="width:14%;background:var(--blue)"></div></div></div>
   <div class="kpi-card wait"><div class="kc-num">15</div><div class="kc-label">待开展</div><div class="kc-bar"><div class="kc-bar-fill" style="width:71%;background:var(--orange)"></div></div></div>
-  <div class="kpi-card critical"><div class="kc-num">2</div><div class="kc-label">延期</div><div class="kc-bar"><div class="kc-bar-fill" style="width:5%;background:var(--red)"></div></div></div>
+  <div class="kpi-card critical"><div class="kc-num">2</div><div class="kc-label">延期的工作项</div><div class="kc-bar"><div class="kc-bar-fill" style="width:5%;background:var(--red)"></div></div></div>
 </div>
 
 <!-- 同步栏 -->
@@ -250,13 +251,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
         <div class="task-time">09:00-11:00</div>
         <div class="task-name">服务器到货验收及登录确认</div>
         <div class="task-owner">👤 白家宝</div>
-        <div class="task-status todo">⏳ 待开展</div>
+        <div class="task-status delayed">⚠️ 延期</div>
       </div>
       <div class="day-task important" data-task-id="7">
         <div class="task-time">09:00-12:00</div>
         <div class="task-name">座席助手安装包准备</div>
         <div class="task-owner">👤 钟明原</div>
-        <div class="task-status todo">⏳ 待开展</div>
+        <div class="task-status delayed">⚠️ 延期</div>
       </div>
       <div class="day-task important" data-task-id="5">
         <div class="task-time">11:00-14:00</div>
@@ -363,11 +364,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
     <div class="pi-tasks">
       <div class="pi-task" data-task-id="1"><span class="pt-idx normal">1</span><span class="pt-name">业管部发布试用通知</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">王维</span></div>
       <div class="pi-task" data-task-id="2"><span class="pt-idx critical">2</span><span class="pt-name">2台服务器到位</span><span class="tag tag-rd">🔄进行中</span><span class="pt-owner">王维</span></div>
-      <div class="pi-task" data-task-id="3"><span class="pt-idx critical">3</span><span class="pt-name">服务器登录方式确认</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">白家宝</span></div>
+      <div class="pi-task" data-task-id="3"><span class="pt-idx critical">3</span><span class="pt-name">服务器登录方式确认</span><span class="tag tag-critical">⚠️延期</span><span class="pt-owner">白家宝</span></div>
       <div class="pi-task" data-task-id="4"><span class="pt-idx critical">4</span><span class="pt-name">8个客服部各组建10人试用小组</span><span class="tag tag-rd">🔄进行中</span><span class="pt-owner">王维</span></div>
       <div class="pi-task" data-task-id="5"><span class="pt-idx important">5</span><span class="pt-name">安全加密研发</span><span class="tag tag-sec">🔄进行中</span><span class="pt-owner">钟明原</span></div>
       <div class="pi-task" data-task-id="6"><span class="pt-idx important">6</span><span class="pt-name">缺陷整改</span><span class="tag tag-rd">🔄进行中</span><span class="pt-owner">钟明原</span></div>
-      <div class="pi-task" data-task-id="7"><span class="pt-idx important">7</span><span class="pt-name">95598座席助手安装包准备</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">钟明原</span></div>
+      <div class="pi-task" data-task-id="7"><span class="pt-idx important">7</span><span class="pt-name">95598座席助手安装包准备</span><span class="tag tag-critical">⚠️延期</span><span class="pt-owner">钟明原</span></div>
       <div class="pi-task" data-task-id="8"><span class="pt-idx normal">8</span><span class="pt-name">安装包存储位置确定</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">鄂丽丽</span></div>
       <div class="pi-task" data-task-id="9"><span class="pt-idx critical">9</span><span class="pt-name">收集并确认80人工位、电脑及话机清单</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">李琳/梁嵩</span></div>
     </div>
@@ -468,9 +469,10 @@ function showToast(msg,type,duration){
   setTimeout(function(){t.className='sync-toast'},duration);
 }
 
-function statusLabel(s){
+function statusLabel(s,d){
   if(s==='已完成')return{cls:'done',label:'✅ 已完成'};
   if(s==='进行中')return{cls:'doing',label:'🔄 进行中'};
+  if(d)return{cls:'delayed',label:'⚠️ 延期'};
   return{cls:'todo',label:'⏳ 待开展'};
 }
 function priorityCls(p){
@@ -478,9 +480,10 @@ function priorityCls(p){
   if(p==='重要')return'important';
   return'normal';
 }
-function tagCls(s){
+function tagCls(s,d){
   if(s==='已完成')return'tag-normal';
   if(s==='进行中')return'tag-rd';
+  if(d)return'tag-critical';
   return'tag-ops';
 }
 function fmtDate(d){
@@ -517,7 +520,7 @@ function applySyncData(data){
   data.tasks.forEach(function(t){
     var el=document.querySelector('[data-task-id="'+t.id+'"]');
     if(el){
-      var st=statusLabel(t.status);
+      var st=statusLabel(t.status,t.delayed);
       var statusEl=el.querySelector('.task-status');
       if(statusEl){
         statusEl.className='task-status '+st.cls;
@@ -550,8 +553,8 @@ function applySyncData(data){
       if(taskEl){
         var tag=taskEl.querySelector('.tag');
         if(tag){
-          tag.className='tag '+tagCls(t.status);
-          var lbl=t.status==='已完成'?'✅已完成':t.status==='进行中'?'🔄进行中':'⏳待开展';
+          tag.className='tag '+tagCls(t.status,t.delayed);
+          var lbl=t.status==='已完成'?'✅已完成':t.status==='进行中'?'🔄进行中':t.delayed?'⚠️延期':'⏳待开展';
           tag.textContent=lbl;
         }
       }
