@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-24 17:41",
+  "syncTime": "2026-06-24 18:00",
   "source": "金山文档 - 95598智能座席助手实施计划表",
   "sourceUrl": "https://www.kdocs.cn/l/cp5h5LVYzFo3",
   "fileId": "dCYHGzpaJrMUMcY8UtM71xqMXeDjLSUsv",
@@ -40,8 +40,8 @@
       "deliverable": "资源确认单",
       "owner": "白家宝",
       "priority": "关键",
-      "status": "待开展",
-      "delayed": true
+      "status": "进行中",
+      "delayed": false
     },
     {
       "id": 4,
@@ -92,8 +92,8 @@
       "deliverable": "部署包",
       "owner": "钟明原",
       "priority": "重要",
-      "status": "待开展",
-      "delayed": true
+      "status": "进行中",
+      "delayed": false
     },
     {
       "id": 8,
@@ -142,7 +142,7 @@
       "name": "内部测试",
       "detail": "完成测试环境功能验证\n验收标准：内测通过",
       "deliverable": "测试用例清单",
-      "owner": "梁嵩",
+      "owner": "梁嵩、鄂丽丽",
       "priority": "重要",
       "status": "待开展",
       "delayed": false
@@ -282,43 +282,43 @@
     "depts": [
       {
         "name": "北中心客服一部",
-        "total": 10,
-        "bound": 0
+        "bound": 0,
+        "total": 11
       },
       {
         "name": "北中心客服二部",
-        "total": 10,
-        "bound": 0
+        "bound": 0,
+        "total": 10
       },
       {
         "name": "北中心客服三部",
-        "total": 10,
-        "bound": 0
+        "bound": 0,
+        "total": 10
       },
       {
         "name": "北中心客服四部",
-        "total": 10,
-        "bound": 0
+        "bound": 0,
+        "total": 10
       },
       {
         "name": "南中心客服一部",
-        "total": 10,
-        "bound": 0
+        "bound": 0,
+        "total": 10
       },
       {
         "name": "南中心客服二部",
-        "total": 10,
-        "bound": 0
+        "bound": 0,
+        "total": 10
       },
       {
         "name": "南中心客服三部",
-        "total": 10,
-        "bound": 0
+        "bound": 0,
+        "total": 10
       },
       {
         "name": "南中心客服四部",
-        "total": 10,
-        "bound": 0
+        "bound": 0,
+        "total": 10
       }
     ],
     "total": 80,
@@ -326,40 +326,36 @@
   },
   "phases": {
     "1": {
-      "name": "组织动员与资源准备",
-      "date": "6.23-6.24",
+      "name": "一、组织动员与资源准备",
       "tasks": 9,
       "done": 3,
-      "doing": 3,
-      "pending": 3,
-      "rate": 50
+      "doing": 5,
+      "pending": 1,
+      "delayed": 0
     },
     "2": {
-      "name": "产品部署及联通测试",
-      "date": "6.25",
+      "name": "二、部署与联调",
       "tasks": 2,
       "done": 0,
       "doing": 0,
       "pending": 2,
-      "rate": 0
+      "delayed": 0
     },
     "3": {
-      "name": "客服终端部署",
-      "date": "6.26",
+      "name": "三、试用与推广",
       "tasks": 3,
       "done": 0,
       "doing": 0,
       "pending": 3,
-      "rate": 0
+      "delayed": 0
     },
     "4": {
-      "name": "正式试用启动",
-      "date": "6.26-7.20",
+      "name": "四、总结与优化",
       "tasks": 7,
       "done": 0,
       "doing": 0,
       "pending": 7,
-      "rate": 0
+      "delayed": 0
     }
   }
 }
