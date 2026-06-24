@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>95598智能座席助手项目实施看板</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#006B54;--primary-light:#008667;--accent:#4CAF50;--bg:#f0f4f3;--card:#fff;--text:#1a2e28;--muted:#6b7f78;--border:#d4e0db;--red:#e53935;--orange:#FF9800;--blue:#1E88E5;--yellow:#FFC107}
+body{font-family:"Microsoft YaHei","微软雅黑",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px}
+.header{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:28px 32px;border-radius:14px;margin-bottom:20px;box-shadow:0 4px 20px rgba(0,107,84,.18)}
+.header h1{font-size:22px;font-weight:700;letter-spacing:1px;margin-bottom:6px}
+.header p{font-size:13px;opacity:.85}
+.header .meta{display:flex;gap:24px;margin-top:12px;font-size:12px;opacity:.75}
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px}
+.kpi{background:var(--card);border-radius:12px;padding:18px 20px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-left:4px solid var(--primary);position:relative;overflow:hidden}
+.kpi .num{font-size:32px;font-weight:800;color:var(--primary);line-height:1.1}
+.kpi .label{font-size:12px;color:var(--muted);margin-top:4px}
+.kpi .icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:28px;opacity:.15}
+.kpi.done{border-left-color:var(--accent)}.kpi.done .num{color:var(--accent)}
+.kpi.progress{border-left-color:var(--blue)}.kpi.progress .num{color:var(--blue)}
+.kpi.wait{border-left-color:var(--orange)}.kpi.wait .num{color:var(--orange)}
+.kpi.risk{border-left-color:var(--red)}.kpi.risk .num{color:var(--red)}
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.chart-card{background:var(--card);border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.chart-card h3{font-size:14px;font-weight:600;color:var(--primary);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--border)}
+.chart-box{width:100%;height:280px}
+.timeline-section{background:var(--card);border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-bottom:20px}
+.timeline-section h3{font-size:14px;font-weight:600;color:var(--primary);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border)}
+.phase{margin-bottom:18px;position:relative}
+.phase:last-child{margin-bottom:0}
+.phase-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.phase-dot{width:12px;height:12px;border-radius:50%;border:3px solid var(--primary);background:#fff;flex-shrink:0}
+.phase-dot.done{background:var(--accent);border-color:var(--accent)}
+.phase-dot.active{background:var(--blue);border-color:var(--blue);box-shadow:0 0 0 4px rgba(30,136,229,.2)}
+.phase-title{font-size:14px;font-weight:600}
+.phase-date{font-size:11px;color:var(--muted);margin-left:auto}
+.task-list{display:grid;gap:6px;padding-left:24px}
+.task-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border-radius:8px;font-size:12px;transition:all .2s}
+.task-item:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.task-item .idx{min-width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;background:var(--primary);flex-shrink:0}
+.task-item .name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task-item .owner{color:var(--muted);font-size:11px;min-width:60px;text-align:right}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;white-space:nowrap}
+.badge.done{background:#e8f5e9;color:#2e7d32}
+.badge.doing{background:#e3f2fd;color:#1565c0}
+.badge.wait{background:#fff3e0;color:#e65100}
+.badge.key{background:#ffebee;color:#c62828}
+.badge.imp{background:#fffde7;color:#f57f17}
+.cat-tag{display:inline-block;padding:1px 6px;border-radius:4px;font-size:10px;margin-right:4px}
+.cat-运营{background:#e8f5e9;color:#2e7d32}.cat-运维{background:#e3f2fd;color:#1565c0}
+.cat-研发{background:#f3e5f5;color:#7b1fa2}.cat-安全{background:#fff3e0;color:#e65100}
+.cat-管理{background:#fce4ec;color:#c62828}
+.binding-section{background:var(--card);border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.binding-section h3{font-size:14px;font-weight:600;color:var(--primary);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border)}
+.binding-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.binding-dept{background:var(--bg);border-radius:10px;padding:14px;text-align:center}
+.binding-dept .dept-name{font-size:13px;font-weight:600;margin-bottom:8px}
+.binding-dept .progress-ring{position:relative;width:60px;height:60px;margin:0 auto 6px}
+.binding-dept .count{font-size:11px;color:var(--muted)}
+@media(max-width:900px){.kpi-row{grid-template-columns:repeat(3,1fr)}.chart-row{grid-template-columns:1fr}.binding-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>95598智能座席助手项目实施看板</h1>
+  <p>穿透式管理 · 每日可视化汇报 · 精细化任务分解 · 明确责任到人</p>
+  <div class="meta">
+    <span>📅 数据更新：2026年6月24日</span>
+    <span>👥 试用范围：南北分中心8个客服部 × 10人</span>
+    <span>🖥️ 座席部署：80台终端</span>
+  </div>
+</div>
+
+<div class="kpi-row">
+  <div class="kpi"><div class="num">21</div><div class="label">总任务数</div><div class="icon">📋</div></div>
+  <div class="kpi done"><div class="num">2</div><div class="label">已完成</div><div class="icon">✅</div></div>
+  <div class="kpi progress"><div class="num">4</div><div class="label">进行中</div><div class="icon">🔄</div></div>
+  <div class="kpi wait"><div class="num">15</div><div class="label">待开展</div><div class="icon">⏳</div></div>
+  <div class="kpi risk"><div class="num">5</div><div class="label">关键路径</div><div class="icon">🔥</div></div>
+</div>
+
+<div class="chart-row">
+  <div class="chart-card"><h3>📊 任务进度总览</h3><div id="pieChart" class="chart-box"></div></div>
+  <div class="chart-card"><h3>📈 各类别任务分布</h3><div id="barChart" class="chart-box"></div></div>
+</div>
+
+<div class="chart-row">
+  <div class="chart-card"><h3>🗓️ 项目甘特图</h3><div id="ganttChart" class="chart-box" style="height:360px"></div></div>
+  <div class="chart-card"><h3>👤 负责人任务分布</h3><div id="personChart" class="chart-box"></div></div>
+</div>
+
+<div class="timeline-section">
+  <h3>🕐 阶段任务明细</h3>
+  <div class="phase">
+    <div class="phase-header"><div class="phase-dot active"></div><div class="phase-title">一、组织动员与资源准备</div><div class="phase-date">6月23日 - 6月24日</div></div>
+    <div class="task-list">
+      <div class="task-item"><span class="idx">1</span><span class="name">业管部发布试用通知</span><span class="cat-tag cat-运营">运营</span><span class="badge done">已完成</span><span class="owner">王维</span></div>
+      <div class="task-item"><span class="idx">2</span><span class="name">2台服务器到位</span><span class="cat-tag cat-运维">运维</span><span class="badge doing">进行中</span><span class="owner">王维</span></div>
+      <div class="task-item"><span class="idx">3</span><span class="name">服务器登录方式确认</span><span class="cat-tag cat-运维">运维</span><span class="badge wait">待开展</span><span class="owner">白家宝</span></div>
+      <div class="task-item"><span class="idx">4</span><span class="name">8个客服部各组建10人试用小组</span><span class="cat-tag cat-运营">运营</span><span class="badge doing">进行中</span><span class="owner">王维</span></div>
+      <div class="task-item"><span class="idx">5</span><span class="name">安全加密研发</span><span class="cat-tag cat-安全">安全</span><span class="badge doing">进行中</span><span class="owner">钟明原</span></div>
+      <div class="task-item"><span class="idx">6</span><span class="name">缺陷整改</span><span class="cat-tag cat-研发">研发</span><span class="badge doing">进行中</span><span class="owner">钟明原</span></div>
+      <div class="task-item"><span class="idx">7</span><span class="name">95598座席助手安装包准备</span><span class="cat-tag cat-研发">研发</span><span class="badge wait">待开展</span><span class="owner">钟明原</span></div>
+      <div class="task-item"><span class="idx">8</span><span class="name">安装包存储位置确定</span><span class="cat-tag cat-运营">运营</span><span class="badge done">已完成</span><span class="owner">鄂丽丽</span></div>
+      <div class="task-item"><span class="idx">9</span><span class="name">收集并确认80人工位、电脑及话机清单</span><span class="cat-tag cat-运营">运营</span><span class="badge key">关键</span><span class="owner">李琳/梁嵩</span></div>
+    </div>
+  </div>
+  <div class="phase">
+    <div class="phase-header"><div class="phase-dot"></div><div class="phase-title">二、产品部署及联通测试</div><div class="phase-date">6月25日</div></div>
+    <div class="task-list">
+      <div class="task-item"><span class="idx">10</span><span class="name">产品服务部署（Docker/MySQL等）</span><span class="cat-tag cat-运维">运维</span><span class="badge key">关键</span><span class="owner">白家宝</span></div>
+      <div class="task-item"><span class="idx">11</span><span class="name">内部测试环境功能验证</span><span class="cat-tag cat-运营">运营</span><span class="badge imp">重要</span><span class="owner">梁嵩</span></div>
+    </div>
+  </div>
+  <div class="phase">
+    <div class="phase-header"><div class="phase-dot"></div><div class="phase-title">三、客服终端部署</div><div class="phase-date">6月26日</div></div>
+    <div class="task-list">
+      <div class="task-item"><span class="idx">12</span><span class="name">80台电脑安装座席助手软件</span><span class="cat-tag cat-运维">运维</span><span class="badge key">关键</span><span class="owner">白家宝</span></div>
+      <div class="task-item"><span class="idx">13</span><span class="name">80话机坐席绑定及联调确认</span><span class="cat-tag cat-运营">运营</span><span class="badge key">关键</span><span class="owner">梁嵩</span></div>
+      <div class="task-item"><span class="idx">14</span><span class="name">全链路功能集成测试</span><span class="cat-tag cat-研发">研发</span><span class="badge key">关键</span><span class="owner">梁嵩</span></div>
+    </div>
+  </div>
+  <div class="phase">
+    <div class="phase-header"><div class="phase-dot"></div><div class="phase-title">四、正式试用启动</div><div class="phase-date">6月26日 - 7月20日</div></div>
+    <div class="task-list">
+      <div class="task-item"><span class="idx">15</span><span class="name">座席助手操作培训</span><span class="cat-tag cat-运营">运营</span><span class="badge imp">重要</span><span class="owner">梁嵩</span></div>
+      <div class="task-item"><span class="idx">16</span><span class="name">正式开启试用</span><span class="cat-tag cat-管理">管理</span><span class="badge key">关键</span><span class="owner">鄂丽丽</span></div>
+      <div class="task-item"><span class="idx">17</span><span class="name">试用值守保障及问题收集</span><span class="cat-tag cat-研发">研发</span><span class="badge imp">重要</span><span class="owner">钟明原/白家宝</span></div>
+      <div class="task-item"><span class="idx">18</span><span class="name">常态化运营监控</span><span class="cat-tag cat-运营">运营</span><span class="badge imp">重要</span><span class="owner">梁嵩</span></div>
+      <div class="task-item"><span class="idx">19</span><span class="name">收集系统缺陷或需求</span><span class="cat-tag cat-运营">运营</span><span class="badge imp">重要</span><span class="owner">梁嵩</span></div>
+      <div class="task-item"><span class="idx">20</span><span class="name">缺陷或需求整改优化</span><span class="cat-tag cat-研发">研发</span><span class="badge imp">重要</span><span class="owner">钟明原</span></div>
+      <div class="task-item"><span class="idx">21</span><span class="name">座席端国产化适配</span><span class="cat-tag cat-研发">研发</span><span class="badge imp">重要</span><span class="owner">钟明原</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="binding-section">
+  <h3>☎️ 80话机坐席绑定与监控台账</h3>
+  <div class="binding-grid" id="bindingGrid"></div>
+</div>
+
+<script>
+// Pie Chart
+var pie=echarts.init(document.getElementById('pieChart'));
+pie.setOption({tooltip:{trigger:'item',formatter:'{b}: {c}项 ({d}%)'},legend:{bottom:0,textStyle:{fontSize:11,color:'#6b7f78'}},series:[{type:'pie',radius:['40%','70%'],center:['50%','45%'],avoidLabelOverlap:true,itemStyle:{borderRadius:8,borderColor:'#fff',borderWidth:2},label:{show:true,formatter:'{b}\n{c}项',fontSize:11},data:[{value:2,name:'已完成',itemStyle:{color:'#4CAF50'}},{value:4,name:'进行中',itemStyle:{color:'#1E88E5'}},{value:15,name:'待开展',itemStyle:{color:'#FF9800'}}]}]});
+
+// Bar Chart
+var bar=echarts.init(document.getElementById('barChart'));
+bar.setOption({tooltip:{trigger:'axis'},legend:{data:['已完成','进行中','待开展'],bottom:0,textStyle:{fontSize:11}},grid:{left:60,right:20,top:20,bottom:40},xAxis:{type:'category',data:['运营','运维','研发','安全','管理'],axisLabel:{fontSize:11}},yAxis:{type:'value',minInterval:1,axisLabel:{fontSize:11}},series:[{name:'已完成',type:'bar',stack:'a',data:[2,0,0,0,0],itemStyle:{color:'#4CAF50',borderRadius:[0,0,0,0]}},{name:'进行中',type:'bar',stack:'a',data:[1,1,2,1,0],itemStyle:{color:'#1E88E5'}},{name:'待开展',type:'bar',stack:'a',data:[5,2,5,0,1],itemStyle:{color:'#FF9800',borderRadius:[4,4,0,0]}}]});
+
+// Gantt Chart
+var gantt=echarts.init(document.getElementById('ganttChart'));
+var tasks=[
+  {name:'发布试用通知',start:'2026-06-23',end:'2026-06-24',status:'done'},
+  {name:'服务器到位',start:'2026-06-24',end:'2026-06-24',status:'doing'},
+  {name:'安全加密研发',start:'2026-06-23',end:'2026-06-24',status:'doing'},
+  {name:'缺陷整改',start:'2026-06-23',end:'2026-06-24',status:'doing'},
+  {name:'安装包准备',start:'2026-06-23',end:'2026-06-24',status:'wait'},
+  {name:'80人清单收集',start:'2026-06-25',end:'2026-06-25',status:'wait'},
+  {name:'产品服务部署',start:'2026-06-25',end:'2026-06-25',status:'wait'},
+  {name:'内部测试',start:'2026-06-25',end:'2026-06-25',status:'wait'},
+  {name:'80台座席部署',start:'2026-06-26',end:'2026-06-26',status:'wait'},
+  {name:'坐席绑定联调',start:'2026-06-26',end:'2026-06-26',status:'wait'},
+  {name:'全链路集成测试',start:'2026-06-26',end:'2026-06-26',status:'wait'},
+  {name:'操作培训',start:'2026-06-26',end:'2026-06-26',status:'wait'},
+  {name:'正式开启试用',start:'2026-06-26',end:'2026-06-26',status:'wait'},
+  {name:'值守保障',start:'2026-06-26',end:'2026-06-27',status:'wait'},
+  {name:'缺陷整改优化',start:'2026-06-30',end:'2026-07-10',status:'wait'},
+  {name:'国产化适配',start:'2026-07-11',end:'2026-07-20',status:'wait'}
+];
+var s2d=function(s){return new Date(s).getTime()};
+var colors={done:'#4CAF50',doing:'#1E88E5',wait:'#FF9800'};
+gantt.setOption({tooltip:{formatter:function(p){return p.value[3]}},grid:{left:110,right:20,top:10,bottom:30},xAxis:{type:'time',min:'2026-06-22',max:'2026-07-22',axisLabel:{fontSize:10,formatter:function(v){var d=new Date(v);return(d.getMonth()+1)+'/'+d.getDate()}}},yAxis:{type:'category',data:tasks.map(function(t){return t.name}),axisLabel:{fontSize:10}},series:[{type:'custom',renderItem:function(p,c){var d=c.option.yAxis.data.indexOf(p.value[3])>=0?tasks.find(function(t){return t.name===p.value[3]}):null;return{type:'rect',shape:{x:p.coord[0],y:p.coord[1]-8,width:p.size?Math.max(p.size[0],2):2,height:16},style:{fill:colors[p.value[4]]||'#FF9800',opacity:.85}}},encode:{x:[0,1],y:2},data:tasks.map(function(t,i){return[s2d(t.start),s2d(t.end)+86400000,i,t.name,t.status]})}]});
+
+// Person Chart
+var person=echarts.init(document.getElementById('personChart'));
+person.setOption({tooltip:{trigger:'axis'},legend:{data:['关键','重要'],bottom:0,textStyle:{fontSize:11}},grid:{left:80,right:20,top:10,bottom:40},xAxis:{type:'value',minInterval:1,axisLabel:{fontSize:11}},yAxis:{type:'category',data:['钟明原','梁嵩','白家宝','王维','鄂丽丽','李琳'],axisLabel:{fontSize:11}},series:[{name:'关键',type:'bar',stack:'a',data:[0,2,1,2,1,0],itemStyle:{color:'#e53935'}},{name:'重要',type:'bar',stack:'a',data:[4,2,0,0,0,1],itemStyle:{color:'#FFC107',borderRadius:[4,4,0,0]}}]});
+
+// Binding Grid
+var depts=[
+  {name:'北中心客服一部',bound:0,total:10},
+  {name:'北中心客服二部',bound:0,total:10},
+  {name:'北中心客服三部',bound:0,total:10},
+  {name:'北中心客服四部',bound:0,total:10},
+  {name:'南中心客服一部',bound:0,total:10},
+  {name:'南中心客服二部',bound:0,total:10},
+  {name:'南中心客服三部',bound:0,total:10},
+  {name:'南中心客服四部',bound:0,total:10}
+];
+var grid=document.getElementById('bindingGrid');
+depts.forEach(function(d){
+  var pct=d.total?Math.round(d.bound/d.total*100):0;
+  var div=document.createElement('div');
+  div.className='binding-dept';
+  div.innerHTML='<div class="dept-name">'+d.name+'</div>'+
+    '<div class="progress-ring"><svg width="60" height="60" viewBox="0 0 60 60">'+
+    '<circle cx="30" cy="30" r="24" fill="none" stroke="#e0e0e0" stroke-width="5"/>'+
+    '<circle cx="30" cy="30" r="24" fill="none" stroke="'+(pct>=100?'#4CAF50':'#1E88E5')+'" stroke-width="5" '+
+    'stroke-dasharray="'+Math.round(pct*1.508)+' '+(377-Math.round(pct*1.508))+'" '+
+    'stroke-linecap="round" transform="rotate(-90 30 30)"/>'+
+    '<text x="30" y="34" text-anchor="middle" font-size="12" font-weight="700" fill="'+(pct>=100?'#4CAF50':'#1E88E5')+'">'+d.bound+'/'+d.total+'</text>'+
+    '</svg></div>'+
+    '<div class="count">'+(pct>=100?'✅ 全部绑定':'⏳ 待绑定')+'</div>';
+  grid.appendChild(div);
+});
+
+window.addEventListener('resize',function(){pie.resize();bar.resize();gantt.resize();person.resize()});
+</script>
+</body>
+</html>
