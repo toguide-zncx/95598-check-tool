@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-24 18:22",
+  "syncTime": "2026-06-24 18:40",
   "source": "金山文档 - 95598智能座席助手实施计划表",
   "sourceUrl": "https://www.kdocs.cn/l/cp5h5LVYzFo3",
   "fileId": "dCYHGzpaJrMUMcY8UtM71xqMXeDjLSUsv",
@@ -58,7 +58,7 @@
     },
     {
       "id": 5,
-      "start": "2026-06-23",
+      "start": "2026-06-24",
       "end": "2026-06-24",
       "category": "安全",
       "name": "安全加密研发",
@@ -131,8 +131,8 @@
       "deliverable": "部署包",
       "owner": "白家宝",
       "priority": "关键",
-      "status": "待开展",
-      "delayed": true
+      "status": "已完成",
+      "delayed": false
     },
     {
       "id": 11,
@@ -336,10 +336,10 @@
     "2": {
       "name": "二、部署与联调",
       "tasks": 2,
-      "done": 0,
+      "done": 1,
       "doing": 0,
-      "pending": 2,
-      "delayed": 1
+      "pending": 1,
+      "delayed": 0
     },
     "3": {
       "name": "三、试用与推广",
