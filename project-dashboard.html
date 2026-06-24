@@ -185,7 +185,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
   <div class="kpi-card done"><div class="kc-num">3</div><div class="kc-label">已完成</div><div class="kc-bar"><div class="kc-bar-fill" style="width:14%;background:var(--g3)"></div></div></div>
   <div class="kpi-card doing"><div class="kc-num">3</div><div class="kc-label">进行中</div><div class="kc-bar"><div class="kc-bar-fill" style="width:14%;background:var(--blue)"></div></div></div>
   <div class="kpi-card wait"><div class="kc-num">15</div><div class="kc-label">待开展</div><div class="kc-bar"><div class="kc-bar-fill" style="width:71%;background:var(--orange)"></div></div></div>
-  <div class="kpi-card critical"><div class="kc-num">2</div><div class="kc-label">延期的工作项</div><div class="kc-bar"><div class="kc-bar-fill" style="width:5%;background:var(--red)"></div></div></div>
+</div>
+
+<!-- 延期工作项 -->
+<div class="section" id="delayedSection" style="border-left-color:var(--red)">
+<h2 style="color:var(--red)">⚠️ 延期的工作项（2项）</h2>
+<div id="delayedList" style="display:grid;gap:6px">
+  <div class="day-task critical" data-task-id="3" style="margin:0">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+      <span class="tag tag-critical" style="font-size:10px">⚠️延期</span>
+      <span style="font-weight:700;font-size:12px">#3 服务器登录方式确认</span>
+    </div>
+    <div style="font-size:11px;color:var(--text2)">截止 6月24日 · 负责人 <span class="owner-tag">白家宝</span></div>
+  </div>
+  <div class="day-task important" data-task-id="7" style="margin:0">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+      <span class="tag tag-critical" style="font-size:10px">⚠️延期</span>
+      <span style="font-weight:700;font-size:12px">#7 座席助手安装包准备</span>
+    </div>
+    <div style="font-size:11px;color:var(--text2)">截止 6月24日 · 负责人 <span class="owner-tag">钟明原</span></div>
+  </div>
+</div>
 </div>
 
 <!-- 同步栏 -->
@@ -504,16 +524,39 @@ function applySyncData(data){
     else pending++;
   });
   var delayed=0;
+  var delayedTasks=[];
   data.tasks.forEach(function(t){
-    if(t.delayed)delayed++;
+    if(t.delayed){delayed++;delayedTasks.push(t);}
   });
   var kpis=document.querySelectorAll('.kc-num');
-  if(kpis.length>=5){
+  if(kpis.length>=4){
     kpis[0].textContent=data.tasks.length;
     kpis[1].textContent=done;
     kpis[2].textContent=doing;
     kpis[3].textContent=pending;
-    kpis[4].textContent=delayed;
+  }
+  // Update delayed section
+  var ds=document.getElementById('delayedSection');
+  if(ds){
+    var h2=ds.querySelector('h2');
+    if(h2)h2.innerHTML='⚠️ 延期的工作项（'+delayed+'项）';
+    var dl=document.getElementById('delayedList');
+    if(dl){
+      dl.innerHTML='';
+      delayedTasks.forEach(function(t){
+        var div=document.createElement('div');
+        div.className='day-task '+(t.priority==='关键'?'critical':'important');
+        div.setAttribute('data-task-id',t.id);
+        div.style.margin='0';
+        var endParts=t.end.split('-');
+        var endDate=parseInt(endParts[1])+'月'+parseInt(endParts[2])+'日';
+        div.innerHTML='<div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">'+
+          '<span class="tag tag-critical" style="font-size:10px">⚠️延期</span>'+
+          '<span style="font-weight:700;font-size:12px">#'+t.id+' '+t.name+'</span></div>'+
+          '<div style="font-size:11px;color:var(--text2)">截止 '+endDate+' · 负责人 <span class="owner-tag">'+t.owner+'</span></div>';
+        dl.appendChild(div);
+      });
+    }
   }
   
   // Update timeline tasks status
