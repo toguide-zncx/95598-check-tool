@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>95598智能座席助手项目实施看板</title>
-<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 <style>
 :root{--g1:#006B54;--g2:#008667;--g3:#4CAF50;--g4:#C8E6C9;--g5:#E8F5E9;--orange:#E65100;--red:#C62828;--blue:#1565C0;--purple:#6A1B9A;--card:#fff;--text:#222;--text2:#555;--text3:#999;--bg:#F5F5F5;--border:#E0E0E0}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -106,6 +105,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 @media(min-width:768px){.plan-table{font-size:12px}.plan-table th{padding:8px 10px;font-size:11px}.plan-table td{padding:7px 10px;font-size:12px}}
 
 /* Day Timeline */
+.sync-bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.sync-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;transition:all .25s;border:none}
+.sync-btn.primary{background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;box-shadow:0 2px 8px rgba(0,107,84,.2)}
+.sync-btn.primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.sync-btn.primary:active{transform:translateY(0)}
+.sync-btn.primary.syncing{opacity:.7;pointer-events:none}
+.sync-time{font-size:10px;color:var(--text3)}
+.sync-toast{position:fixed;top:20px;right:20px;padding:10px 18px;border-radius:10px;color:#fff;font-size:12px;font-weight:500;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.2);display:none}
+.sync-toast.show{display:block;animation:fadeIn .3s}
+.sync-toast.success{background:linear-gradient(135deg,var(--g2),var(--g3))}
+.sync-toast.error{background:var(--red)}
+.sync-toast.info{background:var(--blue)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
 .day-timeline{display:flex;gap:0;position:relative}
 .day-col{flex:1;position:relative;min-width:0}
 .day-header{text-align:center;padding:8px 4px;font-size:12px;font-weight:700;border-radius:8px 8px 0 0;color:#fff}
@@ -174,6 +187,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
   <div class="kpi-card critical"><div class="kc-num">5</div><div class="kc-label">关键路径</div><div class="kc-bar"><div class="kc-bar-fill" style="width:24%;background:var(--red)"></div></div></div>
 </div>
 
+<!-- 同步栏 -->
+<div class="sync-bar">
+  <button class="sync-btn primary" id="syncBtn" onclick="syncFromCloud()">🔄 同步项目计划</button>
+  <span class="sync-time" id="syncTime">上次同步：暂无</span>
+  <span style="font-size:10px;color:var(--text3);margin-left:auto">数据来源：<a href="https://www.kdocs.cn/l/cp5h5LVYzFo3" target="_blank" style="color:var(--g2);text-decoration:none">金山文档</a></span>
+</div>
+<div class="sync-toast" id="syncToast"></div>
+
 <!-- 本周实施时间线 -->
 <div class="section">
 <h2>📊 本周实施时间线</h2>
@@ -182,37 +203,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
     <div class="day-header tue">周二 · 组织动员</div>
     <div class="day-date">6月23日</div>
     <div class="day-body">
-      <div class="day-task normal">
+      <div class="day-task normal" data-task-id="1">
         <div class="task-time">09:00-10:00</div>
         <div class="task-name">业管部发布试用通知</div>
         <div class="task-owner">👤 王维</div>
         <div class="task-status done">✅ 已完成</div>
       </div>
-      <div class="day-task critical">
+      <div class="day-task critical" data-task-id="4">
         <div class="task-time">10:00-12:00</div>
         <div class="task-name">8个客服部各组建10人试用小组</div>
         <div class="task-owner">👤 王维</div>
         <div class="task-status doing">🔄 进行中</div>
       </div>
-      <div class="day-task critical">
+      <div class="day-task critical" data-task-id="2">
         <div class="task-time">10:00-12:00</div>
         <div class="task-name">2台服务器线上申请</div>
         <div class="task-owner">👤 王维</div>
         <div class="task-status doing">🔄 进行中</div>
       </div>
-      <div class="day-task important">
+      <div class="day-task important" data-task-id="5">
         <div class="task-time">14:00-16:00</div>
         <div class="task-name">安全加密研发</div>
         <div class="task-owner">👤 钟明原</div>
         <div class="task-status doing">🔄 进行中</div>
       </div>
-      <div class="day-task important">
+      <div class="day-task important" data-task-id="6">
         <div class="task-time">14:00-16:00</div>
         <div class="task-name">缺陷整改</div>
         <div class="task-owner">👤 钟明原</div>
         <div class="task-status doing">🔄 进行中</div>
       </div>
-      <div class="day-task normal">
+      <div class="day-task normal" data-task-id="8">
         <div class="task-time">16:00-17:00</div>
         <div class="task-name">安装包存储位置确定</div>
         <div class="task-owner">👤 鄂丽丽</div>
@@ -225,25 +246,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
     <div class="day-header wed">周三 · 服务器到位</div>
     <div class="day-date">6月24日</div>
     <div class="day-body">
-      <div class="day-task critical">
+      <div class="day-task critical" data-task-id="3">
         <div class="task-time">09:00-11:00</div>
         <div class="task-name">服务器到货验收及登录确认</div>
         <div class="task-owner">👤 白家宝</div>
         <div class="task-status todo">⏳ 待开展</div>
       </div>
-      <div class="day-task important">
+      <div class="day-task important" data-task-id="7">
         <div class="task-time">09:00-12:00</div>
         <div class="task-name">座席助手安装包准备</div>
         <div class="task-owner">👤 钟明原</div>
         <div class="task-status todo">⏳ 待开展</div>
       </div>
-      <div class="day-task important">
+      <div class="day-task important" data-task-id="5">
         <div class="task-time">11:00-14:00</div>
         <div class="task-name">安全加密配置完成</div>
         <div class="task-owner">👤 钟明原</div>
         <div class="task-status todo">⏳ 待开展</div>
       </div>
-      <div class="day-task normal">
+      <div class="day-task normal" data-task-id="5">
         <div class="task-time">16:00-17:30</div>
         <div class="task-name">传输加密研发完成</div>
         <div class="task-owner">👤 钟明原</div>
@@ -256,19 +277,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
     <div class="day-header thu">周四 · 部署测试</div>
     <div class="day-date">6月25日</div>
     <div class="day-body">
-      <div class="day-task critical">
+      <div class="day-task critical" data-task-id="10">
         <div class="task-time">09:00-12:00</div>
         <div class="task-name">产品服务部署（Docker/MySQL）</div>
         <div class="task-owner">👤 白家宝</div>
         <div class="task-status todo">⏳ 待开展</div>
       </div>
-      <div class="day-task critical">
+      <div class="day-task critical" data-task-id="9">
         <div class="task-time">09:00-12:00</div>
         <div class="task-name">收集确认80人工位及话机清单</div>
         <div class="task-owner">👤 李琳/梁嵩</div>
         <div class="task-status todo">⏳ 待开展</div>
       </div>
-      <div class="day-task important">
+      <div class="day-task important" data-task-id="11">
         <div class="task-time">13:00-15:00</div>
         <div class="task-name">内部测试环境功能验证</div>
         <div class="task-owner">👤 梁嵩</div>
@@ -281,37 +302,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
     <div class="day-header fri">周五 · 正式试用</div>
     <div class="day-date">6月26日</div>
     <div class="day-body">
-      <div class="day-task critical">
+      <div class="day-task critical" data-task-id="12">
         <div class="task-time">08:30-10:00</div>
         <div class="task-name">80台电脑安装座席助手软件</div>
         <div class="task-owner">👤 白家宝</div>
         <div class="task-status todo">⏳ 待开展</div>
       </div>
-      <div class="day-task critical">
+      <div class="day-task critical" data-task-id="13">
         <div class="task-time">10:00-11:00</div>
         <div class="task-name">80话机坐席绑定及联调确认</div>
         <div class="task-owner">👤 梁嵩</div>
         <div class="task-status todo">⏳ 待开展</div>
       </div>
-      <div class="day-task critical">
+      <div class="day-task critical" data-task-id="14">
         <div class="task-time">11:00-12:00</div>
         <div class="task-name">全链路功能集成测试</div>
         <div class="task-owner">👤 梁嵩</div>
         <div class="task-status todo">⏳ 待开展</div>
       </div>
-      <div class="day-task important">
+      <div class="day-task important" data-task-id="15">
         <div class="task-time">11:00-12:00</div>
         <div class="task-name">座席助手操作培训</div>
         <div class="task-owner">👤 梁嵩</div>
         <div class="task-status todo">⏳ 待开展</div>
       </div>
-      <div class="day-task critical">
+      <div class="day-task critical" data-task-id="16">
         <div class="task-time">13:30</div>
         <div class="task-name">🚀 正式开启试用</div>
         <div class="task-owner">👤 鄂丽丽</div>
         <div class="task-status todo">⏳ 待开展</div>
       </div>
-      <div class="day-task important">
+      <div class="day-task important" data-task-id="17">
         <div class="task-time">14:00-17:00</div>
         <div class="task-name">试用值守保障及问题收集</div>
         <div class="task-owner">👤 钟明原/白家宝</div>
@@ -324,80 +345,67 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 
 <!-- Mobile Tab Bar -->
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('overview')">📊 概览</button>
-  <button class="tab-btn" onclick="switchTab('phases')">🕐 阶段</button>
+  <button class="tab-btn active" onclick="switchTab('phases')">🕐 阶段</button>
   <button class="tab-btn" onclick="switchTab('binding')">☎️ 绑定</button>
   <button class="tab-btn" onclick="switchTab('risk')">⚠️ 风险</button>
 </div>
 
-<!-- Tab: Overview -->
-<div class="tab-panel active" id="tab-overview">
-  <div class="chart-row">
-    <div class="section"><h2>📊 任务进度总览</h2><div id="pieChart" class="chart-box"></div></div>
-    <div class="section"><h2>📈 各类别任务分布</h2><div id="barChart" class="chart-box"></div></div>
-  </div>
-  <div class="chart-row">
-    <div class="section"><h2>🗓️ 项目甘特图</h2><div id="ganttChart" class="chart-box" style="height:300px"></div></div>
-    <div class="section"><h2>👤 负责人任务分布</h2><div id="personChart" class="chart-box"></div></div>
-  </div>
-</div>
-
 <!-- Tab: Phases -->
-<div class="tab-panel" id="tab-phases">
+<div class="tab-panel active" id="tab-phases">
 <div class="section">
 <h2>🕐 四阶段推进进度</h2>
 <div class="phase-list">
 
-  <div class="phase-item">
+  <div class="phase-item" data-phase="1">
     <div class="pi-header"><div class="pi-dot active"></div><div class="pi-title">一、组织动员与资源准备</div><div class="pi-date">6.23-6.24</div></div>
     <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:44%;background:var(--blue)"></div></div>
     <div class="pi-stats"><span>9项</span><span style="color:var(--g3)">已完成2</span><span style="color:var(--blue)">进行中4</span><span style="color:var(--orange)">待开展3</span><span><b>44%</b></span></div>
     <div class="pi-tasks">
-      <div class="pi-task"><span class="pt-idx normal">1</span><span class="pt-name">业管部发布试用通知</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">王维</span></div>
-      <div class="pi-task"><span class="pt-idx critical">2</span><span class="pt-name">2台服务器到位</span><span class="tag tag-rd">🔄进行中</span><span class="pt-owner">王维</span></div>
-      <div class="pi-task"><span class="pt-idx critical">3</span><span class="pt-name">服务器登录方式确认</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">白家宝</span></div>
-      <div class="pi-task"><span class="pt-idx critical">4</span><span class="pt-name">8个客服部各组建10人试用小组</span><span class="tag tag-rd">🔄进行中</span><span class="pt-owner">王维</span></div>
-      <div class="pi-task"><span class="pt-idx important">5</span><span class="pt-name">安全加密研发</span><span class="tag tag-sec">🔄进行中</span><span class="pt-owner">钟明原</span></div>
-      <div class="pi-task"><span class="pt-idx important">6</span><span class="pt-name">缺陷整改</span><span class="tag tag-rd">🔄进行中</span><span class="pt-owner">钟明原</span></div>
-      <div class="pi-task"><span class="pt-idx important">7</span><span class="pt-name">95598座席助手安装包准备</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">钟明原</span></div>
-      <div class="pi-task"><span class="pt-idx normal">8</span><span class="pt-name">安装包存储位置确定</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">鄂丽丽</span></div>
-      <div class="pi-task"><span class="pt-idx critical">9</span><span class="pt-name">收集并确认80人工位、电脑及话机清单</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">李琳/梁嵩</span></div>
+      <div class="pi-task" data-task-id="1"><span class="pt-idx normal">1</span><span class="pt-name">业管部发布试用通知</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">王维</span></div>
+      <div class="pi-task" data-task-id="2"><span class="pt-idx critical">2</span><span class="pt-name">2台服务器到位</span><span class="tag tag-rd">🔄进行中</span><span class="pt-owner">王维</span></div>
+      <div class="pi-task" data-task-id="3"><span class="pt-idx critical">3</span><span class="pt-name">服务器登录方式确认</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">白家宝</span></div>
+      <div class="pi-task" data-task-id="4"><span class="pt-idx critical">4</span><span class="pt-name">8个客服部各组建10人试用小组</span><span class="tag tag-rd">🔄进行中</span><span class="pt-owner">王维</span></div>
+      <div class="pi-task" data-task-id="5"><span class="pt-idx important">5</span><span class="pt-name">安全加密研发</span><span class="tag tag-sec">🔄进行中</span><span class="pt-owner">钟明原</span></div>
+      <div class="pi-task" data-task-id="6"><span class="pt-idx important">6</span><span class="pt-name">缺陷整改</span><span class="tag tag-rd">🔄进行中</span><span class="pt-owner">钟明原</span></div>
+      <div class="pi-task" data-task-id="7"><span class="pt-idx important">7</span><span class="pt-name">95598座席助手安装包准备</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">钟明原</span></div>
+      <div class="pi-task" data-task-id="8"><span class="pt-idx normal">8</span><span class="pt-name">安装包存储位置确定</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">鄂丽丽</span></div>
+      <div class="pi-task" data-task-id="9"><span class="pt-idx critical">9</span><span class="pt-name">收集并确认80人工位、电脑及话机清单</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">李琳/梁嵩</span></div>
     </div>
   </div>
 
-  <div class="phase-item">
+  <div class="phase-item" data-phase="2">
     <div class="pi-header"><div class="pi-dot pending"></div><div class="pi-title">二、产品部署及联通测试</div><div class="pi-date">6.25</div></div>
     <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:0%;background:var(--orange)"></div></div>
     <div class="pi-stats"><span>2项</span><span><b>0%</b></span></div>
     <div class="pi-tasks">
-      <div class="pi-task"><span class="pt-idx critical">10</span><span class="pt-name">产品服务部署（Docker/MySQL等）</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">白家宝</span></div>
-      <div class="pi-task"><span class="pt-idx important">11</span><span class="pt-name">内部测试环境功能验证</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">梁嵩</span></div>
+      <div class="pi-task" data-task-id="10"><span class="pt-idx critical">10</span><span class="pt-name">产品服务部署（Docker/MySQL等）</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">白家宝</span></div>
+      <div class="pi-task" data-task-id="11"><span class="pt-idx important">11</span><span class="pt-name">内部测试环境功能验证</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">梁嵩</span></div>
     </div>
   </div>
 
-  <div class="phase-item">
+  <div class="phase-item" data-phase="3">
     <div class="pi-header"><div class="pi-dot pending"></div><div class="pi-title">三、客服终端部署</div><div class="pi-date">6.26</div></div>
     <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:0%;background:var(--purple)"></div></div>
     <div class="pi-stats"><span>3项</span><span><b>0%</b></span></div>
     <div class="pi-tasks">
-      <div class="pi-task"><span class="pt-idx critical">12</span><span class="pt-name">80台电脑安装座席助手软件</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">白家宝</span></div>
-      <div class="pi-task"><span class="pt-idx critical">13</span><span class="pt-name">80话机坐席绑定及联调确认</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">梁嵩</span></div>
-      <div class="pi-task"><span class="pt-idx critical">14</span><span class="pt-name">全链路功能集成测试</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">梁嵩</span></div>
+      <div class="pi-task" data-task-id="12"><span class="pt-idx critical">12</span><span class="pt-name">80台电脑安装座席助手软件</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">白家宝</span></div>
+      <div class="pi-task" data-task-id="13"><span class="pt-idx critical">13</span><span class="pt-name">80话机坐席绑定及联调确认</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">梁嵩</span></div>
+      <div class="pi-task" data-task-id="14"><span class="pt-idx critical">14</span><span class="pt-name">全链路功能集成测试</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">梁嵩</span></div>
     </div>
   </div>
 
-  <div class="phase-item">
+  <div class="phase-item" data-phase="4">
     <div class="pi-header"><div class="pi-dot pending"></div><div class="pi-title">四、正式试用启动</div><div class="pi-date">6.26-7.20</div></div>
     <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:0%;background:var(--g3)"></div></div>
     <div class="pi-stats"><span>7项</span><span><b>0%</b></span></div>
     <div class="pi-tasks">
-      <div class="pi-task"><span class="pt-idx important">15</span><span class="pt-name">座席助手操作培训</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">梁嵩</span></div>
-      <div class="pi-task"><span class="pt-idx critical">16</span><span class="pt-name">正式开启试用</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">鄂丽丽</span></div>
-      <div class="pi-task"><span class="pt-idx important">17</span><span class="pt-name">试用值守保障及问题收集</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">钟明原/白家宝</span></div>
-      <div class="pi-task"><span class="pt-idx important">18</span><span class="pt-name">常态化运营监控</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">梁嵩</span></div>
-      <div class="pi-task"><span class="pt-idx important">19</span><span class="pt-name">收集系统缺陷或需求</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">梁嵩</span></div>
-      <div class="pi-task"><span class="pt-idx important">20</span><span class="pt-name">缺陷或需求整改优化</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">钟明原</span></div>
-      <div class="pi-task"><span class="pt-idx important">21</span><span class="pt-name">座席端国产化适配</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">钟明原</span></div>
+      <div class="pi-task" data-task-id="15"><span class="pt-idx important">15</span><span class="pt-name">座席助手操作培训</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">梁嵩</span></div>
+      <div class="pi-task" data-task-id="16"><span class="pt-idx critical">16</span><span class="pt-name">正式开启试用</span><span class="tag tag-critical">⏳关键</span><span class="pt-owner">鄂丽丽</span></div>
+      <div class="pi-task" data-task-id="17"><span class="pt-idx important">17</span><span class="pt-name">试用值守保障及问题收集</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">钟明原/白家宝</span></div>
+      <div class="pi-task" data-task-id="18"><span class="pt-idx important">18</span><span class="pt-name">常态化运营监控</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">梁嵩</span></div>
+      <div class="pi-task" data-task-id="19"><span class="pt-idx important">19</span><span class="pt-name">收集系统缺陷或需求</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">梁嵩</span></div>
+      <div class="pi-task" data-task-id="20"><span class="pt-idx important">20</span><span class="pt-name">缺陷或需求整改优化</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">钟明原</span></div>
+      <div class="pi-task" data-task-id="21"><span class="pt-idx important">21</span><span class="pt-name">座席端国产化适配</span><span class="tag tag-important">⏳重要</span><span class="pt-owner">钟明原</span></div>
     </div>
   </div>
 
@@ -446,51 +454,148 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.remove('active')});
   document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});
-  var tabs=['overview','phases','binding','risk'];
+  var tabs=['phases','binding','risk'];
   var idx=tabs.indexOf(name);
   document.querySelectorAll('.tab-btn')[idx].classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
-  // Resize charts
-  setTimeout(function(){pie&&pie.resize();bar&&bar.resize();gantt&&gantt.resize();person&&person.resize()},100);
 }
 
-/* ===== ECharts ===== */
-var green3='#4CAF50',orange='#E65100',blue='#1565C0',red='#C62828',purple='#6A1B9A';
+/* ===== Sync ===== */
+function showToast(msg,type,duration){
+  type=type||'info';duration=duration||3000;
+  var t=document.getElementById('syncToast');
+  t.textContent=msg;t.className='sync-toast show '+type;
+  setTimeout(function(){t.className='sync-toast'},duration);
+}
 
-// Pie
-var pie=echarts.init(document.getElementById('pieChart'));
-pie.setOption({tooltip:{trigger:'item',formatter:'{b}: {c}项 ({d}%)'},legend:{bottom:0,textStyle:{fontSize:11,color:'#555'}},series:[{type:'pie',radius:['38%','68%'],center:['50%','44%'],avoidLabelOverlap:true,itemStyle:{borderRadius:8,borderColor:'#fff',borderWidth:2},label:{show:true,formatter:'{b}\n{c}项',fontSize:11,color:'#222'},labelLine:{length:8,length2:12},data:[{value:2,name:'已完成',itemStyle:{color:green3}},{value:4,name:'进行中',itemStyle:{color:blue}},{value:15,name:'待开展',itemStyle:{color:orange}}]}]});
+function statusLabel(s){
+  if(s==='已完成')return{cls:'done',label:'✅ 已完成'};
+  if(s==='进行中')return{cls:'doing',label:'🔄 进行中'};
+  return{cls:'todo',label:'⏳ 待开展'};
+}
+function priorityCls(p){
+  if(p==='关键')return'critical';
+  if(p==='重要')return'important';
+  return'normal';
+}
+function tagCls(s){
+  if(s==='已完成')return'tag-normal';
+  if(s==='进行中')return'tag-rd';
+  return'tag-ops';
+}
+function fmtDate(d){
+  if(!d)return'';
+  var p=d.split('-');
+  return parseInt(p[1])+'月'+parseInt(p[2])+'日';
+}
 
-// Bar
-var bar=echarts.init(document.getElementById('barChart'));
-bar.setOption({tooltip:{trigger:'axis'},legend:{data:['已完成','进行中','待开展'],bottom:0,textStyle:{fontSize:11}},grid:{left:50,right:20,top:20,bottom:40},xAxis:{type:'category',data:['运营','运维','研发','安全','管理'],axisLabel:{fontSize:10}},yAxis:{type:'value',minInterval:1,axisLabel:{fontSize:10}},series:[{name:'已完成',type:'bar',stack:'a',data:[2,0,0,0,0],itemStyle:{color:green3}},{name:'进行中',type:'bar',stack:'a',data:[1,1,2,1,0],itemStyle:{color:blue}},{name:'待开展',type:'bar',stack:'a',data:[5,2,5,0,1],itemStyle:{color:orange,borderRadius:[4,4,0,0]}}]});
+function applySyncData(data){
+  // Update sync time
+  document.getElementById('syncTime').textContent='上次同步：'+data.syncTime;
+  
+  // Update KPI
+  var done=0,doing=0,pending=0;
+  data.tasks.forEach(function(t){
+    if(t.status==='已完成')done++;
+    else if(t.status==='进行中')doing++;
+    else pending++;
+  });
+  var kpis=document.querySelectorAll('.kc-num');
+  if(kpis.length>=4){
+    kpis[0].textContent=data.tasks.length;
+    kpis[1].textContent=done;
+    kpis[2].textContent=doing;
+    kpis[3].textContent=pending;
+  }
+  
+  // Update timeline tasks status
+  data.tasks.forEach(function(t){
+    var el=document.querySelector('[data-task-id="'+t.id+'"]');
+    if(el){
+      var st=statusLabel(t.status);
+      var statusEl=el.querySelector('.task-status');
+      if(statusEl){
+        statusEl.className='task-status '+st.cls;
+        statusEl.textContent=st.label;
+      }
+    }
+  });
+  
+  // Update phase panels
+  var phaseMap=data.phases;
+  for(var i=1;i<=4;i++){
+    var pd=phaseMap[String(i)];
+    if(!pd)continue;
+    var phaseEl=document.querySelector('[data-phase="'+i+'"]');
+    if(!phaseEl)continue;
+    var rate=Math.round(pd.done/pd.tasks*100);
+    var barFill=phaseEl.querySelector('.pi-bar-fill');
+    if(barFill)barFill.style.width=rate+'%';
+    var statsEl=phaseEl.querySelector('.pi-stats');
+    if(statsEl){
+      statsEl.innerHTML='<span>'+pd.tasks+'项</span>'+
+        (pd.done?'<span style="color:var(--g3)">已完成'+pd.done+'</span>':'')+
+        (pd.doing?'<span style="color:var(--blue)">进行中'+pd.doing+'</span>':'')+
+        '<span style="color:var(--orange)">待开展'+pd.pending+'</span>'+
+        '<span><b>'+rate+'%</b></span>';
+    }
+    // Update task statuses inside phase
+    data.tasks.forEach(function(t){
+      var taskEl=phaseEl.querySelector('[data-task-id="'+t.id+'"]');
+      if(taskEl){
+        var tag=taskEl.querySelector('.tag');
+        if(tag){
+          tag.className='tag '+tagCls(t.status);
+          var lbl=t.status==='已完成'?'✅已完成':t.status==='进行中'?'🔄进行中':'⏳待开展';
+          tag.textContent=lbl;
+        }
+      }
+    });
+  }
+  
+  // Update binding grid
+  if(data.binding&&data.binding.depts){
+    data.binding.depts.forEach(function(d,i){
+      var card=document.querySelector('[data-dept-idx="'+i+'"]');
+      if(card){
+        var pct=d.total?Math.round(d.bound/d.total*100):0;
+        var numEl=card.querySelector('.bc-num');
+        var pctEl=card.querySelector('.bc-pct');
+        if(numEl)numEl.textContent=d.bound+'/'+d.total;
+        if(pctEl)pctEl.textContent=pct+'%';
+      }
+    });
+  }
+}
 
-// Gantt
-var gantt=echarts.init(document.getElementById('ganttChart'));
-var tasks=[
-  {n:'发布试用通知',s:'2026-06-23',e:'2026-06-24',c:green3},
-  {n:'服务器到位',s:'2026-06-24',e:'2026-06-24',c:blue},
-  {n:'安全加密研发',s:'2026-06-23',e:'2026-06-24',c:blue},
-  {n:'缺陷整改',s:'2026-06-23',e:'2026-06-24',c:blue},
-  {n:'安装包准备',s:'2026-06-23',e:'2026-06-24',c:orange},
-  {n:'80人清单收集',s:'2026-06-25',e:'2026-06-25',c:orange},
-  {n:'产品服务部署',s:'2026-06-25',e:'2026-06-25',c:red},
-  {n:'内部测试',s:'2026-06-25',e:'2026-06-25',c:orange},
-  {n:'80台座席部署',s:'2026-06-26',e:'2026-06-26',c:red},
-  {n:'坐席绑定联调',s:'2026-06-26',e:'2026-06-26',c:red},
-  {n:'全链路集成测试',s:'2026-06-26',e:'2026-06-26',c:red},
-  {n:'操作培训',s:'2026-06-26',e:'2026-06-26',c:orange},
-  {n:'正式开启试用',s:'2026-06-26',e:'2026-06-26',c:red},
-  {n:'值守保障',s:'2026-06-26',e:'2026-06-27',c:orange},
-  {n:'缺陷整改优化',s:'2026-06-30',e:'2026-07-10',c:orange},
-  {n:'国产化适配',s:'2026-07-11',e:'2026-07-20',c:purple}
-];
-var s2d=function(s){return new Date(s).getTime()};
-gantt.setOption({grid:{left:80,right:16,top:8,bottom:24},tooltip:{formatter:function(p){var t=tasks[p.dataIndex];return t.n+'<br/>'+t.s+' ~ '+t.e}},xAxis:{type:'time',min:'2026-06-22',max:'2026-07-22',axisLabel:{fontSize:9,formatter:function(v){var d=new Date(v);return(d.getMonth()+1)+'/'+d.getDate()}},splitLine:{show:true,lineStyle:{color:'#f0f0f0'}}},yAxis:{type:'category',data:tasks.map(function(t){return t.n}),axisLabel:{fontSize:9}},series:[{type:'custom',renderItem:function(p,c){var i=p.dataIndex;var t=tasks[i];return{type:'rect',shape:{x:p.coord[0],y:p.coord[1]-7,width:Math.max(p.size?p.size[0]:2,3),height:14},style:{fill:t.c,opacity:.85}}},encode:{x:[0,1],y:2},data:tasks.map(function(t,i){return[s2d(t.s),s2d(t.e)+86400000,i]})}]});
+function syncFromCloud(){
+  var btn=document.getElementById('syncBtn');
+  btn.classList.add('syncing');
+  btn.innerHTML='⏳ 同步中...';
+  showToast('正在从金山文档获取最新数据...','info',2000);
+  
+  fetch('./plan-data.json?t='+Date.now())
+    .then(function(r){if(!r.ok)throw new Error('数据文件未找到');return r.json()})
+    .then(function(data){
+      applySyncData(data);
+      btn.classList.remove('syncing');
+      btn.innerHTML='🔄 同步项目计划';
+      showToast('✅ 同步成功！已更新 '+data.tasks.length+' 项任务数据','success');
+    })
+    .catch(function(err){
+      btn.classList.remove('syncing');
+      btn.innerHTML='🔄 同步项目计划';
+      showToast('❌ 同步失败：'+err.message+'。请通过Agent执行kdocs-cli更新plan-data.json','error',5000);
+    });
+}
 
-// Person
-var person=echarts.init(document.getElementById('personChart'));
-person.setOption({tooltip:{trigger:'axis'},legend:{data:['关键','重要'],bottom:0,textStyle:{fontSize:11}},grid:{left:60,right:16,top:10,bottom:40},xAxis:{type:'value',minInterval:1,axisLabel:{fontSize:10}},yAxis:{type:'category',data:['鄂丽丽','李琳','王维','白家宝','梁嵩','钟明原'],axisLabel:{fontSize:10}},series:[{name:'关键',type:'bar',stack:'a',data:[1,0,2,1,2,0],itemStyle:{color:red}},{name:'重要',type:'bar',stack:'a',data:[0,1,0,0,2,4],itemStyle:{color:'#FFC107',borderRadius:[4,4,0,0]}}]});
+// Auto-load on page load
+window.addEventListener('DOMContentLoaded',function(){
+  fetch('./plan-data.json?t='+Date.now())
+    .then(function(r){return r.json()})
+    .then(function(data){applySyncData(data)})
+    .catch(function(){});
+});
 
 /* ===== Binding Grid ===== */
 var depts=[
@@ -504,12 +609,13 @@ var depts=[
   {name:'南中心客服四部',bound:0,total:10}
 ];
 var grid=document.getElementById('bindingGrid');
-depts.forEach(function(d){
+depts.forEach(function(d,i){
   var pct=d.total?Math.round(d.bound/d.total*100):0;
   var r=20,cx=22,cy=22,circLen=2*Math.PI*r;
-  var fillColor=pct>=100?green3:blue;
+  var fillColor=pct>=100?'#4CAF50':'#1565C0';
   var div=document.createElement('div');
   div.className='binding-card';
+  div.setAttribute('data-dept-idx',i);
   div.innerHTML='<div class="bc-name">'+d.name+'</div>'+
     '<div class="bc-ring"><svg viewBox="0 0 44 44">'+
     '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="#E0E0E0" stroke-width="3.5"/>'+
@@ -519,12 +625,11 @@ depts.forEach(function(d){
     '<text x="'+cx+'" y="'+(cy-2)+'" text-anchor="middle" font-size="9" font-weight="800" fill="'+fillColor+'">'+d.bound+'</text>'+
     '<text x="'+cx+'" y="'+(cy+8)+'" text-anchor="middle" font-size="6" fill="#999">/'+d.total+'</text>'+
     '</svg></div>'+
-    '<div class="bc-count">'+(pct>=100?'全部绑定':'已绑定 '+d.bound+' 台')+'</div>'+
-    '<div class="bc-status '+(pct>=100?'ready':'pending')+'">'+(pct>=100?'✅ 已完成':'⏳ 进行中')+'</div>';
+    '<div class="bc-count bc-num">'+(pct>=100?'全部绑定':'已绑定 '+d.bound+' 台')+'</div>'+
+    '<div class="bc-status '+(pct>=100?'ready':'pending')+' bc-pct">'+(pct>=100?'✅ 已完成':'⏳ 进行中')+'</div>';
   grid.appendChild(div);
 });
 
-window.addEventListener('resize',function(){pie.resize();bar.resize();gantt.resize();person.resize()});
 </script>
 </body>
 </html>
