@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-24 17:35",
+  "syncTime": "2026-06-24 17:41",
   "source": "金山文档 - 95598智能座席助手实施计划表",
   "sourceUrl": "https://www.kdocs.cn/l/cp5h5LVYzFo3",
   "fileId": "dCYHGzpaJrMUMcY8UtM71xqMXeDjLSUsv",
@@ -10,29 +10,38 @@
       "end": "2026-06-24",
       "category": "运营",
       "name": "业管部发布试用通知",
+      "detail": "通知明确：试用目的、范围（8个客服部各10人）、接入方式（耳机插电脑）、时间节点\n验收标准：通知正式签发并送达各客服部",
+      "deliverable": "95598智能座席试用通知",
       "owner": "王维",
       "priority": "关键",
-      "status": "已完成"
+      "status": "已完成",
+      "delayed": false
     },
     {
       "id": 2,
-      "start": "2026年6月24日",
-      "end": "2026年6月24日",
+      "start": "2026-06-24",
+      "end": "2026-06-24",
       "category": "运维",
       "name": "2台服务器到位",
+      "detail": "完成2台服务器线上申请\n验收标准：服务器正常登陆",
+      "deliverable": "服务器登陆IP",
       "owner": "王维",
       "priority": "关键",
-      "status": "进行中"
+      "status": "已完成",
+      "delayed": false
     },
     {
       "id": 3,
-      "start": "2026年6月24日",
-      "end": "2026年6月24日",
+      "start": "2026-06-24",
+      "end": "2026-06-24",
       "category": "运维",
       "name": "服务器登录方式确认",
+      "detail": "完成服务器登录方式确认",
+      "deliverable": "资源确认单",
       "owner": "白家宝",
       "priority": "关键",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": true
     },
     {
       "id": 4,
@@ -40,9 +49,12 @@
       "end": "2026-06-24",
       "category": "运营",
       "name": "8个客服部各组建10人试用小组",
+      "detail": "每组确认组长1名+组员9名，用于现场信息收集及问题反馈\n验收标准：80人员清单汇总完成",
+      "deliverable": "牵头人清单",
       "owner": "王维",
       "priority": "关键",
-      "status": "进行中"
+      "status": "进行中",
+      "delayed": false
     },
     {
       "id": 5,
@@ -50,9 +62,12 @@
       "end": "2026-06-24",
       "category": "安全",
       "name": "安全加密研发",
+      "detail": "完成语音转写文本传输加密研发\n验收标准：95598座席助手座席端及管理端功能正常",
+      "deliverable": "部署包",
       "owner": "钟明原",
       "priority": "重要",
-      "status": "进行中"
+      "status": "进行中",
+      "delayed": false
     },
     {
       "id": 6,
@@ -60,19 +75,25 @@
       "end": "2026-06-24",
       "category": "研发",
       "name": "缺陷整改",
+      "detail": "完成遗留问题缺陷整改\n验收标准：问题清单中优先级为高和中均整改通过",
+      "deliverable": "问题清单",
       "owner": "钟明原",
       "priority": "重要",
-      "status": "进行中"
+      "status": "进行中",
+      "delayed": false
     },
     {
       "id": 7,
-      "start": "2026年6月23日",
+      "start": "2026-06-23",
       "end": "2026-06-24",
       "category": "研发",
       "name": "95598座席助手安装包准备",
+      "detail": "完成95598座席助手部署包\n验收标准：收标准完整包含安装程序、配置模板、环境依赖包、初始化脚本等",
+      "deliverable": "部署包",
       "owner": "钟明原",
       "priority": "重要",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": true
     },
     {
       "id": 8,
@@ -80,9 +101,12 @@
       "end": "2026-06-24",
       "category": "运营",
       "name": "安装包存储位置确定",
+      "detail": "确认95598智能座席助手部署包下发方式\n验收标准：下发至南（北）分中心服务台",
+      "deliverable": "部署包",
       "owner": "鄂丽丽",
       "priority": "重要",
-      "status": "已完成"
+      "status": "已完成",
+      "delayed": false
     },
     {
       "id": 9,
@@ -90,9 +114,12 @@
       "end": "2026-06-25",
       "category": "运营",
       "name": "收集并确认80人工位、电脑及话机清单",
+      "detail": "收集80人姓名、工号、客服部、工位号、电脑编号、话机编号/MAC、座席助手账号、绑定状态、备注，筛选不满足最低配置的机器，建立人-机-话机对应表\n验收标准：80人清单含姓名/工号/工位/电脑配置/话机编号，完成配置筛选",
+      "deliverable": "坐席绑定与监控台账",
       "owner": "南：李琳\n北：梁嵩",
       "priority": "关键",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     },
     {
       "id": 10,
@@ -100,9 +127,12 @@
       "end": "2026-06-25",
       "category": "运维",
       "name": "产品服务部署",
+      "detail": "完成docker、数据库（MySQL)等服务部署\n验收标准：所有服务健康检查通过",
+      "deliverable": "部署包",
       "owner": "白家宝",
       "priority": "关键",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     },
     {
       "id": 11,
@@ -110,9 +140,12 @@
       "end": "2026-06-25",
       "category": "运营",
       "name": "内部测试",
+      "detail": "完成测试环境功能验证\n验收标准：内测通过",
+      "deliverable": "测试用例清单",
       "owner": "梁嵩",
       "priority": "重要",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     },
     {
       "id": 12,
@@ -120,19 +153,25 @@
       "end": "2026-06-26",
       "category": "运维",
       "name": "80台电脑安装座席助手软件",
+      "detail": "逐台安装客户端，配置服务器连接地址，验证耳机录音权限，确认话机编号识别正确\n验收标准：80台全部安装完成并可登录",
+      "deliverable": "部署包",
       "owner": "白家宝",
       "priority": "关键",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     },
     {
       "id": 13,
-      "start": "2026年6月26日",
-      "end": "2026年6月26日",
+      "start": "2026-06-26",
+      "end": "2026-06-26",
       "category": "运营",
       "name": "80话机坐席绑定及联调确认",
+      "detail": "逐台确认话机与座席账号绑定正常，测试耳机采集→语音转写→管理端统计全链路，更新绑定台账状态\n验收标准：80台绑定及联调100%通过，台账状态全部更新为\"已绑定\"",
+      "deliverable": "坐席绑定与监控台账",
       "owner": "梁嵩",
       "priority": "关键",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     },
     {
       "id": 14,
@@ -140,59 +179,77 @@
       "end": "2026-06-26",
       "category": "研发",
       "name": "全链路功能集成测试",
+      "detail": "测试场景：来电→座席应答→语音转写→管理端统计\n验收标准：核心流程无阻断性Bug，P0/P1问题清零",
+      "deliverable": "测试用例清单",
       "owner": "梁嵩",
       "priority": "关键",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     },
     {
       "id": 15,
-      "start": "2026年6月26日",
-      "end": "2026年6月26日",
+      "start": "2026-06-26",
+      "end": "2026-06-26",
       "category": "运营",
       "name": "座席助手操作培训",
+      "detail": "对80人进行操作培训\n验收标准：培训签到率100%",
+      "deliverable": "培训签到表",
       "owner": "梁嵩",
       "priority": "重要",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     },
     {
       "id": 16,
-      "start": "2026年6月26日",
-      "end": "2026年6月26日",
+      "start": "2026-06-26",
+      "end": "2026-06-26",
       "category": "管理",
       "name": "正式开启试用",
+      "detail": "80人正式使用座席助手接听95598来电\n验收标准：首批来电正常转写+管理端正常统计",
+      "deliverable": "测试用例清单",
       "owner": "鄂丽丽",
       "priority": "关键",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     },
     {
       "id": 17,
-      "start": "2026年6月26日",
-      "end": "2026年6月27日",
+      "start": "2026-06-26",
+      "end": "2026-06-27",
       "category": "研发",
       "name": "试用值守保障及问题收集",
+      "detail": "现场+远程值守，实时处理软件异常、网络中断、转写延迟、模型超时等问题\n验收标准：问题15分钟内响应，2小时内解决或给出临时方案",
+      "deliverable": "问题清单",
       "owner": "钟明原、白家宝",
       "priority": "重要",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     },
     {
       "id": 18,
-      "start": "2026年6月26日",
-      "end": "2026年6月26日",
+      "start": "2026-06-26",
+      "end": "2026-06-26",
       "category": "运营",
       "name": "常态化运营",
+      "detail": "监控通话量、ASR转写情况，座席现场应用情况\n验收标准：监控台账日终报告输出",
+      "deliverable": "运营日报",
       "owner": "梁嵩",
       "priority": "重要",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     },
     {
       "id": 19,
-      "start": "2026年6月26日",
-      "end": "2026年6月29日",
+      "start": "2026-06-26",
+      "end": "2026-06-29",
       "category": "运营",
       "name": "收集系统缺陷或需求",
+      "detail": "收集试用期间发现的缺陷和新增需求\n验收标准：建立缺陷及需求台账",
+      "deliverable": "缺陷及需求台账",
       "owner": "梁嵩",
       "priority": "重要",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     },
     {
       "id": 20,
@@ -200,9 +257,12 @@
       "end": "2026-07-10",
       "category": "研发",
       "name": "缺陷或需求整改优化",
+      "detail": "缺陷或需求按优先级排序并逐一整改；\n验收标准：遗留缺陷修复率100%，新增需求纳入下期迭代计划",
+      "deliverable": "问题清单",
       "owner": "钟明原",
       "priority": "重要",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     },
     {
       "id": 21,
@@ -210,9 +270,12 @@
       "end": "2026-07-20",
       "category": "研发",
       "name": "座席端国产化适配",
+      "detail": "完成座席端95598智能座席助手国产化适配\n验收标准：完成统信UOS/麒麟OS + 国产芯片（鲲鹏/飞腾）的适配，测试100%通过",
+      "deliverable": "测试用例清单",
       "owner": "钟明原",
       "priority": "重要",
-      "status": "待开展"
+      "status": "待开展",
+      "delayed": false
     }
   ],
   "binding": {
@@ -265,34 +328,38 @@
     "1": {
       "name": "组织动员与资源准备",
       "date": "6.23-6.24",
-      "tasks": 6,
-      "done": 1,
-      "doing": 4,
-      "pending": 1
+      "tasks": 9,
+      "done": 3,
+      "doing": 3,
+      "pending": 3,
+      "rate": 50
     },
     "2": {
       "name": "产品部署及联通测试",
       "date": "6.25",
-      "tasks": 3,
-      "done": 1,
+      "tasks": 2,
+      "done": 0,
       "doing": 0,
-      "pending": 2
+      "pending": 2,
+      "rate": 0
     },
     "3": {
       "name": "客服终端部署",
       "date": "6.26",
-      "tasks": 2,
+      "tasks": 3,
       "done": 0,
       "doing": 0,
-      "pending": 2
+      "pending": 3,
+      "rate": 0
     },
     "4": {
       "name": "正式试用启动",
       "date": "6.26-7.20",
-      "tasks": 10,
+      "tasks": 7,
       "done": 0,
       "doing": 0,
-      "pending": 10
+      "pending": 7,
+      "rate": 0
     }
   }
 }
