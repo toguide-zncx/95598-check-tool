@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-24 19:42",
+  "syncTime": "2026-06-24 19:54",
   "source": "金山文档 - 95598智能座席助手实施计划表",
   "sourceUrl": "https://www.kdocs.cn/l/cp5h5LVYzFo3",
   "fileId": "dCYHGzpaJrMUMcY8UtM71xqMXeDjLSUsv",
@@ -100,12 +100,12 @@
       "start": "2026-06-25",
       "end": "2026-06-25",
       "category": "运营",
-      "name": "安装包存储位置确定",
+      "name": "95598智能座席助手部署包下发至客服部",
       "detail": "确认95598智能座席助手部署包下发方式\n验收标准：下发至南（北）分中心服务台",
       "deliverable": "部署包",
       "owner": "鄂丽丽",
       "priority": "重要",
-      "status": "已完成",
+      "status": "待开展",
       "delayed": false
     },
     {
@@ -328,41 +328,41 @@
     "1": {
       "name": "一、组织动员与资源准备",
       "tasks": 9,
-      "done": 5,
+      "done": 4,
       "doing": 3,
-      "pending": 1,
+      "pending": 2,
       "delayed": 0,
       "total": 9,
-      "pct": 56
+      "pct": 44
     },
     "2": {
-      "name": "二、部署与联调",
+      "name": "二、产品部署及联通测试",
       "tasks": 2,
       "done": 1,
       "doing": 0,
       "pending": 1,
-      "delayed": 0,
-      "total": 5,
-      "pct": 20
+      "delayed": 1,
+      "total": 2,
+      "pct": 50
     },
     "3": {
-      "name": "三、试用与推广",
+      "name": "三、客服终端部署",
       "tasks": 3,
       "done": 0,
       "doing": 0,
       "pending": 3,
       "delayed": 0,
-      "total": 4,
+      "total": 3,
       "pct": 0
     },
     "4": {
-      "name": "四、总结与优化",
+      "name": "四、正式试用启动",
       "tasks": 7,
       "done": 0,
       "doing": 0,
       "pending": 7,
       "delayed": 0,
-      "total": 3,
+      "total": 7,
       "pct": 0
     }
   }
