@@ -30,7 +30,7 @@ body{font-family:'Microsoft YaHei','PingFang SC',-apple-system,sans-serif;backgr
 .wr-v2 .wr-kpi-change{font-size:11px;color:#666;margin-top:4px}
 .wr-v2 .wr-kpi-change .up{color:#10b981}
 .wr-v2 .wr-kpi-change .down{color:#ef4444}
-.wr-v2 .wr-kpi-gap{font-size:11px;color:#999;margin-top:2px}
+.wr-v2 .wr-kpi-gap{font-size:11px;color:#999;margin-top:2px}.wr-v2 .wr-progress{background:#e5e7eb;border-radius:4px;height:6px;overflow:hidden;margin-top:6px}.wr-v2 .wr-progress .fill{height:100%;border-radius:4px;transition:width .6s}
 .wr-v2 .wr-chart-box{background:#f8f9fa;border-radius:8px;padding:12px;margin:12px 0}
 .wr-v2 .wr-chart-box h4{font-size:14px;color:#333;margin-bottom:10px;text-align:center;font-weight:600}
 .wr-v2 .wr-chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -91,30 +91,35 @@ body{font-family:'Microsoft YaHei','PingFang SC',-apple-system,sans-serif;backgr
 <div class="wr-kpi-value">61.64%</div>
 <div class="wr-kpi-change">环比 <span class="up">↑6.23%</span> · 同比 <span class="up">↑13.70%</span></div>
 <div class="wr-kpi-gap">目标≥55% <span class="wr-tag pass">√达标</span></div>
+<div class="wr-progress"><div class="fill" style="width:100%;background:#10b981"></div></div>
 </div>
 <div class="wr-kpi-card wr-danger">
 <div class="wr-kpi-label">电话-智能占比</div>
 <div class="wr-kpi-value">43.44%</div>
 <div class="wr-kpi-change">环比 <span class="up">↑0.50%</span> · 同比 <span class="up">↑8.26%</span></div>
 <div class="wr-kpi-gap">目标≥55% <span class="wr-tag fail">×未达标</span></div>
+<div class="wr-progress"><div class="fill" style="width:79%;background:#ef4444"></div></div>
 </div>
 <div class="wr-kpi-card wr-danger">
 <div class="wr-kpi-label">电话-流程完成率</div>
 <div class="wr-kpi-value">45.42%</div>
 <div class="wr-kpi-change">环比 <span class="down">↓3.62%</span> · 同比 <span class="up">↑3.84%</span></div>
 <div class="wr-kpi-gap">目标≥70% <span class="wr-tag fail">×未达标</span></div>
+<div class="wr-progress"><div class="fill" style="width:65%;background:#ef4444"></div></div>
 </div>
 <div class="wr-kpi-card wr-success">
 <div class="wr-kpi-label">互联网-智能占比</div>
 <div class="wr-kpi-value">83.51%</div>
 <div class="wr-kpi-change">环比 <span class="up">↑8.19%</span> · 同比 <span class="up">↑13.69%</span></div>
 <div class="wr-kpi-gap">目标≥80% <span class="wr-tag pass">√达标</span></div>
+<div class="wr-progress"><div class="fill" style="width:100%;background:#10b981"></div></div>
 </div>
 <div class="wr-kpi-card wr-warning">
 <div class="wr-kpi-label">互联网-流程完成率</div>
 <div class="wr-kpi-value">77.51%</div>
 <div class="wr-kpi-change">环比 <span class="down">↓0.41%</span> · 同比 <span class="up">↑30.88%</span></div>
 <div class="wr-kpi-gap">目标≥85% <span class="wr-tag fail">×未达标</span></div>
+<div class="wr-progress"><div class="fill" style="width:91%;background:#ef4444"></div></div>
 </div>
 </div>
 
@@ -446,6 +451,7 @@ V1.104版本已发版，包含以下7项内容：<br>
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded",function(){
 const P='#667eea',PU='#764ba2',G='#10b981',R='#ef4444',Y='#f59e0b',BL='#3b82f6';
 const colors=[P,PU,G,BL,Y,R];
 
@@ -583,6 +589,7 @@ series:[
 // 响应式
 window.addEventListener('resize',function(){
 [cRadar,cBar,cReq,cDef,cVerify,cSouth,cKnow,cAddr,cRisk,cTask].forEach(function(c){c.resize()});
+});
 });
 </script>
 </body>
