@@ -549,190 +549,170 @@ body{font-family:'Microsoft YaHei','PingFang SC',-apple-system,sans-serif;backgr
 </div>
 
 <script>
-
 function initCharts(){
 const P='#667eea',PU='#764ba2',G='#10b981',R='#ef4444',Y='#f59e0b',BL='#3b82f6';
-const colors=[P,PU,G,BL,Y,R];
 
 // 1. 雷达图
 const cRadar=echarts.init(document.getElementById('chart-radar'));
 cRadar.setOption({
-tooltip:{trigger:'item'},
-radar:{indicator:[
-{name:'电话占比',max:100},{name:'电话完成率',max:100},
-{name:'互联网占比',max:100},{name:'互联网完成率',max:100},
-{name:'全渠道占比',max:100}
-],radius:'65%',axisName:{color:'#555',fontSize:11},splitArea:{areaStyle:{color:['#f8f9ff','#eef1ff']}}}},
-series:[{type:'radar',data:[{value:[43.44,45.42,83.51,77.51,61.64],name:'本期值',
-areaStyle:{color:'rgba(102,126,234,0.25)'},lineStyle:{color:P,width:2},itemStyle:{color:P}},
-{value:[55,70,80,85,55],name:'目标值',
-areaStyle:{color:'rgba(16,185,129,0.1)'},lineStyle:{color:G,type:'dashed',width:2},itemStyle:{color:G}}]
-}]
+  tooltip:{trigger:'item'},
+  radar:{indicator:[
+    {name:'电话占比',max:100},{name:'电话完成率',max:100},
+    {name:'互联网占比',max:100},{name:'互联网完成率',max:100},
+    {name:'全渠道占比',max:100}
+  ],radius:'65%',axisName:{color:'#555',fontSize:11},splitArea:{areaStyle:{color:['#f8f9ff','#eef1ff']}}},
+  series:[{type:'radar',data:[
+    {value:[43.44,45.42,83.51,77.51,61.64],name:'本期值',
+     areaStyle:{color:'rgba(102,126,234,0.25)'},lineStyle:{color:P,width:2},itemStyle:{color:P}},
+    {value:[55,70,80,85,55],name:'目标值',
+     areaStyle:{color:'rgba(16,185,129,0.1)'},lineStyle:{color:G,type:'dashed',width:2},itemStyle:{color:G}}
+  ]}]
 });
 
 // 2. 互联网渠道柱状图
 const cBar=echarts.init(document.getElementById('chart-internet-bar'));
 cBar.setOption({
-tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
-legend:{data:['本期','同比变化','目标线'],bottom:0,textStyle:{fontSize:11}},
-grid:{left:40,right:20,top:20,bottom:40},
-xAxis:{type:'category',data:['网上国网','微信小程序','95598互动网站'],axisLabel:{fontSize:11}},
-yAxis:{type:'value',axisLabel:{formatter:'{value}%',fontSize:11},max:100},series:[
-{type:'bar',name:'本期',data:[77.21,68.36,52.15],barWidth:30,itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:P},{offset:1,color:PU}])},label:{show:true,position:'top',formatter:'{c}%',fontSize:11},markLine:{silent:true,symbol:'none',lineStyle:{color:'#ef4444',type:'dashed',width:2},label:{position:'end',formatter:'目标80%',fontSize:11,color:'#ef4444'},data:[{yAxis:80}]}},
-{type:'bar',name:'同比变化',data:[6.23,-4.77,46.99],barWidth:30,itemStyle:{color:function(p){return p.value>=0?G:R}},label:{show:true,position:'top',formatter:function(p){return(p.value>=0?'+':'')+p.value+'%'},fontSize:10}},
-{type:'line',name:'目标线',data:[80,80,80],lineStyle:{color:'#ef4444',type:'dashed',width:2},symbol:'none',tooltip:{show:false}}
-]});
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+  legend:{data:['本期','同比变化','目标线'],bottom:0,textStyle:{fontSize:11}},
+  grid:{left:40,right:20,top:20,bottom:40},
+  xAxis:{type:'category',data:['网上国网','微信小程序','95598互动网站'],axisLabel:{fontSize:11}},
+  yAxis:{type:'value',axisLabel:{formatter:'{value}%',fontSize:11},max:100},
+  series:[
+    {type:'bar',name:'本期',data:[77.21,68.36,52.15],barWidth:30,itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:P},{offset:1,color:PU}])},label:{show:true,position:'top',formatter:'{c}%',fontSize:11},markLine:{silent:true,symbol:'none',lineStyle:{color:'#ef4444',type:'dashed',width:2},label:{position:'end',formatter:'目标80%',fontSize:11,color:'#ef4444'},data:[{yAxis:80}]}},
+    {type:'bar',name:'同比变化',data:[6.23,-4.77,46.99],barWidth:30,itemStyle:{color:function(p){return p.value>=0?G:R}},label:{show:true,position:'top',formatter:function(p){return(p.value>=0?'+':'')+p.value+'%'},fontSize:10}},
+    {type:'line',name:'目标线',data:[80,80,80],lineStyle:{color:'#ef4444',type:'dashed',width:2},symbol:'none',tooltip:{show:false}}
+  ]
+});
 
 // 3. 需求饼图
 const cReq=echarts.init(document.getElementById('chart-req'));
 cReq.setOption({
-tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
-legend:{bottom:0,textStyle:{fontSize:11}},
-series:[{type:'pie',radius:['35%','65%'],center:['50%','45%'],data:[
-{name:'已上线',value:6,itemStyle:{color:G}},
-{name:'文档编制中',value:10,itemStyle:{color:P}},
-{name:'技术评估中',value:9,itemStyle:{color:Y}},
-{name:'研发中',value:14,itemStyle:{color:PU}},
-{name:'待开展',value:2,itemStyle:{color:'#94a3b8'}}
-],label:{formatter:'{b}\n{c}条',fontSize:11},emphasis:{itemStyle:{shadowBlur:10,shadowOffsetX:0,shadowColor:'rgba(0,0,0,0.2)'}}}]
+  tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
+  legend:{bottom:0,textStyle:{fontSize:11}},
+  series:[{type:'pie',radius:['35%','65%'],center:['50%','45%'],data:[
+    {name:'已上线',value:6,itemStyle:{color:G}},
+    {name:'文档编制中',value:10,itemStyle:{color:P}},
+    {name:'技术评估中',value:9,itemStyle:{color:Y}},
+    {name:'研发中',value:14,itemStyle:{color:PU}},
+    {name:'待开展',value:2,itemStyle:{color:'#94a3b8'}}
+  ],label:{formatter:'{b}\n{c}条',fontSize:11},emphasis:{itemStyle:{shadowBlur:10,shadowOffsetX:0,shadowColor:'rgba(0,0,0,0.2)'}}}]
 });
 
 // 4. 缺陷环形图
 const cDef=echarts.init(document.getElementById('chart-defect'));
 cDef.setOption({
-tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
-legend:{bottom:0,textStyle:{fontSize:11}},
-series:[{type:'pie',radius:['35%','65%'],center:['50%','45%'],data:[
-{name:'未解决',value:40,itemStyle:{color:R}},
-{name:'已解决',value:293,itemStyle:{color:G}},
-{name:'转成需求',value:3,itemStyle:{color:Y}}
-],label:{formatter:'{b}\n{c}个',fontSize:11},emphasis:{itemStyle:{shadowBlur:10,shadowOffsetX:0,shadowColor:'rgba(0,0,0,0.2)'}}}]
+  tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
+  legend:{bottom:0,textStyle:{fontSize:11}},
+  series:[{type:'pie',radius:['35%','65%'],center:['50%','45%'],data:[
+    {name:'未解决',value:40,itemStyle:{color:R}},
+    {name:'已解决',value:293,itemStyle:{color:G}},
+    {name:'转成需求',value:3,itemStyle:{color:Y}}
+  ],label:{formatter:'{b}\n{c}个',fontSize:11},emphasis:{itemStyle:{shadowBlur:10,shadowOffsetX:0,shadowColor:'rgba(0,0,0,0.2)'}}}]
 });
 
 // 5. 答复校核对比柱状图
 const cVerify=echarts.init(document.getElementById('chart-verify'));
 cVerify.setOption({
-tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
-legend:{data:['南分中心','北分中心'],bottom:0,textStyle:{fontSize:11}},
-grid:{left:50,right:20,top:20,bottom:40},
-xAxis:{type:'category',data:['校核数据条数','发现问题数','已解决','无法解决','待解决'],axisLabel:{fontSize:10,interval:0,rotate:15}},
-yAxis:{type:'value',axisLabel:{fontSize:11}},
-series:[
-{type:'bar',name:'南分中心',data:[9845,2942,626,1867,449],itemStyle:{color:P},label:{show:true,position:'top',fontSize:9,formatter:function(p){return p.value>=1000?(p.value/1000).toFixed(1)+'k':p.value}}},
-{type:'bar',name:'北分中心',data:[4950,149,141,2,6],itemStyle:{color:PU},label:{show:true,position:'top',fontSize:9,formatter:function(p){return p.value>=1000?(p.value/1000).toFixed(1)+'k':p.value}}}
-]});
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+  legend:{data:['南分中心','北分中心'],bottom:0,textStyle:{fontSize:11}},
+  grid:{left:50,right:20,top:20,bottom:40},
+  xAxis:{type:'category',data:['校核数据条数','发现问题数','已解决','无法解决','待解决'],axisLabel:{fontSize:10,interval:0,rotate:15}},
+  yAxis:{type:'value',axisLabel:{fontSize:11}},
+  series:[
+    {type:'bar',name:'南分中心',data:[9845,2942,626,1867,449],itemStyle:{color:P},label:{show:true,position:'top',fontSize:9,formatter:function(p){return p.value>=1000?(p.value/1000).toFixed(1)+'k':p.value}}},
+    {type:'bar',name:'北分中心',data:[4950,149,141,2,6],itemStyle:{color:PU},label:{show:true,position:'top',fontSize:9,formatter:function(p){return p.value>=1000?(p.value/1000).toFixed(1)+'k':p.value}}}
+  ]
+});
 
 // 6. 南中心问题维护分布
 const cSouth=echarts.init(document.getElementById('chart-south-issue'));
 cSouth.setOption({
-tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
-legend:{type:'scroll',bottom:0,textStyle:{fontSize:10}},
-series:[{type:'pie',radius:['0%','60%'],center:['50%','42%'],data:[
-{name:'意图识别错误',value:2421,itemStyle:{color:P}},
-{name:'大模型知识融合推荐',value:381,itemStyle:{color:PU}},
-{name:'大模型标签应用问题',value:88,itemStyle:{color:BL}},
-{name:'系统问题',value:40,itemStyle:{color:Y}},
-{name:'大模型标签生成问题',value:5,itemStyle:{color:G}},
-{name:'其他',value:6,itemStyle:{color:'#94a3b8'}}
-],label:{fontSize:10,formatter:'{b}\n{c}'},emphasis:{itemStyle:{shadowBlur:10,shadowOffsetX:0,shadowColor:'rgba(0,0,0,0.2)'}}}]
+  tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
+  legend:{type:'scroll',bottom:0,textStyle:{fontSize:10}},
+  series:[{type:'pie',radius:['0%','60%'],center:['50%','42%'],data:[
+    {name:'意图识别错误',value:2421,itemStyle:{color:P}},
+    {name:'大模型知识融合推荐',value:381,itemStyle:{color:PU}},
+    {name:'大模型标签应用问题',value:88,itemStyle:{color:BL}},
+    {name:'系统问题',value:40,itemStyle:{color:Y}},
+    {name:'大模型标签生成问题',value:5,itemStyle:{color:G}},
+    {name:'其他',value:6,itemStyle:{color:'#94a3b8'}}
+  ],label:{fontSize:10,formatter:'{b}\n{c}'},emphasis:{itemStyle:{shadowBlur:10,shadowOffsetX:0,shadowColor:'rgba(0,0,0,0.2)'}}}]
 });
 
 // 7. 知识维护类型
 const cKnow=echarts.init(document.getElementById('chart-knowledge'));
 cKnow.setOption({
-tooltip:{trigger:'item',formatter:'{b}: {c}条 ({d}%)'},
-series:[{type:'pie',radius:['40%','70%'],center:['50%','50%'],data:[
-{name:'新增',value:7,itemStyle:{color:G}},
-{name:'更新',value:356,itemStyle:{color:P}},
-{name:'删除',value:49,itemStyle:{color:R}}
-],label:{formatter:'{b}\n{c}条',fontSize:12},emphasis:{itemStyle:{shadowBlur:10,shadowOffsetX:0,shadowColor:'rgba(0,0,0,0.2)'}}}]
+  tooltip:{trigger:'item',formatter:'{b}: {c}条 ({d}%)'},
+  series:[{type:'pie',radius:['40%','70%'],center:['50%','50%'],data:[
+    {name:'新增',value:7,itemStyle:{color:G}},
+    {name:'更新',value:356,itemStyle:{color:P}},
+    {name:'删除',value:49,itemStyle:{color:R}}
+  ],label:{formatter:'{b}\n{c}条',fontSize:12},emphasis:{itemStyle:{shadowBlur:10,shadowOffsetX:0,shadowColor:'rgba(0,0,0,0.2)'}}}]
 });
 
 // 8. 地址数据治理
 const cAddr=echarts.init(document.getElementById('chart-address'));
 cAddr.setOption({
-tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(p){return p[0].name+'<br/>'+p.map(function(i){return i.marker+i.seriesName+': '+i.value+'%'}).join('<br>')}},
-legend:{data:['南中心验证','北中心验证'],bottom:0,textStyle:{fontSize:11}},
-grid:{left:50,right:20,top:20,bottom:40},
-xAxis:{type:'category',data:['第一批次','第二批次','第三批次'],axisLabel:{fontSize:11}},
-yAxis:{type:'value',max:100,axisLabel:{formatter:'{value}%',fontSize:11}},
-series:[
-{type:'bar',name:'南中心验证',data:[92.73,86.36,90.91],barWidth:24,itemStyle:{color:P},label:{show:true,position:'top',formatter:'{c}%',fontSize:11}},
-{type:'bar',name:'北中心验证',data:[87.80,90.00,93.75],barWidth:24,itemStyle:{color:PU},label:{show:true,position:'top',formatter:'{c}%',fontSize:11}}
-]});
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+  legend:{data:['南中心验证','北中心验证'],bottom:0,textStyle:{fontSize:11}},
+  grid:{left:50,right:20,top:20,bottom:40},
+  xAxis:{type:'category',data:['第一批次','第二批次','第三批次'],axisLabel:{fontSize:11}},
+  yAxis:{type:'value',max:100,axisLabel:{formatter:'{value}%',fontSize:11}},
+  series:[
+    {type:'bar',name:'南中心验证',data:[92.73,86.36,90.91],barWidth:24,itemStyle:{color:P},label:{show:true,position:'top',formatter:'{c}%',fontSize:11}},
+    {type:'bar',name:'北中心验证',data:[87.80,90.00,93.75],barWidth:24,itemStyle:{color:PU},label:{show:true,position:'top',formatter:'{c}%',fontSize:11}}
+  ]
+});
 
 // 9. 服务风险处置状态
 const cRisk=echarts.init(document.getElementById('chart-risk'));
 cRisk.setOption({
-tooltip:{trigger:'item',formatter:'{b}: {c}个 ({d}%)'},
-legend:{bottom:0,textStyle:{fontSize:11}},
-series:[{type:'pie',radius:['35%','65%'],center:['50%','42%'],data:[
-{name:'已解决',value:8,itemStyle:{color:G}},
-{name:'整改中',value:4,itemStyle:{color:R}}
-],label:{formatter:'{b}\n{c}个',fontSize:12},emphasis:{itemStyle:{shadowBlur:10,shadowOffsetX:0,shadowColor:'rgba(0,0,0,0.2)'}}}]
+  tooltip:{trigger:'item',formatter:'{b}: {c}个 ({d}%)'},
+  legend:{bottom:0,textStyle:{fontSize:11}},
+  series:[{type:'pie',radius:['35%','65%'],center:['50%','42%'],data:[
+    {name:'已解决',value:8,itemStyle:{color:G}},
+    {name:'整改中',value:4,itemStyle:{color:R}}
+  ],label:{formatter:'{b}\n{c}个',fontSize:12},emphasis:{itemStyle:{shadowBlur:10,shadowOffsetX:0,shadowColor:'rgba(0,0,0,0.2)'}}}]
 });
 
 // 10. 重点任务状态
 const cTask=echarts.init(document.getElementById('chart-task'));
 cTask.setOption({
-tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
-legend:{data:['重点任务','常态化需求'],bottom:0,textStyle:{fontSize:11}},
-grid:{left:60,right:20,top:20,bottom:40},
-xAxis:{type:'category',data:['已上线','文档编制中','技术评估中','研发中','待开展'],axisLabel:{fontSize:11}},
-yAxis:{type:'value',axisLabel:{fontSize:11}},
-series:[
-{type:'bar',name:'重点任务',data:[4,2,6,10,0],barWidth:24,itemStyle:{color:P},label:{show:true,position:'top',fontSize:11}},
-{type:'bar',name:'常态化需求',data:[2,8,3,4,2],barWidth:24,itemStyle:{color:PU},label:{show:true,position:'top',fontSize:11}}
-]});
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+  legend:{data:['重点任务','常态化需求'],bottom:0,textStyle:{fontSize:11}},
+  grid:{left:60,right:20,top:20,bottom:40},
+  xAxis:{type:'category',data:['已上线','文档编制中','技术评估中','研发中','待开展'],axisLabel:{fontSize:11}},
+  yAxis:{type:'value',axisLabel:{fontSize:11}},
+  series:[
+    {type:'bar',name:'重点任务',data:[4,2,6,10,0],barWidth:24,itemStyle:{color:P},label:{show:true,position:'top',fontSize:11}},
+    {type:'bar',name:'常态化需求',data:[2,8,3,4,2],barWidth:24,itemStyle:{color:PU},label:{show:true,position:'top',fontSize:11}}
+  ]
+});
+
+// 11. 缺陷情况统计饼图
+var cDefect2=echarts.init(document.getElementById('chart-defect2'));
+cDefect2.setOption({
+  tooltip:{trigger:'item',formatter:'{b}: {c}个 ({d}%)'},
+  legend:{bottom:0,data:['已整改待发版','正在排查中','已解决']},
+  series:[{type:'pie',radius:['40%','70%'],label:{formatter:'{b}\n{c}个 ({d}%)'},
+    data:[
+      {value:15,name:'已整改待发版',itemStyle:{color:'#10b981'}},
+      {value:23,name:'正在排查中',itemStyle:{color:'#f59e0b'}},
+      {value:87,name:'已解决',itemStyle:{color:'#667eea'}}
+    ]
+  }]
+});
 
 // 响应式
-
-  // 缺陷情况统计饼图
-  var cDefect2 = echarts.init(document.getElementById('chart-defect2'));
-  cDefect2.setOption({
-    tooltip:{trigger:'item',formatter:'{b}: {c}个 ({d}%)'},
-    legend:{bottom:0,data:['已整改待发版','正在排查中','已解决']},
-    series:[{
-      type:'pie',
-      radius:['40%','70%'],
-      label:{formatter:'{b}\n{c}个 ({d}%)'},
-      data:[
-        {value:15,name:'已整改待发版',itemStyle:{color:'#10b981'}},
-        {value:23,name:'正在排查中',itemStyle:{color:'#f59e0b'}},
-        {value:87,name:'已解决',itemStyle:{color:'#667eea'}}
-      ]
-    }]
-  });
-
 window.addEventListener('resize',function(){
   [cRadar,cBar,cReq,cDef,cVerify,cSouth,cKnow,cAddr,cRisk,cTask,cDefect2].forEach(function(c){c.resize()});
 });
-
-
-// Auto-initialize charts when DOM is ready
-
-  // 缺陷情况统计饼图
-  var cDefect2 = echarts.init(document.getElementById('chart-defect2'));
-  cDefect2.setOption({
-    tooltip:{trigger:'item',formatter:'{b}: {c}个 ({d}%)'},
-    legend:{bottom:0,data:['已整改待发版','正在排查中','已解决']},
-    series:[{
-      type:'pie',
-      radius:['40%','70%'],
-      label:{formatter:'{b}\n{c}个 ({d}%)'},
-      data:[
-        {value:15,name:'已整改待发版',itemStyle:{color:'#10b981'}},
-        {value:23,name:'正在排查中',itemStyle:{color:'#f59e0b'}},
-        {value:87,name:'已解决',itemStyle:{color:'#667eea'}}
-      ]
-    }]
-  });
-
-
+}
 
 // Auto-init
-document.addEventListener("DOMContentLoaded", initCharts);
-if(document.readyState!=="loading") initCharts();
+document.addEventListener('DOMContentLoaded',initCharts);
+if(document.readyState!=='loading') initCharts();
+
 </script>
 </body>
 </html>
