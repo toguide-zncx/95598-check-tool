@@ -565,10 +565,10 @@ cRadar.setOption({
   series:[{type:'radar',data:[
     {value:[38.63,51.95,77.03,73.74,44.64],name:'本期值',
      areaStyle:{color:'rgba(59,130,246,0.15)'},lineStyle:{color:'#3b82f6',width:2},itemStyle:{color:'#3b82f6'},
-     label:{show:true,formatter:function(p){return p.value+'%'},fontSize:10,color:'#3b82f6',distance:5,position:'inside'}},
+     label:{show:true,formatter:function(p){return p.value+'%'},fontSize:10,color:'#3b82f6',distance:-8,position:'inside'}},
     {value:[55,55,85,80,70],name:'达标线',
      lineStyle:{color:'#ef4444',type:'dashed',width:2},itemStyle:{color:'#ef4444'},
-     label:{show:true,formatter:function(p){return p.value+'%'},fontSize:9,color:'#ef4444',distance:3,position:'inside'}}
+     label:{show:true,formatter:function(p){return p.value+'%'},fontSize:9,color:'#ef4444',distance:8,position:'outside'}}
   ]}]
 });
 
