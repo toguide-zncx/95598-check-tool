@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-25 17:56",
+  "syncTime": "2026-06-25 21:11",
   "source": "金山文档 - 95598智能座席助手实施计划表",
   "sourceUrl": "https://www.kdocs.cn/l/cp5h5LVYzFo3",
   "fileId": "dCYHGzpaJrMUMcY8UtM71xqMXeDjLSUsv",
@@ -118,8 +118,8 @@
       "deliverable": "坐席绑定与监控台账",
       "owner": "南：李琳\n北：梁嵩",
       "priority": "关键",
-      "status": "进行中",
-      "delayed": true
+      "status": "已完成",
+      "delayed": false
     },
     {
       "id": 10,
@@ -157,33 +157,33 @@
       "deliverable": "部署包",
       "owner": "梁嵩、李琳等",
       "priority": "关键",
-      "status": "待开展",
-      "delayed": true
+      "status": "已完成",
+      "delayed": false
     },
     {
       "id": 13,
       "start": "2026-06-25",
-      "end": "2026-06-25",
+      "end": "2026-06-26",
       "category": "运营",
       "name": "80话机坐席绑定及联调确认",
       "detail": "逐台确认话机与座席账号绑定正常，测试耳机采集→语音转写→管理端统计全链路，更新绑定台账状态\n验收标准：80台绑定及联调100%通过，台账状态全部更新为\"已绑定\"",
       "deliverable": "坐席绑定与监控台账",
       "owner": "梁嵩",
       "priority": "关键",
-      "status": "待开展",
+      "status": "进行中",
       "delayed": true
     },
     {
       "id": 14,
       "start": "2026-06-25",
-      "end": "2026-06-25",
+      "end": "2026-06-26",
       "category": "研发",
       "name": "全链路功能集成测试",
       "detail": "测试场景：来电→座席应答→语音转写→管理端统计\n验收标准：核心流程无阻断性Bug，P0/P1问题清零",
       "deliverable": "测试用例清单",
       "owner": "梁嵩",
       "priority": "关键",
-      "status": "待开展",
+      "status": "进行中",
       "delayed": true
     },
     {
@@ -292,10 +292,12 @@
     }
   ],
   "binding": {
-    "depts": [
+    "total": 80,
+    "bound": 15,
+    "departments": [
       {
         "name": "北中心客服一部",
-        "bound": 0,
+        "bound": 10,
         "total": 10
       },
       {
@@ -305,7 +307,7 @@
       },
       {
         "name": "北中心客服三部",
-        "bound": 0,
+        "bound": 1,
         "total": 10
       },
       {
@@ -320,7 +322,7 @@
       },
       {
         "name": "南中心客服二部",
-        "bound": 10,
+        "bound": 4,
         "total": 10
       },
       {
@@ -333,9 +335,7 @@
         "bound": 0,
         "total": 10
       }
-    ],
-    "total": 80,
-    "bound": 10
+    ]
   },
   "phases": {
     "1": {
