@@ -4,7 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>95598智能服务运营周报 - 第22期(6.12-6.18)</title>
-<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script>
+// ECharts CDN fallback - try China-friendly sources first
+(function(){
+  var srcs = [
+    'https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js',
+    'https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/echarts/5.5.0/echarts.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js',
+    'https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js'
+  ];
+  var idx = 0;
+  function loadNext(){
+    if(idx >= srcs.length) return;
+    var s = document.createElement('script');
+    s.src = srcs[idx];
+    s.onerror = function(){ idx++; loadNext(); };
+    document.head.appendChild(s);
+  }
+  loadNext();
+})();
+</script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Microsoft YaHei','PingFang SC',-apple-system,sans-serif;background:#f0f2f5;min-height:100vh}
@@ -130,33 +149,9 @@ body{font-family:'Microsoft YaHei','PingFang SC',-apple-system,sans-serif;backgr
 2026年6月12日至6月18日，全渠道智能客服业务量占比61.64%，环比上升6.23个百分点；电话渠道累计服务111.71万件，智能客服业务量占比43.44%，环比上升0.50个百分点，智能客服流程完成率45.42%，环比下降3.62个百分点；互联网渠道累计服务78.72万件，智能客服业务量占比83.51%，环比上升8.19个百分点，智能客服流程完成率77.51%，环比下降0.41个百分点。
 </div>
 
-<!-- 表1 -->
-<div class="wr-table-box">
-<h4>表1 全渠道重点指标完成情况</h4>
-<table class="wr-data-table">
-<thead><tr><th>序号</th><th>服务渠道</th><th>考核指标名称</th><th>本期</th><th>同比</th><th>环比</th><th>年度目标值</th><th>是否达标</th><th>目标差值</th></tr></thead>
-<tbody>
-<tr><td>1</td><td>电话渠道</td><td>智能客服业务量占比</td><td>43.44%</td><td style="color:#10b981">↑8.26%</td><td style="color:#10b981">↑0.50%</td><td>≥55%</td><td style="color:#ef4444">×未达标</td><td style="color:#ef4444">11.56%</td></tr>
-<tr><td>2</td><td></td><td>流程完成率</td><td>45.42%</td><td style="color:#10b981">↑3.84%</td><td style="color:#ef4444">↓3.62%</td><td>≥70%</td><td style="color:#ef4444">×未达标</td><td style="color:#ef4444">24.58%</td></tr>
-<tr><td>3</td><td>互联网渠道</td><td>智能客服业务量占比</td><td>83.51%</td><td style="color:#10b981">↑13.69%</td><td style="color:#10b981">↑8.19%</td><td>≥80%</td><td style="color:#10b981">√达标</td><td>-</td></tr>
-<tr><td>4</td><td></td><td>流程完成率</td><td>77.51%</td><td style="color:#10b981">↑30.88%</td><td style="color:#ef4444">↓0.41%</td><td>≥85%</td><td style="color:#ef4444">×未达标</td><td style="color:#ef4444">7.49%</td></tr>
-<tr><td>5</td><td>全渠道</td><td>全渠道业务量占比</td><td>61.64%</td><td style="color:#10b981">↑13.70%</td><td style="color:#10b981">↑6.23%</td><td>≥55%</td><td style="color:#10b981">√达标</td><td>-</td></tr>
-</tbody>
-</table>
-</div>
 
-<!-- 表2 -->
-<div class="wr-table-box">
-<h4>表2 互联网各渠道指标</h4>
-<table class="wr-data-table">
-<thead><tr><th>序号</th><th>渠道</th><th>指标</th><th>本期</th><th>同比</th><th>环比</th></tr></thead>
-<tbody>
-<tr><td>1</td><td>网上国网</td><td>智能客服业务量占比</td><td>77.21%</td><td style="color:#10b981">↑6.23%</td><td style="color:#ef4444">↓0.11%</td></tr>
-<tr><td>2</td><td>微信小程序</td><td>智能客服业务量占比</td><td>68.36%</td><td style="color:#ef4444">↓4.77%</td><td style="color:#10b981">↑0.22%</td></tr>
-<tr><td>3</td><td>95598互动网站</td><td>智能客服业务量占比</td><td>52.15%</td><td style="color:#10b981">↑46.99%</td><td style="color:#ef4444">↓0.92%</td></tr>
-</tbody>
-</table>
-</div>
+
+
 
 <!-- 图表区 -->
 <div class="wr-chart-row">
@@ -451,7 +446,8 @@ V1.104版本已发版，包含以下7项内容：<br>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded",function(){
+document.addEventListener("DOMContentLoaded",function initCharts(){
+  if(typeof echarts==='undefined'){setTimeout(initCharts,300);return;}
 const P='#667eea',PU='#764ba2',G='#10b981',R='#ef4444',Y='#f59e0b',BL='#3b82f6';
 const colors=[P,PU,G,BL,Y,R];
 
@@ -590,6 +586,8 @@ series:[
 window.addEventListener('resize',function(){
 [cRadar,cBar,cReq,cDef,cVerify,cSouth,cKnow,cAddr,cRisk,cTask].forEach(function(c){c.resize()});
 });
+
+window.addEventListener("resize",function(){if(cRadar)cRadar.resize();if(cBar)cBar.resize();if(cReq)cReq.resize();if(cDef)cDef.resize();if(cVerify)cVerify.resize();if(cSouth)cSouth.resize();if(cKnow)cKnow.resize();if(cAddr)cAddr.resize();if(cRisk)cRisk.resize();if(cTask)cTask.resize();});
 });
 </script>
 </body>
