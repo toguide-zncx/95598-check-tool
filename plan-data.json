@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-25 12:21",
+  "syncTime": "2026-06-25 17:56",
   "source": "金山文档 - 95598智能座席助手实施计划表",
   "sourceUrl": "https://www.kdocs.cn/l/cp5h5LVYzFo3",
   "fileId": "dCYHGzpaJrMUMcY8UtM71xqMXeDjLSUsv",
@@ -105,8 +105,8 @@
       "deliverable": "部署包",
       "owner": "鄂丽丽",
       "priority": "重要",
-      "status": "待开展",
-      "delayed": true
+      "status": "已完成",
+      "delayed": false
     },
     {
       "id": 9,
@@ -118,7 +118,7 @@
       "deliverable": "坐席绑定与监控台账",
       "owner": "南：李琳\n北：梁嵩",
       "priority": "关键",
-      "status": "待开展",
+      "status": "进行中",
       "delayed": true
     },
     {
@@ -155,7 +155,7 @@
       "name": "80台电脑安装座席助手软件",
       "detail": "逐台安装客户端，配置服务器连接地址，验证耳机录音权限，确认话机编号识别正确\n验收标准：80台全部安装完成并可登录",
       "deliverable": "部署包",
-      "owner": "白家宝",
+      "owner": "梁嵩、李琳等",
       "priority": "关键",
       "status": "待开展",
       "delayed": true
@@ -276,6 +276,19 @@
       "priority": "重要",
       "status": "待开展",
       "delayed": false
+    },
+    {
+      "id": 22,
+      "start": "2026-07-11",
+      "end": "2026-07-20",
+      "category": "研发",
+      "name": "优化座席端软件更新方式",
+      "detail": "优化座席端软件增量发版的便捷性",
+      "deliverable": "部署包",
+      "owner": "钟明原",
+      "priority": "重要",
+      "status": "待开展",
+      "delayed": false
     }
   ],
   "binding": {
@@ -296,7 +309,7 @@
         "total": 10
       },
       {
-        "name": "北中心客服四部",
+        "name": "北中心客服五部",
         "bound": 0,
         "total": 10
       },
@@ -307,7 +320,7 @@
       },
       {
         "name": "南中心客服二部",
-        "bound": 0,
+        "bound": 10,
         "total": 10
       },
       {
@@ -316,24 +329,24 @@
         "total": 10
       },
       {
-        "name": "南中心客服四部",
+        "name": "南中心客服五部",
         "bound": 0,
         "total": 10
       }
     ],
     "total": 80,
-    "bound": 0
+    "bound": 10
   },
   "phases": {
     "1": {
       "name": "一、组织动员与资源准备",
       "tasks": 9,
-      "done": 7,
-      "doing": 0,
-      "pending": 2,
-      "delayed": 2,
+      "done": 8,
+      "doing": 1,
+      "pending": 0,
+      "delayed": 1,
       "total": 9,
-      "pct": 78
+      "pct": 89
     },
     "2": {
       "name": "二、产品部署及联通测试",
@@ -357,12 +370,12 @@
     },
     "4": {
       "name": "四、正式试用启动",
-      "tasks": 7,
+      "tasks": 8,
       "done": 0,
       "doing": 0,
-      "pending": 7,
+      "pending": 8,
       "delayed": 0,
-      "total": 7,
+      "total": 8,
       "pct": 0
     }
   }
