@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-25 07:39",
+  "syncTime": "2026-06-25 12:21",
   "source": "金山文档 - 95598智能座席助手实施计划表",
   "sourceUrl": "https://www.kdocs.cn/l/cp5h5LVYzFo3",
   "fileId": "dCYHGzpaJrMUMcY8UtM71xqMXeDjLSUsv",
@@ -286,12 +286,12 @@
         "total": 10
       },
       {
-        "name": "北中心客服三部",
+        "name": "北中心客服二部",
         "bound": 0,
         "total": 10
       },
       {
-        "name": "北中心客服二部",
+        "name": "北中心客服三部",
         "bound": 0,
         "total": 10
       },
@@ -306,12 +306,12 @@
         "total": 10
       },
       {
-        "name": "南中心客服三部",
+        "name": "南中心客服二部",
         "bound": 0,
         "total": 10
       },
       {
-        "name": "南中心客服二部",
+        "name": "南中心客服三部",
         "bound": 0,
         "total": 10
       },
