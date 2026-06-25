@@ -5,24 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>95598智能服务运营周报 - 第22期(6.12-6.18)</title>
 <script>
-// ECharts CDN fallback - try China-friendly sources first
-(function(){
-  var srcs = [
-    'https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js',
-    'https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/echarts/5.5.0/echarts.min.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js',
-    'https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js'
-  ];
-  var idx = 0;
-  function loadNext(){
-    if(idx >= srcs.length) return;
-    var s = document.createElement('script');
-    s.src = srcs[idx];
-    s.onerror = function(){ idx++; loadNext(); };
+// ECharts CDN loader - same pattern as demo.html (proven working)
+function loadECharts(src){
+  return new Promise(function(resolve,reject){
+    var s=document.createElement('script');
+    s.src=src;
+    s.onload=resolve;
+    s.onerror=reject;
     document.head.appendChild(s);
+  });
+}
+async function startApp(){
+  var cdns=[
+    'https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js',
+    'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/echarts/5.5.0/echarts.min.js',
+    'https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js',
+    'https://unpkg.com/echarts@5.5.0/dist/echarts.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js'
+  ];
+  for(var i=0;i<cdns.length;i++){
+    try{await loadECharts(cdns[i]);break;}catch(e){continue;}
   }
-  loadNext();
-})();
+  if(typeof echarts==='undefined'){
+    document.querySelectorAll('[id^=chart-]').forEach(function(el){
+      el.innerHTML='<div style="text-align:center;padding:40px;color:#999">图表加载失败，请刷新页面</div>';
+    });
+    return;
+  }
+  initCharts();
+}
 </script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -446,8 +457,7 @@ V1.104版本已发版，包含以下7项内容：<br>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded",function initCharts(){
-  if(typeof echarts==='undefined'){setTimeout(initCharts,300);return;}
+function initCharts(){
 const P='#667eea',PU='#764ba2',G='#10b981',R='#ef4444',Y='#f59e0b',BL='#3b82f6';
 const colors=[P,PU,G,BL,Y,R];
 
@@ -584,11 +594,9 @@ series:[
 
 // 响应式
 window.addEventListener('resize',function(){
-[cRadar,cBar,cReq,cDef,cVerify,cSouth,cKnow,cAddr,cRisk,cTask].forEach(function(c){c.resize()});
-});
-
-window.addEventListener("resize",function(){if(cRadar)cRadar.resize();if(cBar)cBar.resize();if(cReq)cReq.resize();if(cDef)cDef.resize();if(cVerify)cVerify.resize();if(cSouth)cSouth.resize();if(cKnow)cKnow.resize();if(cAddr)cAddr.resize();if(cRisk)cRisk.resize();if(cTask)cTask.resize();});
+  [cRadar,cBar,cReq,cDef,cVerify,cSouth,cKnow,cAddr,cRisk,cTask].forEach(function(c){c.resize()});
 });
 </script>
+<script>startApp();</script>
 </body>
 </html>
