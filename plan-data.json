@@ -391,9 +391,9 @@
   ],
   "stats": {
     "total": 24,
-    "done": 11,
+    "done": 18,
     "doing": 1,
-    "pending": 12,
+    "pending": 5,
     "delayed": 0,
     "seatsBound": 80,
     "seatsTotal": 80
