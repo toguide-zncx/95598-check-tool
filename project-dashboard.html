@@ -11,7 +11,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .page{max-width:1200px;margin:0 auto;padding:16px}
 @media(min-width:768px){.page{padding:20px}}
 
-/* Header */
 .header{background:linear-gradient(135deg,#006B54,#008667,#4CAF50);color:#fff;border-radius:12px;padding:20px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,77,58,.2)}
 .header h1{font-size:18px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
 .header .sub{font-size:12px;opacity:.9;margin-bottom:10px}
@@ -20,15 +19,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .header .meta-item b{font-weight:700;font-size:13px}
 @media(min-width:768px){.header{padding:24px 28px}.header h1{font-size:20px}.header .meta{gap:16px}.header .meta-item{padding:6px 14px;font-size:12px}}
 
-/* Section */
 .section{background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.05);border-left:4px solid #006B54}
 .section h2{font-size:13px;font-weight:700;color:#006B54;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .section.orange{border-left-color:#E65100}.section.orange h2{color:#E65100}
 .section.purple{border-left-color:#6A1B9A}.section.purple h2{color:#6A1B9A}
-.section.blue{border-left-color:#1565C0}.section.blue h2{color:#1565C0}
 @media(min-width:768px){.section{padding:16px 20px}.section h2{font-size:14px}}
 
-/* KPI Cards */
 .kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
 .kpi-card{background:#fff;border:1px solid #E0E0E0;border-radius:8px;padding:10px 8px;text-align:center;position:relative;overflow:hidden}
 .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
@@ -44,12 +40,54 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .kpi-card .kc-bar-fill{height:100%;border-radius:2px}
 @media(min-width:768px){.kpi-card{padding:14px}.kpi-card .kc-num{font-size:32px}.kpi-card .kc-label{font-size:11px;margin-top:4px}}
 
-/* Chart containers */
-.chart-row{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:12px}
-.chart-box{width:100%;height:240px}
-@media(min-width:768px){.chart-row{grid-template-columns:1fr 1fr}.chart-box{height:280px}}
+.sync-bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.sync-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;transition:all .25s;border:none}
+.sync-btn.primary{background:linear-gradient(135deg,#008667,#4CAF50);color:#fff;box-shadow:0 2px 8px rgba(0,107,84,.2)}
+.sync-btn.primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.sync-btn.primary:active{transform:translateY(0)}
+.sync-btn.primary.syncing{opacity:.7;pointer-events:none}
+.sync-time{font-size:10px;color:#999}
+.sync-toast{position:fixed;top:20px;right:20px;padding:10px 18px;border-radius:10px;color:#fff;font-size:12px;font-weight:500;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.2);display:none}
+.sync-toast.show{display:block;animation:fadeIn .3s}
+.sync-toast.success{background:linear-gradient(135deg,#008667,#4CAF50)}
+.sync-toast.error{background:#C62828}
+.sync-toast.info{background:#1565C0}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 
-/* Phase Progress */
+.day-timeline{display:flex;gap:0;position:relative}
+.day-col{flex:1;position:relative;min-width:0}
+.day-header{text-align:center;padding:8px 4px;font-size:12px;font-weight:700;border-radius:8px 8px 0 0;color:#fff}
+.day-date{text-align:center;font-size:10px;color:#999;padding:3px 0;background:#fafafa;border-bottom:1px solid #E0E0E0}
+.day-body{background:#FAFAFA;border:1px solid #E0E0E0;border-top:none;border-radius:0 0 8px 8px;padding:6px;min-height:120px}
+.day-task{background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:6px 8px;margin-bottom:4px;font-size:11px;line-height:1.4}
+.day-task .task-name{font-weight:600;color:#222;margin-bottom:2px;font-size:11px}
+.day-task .task-owner{font-size:10px;color:#1565C0;display:flex;align-items:center;gap:3px}
+.day-task .task-status{display:inline-block;font-size:9px;padding:1px 6px;border-radius:8px;font-weight:600;margin-top:2px}
+.day-task .task-status.todo{background:#FFF3E0;color:#E65100}
+.day-task .task-status.doing{background:#E3F2FD;color:#1565C0}
+.day-task .task-status.done{background:#E8F5E9;color:#2E7D32}
+.day-task.critical{border-left:3px solid #C62828}
+.day-task.important{border-left:3px solid #E65100}
+.day-task.normal{border-left:3px solid #4CAF50}
+.day-arrow{position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:14px;color:#999;z-index:2}
+@media(max-width:767px){
+  .day-timeline{flex-direction:column;gap:8px}
+  .day-arrow{display:none}
+  .day-body{min-height:auto}
+}
+@media(min-width:768px){
+  .day-header{font-size:13px;padding:10px 8px}
+  .day-body{padding:8px}
+  .day-task{padding:8px 10px;margin-bottom:6px}
+}
+
+.tab-bar{display:flex;gap:0;margin-bottom:12px;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #E0E0E0}
+.tab-btn{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:600;color:#555;cursor:pointer;border:none;background:none;transition:all .2s}
+.tab-btn.active{color:#fff;background:#006B54}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+@media(min-width:768px){.tab-bar{display:none}.tab-panel{display:block!important}}
+
 .phase-list{display:grid;gap:10px}
 .phase-item{background:#FAFAFA;border:1px solid #E0E0E0;border-radius:8px;padding:12px 14px}
 .phase-item .pi-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
@@ -73,20 +111,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .phase-item .pi-task .pt-owner{font-size:10px;color:#1565C0;white-space:nowrap}
 @media(min-width:768px){.phase-item{padding:14px 16px}.phase-item .pi-title{font-size:13px}}
 
-/* Tags */
 .tag{display:inline-block;font-size:9px;padding:1px 6px;border-radius:8px;font-weight:700;white-space:nowrap;min-width:52px;text-align:center}
-.tag-critical{background:#FFCDD2;color:#B71C1C}
-.tag-important{background:#FFE0B2;color:#E65100}
 .tag-normal{background:#C8E6C9;color:#1B5E20}
 .tag-rd{background:#E3F2FD;color:#0D47A1}
 .tag-ops{background:#FFF3E0;color:#E65100}
-.tag-model{background:#F3E5F5;color:#4A148C}
-.tag-sec{background:#FFEBEE;color:#B71C1C}
-.tag-mgr{background:#E8F5E9;color:#1B5E20}
-.tag-design{background:#F3E5F5;color:#6A1B9A}
-.owner-tag{display:inline-block;background:#E8EAF6;color:#283593;font-size:9px;padding:1px 6px;border-radius:4px;font-weight:600}
 
-/* Binding Grid */
 .binding-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .binding-card{background:#FAFAFA;border:1px solid #E0E0E0;border-radius:8px;padding:10px;text-align:center}
 .binding-card .bc-name{font-size:11px;font-weight:700;margin-bottom:6px;color:#222}
@@ -98,317 +127,331 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .binding-card .bc-status.pending{color:#E65100;font-weight:600}
 @media(min-width:768px){.binding-grid{grid-template-columns:repeat(4,1fr);gap:10px}.binding-card .bc-name{font-size:12px}.binding-card .bc-ring{width:56px;height:56px}.binding-card .bc-ring svg{width:56px;height:56px}}
 
-/* Day Timeline */
-.sync-bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
-.sync-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;transition:all .25s;border:none}
-.sync-btn.primary{background:linear-gradient(135deg,#008667,#4CAF50);color:#fff;box-shadow:0 2px 8px rgba(0,107,84,.2)}
-.sync-btn.primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.sync-btn.primary:active{transform:translateY(0)}
-.sync-btn.primary.syncing{opacity:.7;pointer-events:none}
-.sync-time{font-size:10px;color:#999}
-.sync-toast{position:fixed;top:20px;right:20px;padding:10px 18px;border-radius:10px;color:#fff;font-size:12px;font-weight:500;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.2);display:none}
-.sync-toast.show{display:block;animation:fadeIn .3s}
-.sync-toast.success{background:linear-gradient(135deg,#008667,#4CAF50)}
-.sync-toast.error{background:#C62828}
-.sync-toast.info{background:#1565C0}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-
-.day-timeline{display:flex;gap:0;position:relative}
-.day-col{flex:1;position:relative;min-width:0}
-.day-header{text-align:center;padding:8px 4px;font-size:12px;font-weight:700;border-radius:8px 8px 0 0;color:#fff}
-.day-header.tue{background:linear-gradient(135deg,#FF7043,#E65100)}
-.day-header.wed{background:linear-gradient(135deg,#42A5F5,#1565C0)}
-.day-header.thu{background:linear-gradient(135deg,#66BB6A,#2E7D32)}
-.day-header.fri{background:linear-gradient(135deg,#AB47BC,#6A1B9A)}
-.day-header.sat{background:linear-gradient(135deg,#78909C,#455A64)}
-.day-date{text-align:center;font-size:10px;color:#999;padding:3px 0;background:#fafafa;border-bottom:1px solid #E0E0E0}
-.day-body{background:#FAFAFA;border:1px solid #E0E0E0;border-top:none;border-radius:0 0 8px 8px;padding:6px;min-height:120px}
-.day-task{background:#fff;border:1px solid #E0E0E0;border-radius:6px;padding:6px 8px;margin-bottom:4px;font-size:11px;line-height:1.4}
-.day-task .task-time{font-size:9px;color:#999;margin-bottom:2px}
-.day-task .task-name{font-weight:600;color:#222;margin-bottom:2px;font-size:11px}
-.day-task .task-owner{font-size:10px;color:#1565C0;display:flex;align-items:center;gap:3px}
-.day-task .task-status{display:inline-block;font-size:9px;padding:1px 6px;border-radius:8px;font-weight:600;margin-top:2px}
-.day-task .task-status.todo{background:#FFF3E0;color:#E65100}
-.day-task .task-status.doing{background:#E3F2FD;color:#1565C0}
-.day-task .task-status.done{background:#E8F5E9;color:#2E7D32}
-.day-task .task-status.delayed{background:#FFCDD2;color:#B71C1C;font-weight:700}
-.day-task.critical{border-left:3px solid #C62828}
-.day-task.important{border-left:3px solid #E65100}
-.day-task.normal{border-left:3px solid #4CAF50}
-.day-arrow{position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:14px;color:#999;z-index:2}
-@media(max-width:767px){
-  .day-timeline{flex-direction:column;gap:8px}
-  .day-arrow{display:none}
-  .day-body{min-height:auto}
-  .day-task{padding:5px 7px}
-  .day-task .task-name{font-size:10px}
-}
-@media(min-width:768px){
-  .day-header{font-size:13px;padding:10px 8px}
-  .day-body{padding:8px}
-  .day-task{padding:8px 10px;margin-bottom:6px}
-}
-
-/* Tab switch for mobile */
-.tab-bar{display:flex;gap:0;margin-bottom:12px;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #E0E0E0}
-.tab-btn{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:600;color:#555;cursor:pointer;border:none;background:none;transition:all .2s}
-.tab-btn.active{color:#fff;background:#006B54}
-.tab-panel{display:none}
-.tab-panel.active{display:block}
-@media(min-width:768px){.tab-bar{display:none}.tab-panel{display:block!important}}
+.loading{text-align:center;padding:40px;color:#999;font-size:13px}
+.loading .spinner{display:inline-block;width:20px;height:20px;border:2px solid #E0E0E0;border-top-color:#006B54;border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 @media print{.page{padding:10px}.header{box-shadow:none}.section{break-inside:avoid}}
 
 </style>
 </head>
 <body>
-
 <div class="page">
 
 <div class="header">
   <h1>📊 95598智能座席助手项目实施看板</h1>
   <div class="sub">穿透式管理 · 每日可视化汇报 · 精细化任务分解 · 明确责任到人</div>
-  <div class="meta">
-    <div class="meta-item">📅 更新<span><b>6月26日</b></span></div>
-    <div class="meta-item">📋 任务<span><b>24项</b></span></div>
+  <div class="meta" id="headerMeta">
+    <div class="meta-item">📅 更新<span><b>--</b></span></div>
+    <div class="meta-item">📋 任务<span><b>--</b></span></div>
     <div class="meta-item">👥 试用<span><b>80人</b></span></div>
     <div class="meta-item">📍 状态<span><b>推进中</b></span></div>
   </div>
 </div>
 
-<!-- KPI Cards -->
-<div class="kpi-grid">
-  <div class="kpi-card total"><div class="kc-num">24</div><div class="kc-label">总任务</div><div class="kc-bar"><div class="kc-bar-fill" style="width:100%;background:#006B54"></div></div></div>
-  <div class="kpi-card done"><div class="kc-num">11</div><div class="kc-label">已完成</div><div class="kc-bar"><div class="kc-bar-fill" style="width:46%;background:#4CAF50"></div></div></div>
-  <div class="kpi-card doing"><div class="kc-num">1</div><div class="kc-label">进行中</div><div class="kc-bar"><div class="kc-bar-fill" style="width:4%;background:#1565C0"></div></div></div>
-  <div class="kpi-card wait"><div class="kc-num">12</div><div class="kc-label">待开展</div><div class="kc-bar"><div class="kc-bar-fill" style="width:50%;background:#E65100"></div></div></div>
-  <div class="kpi-card critical"><div class="kc-num">0</div><div class="kc-label">延期</div><div class="kc-bar"><div class="kc-bar-fill" style="width:0%;background:#9E9E9E"></div></div></div>
-</div>
+<div class="kpi-grid" id="kpiGrid"></div>
 
-<!-- 同步栏 -->
 <div class="sync-bar">
   <button class="sync-btn primary" id="syncBtn" onclick="syncFromCloud()">🔄 同步项目计划</button>
-  <span class="sync-time" id="syncTime">上次同步：2026-06-26 21:42</span>
+  <span class="sync-time" id="syncTime">加载中...</span>
   <span style="font-size:10px;color:#999;margin-left:auto">数据来源：<a href="https://www.kdocs.cn/l/cp5h5LVYzFo3" target="_blank" style="color:#008667;text-decoration:none">金山文档</a></span>
 </div>
 <div class="sync-toast" id="syncToast"></div>
 
-<!-- 本周实施时间线 -->
-<div class="section">
-<h2>📊 本周实施时间线</h2>
-<div class="day-timeline">
-
-  <div class="day-col">
-    <div class="day-header wed">周三 · 组织动员</div>
-    <div class="day-date">6月24日</div>
-    <div class="day-body">
-      <div class="day-task critical" data-task-id="1"><div class="task-name">业管部发布试用通知</div><div class="task-owner">👤 王维</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task critical" data-task-id="2"><div class="task-name">2台服务器到位</div><div class="task-owner">👤 王维</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task critical" data-task-id="3"><div class="task-name">服务器登录方式确认</div><div class="task-owner">👤 白家宝</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task critical" data-task-id="4"><div class="task-name">确定南（北）分中心对接人</div><div class="task-owner">👤 王维</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task important" data-task-id="5"><div class="task-name">安全加密研发</div><div class="task-owner">👤 钟明原</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task important" data-task-id="6"><div class="task-name">遗留问题缺陷整改</div><div class="task-owner">👤 钟明原</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task important" data-task-id="7"><div class="task-name">座席助手安装包准备</div><div class="task-owner">👤 钟明原</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task critical" data-task-id="10"><div class="task-name">产品服务部署</div><div class="task-owner">👤 白家宝</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task important" data-task-id="11"><div class="task-name">内部测试</div><div class="task-owner">👤 梁嵩/鄂丽丽</div><div class="task-status done">✅ 已完成</div></div>
-    </div>
-    <div class="day-arrow">→</div>
-  </div>
-
-  <div class="day-col">
-    <div class="day-header thu">周四 · 部署联调</div>
-    <div class="day-date">6月25日</div>
-    <div class="day-body">
-      <div class="day-task important" data-task-id="8"><div class="task-name">部署包下发至客服部</div><div class="task-owner">👤 鄂丽丽</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task critical" data-task-id="9"><div class="task-name">确认80人台账清单</div><div class="task-owner">👤 李琳/梁嵩</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task critical" data-task-id="12"><div class="task-name">80台电脑安装软件</div><div class="task-owner">👤 梁嵩/李琳等</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task critical" data-task-id="13"><div class="task-name">话机绑定及联调</div><div class="task-owner">👤 梁嵩</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task critical" data-task-id="14"><div class="task-name">全链路功能集成测试</div><div class="task-owner">👤 梁嵩</div><div class="task-status done">✅ 已完成</div></div>
-    </div>
-    <div class="day-arrow">→</div>
-  </div>
-
-  <div class="day-col">
-    <div class="day-header fri">周五 · 试用启动</div>
-    <div class="day-date">6月26日</div>
-    <div class="day-body">
-      <div class="day-task important" data-task-id="15"><div class="task-name">座席助手操作培训</div><div class="task-owner">👤 梁嵩</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task critical" data-task-id="16"><div class="task-name">🚀 正式开启试用</div><div class="task-owner">👤 鄂丽丽</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task important" data-task-id="17"><div class="task-name">优化管理端页面功能</div><div class="task-owner">👤 钟明原</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task critical" data-task-id="18"><div class="task-name">风险防控需求调研</div><div class="task-owner">👤 鄂丽丽</div><div class="task-status done">✅ 已完成</div></div>
-      <div class="day-task important" data-task-id="21"><div class="task-name">收集系统缺陷或需求</div><div class="task-owner">👤 梁嵩</div><div class="task-status doing">🔄 进行中</div></div>
-    </div>
-    <div class="day-arrow">→</div>
-  </div>
-
-  <div class="day-col">
-    <div class="day-header sat">下周 · 运营迭代</div>
-    <div class="day-date">6.29-7.10</div>
-    <div class="day-body">
-      <div class="day-task critical" data-task-id="19"><div class="task-name">风险防控应用设计</div><div class="task-owner">👤 马春悦/李馥辰</div><div class="task-status todo">⏳ 6.29-6.30</div></div>
-      <div class="day-task important" data-task-id="20"><div class="task-name">ASR语音转文字识别字准率核验</div><div class="task-owner">👤 郑雅琼</div><div class="task-status todo">⏳ 6.30</div></div>
-      <div class="day-task important" data-task-id="22"><div class="task-name">缺陷/需求整改优化</div><div class="task-owner">👤 钟明原</div><div class="task-status todo">⏳ 6.30-7.10</div></div>
-      <div class="day-task critical" data-task-id="23"><div class="task-name">座席端国产化适配</div><div class="task-owner">👤 曲维元</div><div class="task-status todo">⏳ 7.1-7.3</div></div>
-      <div class="day-task critical" data-task-id="24"><div class="task-name">优化软件更新方式</div><div class="task-owner">👤 曲维元</div><div class="task-status todo">⏳ 7.1-7.3</div></div>
-    </div>
-  </div>
-
-</div>
+<div class="section" id="timelineSection">
+  <h2>📊 本周实施时间线</h2>
+  <div id="timelineContent"><div class="loading"><span class="spinner"></span>加载数据中...</div></div>
 </div>
 
-<!-- Mobile Tab Bar -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('phases')">🕐 阶段</button>
   <button class="tab-btn" onclick="switchTab('binding')">☎️ 绑定</button>
 </div>
 
-<!-- Tab: Phases -->
 <div class="tab-panel active" id="tab-phases">
-<div class="section">
-<h2>🕐 四阶段推进进度</h2>
-<div class="phase-list">
-
-  <div class="phase-item" data-phase="1">
-    <div class="pi-header"><div class="pi-dot done"></div><div class="pi-title">一、组织动员与资源准备</div><div class="pi-date">6.24-6.25</div></div>
-    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:100%;background:#4CAF50"></div></div>
-    <div class="pi-stats"><span>9项</span><span style="color:#4CAF50">已完成9</span><span><b>100%</b></span></div>
-    <div class="pi-tasks">
-      <div class="pi-task" data-task-id="1"><span class="pt-idx critical">1</span><span class="pt-name">业管部发布试用通知</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">王维</span></div>
-      <div class="pi-task" data-task-id="2"><span class="pt-idx critical">2</span><span class="pt-name">2台服务器到位</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">王维</span></div>
-      <div class="pi-task" data-task-id="3"><span class="pt-idx critical">3</span><span class="pt-name">服务器登录方式确认</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">白家宝</span></div>
-      <div class="pi-task" data-task-id="4"><span class="pt-idx critical">4</span><span class="pt-name">确定南（北）分中心对接人</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">王维</span></div>
-      <div class="pi-task" data-task-id="5"><span class="pt-idx important">5</span><span class="pt-name">安全加密研发</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">钟明原</span></div>
-      <div class="pi-task" data-task-id="6"><span class="pt-idx important">6</span><span class="pt-name">遗留问题缺陷整改</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">钟明原</span></div>
-      <div class="pi-task" data-task-id="7"><span class="pt-idx important">7</span><span class="pt-name">95598座席助手安装包准备</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">钟明原</span></div>
-      <div class="pi-task" data-task-id="8"><span class="pt-idx important">8</span><span class="pt-name">部署包下发至客服部</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">鄂丽丽</span></div>
-      <div class="pi-task" data-task-id="9"><span class="pt-idx critical">9</span><span class="pt-name">收集并确认80人台账清单</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">李琳/梁嵩</span></div>
-    </div>
+  <div class="section" id="phasesSection">
+    <h2>🕐 四阶段推进进度</h2>
+    <div id="phasesContent"><div class="loading"><span class="spinner"></span>加载数据中...</div></div>
   </div>
-
-  <div class="phase-item" data-phase="2">
-    <div class="pi-header"><div class="pi-dot done"></div><div class="pi-title">二、产品部署及联通测试</div><div class="pi-date">6.24</div></div>
-    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:100%;background:#4CAF50"></div></div>
-    <div class="pi-stats"><span>2项</span><span style="color:#4CAF50">已完成2</span><span><b>100%</b></span></div>
-    <div class="pi-tasks">
-      <div class="pi-task" data-task-id="10"><span class="pt-idx critical">10</span><span class="pt-name">产品服务部署</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">白家宝</span></div>
-      <div class="pi-task" data-task-id="11"><span class="pt-idx important">11</span><span class="pt-name">内部测试</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">梁嵩/鄂丽丽</span></div>
-    </div>
-  </div>
-
-  <div class="phase-item" data-phase="3">
-    <div class="pi-header"><div class="pi-dot done"></div><div class="pi-title">三、客服终端部署</div><div class="pi-date">6.25-6.26</div></div>
-    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:100%;background:#4CAF50"></div></div>
-    <div class="pi-stats"><span>3项</span><span style="color:#4CAF50">已完成3</span><span><b>100%</b></span></div>
-    <div class="pi-tasks">
-      <div class="pi-task" data-task-id="12"><span class="pt-idx critical">12</span><span class="pt-name">80台电脑安装座席助手软件</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">梁嵩/李琳等</span></div>
-      <div class="pi-task" data-task-id="13"><span class="pt-idx critical">13</span><span class="pt-name">80话机坐席绑定及联调确认</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">梁嵩</span></div>
-      <div class="pi-task" data-task-id="14"><span class="pt-idx critical">14</span><span class="pt-name">全链路功能集成测试</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">梁嵩</span></div>
-    </div>
-  </div>
-
-  <div class="phase-item" data-phase="4">
-    <div class="pi-header"><div class="pi-dot active"></div><div class="pi-title">四、正式试用启动</div><div class="pi-date">6.26-7.10</div></div>
-    <div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:44%;background:#6A1B9A"></div></div>
-    <div class="pi-stats"><span>9项</span><span style="color:#4CAF50">已完成4</span><span style="color:#1565C0">进行中1</span><span style="color:#E65100">待开展4</span><span><b>44%</b></span></div>
-    <div class="pi-tasks">
-      <div class="pi-task" data-task-id="15"><span class="pt-idx important">15</span><span class="pt-name">座席助手操作培训</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">梁嵩</span></div>
-      <div class="pi-task" data-task-id="16"><span class="pt-idx critical">16</span><span class="pt-name">正式开启试用</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">鄂丽丽</span></div>
-      <div class="pi-task" data-task-id="17"><span class="pt-idx important">17</span><span class="pt-name">优化管理端页面功能</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">钟明原</span></div>
-      <div class="pi-task" data-task-id="18"><span class="pt-idx critical">18</span><span class="pt-name">风险防控需求调研</span><span class="tag tag-normal">✅已完成</span><span class="pt-owner">鄂丽丽</span></div>
-      <div class="pi-task" data-task-id="19"><span class="pt-idx critical">19</span><span class="pt-name">风险防控的应用设计</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">马春悦/李馥辰</span></div>
-      <div class="pi-task" data-task-id="20"><span class="pt-idx important">20</span><span class="pt-name">ASR语音转文字识别字准率核验</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">郑雅琼</span></div>
-      <div class="pi-task" data-task-id="21"><span class="pt-idx important">21</span><span class="pt-name">收集系统缺陷或需求</span><span class="tag tag-rd">🔄进行中</span><span class="pt-owner">梁嵩</span></div>
-      <div class="pi-task" data-task-id="22"><span class="pt-idx important">22</span><span class="pt-name">缺陷或需求整改优化</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">钟明原</span></div>
-      <div class="pi-task" data-task-id="23"><span class="pt-idx critical">23</span><span class="pt-name">座席端国产化适配</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">曲维元</span></div>
-      <div class="pi-task" data-task-id="24"><span class="pt-idx critical">24</span><span class="pt-name">优化座席端软件更新方式</span><span class="tag tag-ops">⏳待开展</span><span class="pt-owner">曲维元</span></div>
-    </div>
-  </div>
-
-</div>
-</div>
 </div>
 
-<!-- Tab: Binding -->
 <div class="tab-panel" id="tab-binding">
-<div class="section purple">
-<h2>☎️ 80话机坐席绑定与监控台账</h2>
-<div style="font-size:11px;color:#555;margin-bottom:10px">数据来源：金山文档实时同步 | 更新时间：6月26日 | 已绑定 <b style="color:#006B54;font-size:14px">80</b>/80</div>
-<div class="binding-grid" id="bindingGrid"></div>
-</div>
+  <div class="section purple">
+    <h2>☎️ 80话机坐席绑定与监控台账</h2>
+    <div id="bindingSummary" style="font-size:11px;color:#555;margin-bottom:10px">加载中...</div>
+    <div class="binding-grid" id="bindingGrid"></div>
+  </div>
 </div>
 
-<!-- 无延期工作项 -->
-<div class="section" style="border-left-color:#4CAF50">
-<h2 style="color:#4CAF50">✅ 无延期工作项</h2>
-<div style="font-size:12px;color:#666;padding:4px 0">所有任务均在计划时间内推进中 🎉</div>
+<div class="section" id="delaySection" style="border-left-color:#4CAF50">
+  <h2 id="delayTitle" style="color:#4CAF50">✅ 无延期工作项</h2>
+  <div id="delayContent" style="font-size:12px;color:#666;padding:4px 0">所有任务均在计划时间内推进中 🎉</div>
 </div>
 
 <div style="text-align:center;font-size:10px;color:#999;padding:10px 0">
-95598智能座席助手项目实施看板 · 数据来源：金山文档 · 2026年6月
+  95598智能座席助手项目实施看板 · 数据来源：金山文档 · 2026年6月
 </div>
 
 </div>
-
 
 <script>
+/* ===== Configuration ===== */
+var DATA_URL='https://toguide-zncx.github.io/95598-check-tool/plan-data.json';
 
-/* Tab Switch */
-function switchTab(name){
-  document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.remove('active')});
-  document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});
-  var tabs=['phases','binding'];
-  var idx=tabs.indexOf(name);
-  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
-  document.getElementById('tab-'+name).classList.add('active');
+var PHASES=[
+  {name:'一、组织动员与资源准备',date:'6.24-6.25',ids:[1,2,3,4,5,6,7,8,9]},
+  {name:'二、产品部署及联通测试',date:'6.24',ids:[10,11]},
+  {name:'三、客服终端部署',date:'6.25-6.26',ids:[12,13,14]},
+  {name:'四、正式试用启动',date:'6.26-7.10',ids:[15,16,17,18,19,20,21,22,23,24]}
+];
+
+var COL_DEFS=[
+  {end:[2026,6,24],hdr:'周三 · 组织动员',date:'6月24日',cls:'tue',grad:'linear-gradient(135deg,#FF7043,#E65100)'},
+  {end:[2026,6,25],hdr:'周四 · 部署联调',date:'6月25日',cls:'thu',grad:'linear-gradient(135deg,#42A5F5,#1565C0)'},
+  {end:[2026,6,26],hdr:'周五 · 试用启动',date:'6月26日',cls:'fri',grad:'linear-gradient(135deg,#66BB6A,#2E7D32)'},
+  {end:null,hdr:'下周 · 运营迭代',date:'6.29-7.10',cls:'sat',grad:'linear-gradient(135deg,#78909C,#455A64)'}
+];
+
+var _data=null;
+
+/* ===== Tab ===== */
+function switchTab(n){
+  var bs=document.querySelectorAll('.tab-btn'),ps=document.querySelectorAll('.tab-panel');
+  for(var i=0;i<bs.length;i++)bs[i].classList.remove('active');
+  for(var i=0;i<ps.length;i++)ps[i].classList.remove('active');
+  var idx=n==='phases'?0:1;
+  bs[idx].classList.add('active');
+  document.getElementById('tab-'+n).classList.add('active');
 }
 
-/* ===== Sync ===== */
-function showToast(msg,type,duration){
-  type=type||'info';duration=duration||3000;
-  var t=document.getElementById('syncToast');
-  t.textContent=msg;t.className='sync-toast show '+type;
-  setTimeout(function(){t.className='sync-toast'},duration);
+/* ===== Helpers ===== */
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function getTask(id){if(!_data)return null;for(var i=0;i<_data.tasks.length;i++){if(String(_data.tasks[i].id)===String(id))return _data.tasks[i]}return null}
+function pCls(p){return p==='关键'?'critical':p==='重要'?'important':'normal'}
+function sInfo(t){
+  if(t.status==='已完成')return{cls:'done',lbl:'✅ 已完成',tag:'tag-normal'};
+  if(t.status==='进行中')return{cls:'doing',lbl:'🔄 进行中',tag:'tag-rd'};
+  return{cls:'todo',lbl:'⏳ '+(t.start?fmtShort(t.start):'待开展'),tag:'tag-ops'};
 }
-
-function statusLabel(s,d){
-  if(s==='已完成')return{cls:'done',label:'✅ 已完成'};
-  if(s==='进行中')return{cls:'doing',label:'🔄 进行中'};
-  if(d)return{cls:'delayed',label:'⚠️ 延期'};
-  return{cls:'todo',label:'⏳ 待开展'};
-}
-function priorityCls(p){
-  if(p==='关键')return'critical';
-  if(p==='重要')return'important';
-  return'normal';
-}
-function tagCls(s,d){
-  if(s==='已完成')return'tag-normal';
-  if(s==='进行中')return'tag-rd';
-  if(d)return'tag-critical';
-  return'tag-ops';
+function fmtShort(d){
+  if(!d)return'';
+  var p=String(d).split('-');
+  if(p.length>=3)return parseInt(p[1])+'.'+parseInt(p[2]);
+  return d;
 }
 function fmtDate(d){
   if(!d)return'';
-  var p=d.split('-');
-  return parseInt(p[1])+'月'+parseInt(p[2])+'日';
+  var p=String(d).split('-');
+  if(p.length>=3)return parseInt(p[1])+'月'+parseInt(p[2])+'日';
+  return d;
+}
+function parseD(d){
+  if(!d)return null;
+  var p=String(d).split('-');
+  return p.length>=3?[parseInt(p[0]),parseInt(p[1]),parseInt(p[2])]:null;
+}
+function getColIdx(t){
+  var sd=parseD(t.start);
+  if(!sd)return 3;
+  for(var i=0;i<COL_DEFS.length;i++){
+    var e=COL_DEFS[i].end;
+    if(!e)return i;
+    if(sd[0]<e[0]||(sd[0]===e[0]&&sd[1]<e[1])||(sd[0]===e[0]&&sd[1]===e[1]&&sd[2]<=e[2]))return i;
+  }
+  return COL_DEFS.length-1;
 }
 
-function applySyncData(data){
-  document.getElementById('syncTime').textContent='上次同步：'+data.syncTime;
+/* ===== Render ===== */
+function renderAll(){
+  if(!_data)return;
+  renderHeader();
+  renderKPI();
+  renderTimeline();
+  renderPhases();
+  renderBinding();
+  renderDelay();
+  document.getElementById('syncTime').textContent='上次同步：'+_data.syncTime;
+}
+
+function renderHeader(){
   var done=0,doing=0,pending=0;
-  data.tasks.forEach(function(t){
-    if(t.status==='已完成')done++;
-    else if(t.status==='进行中')doing++;
-    else if(t.id && t.status)pending++;
-  });
-  var kpis=document.querySelectorAll('.kc-num');
-  if(kpis.length>=5){
-    kpis[0].textContent=data.stats.total;
-    kpis[1].textContent=done;
-    kpis[2].textContent=doing;
-    kpis[3].textContent=pending;
-    kpis[4].textContent=data.stats.delayed||0;
+  var ts=_data.tasks;
+  for(var i=0;i<ts.length;i++){
+    if(!ts[i].id||isNaN(parseInt(ts[i].id)))continue;
+    if(ts[i].status==='已完成')done++;
+    else if(ts[i].status==='进行中')doing++;
+    else pending++;
   }
+  var total=done+doing+pending;
+  var dateStr=_data.syncTime?_data.syncTime.split(' ')[0].split('-').slice(1).join('/'):'--';
+  var h='<div class="meta-item">📅 更新<span><b>'+esc(dateStr)+'</b></span></div>';
+  h+='<div class="meta-item">📋 任务<span><b>'+total+'项</b></span></div>';
+  h+='<div class="meta-item">👥 试用<span><b>80人</b></span></div>';
+  h+='<div class="meta-item">📍 状态<span><b>'+(_data.stats.delayed>0?'有延期':'推进中')+'</b></span></div>';
+  document.getElementById('headerMeta').innerHTML=h;
+}
+
+function renderKPI(){
+  var done=0,doing=0,pending=0,delayed=_data.stats.delayed||0;
+  var ts=_data.tasks;
+  for(var i=0;i<ts.length;i++){
+    if(!ts[i].id||isNaN(parseInt(ts[i].id)))continue;
+    if(ts[i].status==='已完成')done++;
+    else if(ts[i].status==='进行中')doing++;
+    else pending++;
+  }
+  var total=done+doing+pending;
+  var kpis=[
+    {cls:'total',num:total,label:'总任务',bar:100,color:'#006B54'},
+    {cls:'done',num:done,label:'已完成',bar:total?Math.round(done/total*100):0,color:'#4CAF50'},
+    {cls:'doing',num:doing,label:'进行中',bar:total?Math.round(doing/total*100):0,color:'#1565C0'},
+    {cls:'wait',num:pending,label:'待开展',bar:total?Math.round(pending/total*100):0,color:'#E65100'},
+    {cls:'critical',num:delayed,label:'延期',bar:total?Math.round(delayed/total*100):0,color:'#9E9E9E'}
+  ];
+  var h='';
+  for(var i=0;i<kpis.length;i++){
+    var k=kpis[i];
+    h+='<div class="kpi-card '+k.cls+'"><div class="kc-num">'+k.num+'</div><div class="kc-label">'+k.label+'</div><div class="kc-bar"><div class="kc-bar-fill" style="width:'+k.bar+'%;background:'+k.color+'"></div></div></div>';
+  }
+  document.getElementById('kpiGrid').innerHTML=h;
+}
+
+function renderTimeline(){
+  var cols=[];
+  for(var i=0;i<COL_DEFS.length;i++)cols.push([]);
+  var ts=_data.tasks;
+  for(var i=0;i<ts.length;i++){
+    var t=ts[i];
+    if(!t.id||isNaN(parseInt(t.id)))continue;
+    var ci=getColIdx(t);
+    cols[ci].push(t);
+  }
+  var h='<div class="day-timeline">';
+  for(var c=0;c<cols.length;c++){
+    var def=COL_DEFS[c];
+    h+='<div class="day-col">';
+    h+='<div class="day-header '+def.cls+'" style="background:'+def.grad+'">'+esc(def.hdr)+'</div>';
+    h+='<div class="day-date">'+esc(def.date)+'</div>';
+    h+='<div class="day-body">';
+    var tasks=cols[c];
+    for(var j=0;j<tasks.length;j++){
+      var t=tasks[j];
+      var si=sInfo(t);
+      var pc=pCls(t.priority);
+      var prefix=(String(t.id)==='16'?'🚀 ':'');
+      h+='<div class="day-task '+pc+'">';
+      h+='<div class="task-name">'+prefix+esc(t.name)+'</div>';
+      h+='<div class="task-owner">👤 '+esc(t.owner)+'</div>';
+      h+='<div class="task-status '+si.cls+'">'+si.lbl+'</div>';
+      h+='</div>';
+    }
+    h+='</div>';
+    if(c<cols.length-1)h+='<div class="day-arrow">→</div>';
+    h+='</div>';
+  }
+  h+='</div>';
+  document.getElementById('timelineContent').innerHTML=h;
+}
+
+function renderPhases(){
+  var h='';
+  for(var p=0;p<PHASES.length;p++){
+    var ph=PHASES[p];
+    var tasks=[];
+    for(var j=0;j<ph.ids.length;j++){
+      var t=getTask(ph.ids[j]);
+      if(t)tasks.push(t);
+    }
+    var done=0,doing=0;
+    for(var j=0;j<tasks.length;j++){
+      if(tasks[j].status==='已完成')done++;
+      else if(tasks[j].status==='进行中')doing++;
+    }
+    var total=tasks.length;
+    var pct=total?Math.round(done/total*100):0;
+    var allDone=done===total;
+    var hasActive=doing>0&&!allDone;
+    var dotCls=allDone?'done':(hasActive?'active':'pending');
+    var barColor=allDone?'#4CAF50':'#6A1B9A';
+
+    h+='<div class="phase-item">';
+    h+='<div class="pi-header"><div class="pi-dot '+dotCls+'"></div><div class="pi-title">'+esc(ph.name)+'</div><div class="pi-date">'+esc(ph.date)+'</div></div>';
+    h+='<div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:'+pct+'%;background:'+barColor+'"></div></div>';
+    h+='<div class="pi-stats"><span>'+total+'项</span>';
+    if(done>0)h+='<span style="color:#4CAF50">已完成'+done+'</span>';
+    if(doing>0)h+='<span style="color:#1565C0">进行中'+doing+'</span>';
+    var pend=total-done-doing;
+    if(pend>0)h+='<span style="color:#E65100">待开展'+pend+'</span>';
+    h+='<span><b>'+pct+'%</b></span></div>';
+    h+='<div class="pi-tasks">';
+    for(var j=0;j<tasks.length;j++){
+      var t=tasks[j];
+      var si=sInfo(t);
+      var pc=pCls(t.priority);
+      h+='<div class="pi-task"><span class="pt-idx '+pc+'">'+t.id+'</span><span class="pt-name">'+esc(t.name)+'</span><span class="tag '+si.tag+'">'+si.lbl+'</span><span class="pt-owner">'+esc(t.owner)+'</span></div>';
+    }
+    h+='</div></div>';
+  }
+  document.getElementById('phasesContent').innerHTML=h;
+}
+
+function renderBinding(){
+  var seats=_data.seats;
+  var totalBound=0,totalAll=0;
+  for(var i=0;i<seats.length;i++){totalBound+=seats[i].bound;totalAll+=seats[i].total;}
+  document.getElementById('bindingSummary').innerHTML='数据来源：金山文档实时同步 | 更新时间：'+esc(_data.syncTime)+' | 已绑定 <b style="color:#006B54;font-size:14px">'+totalBound+'</b>/'+totalAll;
+
+  var h='';
+  for(var i=0;i<seats.length;i++){
+    var d=seats[i];
+    var pct=d.total?Math.round(d.bound/d.total*100):0;
+    var r=20,cx=22,cy=22,circLen=2*Math.PI*r;
+    var fc=pct>=100?'#4CAF50':pct>0?'#1565C0':'#BDBDBD';
+    var st=pct>=100?'✅ 全部完成':pct>0?'⏳ 进行中 '+pct+'%':'⏳ 未开始';
+    var sc=pct>=100?'ready':'pending';
+    h+='<div class="binding-card">';
+    h+='<div class="bc-name">'+esc(d.dept)+'</div>';
+    h+='<div class="bc-ring"><svg viewBox="0 0 44 44">';
+    h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="#E0E0E0" stroke-width="3.5"/>';
+    h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="'+fc+'" stroke-width="3.5" stroke-dasharray="'+Math.round(pct*circLen/100)+' '+Math.round(circLen-pct*circLen/100)+'" stroke-linecap="round" transform="rotate(-90 '+cx+' '+cy+')"/>';
+    h+='<text x="'+cx+'" y="'+(cy-2)+'" text-anchor="middle" font-size="9" font-weight="800" fill="'+fc+'">'+d.bound+'</text>';
+    h+='<text x="'+cx+'" y="'+(cy+8)+'" text-anchor="middle" font-size="6" fill="#999">/'+d.total+'</text>';
+    h+='</svg></div>';
+    h+='<div class="bc-count">'+d.bound+'/'+d.total+' 台</div>';
+    h+='<div class="bc-status '+sc+'">'+st+'</div>';
+    h+='</div>';
+  }
+  document.getElementById('bindingGrid').innerHTML=h;
+}
+
+function renderDelay(){
+  var delayed=_data.stats.delayed||0;
+  if(delayed>0){
+    document.getElementById('delaySection').style.borderLeftColor='#C62828';
+    document.getElementById('delayTitle').style.color='#C62828';
+    document.getElementById('delayTitle').innerHTML='⚠️ '+delayed+'项延期工作项';
+    document.getElementById('delayContent').innerHTML='请关注延期任务进度，及时推进整改';
+  }else{
+    document.getElementById('delaySection').style.borderLeftColor='#4CAF50';
+    document.getElementById('delayTitle').style.color='#4CAF50';
+    document.getElementById('delayTitle').innerHTML='✅ 无延期工作项';
+    document.getElementById('delayContent').innerHTML='所有任务均在计划时间内推进中 🎉';
+  }
+}
+
+/* ===== Sync ===== */
+function showToast(msg,type,dur){
+  type=type||'info';dur=dur||3000;
+  var t=document.getElementById('syncToast');
+  t.textContent=msg;t.className='sync-toast show '+type;
+  setTimeout(function(){t.className='sync-toast'},dur);
+}
+
+function doFetch(){
+  return fetch(DATA_URL+'?t='+Date.now()).then(function(r){
+    if(!r.ok)throw new Error('数据文件未找到');
+    return r.json();
+  });
 }
 
 function syncFromCloud(){
@@ -416,56 +459,29 @@ function syncFromCloud(){
   btn.classList.add('syncing');
   btn.innerHTML='⏳ 同步中...';
   showToast('正在获取最新项目数据...','info',2000);
-  fetch('https://toguide-zncx.github.io/95598-check-tool/plan-data.json?t='+Date.now())
-    .then(function(r){if(!r.ok)throw new Error('数据文件未找到');return r.json()})
-    .then(function(data){
-      applySyncData(data);
-      btn.classList.remove('syncing');
-      btn.innerHTML='🔄 同步项目计划';
-      showToast('✅ 数据已是最新（'+data.syncTime+'更新）','success',3000);
-    })
-    .catch(function(err){
-      btn.classList.remove('syncing');
-      btn.innerHTML='🔄 同步项目计划';
-      showToast('❌ 同步失败：'+err.message,'error',5000);
-    });
+  doFetch().then(function(data){
+    _data=data;
+    renderAll();
+    btn.classList.remove('syncing');
+    btn.innerHTML='🔄 同步项目计划';
+    showToast('✅ 数据已全量刷新（'+data.syncTime+'更新）','success',3000);
+  }).catch(function(err){
+    btn.classList.remove('syncing');
+    btn.innerHTML='🔄 同步项目计划';
+    showToast('❌ 同步失败：'+err.message,'error',5000);
+  });
 }
 
-/* ===== Binding Grid ===== */
-var depts=[
-  {name:'北中心客服一部',bound:10,total:10},
-  {name:'北中心客服二部',bound:10,total:10},
-  {name:'北中心客服三部',bound:10,total:10},
-  {name:'北中心客服五部',bound:10,total:10},
-  {name:'南中心客服一部',bound:10,total:10},
-  {name:'南中心客服二部',bound:10,total:10},
-  {name:'南中心客服三部',bound:10,total:10},
-  {name:'南中心客服五部',bound:10,total:10}
-];
-var grid=document.getElementById('bindingGrid');
-depts.forEach(function(d,i){
-  var pct=d.total?Math.round(d.bound/d.total*100):0;
-  var r=20,cx=22,cy=22,circLen=2*Math.PI*r;
-  var fillColor=pct>=100?'#4CAF50':pct>0?'#1565C0':'#BDBDBD';
-  var div=document.createElement('div');
-  div.className='binding-card';
-  div.setAttribute('data-dept-idx',i);
-  var statusText=pct>=100?'✅ 全部完成':pct>0?'⏳ 进行中 '+pct+'%':'⏳ 未开始';
-  var statusClass=pct>=100?'ready':'pending';
-  div.innerHTML='<div class="bc-name">'+d.name+'</div>'+
-    '<div class="bc-ring"><svg viewBox="0 0 44 44">'+
-    '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="#E0E0E0" stroke-width="3.5"/>'+
-    '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="'+fillColor+'" stroke-width="3.5" '+
-    'stroke-dasharray="'+Math.round(pct*circLen/100)+' '+Math.round(circLen-pct*circLen/100)+'" '+
-    'stroke-linecap="round" transform="rotate(-90 '+cx+' '+cy+')"/>'+
-    '<text x="'+cx+'" y="'+(cy-2)+'" text-anchor="middle" font-size="9" font-weight="800" fill="'+fillColor+'">'+d.bound+'</text>'+
-    '<text x="'+cx+'" y="'+(cy+8)+'" text-anchor="middle" font-size="6" fill="#999">/'+d.total+'</text>'+
-    '</svg></div>'+
-    '<div class="bc-count">'+d.bound+'/'+d.total+' 台</div>'+
-    '<div class="bc-status '+statusClass+'">'+statusText+'</div>';
-  grid.appendChild(div);
+/* ===== Init ===== */
+document.addEventListener('DOMContentLoaded',function(){
+  doFetch().then(function(data){
+    _data=data;
+    renderAll();
+  }).catch(function(err){
+    document.getElementById('timelineContent').innerHTML='<div style="text-align:center;padding:20px;color:#C62828">数据加载失败：'+esc(err.message)+'</div>';
+    document.getElementById('phasesContent').innerHTML='<div style="text-align:center;padding:20px;color:#C62828">请检查网络连接后刷新页面</div>';
+  });
 });
-
 </script>
 </body>
 </html>
