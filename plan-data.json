@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-26 21:40",
+  "syncTime": "2026-06-26 21:42",
   "source": "金山文档95598智能座席助手实施计划表",
   "tasks": [
     {
@@ -342,49 +342,49 @@
   "seats": [
     {
       "dept": "北中心客服一部",
-      "bound": 9,
+      "bound": 10,
       "total": 10,
-      "note": "部分电脑卡顿转写慢，管理端无通话内容"
+      "note": "部分电脑卡顿转写慢，管理端无通话内容，1台硬话机未解绑"
     },
     {
       "dept": "北中心客服二部",
-      "bound": 0,
+      "bound": 10,
       "total": 10,
-      "note": ""
+      "note": "已全部完成，转写正常"
     },
     {
       "dept": "北中心客服三部",
       "bound": 10,
       "total": 10,
-      "note": "全部完成呼入电话接听，转写功能正常"
+      "note": "已完成呼入电话接听，转写功能正常"
     },
     {
       "dept": "北中心客服五部",
       "bound": 10,
       "total": 10,
-      "note": "全部完成呼入电话接听，转写功能正常"
+      "note": "已完成呼入电话接听，转写功能正常"
     },
     {
       "dept": "南中心客服一部",
-      "bound": 0,
+      "bound": 10,
       "total": 10,
       "note": ""
     },
     {
       "dept": "南中心客服二部",
-      "bound": 4,
+      "bound": 10,
       "total": 10,
       "note": ""
     },
     {
       "dept": "南中心客服三部",
-      "bound": 0,
+      "bound": 10,
       "total": 10,
       "note": ""
     },
     {
       "dept": "南中心客服五部",
-      "bound": 0,
+      "bound": 10,
       "total": 10,
       "note": ""
     }
@@ -395,7 +395,7 @@
     "doing": 1,
     "pending": 12,
     "delayed": 0,
-    "seatsBound": 33,
+    "seatsBound": 80,
     "seatsTotal": 80
   }
 }
