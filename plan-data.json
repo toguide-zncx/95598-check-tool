@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-26 21:30",
+  "syncTime": "2026-06-26 21:40",
   "source": "金山文档95598智能座席助手实施计划表",
   "tasks": [
     {
@@ -283,8 +283,8 @@
       "start": "2026-6-30",
       "end": "2026-6-30",
       "category": "运营",
-      "name": "常态化运营",
-      "detail": "完成ASR语音转文字识别字准率专项核验",
+      "name": "ASR语音转文字识别字准率核验",
+      "detail": "完成ASR语音转文字识别字准率专项核验，评估转译质量达标情况",
       "deliverable": "字准率运营报告",
       "owner": "郑雅琼",
       "priority": "重要",
@@ -300,7 +300,7 @@
       "deliverable": "缺陷及需求台账",
       "owner": "梁嵩",
       "priority": "重要",
-      "status": "待开展"
+      "status": "进行中"
     },
     {
       "id": "22",
@@ -320,7 +320,7 @@
       "end": "2026-7-3",
       "category": "研发",
       "name": "座席端国产化适配",
-      "detail": "完成座席端95598智能座席助手国产化适配\n验收标准：完成麒麟操作系统适配，测试100%通过",
+      "detail": "完成座席端95598智能座席助手国产化适配，完成麒麟操作系统适配测试",
       "deliverable": "测试用例清单",
       "owner": "曲维元",
       "priority": "关键",
@@ -392,8 +392,8 @@
   "stats": {
     "total": 24,
     "done": 11,
-    "doing": 0,
-    "pending": 13,
+    "doing": 1,
+    "pending": 12,
     "delayed": 0,
     "seatsBound": 33,
     "seatsTotal": 80
