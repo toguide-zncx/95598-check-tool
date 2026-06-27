@@ -109,6 +109,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Micr
 .phase-item .pi-task .pt-idx.normal{background:#4CAF50}
 .phase-item .pi-task .pt-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .phase-item .pi-task .pt-owner{font-size:10px;color:#1565C0;white-space:nowrap}
+.phase-item .pi-header{cursor:pointer;user-select:none;position:relative}
+.phase-item .pi-toggle{font-size:10px;color:#999;transition:transform .25s;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:4px;background:#f0f0f0;flex-shrink:0}
+.phase-item.collapsed .pi-toggle{transform:rotate(-90deg)}
+.phase-item .pi-tasks{max-height:2000px;overflow:hidden;transition:max-height .35s ease,opacity .25s ease,margin .25s ease;opacity:1;margin-top:6px}
+.phase-item.collapsed .pi-tasks{max-height:0;opacity:0;margin-top:0}
+.phase-item .pi-bar-wrap,.phase-item .pi-stats{transition:opacity .2s}
+.phase-item.collapsed .pi-bar-wrap,.phase-item.collapsed .pi-stats{opacity:.6}
 @media(min-width:768px){.phase-item{padding:14px 16px}.phase-item .pi-title{font-size:13px}}
 
 .tag{display:inline-block;font-size:9px;padding:1px 6px;border-radius:8px;font-weight:700;white-space:nowrap;min-width:52px;text-align:center}
@@ -373,9 +380,10 @@ function renderPhases(){
     var hasActive=doing>0&&!allDone;
     var dotCls=allDone?'done':(hasActive?'active':'pending');
     var barColor=allDone?'#4CAF50':'#6A1B9A';
+    var collapsed=_phaseCollapsed[p]?'collapsed':'';
 
-    h+='<div class="phase-item">';
-    h+='<div class="pi-header"><div class="pi-dot '+dotCls+'"></div><div class="pi-title">'+esc(ph.name)+'</div><div class="pi-date">'+esc(ph.date)+'</div></div>';
+    h+='<div class="phase-item '+collapsed+'" data-phase="'+p+'">';
+    h+='<div class="pi-header" onclick="togglePhase('+p+')"><span class="pi-toggle">▼</span><div class="pi-dot '+dotCls+'"></div><div class="pi-title">'+esc(ph.name)+'</div><div class="pi-date">'+esc(ph.date)+'</div></div>';
     h+='<div class="pi-bar-wrap"><div class="pi-bar-fill" style="width:'+pct+'%;background:'+barColor+'"></div></div>';
     h+='<div class="pi-stats"><span>'+total+'项</span>';
     if(done>0)h+='<span style="color:#4CAF50">已完成'+done+'</span>';
@@ -393,6 +401,14 @@ function renderPhases(){
     h+='</div></div>';
   }
   document.getElementById('phasesContent').innerHTML=h;
+}
+
+/* ===== Phase Collapse/Expand ===== */
+var _phaseCollapsed=[false,false,false,false];
+function togglePhase(p){
+  _phaseCollapsed[p]=!_phaseCollapsed[p];
+  var el=document.querySelector('.phase-item[data-phase="'+p+'"]');
+  if(el)el.classList.toggle('collapsed',_phaseCollapsed[p]);
 }
 
 function renderBinding(){
