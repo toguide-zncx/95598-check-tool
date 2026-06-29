@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-29 07:36",
+  "syncTime": "2026-06-29 11:48",
   "source": "金山文档95598智能座席助手实施计划表",
   "tasks": [
     {
@@ -243,6 +243,18 @@
       "status": "已完成"
     },
     {
+      "id": "五、持续迭代",
+      "start": "",
+      "end": "",
+      "category": "",
+      "name": "",
+      "detail": "",
+      "deliverable": "",
+      "owner": "",
+      "priority": "",
+      "status": ""
+    },
+    {
       "id": "17",
       "start": "2026-6-26",
       "end": "2026-6-26",
@@ -342,7 +354,7 @@
   "seats": [
     {
       "dept": "北中心客服一部",
-      "bound": 9,
+      "bound": 10,
       "total": 10,
       "note": "部分电脑卡顿转写慢，管理端无通话内容，1台硬话机未解绑"
     },
@@ -395,7 +407,7 @@
     "doing": 1,
     "pending": 5,
     "delayed": 0,
-    "seatsBound": 79,
+    "seatsBound": 80,
     "seatsTotal": 80
   }
 }
