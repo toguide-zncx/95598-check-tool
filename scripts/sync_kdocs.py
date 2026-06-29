@@ -104,6 +104,24 @@ def parse_sheet1(grid):
         }
         tasks.append(task)
     
+    # 自动重新编号：检测重复ID并按出现顺序重新分配唯一ID
+    seen_ids = set()
+    has_dup = False
+    for t in tasks:
+        if t['id'] and t['id'].isdigit():
+            if t['id'] in seen_ids:
+                has_dup = True
+                break
+            seen_ids.add(t['id'])
+    
+    if has_dup:
+        counter = 1
+        for t in tasks:
+            if t['id'] and t['id'].isdigit():
+                t['id'] = str(counter)
+                counter += 1
+        print(f"  ⚠️ 检测到重复ID，已自动重新编号为 1-{counter-1}")
+    
     return tasks
 
 def summarize_notes(notes_list):
