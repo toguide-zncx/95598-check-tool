@@ -22,6 +22,10 @@ DEPT_ORDER = [
 
 def kdocs_get_sheet(worksheet_id, row_to, col_to):
     """调用 kdocs-cli 获取 sheet 数据，返回 grid[row][col]"""
+    # 支持通过 KDOCS_TOKEN 或 KINGSOFT_DOCS_TOKEN 环境变量传递 token
+    token = os.environ.get("KDOCS_TOKEN") or os.environ.get("KINGSOFT_DOCS_TOKEN", "")
+    if token:
+        os.environ["KINGSOFT_DOCS_TOKEN"] = token
     cmd = [
         "kdocs-cli", "sheet", "get-range-data",
         json.dumps({
@@ -246,9 +250,4 @@ def main():
         json.dump(data, f, ensure_ascii=False, indent=2)
     
     print(f"\n同步完成！时间: {now}")
-    print(f"任务: {stats['total']}项 (完成{stats['done']}/进行{stats['doing']}/待开展{stats['pending']}/延期{stats['delayed']})")
-    print(f"坐席: {stats['seatsBound']}/{stats['seatsTotal']} 已绑定")
-    print(f"输出: {output_path}")
-
-if __name__ == '__main__':
-    main()
+    print(f"任务: {stats['total']}项 (完成{stats['done']}
