@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-29 11:48",
+  "syncTime": "2026-06-29 14:00",
   "source": "金山文档95598智能座席助手实施计划表",
   "tasks": [
     {
@@ -243,18 +243,6 @@
       "status": "已完成"
     },
     {
-      "id": "五、持续迭代",
-      "start": "",
-      "end": "",
-      "category": "",
-      "name": "",
-      "detail": "",
-      "deliverable": "",
-      "owner": "",
-      "priority": "",
-      "status": ""
-    },
-    {
       "id": "17",
       "start": "2026-6-26",
       "end": "2026-6-26",
@@ -279,14 +267,62 @@
       "status": "已完成"
     },
     {
+      "id": "五、持续迭代",
+      "start": "",
+      "end": "",
+      "category": "",
+      "name": "",
+      "detail": "",
+      "deliverable": "",
+      "owner": "",
+      "priority": "",
+      "status": ""
+    },
+    {
       "id": "19",
       "start": "2026-6-29",
-      "end": "2026-6-30",
+      "end": "2026-6-29",
+      "category": "实施",
+      "name": "版本迭代",
+      "detail": "完成 V1.01 版本部署，覆盖8个客服部共80台座席终端。本版本以存量功能缺陷整改为主要迭代内容。",
+      "deliverable": "部署包",
+      "owner": "梁嵩、李琳等",
+      "priority": "重要",
+      "status": "进行中"
+    },
+    {
+      "id": "20",
+      "start": "2026-6-29",
+      "end": "2026-6-29",
       "category": "设计",
       "name": "风险防控的应用设计",
       "detail": "完成风险防控规则梳理及原型设计",
       "deliverable": "原型设计",
-      "owner": "马春悦、李馥辰",
+      "owner": "马春悦",
+      "priority": "关键",
+      "status": "进行中"
+    },
+    {
+      "id": "21",
+      "start": "2026-6-29",
+      "end": "2026-6-29",
+      "category": "设计",
+      "name": "功能清单梳理",
+      "detail": "完成座席端及管理端功能清单梳理",
+      "deliverable": "功能清单",
+      "owner": "李馥辰",
+      "priority": "重要",
+      "status": "进行中"
+    },
+    {
+      "id": "22",
+      "start": "2026-6-29",
+      "end": "2026-6-29",
+      "category": "研发",
+      "name": "需求评审",
+      "detail": "完成风险防控技术路线讨论",
+      "deliverable": "会议纪要",
+      "owner": "王博、钟明元",
       "priority": "关键",
       "status": "待开展"
     },
@@ -295,7 +331,7 @@
       "start": "2026-6-30",
       "end": "2026-6-30",
       "category": "运营",
-      "name": "常态化运营",
+      "name": "ASR 语音转文字识别字准率测评",
       "detail": "完成 ASR 语音转文字识别字准率专项核验",
       "deliverable": "字准率运营报告",
       "owner": "郑雅琼",
@@ -402,9 +438,9 @@
     }
   ],
   "stats": {
-    "total": 24,
+    "total": 27,
     "done": 18,
-    "doing": 1,
+    "doing": 4,
     "pending": 5,
     "delayed": 0,
     "seatsBound": 80,
