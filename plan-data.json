@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-29 20:10",
+  "syncTime": "2026-06-29 20:26",
   "source": "金山文档95598智能座席助手实施计划表",
   "tasks": [
     {
@@ -288,7 +288,7 @@
       "deliverable": "部署包",
       "owner": "梁嵩、李琳等",
       "priority": "重要",
-      "status": "进行中"
+      "status": "已完成"
     },
     {
       "id": "20",
@@ -300,7 +300,7 @@
       "deliverable": "原型设计",
       "owner": "马春悦",
       "priority": "关键",
-      "status": "进行中"
+      "status": "已完成"
     },
     {
       "id": "21",
@@ -312,7 +312,7 @@
       "deliverable": "功能清单",
       "owner": "李馥辰",
       "priority": "重要",
-      "status": "进行中"
+      "status": "已完成"
     },
     {
       "id": "22",
@@ -324,22 +324,46 @@
       "deliverable": "会议纪要",
       "owner": "王博、钟明元",
       "priority": "关键",
-      "status": "待开展"
+      "status": "已完成"
     },
     {
       "id": "23",
+      "start": "2026-6-30",
+      "end": "2026-6-30",
+      "category": "设计",
+      "name": "风险防控规则细化",
+      "detail": "完成客户诉求风险防控策略细化",
+      "deliverable": "规则清单",
+      "owner": "马春悦、李馥辰",
+      "priority": "关键",
+      "status": "进行中"
+    },
+    {
+      "id": "24",
+      "start": "2026-6-30",
+      "end": "2026-7-1",
+      "category": "研发",
+      "name": "风险防控应用研发",
+      "detail": "完成风险防控应用研发",
+      "deliverable": "源码",
+      "owner": "钟明元",
+      "priority": "重要",
+      "status": "待开展"
+    },
+    {
+      "id": "25",
       "start": "2026-6-30",
       "end": "2026-6-30",
       "category": "运营",
       "name": "ASR 语音转文字识别字准率测评",
       "detail": "完成 ASR 语音转文字识别字准率专项核验",
       "deliverable": "字准率运营报告",
-      "owner": "郑雅琼",
+      "owner": "张卜铮",
       "priority": "重要",
       "status": "待开展"
     },
     {
-      "id": "24",
+      "id": "26",
       "start": "2026-6-26",
       "end": "2026-6-29",
       "category": "运营",
@@ -351,7 +375,7 @@
       "status": "进行中"
     },
     {
-      "id": "25",
+      "id": "27",
       "start": "2026-6-30",
       "end": "2026-7-10",
       "category": "研发",
@@ -363,7 +387,7 @@
       "status": "待开展"
     },
     {
-      "id": "26",
+      "id": "28",
       "start": "2026-7-1",
       "end": "2026-7-3",
       "category": "研发",
@@ -375,7 +399,7 @@
       "status": "待开展"
     },
     {
-      "id": "27",
+      "id": "29",
       "start": "2026-7-1",
       "end": "2026-7-3",
       "category": "研发",
@@ -392,7 +416,7 @@
       "dept": "北中心客服一部",
       "bound": 10,
       "total": 10,
-      "note": "部分电脑卡顿转写慢，管理端无通话内容，1台硬话机未解绑"
+      "note": "已完成，转写正常"
     },
     {
       "dept": "北中心客服二部",
@@ -438,9 +462,9 @@
     }
   ],
   "stats": {
-    "total": 27,
-    "done": 18,
-    "doing": 4,
+    "total": 29,
+    "done": 22,
+    "doing": 2,
     "pending": 5,
     "delayed": 0,
     "seatsBound": 80,
