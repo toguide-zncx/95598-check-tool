@@ -220,19 +220,18 @@ function getWeekDefs(){
   var gWd='linear-gradient(135deg,#008667,#006B54)';
   var gWe='linear-gradient(135deg,#78909C,#546E7A)';
   var gTd='linear-gradient(135deg,#FF7043,#E65100)';
-  for(var i=0;i<7;i++){
+  for(var i=0;i<5;i++){
     var d=new Date(mon);d.setDate(mon.getDate()+i);
     var mm=String(d.getMonth()+1).padStart(2,'0');
     var dd=String(d.getDate()).padStart(2,'0');
     var isTd=(d.getFullYear()===now.getFullYear()&&d.getMonth()===now.getMonth()&&d.getDate()===now.getDate());
-    var isWe=(d.getDay()===0||d.getDay()===6);
     defs.push({
       key:mm+'-'+dd,
       end:[d.getFullYear(),d.getMonth()+1,d.getDate()],
       hdr:DAY_NAMES[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate(),
       date:(d.getMonth()+1)+'月'+d.getDate()+'日',
-      cls:isTd?'today':(isWe?'weekend':'weekday'),
-      grad:isTd?gTd:(isWe?gWe:gWd)
+      cls:isTd?'today':'weekday',
+      grad:isTd?gTd:gWd
     });
   }
   return defs;
@@ -346,7 +345,7 @@ function renderKPI(){
 
 function renderTimeline(){
   // 动态更新标题显示本周日期范围
-  var weekTitle='📊 本周实施时间线（'+COL_DEFS[0].key.replace('-','/')+' - '+COL_DEFS[6].key.replace('-','/')+'）';
+  var weekTitle='📊 本周实施时间线（'+COL_DEFS[0].key.replace('-','/')+' - '+COL_DEFS[COL_DEFS.length-1].key.replace('-','/')+'）';
   var h2=document.querySelector('#timelineContent').parentElement.querySelector('h2');
   if(h2)h2.textContent=weekTitle;
   var cols=[];
