@@ -277,15 +277,13 @@ function parseD(d){
   return p.length>=3?[parseInt(p[0]),parseInt(p[1]),parseInt(p[2])]:null;
 }
 function dateNum(d){return d[0]*10000+d[1]*100+d[2]}
-function getColIdx(t){
-  var sd=parseD(t.start);if(!sd)return -1;
+function getColIdxs(t){
+  var sd=parseD(t.start);if(!sd)return [];
   var ed=parseD(t.end);
-  var ws=dateNum(COL_DEFS[0].end),we=dateNum(COL_DEFS[COL_DEFS.length-1].end);
   var ts=dateNum(sd),te=ed?dateNum(ed):ts;
-  if(te<ws||ts>we)return -1;
-  var eff=Math.max(ts,ws);
-  for(var i=0;i<COL_DEFS.length;i++){if(dateNum(COL_DEFS[i].end)===eff)return i;}
-  return -1;
+  var r=[];
+  for(var i=0;i<COL_DEFS.length;i++){var cd=dateNum(COL_DEFS[i].end);if(cd>=ts&&cd<=te)r.push(i);}
+  return r;
 }
 
 /* ===== Render ===== */
@@ -354,9 +352,9 @@ function renderTimeline(){
   for(var i=0;i<ts.length;i++){
     var t=ts[i];
     if(!t.id||isNaN(parseInt(t.id)))continue;
-    var ci=getColIdx(t);
-    if(ci<0)continue; // 跳过不在本周的任务
-    cols[ci].push(t);
+    var cis=getColIdxs(t);
+    if(cis.length===0)continue; // 跳过不在本周的任务
+    for(var k=0;k<cis.length;k++) cols[cis[k]].push(t);
   }
   var h='<div class="day-timeline">';
   for(var c=0;c<cols.length;c++){
