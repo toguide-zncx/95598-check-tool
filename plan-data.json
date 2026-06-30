@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-06-30 18:22",
+  "syncTime": "2026-06-30 19:21",
   "source": "金山文档95598智能座席助手实施计划表",
   "tasks": [
     {
@@ -336,7 +336,7 @@
       "deliverable": "规则清单",
       "owner": "马春悦、李馥辰",
       "priority": "关键",
-      "status": "进行中"
+      "status": "已完成"
     },
     {
       "id": "24",
@@ -348,7 +348,7 @@
       "deliverable": "源码",
       "owner": "钟明原",
       "priority": "重要",
-      "status": "待开展"
+      "status": "进行中"
     },
     {
       "id": "25",
@@ -360,7 +360,7 @@
       "deliverable": "字准率运营报告",
       "owner": "张卜铮",
       "priority": "重要",
-      "status": "待开展"
+      "status": "已完成"
     },
     {
       "id": "26",
@@ -463,9 +463,9 @@
   ],
   "stats": {
     "total": 29,
-    "done": 22,
+    "done": 24,
     "doing": 2,
-    "pending": 5,
+    "pending": 3,
     "delayed": 0,
     "seatsBound": 80,
     "seatsTotal": 80
