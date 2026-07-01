@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-07-01 10:23",
+  "syncTime": "2026-07-01 10:56",
   "source": "金山文档95598智能座席助手实施计划表",
   "tasks": [
     {
@@ -495,5 +495,27 @@
     "delayed": 0,
     "seatsBound": 80,
     "seatsTotal": 80
+  },
+  "operations": {
+    "asr_accuracy": [
+      {
+        "seq": 1,
+        "date": "2026-06-30",
+        "samples": "10",
+        "accuracy": 91.47
+      }
+    ],
+    "voice_volume": [
+      {
+        "seq": 1,
+        "date": "2026-06-30",
+        "volume": 1842
+      },
+      {
+        "seq": 2,
+        "date": "2026-07-01",
+        "volume": 3136
+      }
+    ]
   }
 }

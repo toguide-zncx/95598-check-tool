@@ -215,6 +215,140 @@ def calc_stats(tasks, seats):
         "seatsTotal": seats_total
     }
 
+def post_process_tasks(tasks):
+    """同步后处理：清理任务名、补充指标、注入常态化任务"""
+    from datetime import timedelta
+    now = datetime.now()
+    dow = now.weekday()  # 0=Mon
+    fri = now + timedelta(days=(4 - dow))
+    fri_str = fri.strftime('%Y-%m-%d')
+    
+    cleaned = []
+    for t in tasks:
+        if not t['id'] or not t['id'].isdigit():
+            cleaned.append(t)
+            continue
+        
+        # 清理任务名中的进度文本（如"，目前进度50%"）
+        t['name'] = re.sub(r'[，,]?\s*目前进度[\d.]+%', '', t['name'])
+        
+        # ASR 字准率指标（仅指定日期显示）
+        if 'ASR' in t['name'] or '字准率' in t['name']:
+            t['metric'] = '字准率91.47%'
+            t['metric_date'] = '2026-06-30'
+        
+        cleaned.append(t)
+    
+    # 补充常态化任务（本周二到周五）
+    if 1 <= dow <= 4:
+        monday = now - timedelta(days=dow)
+        tue_str = (monday + timedelta(days=1)).strftime('%Y-%m-%d')
+        
+        has_collect = any('常态化收集' in t.get('name', '') for t in cleaned)
+        has_fix = any('常态化开展缺陷' in t.get('name', '') for t in cleaned)
+        
+        if not has_collect:
+            cleaned.append({
+                "id": "27a",
+                "start": tue_str,
+                "end": fri_str,
+                "category": "运营",
+                "name": "常态化收集系统缺陷或需求",
+                "detail": "常态化收集系统运行中的缺陷或需求，持续跟踪问题闭环",
+                "deliverable": "缺陷/需求清单",
+                "owner": "梁嵩、李琳",
+                "priority": "重要",
+                "status": "进行中"
+            })
+        if not has_fix:
+            cleaned.append({
+                "id": "28a",
+                "start": tue_str,
+                "end": fri_str,
+                "category": "运营",
+                "name": "常态化开展缺陷或需求整改优化",
+                "detail": "常态化开展缺陷或需求的整改优化工作，推动问题闭环解决",
+                "deliverable": "整改记录",
+                "owner": "钟明原",
+                "priority": "重要",
+                "status": "进行中"
+            })
+    
+    return cleaned
+
+def parse_sheet10(grid):
+    """解析 Sheet10（运营分析），返回 asr_stats 和 volume_stats 列表"""
+    asr_stats = []
+    volume_stats = []
+    
+    # 左侧 ASR字准率: col0=序号, col1=日期, col2=样本数据, col3=ASR字准率
+    # 右侧 业务量: col5=序号, col6=日期, col7=业务量
+    # 标题行 row0, 表头行 row1, 数据从 row2 开始
+    
+    for r in sorted(grid.keys()):
+        if r <= 1:
+            continue
+        row = grid[r]
+        
+        # ASR字准率 (cols 0-3)
+        seq_a = row.get(0, '').strip()
+        date_a_raw = row.get(1, '')
+        sample = row.get(2, '')
+        accuracy = row.get(3, '')
+        if seq_a and seq_a.isdigit() and date_a_raw:
+            date_a = _parse_cell_date(date_a_raw)
+            acc_val = _parse_cell_number(accuracy)
+            asr_stats.append({
+                "seq": int(seq_a),
+                "date": date_a,
+                "samples": sample if isinstance(sample, str) else str(sample),
+                "accuracy": float(acc_val) * 100 if acc_val < 1 else float(acc_val)
+            })
+        
+        # 业务量 (cols 5-7)
+        seq_b = row.get(5, '').strip()
+        date_b_raw = row.get(6, '')
+        volume = row.get(7, '')
+        if seq_b and seq_b.isdigit() and date_b_raw:
+            date_b = _parse_cell_date(date_b_raw)
+            vol_val = _parse_cell_number(volume)
+            volume_stats.append({
+                "seq": int(seq_b),
+                "date": date_b,
+                "volume": int(float(vol_val))
+            })
+    
+    return asr_stats, volume_stats
+
+def _parse_cell_date(cell):
+    """解析单元格日期值，支持 dict(understandableType) 和 字符串"""
+    if isinstance(cell, dict):
+        ut = cell.get('understandableType', {})
+        if isinstance(ut, dict) and ut.get('type') == 'date':
+            return str(ut['value'])
+        return str(cell.get('cellText', ''))
+    s = str(cell).strip()
+    m = re.match(r'(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})', s)
+    if m:
+        return f"{m.group(1)}-{m.group(2).zfill(2)}-{m.group(3).zfill(2)}"
+    return s
+
+def _parse_cell_number(cell):
+    """解析单元格数值"""
+    if isinstance(cell, dict):
+        ut = cell.get('understandableType', {})
+        if isinstance(ut, dict) and ut.get('type') in ('double', 'integer'):
+            return ut['value']
+        text = cell.get('cellText', '0').strip().replace('%', '')
+        try:
+            return float(text)
+        except:
+            return 0
+    try:
+        return float(str(cell).strip().replace('%', ''))
+    except:
+        return 0
+
 def main():
     print("正在从金山文档拉取数据...")
     
@@ -222,7 +356,14 @@ def main():
     print("  拉取 Sheet1（任务计划表）...")
     grid1 = kdocs_get_sheet(1, 35, 9)
     tasks = parse_sheet1(grid1)
-    print(f"  解析到 {len(tasks)} 条记录（含阶段标题）")
+    tasks = post_process_tasks(tasks)
+    print(f"  解析到 {len(tasks)} 条记录（含阶段标题及补充任务）")
+    
+    # 拉取 Sheet10（运营分析）
+    print("  拉取 Sheet10（运营分析）...")
+    grid10 = kdocs_get_sheet(10, 11, 7)
+    asr_stats, volume_stats = parse_sheet10(grid10)
+    print(f"  ASR字准率: {len(asr_stats)} 条, 业务量: {len(volume_stats)} 条")
     
     # 拉取 Sheet4（坐席绑定台账）
     print("  拉取 Sheet4（坐席绑定台账）...")
@@ -240,7 +381,11 @@ def main():
         "source": "金山文档95598智能座席助手实施计划表",
         "tasks": tasks,
         "seats": seats,
-        "stats": stats
+        "stats": stats,
+        "operations": {
+            "asr_accuracy": asr_stats,
+            "voice_volume": volume_stats
+        }
     }
     
     output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'plan-data.json')
@@ -250,4 +395,10 @@ def main():
         json.dump(data, f, ensure_ascii=False, indent=2)
     
     print(f"\n同步完成！时间: {now}")
-    print(f"任务: {stats['total']}项 (完成{stats['done']}
+    print(f"任务: {stats['total']}项 (完成{stats['done']}/进行{stats['doing']}/待开展{stats['pending']}/延期{stats['delayed']})")
+    print(f"坐席: {stats['seatsBound']}/{stats['seatsTotal']} 已绑定")
+    print(f"ASR字准率数据: {len(asr_stats)}条, 语音业务量: {len(volume_stats)}条")
+    print(f"输出: {output_path}")
+
+if __name__ == '__main__':
+    main()
