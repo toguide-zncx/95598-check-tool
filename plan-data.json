@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-07-01 10:56",
+  "syncTime": "2026-07-01 12:25",
   "source": "金山文档95598智能座席助手实施计划表",
   "tasks": [
     {
@@ -333,7 +333,7 @@
       "category": "设计",
       "name": "风险防控规则细化",
       "detail": "完成客户诉求风险防控策略细化",
-      "deliverable": "规则清单",
+      "deliverable": "规则清单： https://www.kdocs.cn/l/chQKpxX8y7fT",
       "owner": "马春悦、李馥辰",
       "priority": "关键",
       "status": "已完成"
