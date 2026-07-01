@@ -409,6 +409,30 @@
       "owner": "梁嵩",
       "priority": "重要",
       "status": "待开展"
+    },
+    {
+      "id": "27a",
+      "start": "2026-7-1",
+      "end": "2026-7-4",
+      "category": "运营",
+      "name": "常态化收集系统缺陷或需求",
+      "detail": "常态化收集系统运行中的缺陷或需求，持续跟踪问题闭环",
+      "deliverable": "缺陷/需求清单",
+      "owner": "梁嵩、李琳",
+      "priority": "重要",
+      "status": "进行中"
+    },
+    {
+      "id": "28a",
+      "start": "2026-7-1",
+      "end": "2026-7-4",
+      "category": "运营",
+      "name": "常态化开展缺陷或需求整改优化",
+      "detail": "常态化开展缺陷或需求的整改优化工作，推动问题闭环解决",
+      "deliverable": "整改记录",
+      "owner": "钟明原",
+      "priority": "重要",
+      "status": "进行中"
     }
   ],
   "seats": [
@@ -462,12 +486,14 @@
     }
   ],
   "stats": {
-    "total": 29,
+    "total": 31,
     "done": 23,
     "doing": 4,
     "pending": 2,
     "delayed": 0,
     "seatsBound": 80,
-    "seatsTotal": 80
+    "seatsTotal": 80,
+    "completed": 23,
+    "in_progress": 6
   }
 }
