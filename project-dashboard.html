@@ -370,7 +370,7 @@ function renderTimeline(){
       var si=sInfo(t);
       var pc=pCls(t.priority);
       var prefix=(String(t.id)==='16'?'🚀 ':'');
-      var displayName=isFuture?t.name.replace(/，?目前进度[\d.]+%？/,''):t.name;
+      var displayName=isFuture?t.name.replace(/（[^）]*(?:字准率|目前进度|进度)[^）]*）/g,''):t.name;
       h+='<div class="day-task '+pc+'">';
       h+='<div class="task-name">'+prefix+esc(displayName)+'</div>';
       h+='<div class="task-owner">👤 '+esc(t.owner)+'</div>';
