@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-07-01 12:25",
+  "syncTime": "2026-07-01 18:22",
   "source": "金山文档95598智能座席助手实施计划表",
   "tasks": [
     {
@@ -348,15 +348,15 @@
       "deliverable": "测试用例清单",
       "owner": "曲维元",
       "priority": "关键",
-      "status": "待开展"
+      "status": "进行中"
     },
     {
       "id": "25",
       "start": "2026-6-30",
-      "end": "2026-7-1",
+      "end": "2026-7-2",
       "category": "研发",
       "name": "风险防控应用研发",
-      "detail": "完成风险防控应用研发",
+      "detail": "完成风险防控应用研发，70%",
       "deliverable": "源码",
       "owner": "钟明原、王晓松",
       "priority": "重要",
@@ -364,6 +364,18 @@
     },
     {
       "id": "26",
+      "start": "2026-7-2",
+      "end": "2026-7-3",
+      "category": "",
+      "name": "风险防控应用测试",
+      "detail": "开展风险防控内部测试",
+      "deliverable": "问题清单",
+      "owner": "马春悦、李馥辰",
+      "priority": "关键",
+      "status": "未开展"
+    },
+    {
+      "id": "27",
       "start": "2026-6-30",
       "end": "2026-7-1",
       "category": "运营",
@@ -377,26 +389,14 @@
       "metric_date": "2026-06-30"
     },
     {
-      "id": "27",
-      "start": "2026-7-1",
-      "end": "2026-7-1",
-      "category": "设计",
-      "name": "电压接口梳理",
-      "detail": "梳理风险防控规则中涉及的电压接口文档",
-      "deliverable": "接口清单",
-      "owner": "马春悦",
-      "priority": "重要",
-      "status": "进行中"
-    },
-    {
       "id": "28",
       "start": "2026-7-1",
       "end": "2026-7-1",
       "category": "设计",
-      "name": "客户服务风险样本数据收集",
-      "detail": "收集客户服务风险样本数据，为后续风险识别准确性验证提供数据支撑。",
-      "deliverable": "样本数据",
-      "owner": "李馥辰",
+      "name": "电压接口梳理",
+      "detail": "梳理风险防控规则中涉及的电压接口文档，70%",
+      "deliverable": "接口清单",
+      "owner": "马春悦",
       "priority": "重要",
       "status": "进行中"
     },
@@ -404,13 +404,13 @@
       "id": "29",
       "start": "2026-7-1",
       "end": "2026-7-1",
-      "category": "运营",
-      "name": "座席端软件更新机制功能内部测试",
-      "detail": "开展座席端软件更新机制功能内部测试",
-      "deliverable": "问题清单",
-      "owner": "梁嵩",
-      "priority": "重要",
-      "status": "待开展"
+      "category": "设计",
+      "name": "客户服务风险样本数据收集",
+      "detail": "收集客户服务风险样本数据，为后续风险识别准确性验证提供数据支撑。",
+      "deliverable": "样本数据",
+      "owner": "李馥辰",
+      "priority": "关键",
+      "status": "进行中"
     },
     {
       "id": "27a",
@@ -470,28 +470,22 @@
     },
     {
       "dept": "南中心客服二部",
-      "bound": 10,
-      "total": 10,
+      "bound": 21,
+      "total": 21,
       "note": ""
     },
     {
       "dept": "南中心客服三部",
-      "bound": 10,
-      "total": 10,
-      "note": ""
-    },
-    {
-      "dept": "南中心客服五部",
-      "bound": 10,
-      "total": 10,
+      "bound": 9,
+      "total": 9,
       "note": ""
     }
   ],
   "stats": {
     "total": 29,
     "done": 23,
-    "doing": 4,
-    "pending": 2,
+    "doing": 5,
+    "pending": 0,
     "delayed": 0,
     "seatsBound": 80,
     "seatsTotal": 80
