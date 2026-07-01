@@ -359,7 +359,6 @@ function renderTimeline(){
   var h='<div class="day-timeline">';
   for(var c=0;c<cols.length;c++){
     var def=COL_DEFS[c];
-    var isFuture=!def.cls.includes('today');
     h+='<div class="day-col">';
     h+='<div class="day-header '+def.cls+'" style="background:'+def.grad+'">'+esc(def.hdr)+'</div>';
     h+='<div class="day-date">'+esc(def.date)+'</div>';
@@ -370,9 +369,11 @@ function renderTimeline(){
       var si=sInfo(t);
       var pc=pCls(t.priority);
       var prefix=(String(t.id)==='16'?'🚀 ':'');
-      var displayName=isFuture?t.name.replace(/（[^）]*(?:字准率|目前进度|进度)[^）]*）/g,''):t.name;
+      var displayName=t.name.replace(/，?目前进度[\d.]+%?/g,'');
+      var dayKey=def.end[0]+'-'+String(def.end[1]).padStart(2,'0')+'-'+String(def.end[2]).padStart(2,'0');
+      var metricStr=(t.metric&&t.metric_date===dayKey)?'（'+t.metric+'）':'';
       h+='<div class="day-task '+pc+'">';
-      h+='<div class="task-name">'+prefix+esc(displayName)+'</div>';
+      h+='<div class="task-name">'+prefix+esc(displayName)+metricStr+'</div>';
       h+='<div class="task-owner">👤 '+esc(t.owner)+'</div>';
       h+='<div class="task-status '+si.cls+'">'+si.lbl+'</div>';
       h+='</div>';
