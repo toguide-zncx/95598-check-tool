@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-07-03 12:25",
+  "syncTime": "2026-07-03 18:22",
   "source": "金山文档95598智能座席助手实施计划表",
   "tasks": [
     {
@@ -360,19 +360,19 @@
       "deliverable": "源码",
       "owner": "钟明原、王晓松",
       "priority": "重要",
-      "status": "进行中"
+      "status": "已完成"
     },
     {
       "id": "26",
       "start": "2026-7-2",
       "end": "2026-7-3",
-      "category": "",
+      "category": "设计",
       "name": "风险防控应用测试",
       "detail": "开展风险防控内部测试",
       "deliverable": "问题清单",
       "owner": "马春悦、李馥辰",
       "priority": "关键",
-      "status": "未开展"
+      "status": "进行中"
     },
     {
       "id": "27",
@@ -483,7 +483,7 @@
   ],
   "stats": {
     "total": 29,
-    "done": 23,
+    "done": 24,
     "doing": 5,
     "pending": 0,
     "delayed": 0,
