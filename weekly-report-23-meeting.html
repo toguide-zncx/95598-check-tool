@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>95598智能服务运营周报-第23期（6.19-6.25）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'微软雅黑','PingFang SC',sans-serif;background:#f0f2f5;color:#333;padding:20px}
+.container{max-width:1400px;margin:0 auto}
+.section{background:#fff;border-radius:8px;padding:24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.section-title{text-align:center;font-size:18px;font-weight:600;margin-bottom:20px;color:#1a1a1a}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:#e8f0fe;color:#1a73e8;padding:12px 16px;text-align:center;font-weight:600;border:1px solid #d2e3fc}
+td{padding:10px 16px;text-align:center;border:1px solid #e0e0e0}
+tr:nth-child(even){background:#f8f9fa}
+.status-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px}
+.status-blue{background:#e8f0fe;color:#1a73e8}
+.status-green{background:#e6f4ea;color:#137333}
+.status-orange{background:#fef7e0;color:#b06000}
+.status-gray{background:#f1f3f4;color:#5f6368}
+.defect-list{margin-top:16px}
+.defect-item{padding:12px 16px;border-bottom:1px solid #e0e0e0;display:flex;align-items:center}
+.defect-item:last-child{border-bottom:none}
+.defect-num{width:40px;text-align:center;color:#1a73e8;font-weight:600}
+.defect-name{width:180px;font-weight:500}
+.defect-content{flex:1;color:#5f6368;font-size:13px}
+.defect-person{width:80px;color:#1a73e8}
+.defect-date{width:100px;color:#5f6368;font-size:13px}
+
+.empty-state{text-align:center;padding:40px 20px;color:#9e9e9e;font-size:14px}
+.row-highlight{background:#fff3e0 !important}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- 需求情况统计表 -->
+<div class="section">
+<div class="section-title">需求情况统计表</div>
+<table>
+<tr>
+<th>序号</th>
+<th>需求</th>
+<th>合计</th>
+<th>编制中</th>
+<th>审核中</th>
+<th>技术评估</th>
+<th>研发中</th>
+<th>开发完成</th>
+<th>待开展</th>
+</tr>
+<tr>
+<td style="color:#1a73e8;font-weight:600">1</td>
+<td>重点任务</td>
+<td style="font-weight:600">22</td>
+<td>2</td>
+<td>0</td>
+<td>6</td>
+<td>7</td>
+<td>7</td>
+<td>0</td>
+</tr>
+<tr>
+<td style="color:#1a73e8;font-weight:600">2</td>
+<td>常态化<br>需求</td>
+<td style="font-weight:600">19</td>
+<td>8</td>
+<td>0</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr style="background:#e8f0fe;font-weight:600">
+<td style="color:#1a73e8">3</td>
+<td>合计</td>
+<td>41</td>
+<td>10</td>
+<td>0</td>
+<td>9</td>
+<td>10</td>
+<td>10</td>
+<td>2</td>
+</tr>
+</table>
+</div>
+
+<!-- 本期已整改缺陷清单 -->
+<div class="section">
+<div class="section-title">本期已整改缺陷清单</div>
+<table>
+<tr>
+<th>序号</th>
+<th>缺陷名称</th>
+<th>缺陷内容</th>
+<th>提出人</th>
+<th>提出时间</th>
+</tr>
+<tr>
+<td style="color:#1a73e8;font-weight:600">1</td>
+<td class="defect-name">短信发送异常</td>
+<td class="defect-content">用户反馈在接收到电费出账外呼电话后又收到多条95598电费短信</td>
+<td class="defect-person">於林</td>
+<td class="defect-date">2026/6/23</td>
+</tr>
+<tr>
+<td style="color:#1a73e8;font-weight:600">2</td>
+<td class="defect-name">重复转人工话术</td>
+<td class="defect-content">用户进入电量电费异常排查场景时，输入异常月份多次输入错误转人工时转人工话术重复推送</td>
+<td class="defect-person">王聪</td>
+<td class="defect-date">2026/6/23</td>
+</tr>
+<tr>
+<td style="color:#1a73e8;font-weight:600">3</td>
+<td class="defect-name">知识推荐调用明细表异常</td>
+<td class="defect-content">知识推荐调用明细表中重复出现9926061708360580132等几条会话</td>
+<td class="defect-person">王艳玲</td>
+<td class="defect-date">2026/6/22</td>
+</tr>
+<tr>
+<td style="color:#1a73e8;font-weight:600">4</td>
+<td class="defect-name">故障报修场景节点缺失</td>
+<td class="defect-content">故障报修场景停电状态判定环节实时余额为0账户余额为0缺少处理规则</td>
+<td class="defect-person">王聪</td>
+<td class="defect-date">2026/6/25</td>
+</tr>
+<tr>
+<td style="color:#1a73e8;font-weight:600">5</td>
+<td class="defect-name">知识推荐错误</td>
+<td class="defect-content">重庆用户停电报修，解答推荐内容为北中心流程，重庆为南中心负责省份</td>
+<td class="defect-person">王艳玲</td>
+<td class="defect-date">2026/6/22</td>
+</tr>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">缺陷情况统计表</div>
+<table>
+<tr>
+<th>序号</th>
+<th>缺陷状态</th>
+<th>已整改待发版</th>
+<th>正在排查中</th>
+<th>总计</th>
+</tr>
+<tr>
+<td style="color:#1a73e8;font-weight:600">1</td>
+<td>未解决</td>
+<td>5</td>
+<td>33</td>
+<td style="font-weight:600">38</td>
+</tr>
+<tr>
+<td style="color:#1a73e8;font-weight:600">2</td>
+<td>已解决</td>
+<td>\</td>
+<td>\</td>
+<td style="font-weight:600">305</td>
+</tr>
+<tr>
+<td style="color:#1a73e8;font-weight:600">3</td>
+<td>转成需求</td>
+<td>\</td>
+<td>\</td>
+<td style="font-weight:600">3</td>
+</tr>
+<tr style="background:#e8f0fe;font-weight:600">
+<td style="color:#1a73e8">4</td>
+<td>合计</td>
+<td>-</td>
+<td>-</td>
+<td>346</td>
+</tr>
+</table>
+</div>
+
+<!-- 常规检修工作 -->
+<div class="section">
+<div class="section-title">常规检修工作</div>
+<table>
+<tr>
+<th>序号</th>
+<th>检修时间</th>
+<th>检修内容</th>
+<th>版本号</th>
+<th>检修部门</th>
+<th>检修人</th>
+</tr>
+<tr>
+<td colspan="6" class="empty-state">6.19-6.25智能客服无检修</td>
+</tr>
+</table>
+</div>
+
+</div>
+
+</body>
+</html>
