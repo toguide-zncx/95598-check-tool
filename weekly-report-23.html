@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>95598智能服务运营周报 - 第23期(6.19-6.25)</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Microsoft YaHei','PingFang SC',-apple-system,sans-serif;background:#f0f2f5;min-height:100vh}
+.wr-v2{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:16px;border-radius:0 0 12px 12px}
+.wr-v2 .wr-container{max-width:100%;margin:0 auto}
+.wr-v2 .wr-header{background:linear-gradient(135deg,#4f46e5,#667eea);padding:4px;border-radius:14px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.wr-v2 .wr-header-inner{background:white;padding:28px 24px;border-radius:10px;text-align:center}.wr-v2 .wr-header h1{font-size:26px;color:#1a1a2e;margin-bottom:10px;letter-spacing:1px}
+.wr-v2 .wr-header h2{font-size:18px;color:#4f46e5;margin-bottom:12px;font-weight:500}
+.wr-v2 .wr-header p{font-size:13px;color:#777;font-weight:500}
+.wr-v2 .wr-section{background:white;padding:24px;border-radius:12px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.wr-v2 .wr-section-title{font-size:16px;color:#333;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #667eea;font-weight:600;display:flex;align-items:center}
+.wr-v2 .wr-section-title span{display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:3px 10px;border-radius:6px;margin-right:8px;font-size:13px}
+.wr-v2 .wr-sub-title{font-size:14px;color:#333;margin:14px 0 8px;font-weight:600}
+.wr-v2 .wr-content-text{font-size:14px;color:#555;line-height:1.8;margin-bottom:14px;text-align:justify}
+.wr-v2 .wr-kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.wr-v2 .wr-kpi-card{background:white;border-radius:10px;padding:16px 12px;text-align:center;border:1px solid #e5e7eb;transition:all .3s}
+.wr-v2 .wr-kpi-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(102,126,234,0.15)}
+.wr-v2 .wr-kpi-card.wr-danger{border-top:3px solid #ef4444}
+.wr-v2 .wr-kpi-card.wr-warning{border-top:3px solid #f59e0b}
+.wr-v2 .wr-kpi-card.wr-success{border-top:3px solid #10b981}
+.wr-v2 .wr-kpi-label{font-size:13px;color:#666;margin-bottom:6px}
+.wr-v2 .wr-kpi-value{font-size:28px;font-weight:700;color:#333}
+.wr-v2 .wr-kpi-change{font-size:11px;color:#666;margin-top:4px}
+.wr-v2 .wr-kpi-change .up{color:#10b981}
+.wr-v2 .wr-kpi-change .down{color:#ef4444}
+.wr-v2 .wr-kpi-gap{font-size:11px;color:#999;margin-top:2px}.wr-v2 .wr-progress{background:#e5e7eb;border-radius:4px;height:6px;overflow:hidden;margin-top:6px}.wr-v2 .wr-progress .fill{height:100%;border-radius:4px;transition:width .6s}
+.wr-v2 .wr-chart-box{background:#f8f9fa;border-radius:8px;padding:12px;margin:12px 0}
+.wr-v2 .wr-chart-box h4{font-size:14px;color:#333;margin-bottom:10px;text-align:center;font-weight:600}
+.wr-v2 .wr-chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.wr-v2 .wr-chart-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.wr-v2 .wr-table-box{background:white;border-radius:8px;padding:14px;margin:12px 0;border:1px solid #e2e8f0}
+.wr-v2 .wr-table-box h4{font-size:13px;color:#333;margin-bottom:10px;text-align:center;font-weight:600}
+.wr-v2 .wr-analysis-box{background:#f0f4ff;border-radius:8px;padding:14px;margin:12px 0}
+.wr-v2 .wr-analysis-box h4{color:#667eea;font-size:14px;margin-bottom:10px}
+.wr-v2 .wr-analysis-box p{color:#555;font-size:13px;line-height:1.8}
+.wr-v2 .wr-data-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px;margin-top:8px;border-radius:6px;overflow:hidden;border:1px solid #e2e8f0}
+.wr-v2 .wr-data-table th{background:#e8f0fe;color:#3b4a6b;padding:10px 12px;font-weight:600;text-align:left;font-size:11px;letter-spacing:0.5px;white-space:nowrap}
+.wr-v2 .wr-data-table td{padding:9px 12px;border-bottom:1px solid #f1f5f9;color:#444;font-size:11px;background:white}
+.wr-v2 .wr-data-table tr:last-child td{border-bottom:none}
+.wr-v2 .wr-data-table tr:hover td{background:#f8f9ff}
+.wr-v2 .wr-data-table tr td:first-child{text-align:center;color:#667eea;font-weight:600}
+.wr-v2 .wr-data-table th:first-child{text-align:center}
+.wr-v2 .wr-footer{text-align:center;color:rgba(255,255,255,0.7);padding:16px;font-size:12px}
+.wr-v2 .wr-detail-link{color:#667eea;font-size:13px;cursor:pointer}
+.wr-v2 .wr-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-left:6px}
+.wr-v2 .wr-tag.pass{background:#d1fae5;color:#059669}
+.wr-v2 .wr-tag.fail{background:#fee2e2;color:#dc2626}
+.wr-v2 .wr-defect-list{font-size:12px;color:#555;line-height:1.7;margin:8px 0;padding-left:0;list-style:none;counter-reset:defect}
+.wr-v2 .wr-defect-list li{counter-increment:defect;padding:6px 10px;margin:4px 0;background:#f8f9fa;border-radius:4px;border-left:3px solid #667eea}
+.wr-v2 .wr-defect-list li::before{content:counter(defect)'. ';color:#667eea;font-weight:700}
+.wr-v2 .wr-progress-bar{background:#e5e7eb;border-radius:4px;height:8px;overflow:hidden;margin:4px 0}
+.wr-v2 .wr-progress-bar .fill{height:100%;border-radius:4px;transition:width .6s}
+@media(max-width:768px){
+.wr-v2 .wr-kpi-row{grid-template-columns:repeat(2,1fr)}
+.wr-v2 .wr-chart-row{grid-template-columns:1fr}
+.wr-v2 .wr-chart-row-3{grid-template-columns:1fr}
+.wr-v2 .wr-kpi-value{font-size:22px}
+.wr-v2 .wr-header h1{font-size:20px}
+.wr-v2 .wr-section{padding:16px}
+}
+@media(max-width:480px){
+.wr-v2 .wr-kpi-row{grid-template-columns:1fr}
+.wr-v2{padding:10px}
+}
+</style>
+<style>
+.wr-data-table thead th {text-align:center;vertical-align:middle;font-size:13px}
+.wr-data-table tbody td {text-align:center;vertical-align:middle;font-size:13px;padding:8px 10px}
+.wr-data-table tbody td:nth-child(3) {text-align:left}
+</style>
+</head>
+<body>
+<div class="wr-v2">
+<div class="wr-container">
+
+<!-- 头部 -->
+<div class="wr-header">
+<div class="wr-header-inner">
+<h1>95598智能服务运营工作周报看板</h1>
+<h2>2026年第23期（6.19-6.25）</h2>
+<p>业务运营部 | 统计日期：2026年6月26日</p>
+</div>
+</div>
+
+<!-- KPI概览 -->
+<div class="wr-kpi-row">
+<div class="wr-kpi-card wr-success">
+<div class="wr-kpi-label">全渠道业务量占比</div>
+<div class="wr-kpi-value">61.28%</div>
+<div class="wr-kpi-change">环比 <span class="down">↓0.36%</span> · 同比 <span class="up">↑14.71%</span></div>
+<div class="wr-kpi-gap">目标≥55% <span class="wr-tag pass">√达标</span></div>
+<div class="wr-progress"><div class="fill" style="width:100%;background:#10b981"></div></div>
+</div>
+<div class="wr-kpi-card wr-danger">
+<div class="wr-kpi-label">电话渠道智能业务量占比</div>
+<div class="wr-kpi-value">39.71%</div>
+<div class="wr-kpi-change">环比 <span class="down">↓3.73%</span> · 同比 <span class="up">↑6.07%</span></div>
+<div class="wr-kpi-gap">目标≥55% <span class="wr-tag fail">×未达标</span></div>
+<div class="wr-progress"><div class="fill" style="width:72%;background:#ef4444"></div></div>
+</div>
+<div class="wr-kpi-card wr-danger">
+<div class="wr-kpi-label">电话渠道场景流程完成率</div>
+<div class="wr-kpi-value">42.23%</div>
+<div class="wr-kpi-change">环比 <span class="down">↓3.19%</span> · 同比 <span class="up">↑1.58%</span></div>
+<div class="wr-kpi-gap">目标≥70% <span class="wr-tag fail">×未达标</span></div>
+<div class="wr-progress"><div class="fill" style="width:60%;background:#ef4444"></div></div>
+</div>
+<div class="wr-kpi-card wr-success">
+<div class="wr-kpi-label">互联网渠道智能服务业务量占比</div>
+<div class="wr-kpi-value">83.97%</div>
+<div class="wr-kpi-change">环比 <span class="up">↑0.46%</span> · 同比 <span class="up">↑15.19%</span></div>
+<div class="wr-kpi-gap">目标≥80% <span class="wr-tag pass">√达标</span></div>
+<div class="wr-progress"><div class="fill" style="width:100%;background:#10b981"></div></div>
+</div>
+<div class="wr-kpi-card wr-warning">
+<div class="wr-kpi-label">互联网渠道场景流程完成率</div>
+<div class="wr-kpi-value">78.11%</div>
+<div class="wr-kpi-change">环比 <span class="up">↑0.60%</span> · 同比 <span class="up">↑30.05%</span></div>
+<div class="wr-kpi-gap">目标≥85% <span class="wr-tag fail">×未达标</span></div>
+<div class="wr-progress"><div class="fill" style="width:92%;background:#f59e0b"></div></div>
+</div>
+</div>
+
+<!-- 一、业务运营情况 -->
+<div class="wr-section">
+<div class="wr-section-title"><span>01</span>业务运营情况</div>
+<div class="wr-content-text">
+2026年6月19日至6月25日，全渠道智能客服业务量占比61.28%，环比下降0.36个百分点；电话渠道累计服务100.07万件，智能客服业务量占比39.71%，环比下降3.73个百分点，智能客服流程完成率42.23%，环比下降3.19个百分点；互联网渠道累计服务81.14万件，智能客服业务量占比83.97%，环比上升0.46个百分点，智能客服流程完成率78.11%，环比上升0.60个百分点。近期已针对考核指标开展专项分析，正在制定提升方案。
+</div>
+
+<!-- 图表区 -->
+<div class="wr-chart-row">
+<div class="wr-chart-box">
+<h4>全渠道重点指标完成情况</h4>
+<div id="chart-radar" style="width:100%;height:400px"></div>
+</div>
+<div class="wr-chart-box">
+<h4>互联网各渠道指标完成情况</h4>
+<div id="chart-internet-bar" style="width:100%;height:400px"></div>
+</div>
+</div>
+
+<!-- 二、需求及检修情况 -->
+<div class="wr-section">
+<div class="wr-section-title"><span>02</span>需求及检修情况</div>
+
+<!-- 总览KPI -->
+<div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px">
+<div style="flex:1;min-width:140px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:10px;padding:16px 20px;text-align:center">
+  <div style="font-size:13px;opacity:.85">本周重点任务</div>
+  <div style="font-size:28px;font-weight:700;margin:4px 0">22</div>
+</div>
+<div style="flex:1;min-width:140px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:10px;padding:16px 20px;text-align:center">
+  <div style="font-size:13px;opacity:.85">常态化需求</div>
+  <div style="font-size:28px;font-weight:700;margin:4px 0">19</div>
+</div>
+<div style="flex:1;min-width:140px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:10px;padding:16px 20px;text-align:center">
+  <div style="font-size:13px;opacity:.85">累计需求</div>
+  <div style="font-size:28px;font-weight:700;margin:4px 0">41</div>
+</div>
+<div style="flex:1;min-width:140px;background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;border-radius:10px;padding:16px 20px;text-align:center">
+  <div style="font-size:13px;opacity:.85">未解决缺陷</div>
+  <div style="font-size:28px;font-weight:700;margin:4px 0">38</div>
+</div>
+<div style="flex:1;min-width:140px;background:linear-gradient(135deg,#10b981,#34d399);color:#fff;border-radius:10px;padding:16px 20px;text-align:center">
+  <div style="font-size:13px;opacity:.85">已解决缺陷</div>
+  <div style="font-size:28px;font-weight:700;margin:4px 0">305</div>
+</div>
+<div style="flex:1;min-width:140px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border-radius:10px;padding:16px 20px;text-align:center">
+  <div style="font-size:13px;opacity:.85">累计缺陷</div>
+  <div style="font-size:28px;font-weight:700;margin:4px 0">346</div>
+</div>
+</div>
+
+<!-- 一、需求情况统计表（无"开发完成"列） -->
+<div class="wr-sub-title">一、需求情况统计（6.19—6.25）</div>
+<div class="wr-table-box">
+<table class="wr-data-table">
+<thead><tr>
+<th rowspan="2">序号</th>
+<th rowspan="2">分类</th>
+<th rowspan="2">合计</th>
+<th colspan="5">需求状态</th>
+</tr>
+<tr>
+<th>已上线</th>
+<th>需求文档编制中</th>
+<th>技术评估中</th>
+<th>研发中</th>
+<th>待开展</th>
+</tr></thead>
+<tbody>
+<tr><td>1</td><td>重点任务</td><td>22</td><td>7</td><td>2</td><td>6</td><td>7</td><td>0</td></tr>
+<tr><td>2</td><td>常态化需求</td><td>19</td><td>3</td><td>8</td><td>3</td><td>3</td><td>2</td></tr>
+<tr style="font-weight:700;background:#f0f0ff"><td>3</td><td>合计</td><td>41</td><td>10</td><td>10</td><td>9</td><td>10</td><td>2</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- 二、缺陷情况统计表 -->
+<div class="wr-sub-title">二、缺陷情况统计（6.19—6.25）</div>
+<div class="wr-table-box">
+<table class="wr-data-table">
+<thead><tr>
+<th>序号</th>
+<th>缺陷状态</th>
+<th>已整改待发版</th>
+<th>正在排查中</th>
+<th>总计</th>
+</tr></thead>
+<tbody>
+<tr><td>1</td><td>未解决</td><td>5</td><td>33</td><td>38</td></tr>
+<tr><td>2</td><td>已解决</td><td>—</td><td>—</td><td>305</td></tr>
+<tr><td>3</td><td>转成需求</td><td>—</td><td>—</td><td>3</td></tr>
+<tr style="font-weight:700;background:#f0f0ff"><td>4</td><td>共计</td><td>—</td><td>—</td><td>346（含非智能侧问题103个）</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- 本期已整改缺陷清单 -->
+<div class="wr-sub-title">本期已整改缺陷清单（6.19—6.25）</div>
+<div class="wr-table-box">
+<table class="wr-data-table">
+<thead><tr>
+<th>序号</th>
+<th>缺陷名称</th>
+<th>缺陷内容</th>
+<th>提出人</th>
+<th>提出时间</th>
+</tr></thead>
+<tbody>
+<tr><td>1</td><td>短信发送异常</td><td>用户反馈在接收到电费出账外呼电话后又收到多条95598电费短信</td><td>於林</td><td>6/23</td></tr>
+<tr><td>2</td><td>重复转人工话术</td><td>用户进入电量电费异常排查场景时，输入异常月份多次输入错误转人工时转人工话术重复推送</td><td>王聪</td><td>6/23</td></tr>
+<tr><td>3</td><td>知识推荐调用明细表异常</td><td>知识推荐调用明细表中重复出现9926061708360580132等几条会话</td><td>王艳玲</td><td>6/22</td></tr>
+<tr><td>4</td><td>故障报修场景节点缺失</td><td>故障报修场景停电状态判定环节实时余额为0账户余额为0缺少处理规则</td><td>王聪</td><td>6/25</td></tr>
+<tr><td>5</td><td>知识推荐错误</td><td>重庆用户停电报修，解答推荐内容为北中心内容，重庆为南中心负责省份</td><td>王艳玲</td><td>6/22</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- 三、检修情况 -->
+<div class="wr-sub-title">三、检修情况（6.19—6.25）</div>
+<div class="wr-content-text" style="color:#999;font-style:italic">本周无检修内容</div>
+</div>
+
+<!-- 三、校核及标注 -->
+<div class="wr-section">
+<div class="wr-section-title"><span>03</span>校核及标注</div>
+
+<div class="wr-sub-title">答复校核情况（6.19—6.25）</div>
+<div class="wr-table-box">
+<table class="wr-data-table">
+<thead><tr><th>序号</th><th>统计维度</th><th>校核数据条数</th><th>发现问题数</th><th>已解决</th><th>无法解决</th><th>待解决</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>南分中心</td><td>11,684</td><td>3,667</td><td>653</td><td>2,583</td><td>431</td></tr>
+<tr><td>2</td><td>北分中心</td><td>5,500</td><td>155</td><td>153</td><td>0</td><td>2</td></tr>
+<tr><td>3</td><td>合计</td><td><strong>17,184</strong></td><td><strong>3,822</strong></td><td><strong>806</strong></td><td><strong>2,583</strong></td><td><strong>433</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="wr-chart-row">
+<div class="wr-chart-box">
+<h4>南北中心答复校核对比</h4>
+<div id="chart-verify" style="width:100%;height:300px"></div>
+</div>
+<div class="wr-chart-box">
+<h4>南中心问题维护分布</h4>
+<div id="chart-south-issue" style="width:100%;height:300px"></div>
+</div>
+</div>
+
+<div class="wr-sub-title">南中心问题维护情况</div>
+<div class="wr-table-box">
+<table class="wr-data-table">
+<thead><tr><th>问题类型</th><th>对应问题数</th><th>已解决</th><th>无法解决/待解决</th><th>原因</th></tr></thead>
+<tbody>
+<tr><td>意图识别错误</td><td>3,176</td><td>601</td><td>2,575</td><td>客户表述受置信度影响</td></tr>
+<tr><td>大模型知识融合推荐</td><td>401</td><td>0</td><td>401</td><td>按月提需求单给项目组</td></tr>
+<tr><td>大模型标签应用问题</td><td>48</td><td>48</td><td>0</td><td>—</td></tr>
+<tr><td>系统问题</td><td>23</td><td>0</td><td>23</td><td>意图标签错误，受BOT顺序限制</td></tr>
+<tr><td>语音转译问题</td><td>8</td><td>0</td><td>8</td><td>环境噪声/语速/口音影响</td></tr>
+<tr><td>大模型标签生成问题</td><td>5</td><td>2</td><td>3</td><td>信息运维中心处理中</td></tr>
+<tr><td>服务流程问题</td><td>3</td><td>0</td><td>3</td><td>运维中心/场景组处理中</td></tr>
+<tr><td>对外标答问题</td><td>2</td><td>1</td><td>1</td><td>信息运维中心处理中</td></tr>
+<tr><td>模板问题</td><td>1</td><td>1</td><td>0</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="wr-sub-title">北中心问题维护情况</div>
+<div class="wr-table-box">
+<table class="wr-data-table">
+<thead><tr><th>问题类型</th><th>对应问题数</th><th>已解决</th><th>无法解决/待解决</th><th>原因</th></tr></thead>
+<tbody>
+<tr><td>意图识别错误</td><td>90</td><td>87</td><td>3</td><td>置信度影响</td></tr>
+<tr><td>对外知识校核</td><td>65</td><td>63</td><td>2</td><td>标答展示问题排查中</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="wr-sub-title">校核待解决问题处置进度跟进（6.19—6.25）</div>
+<div class="wr-table-box">
+<table class="wr-data-table">
+<thead><tr><th>责任部门</th><th>问题数量</th><th>已闭环</th><th>无法解决</th><th>未解决</th></tr></thead>
+<tbody>
+<tr><td>信息运维中心</td><td>106</td><td>78</td><td>0</td><td>28</td></tr>
+<tr><td>项目组</td><td>401</td><td>0</td><td>0</td><td>401</td></tr>
+<tr><td>场景组</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="wr-sub-title">标注数据统计（6.19—6.25）</div>
+<div class="wr-content-text">
+南中心文本标注1,041条 + 意图模板5条；北中心文本标注30条；<strong>合计1,076条</strong>，已同步1,076条，已生效1,076条，生效率100%
+</div>
+</div>
+
+<!-- 四、知识数据维护 -->
+<div class="wr-section">
+<div class="wr-section-title"><span>04</span>知识数据维护</div>
+<div class="wr-content-text">本周知识数据维护总量<strong>1,499条</strong>，其中新增12条、更新1,157条、删除330条。</div>
+<div class="wr-table-box">
+<table class="wr-data-table">
+<thead><tr><th>序号</th><th>维护类型</th><th>标问类别</th><th>类型个数</th><th>维护条数</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>新增</td><td>活动介绍、业务办理、app操作指南/功能介绍、政策文件通知</td><td>4</td><td>12</td></tr>
+<tr><td>2</td><td>更新</td><td>业务办理、活动介绍、app操作指南/功能介绍、行政区域及供电单位信息</td><td>4</td><td>1,157</td></tr>
+<tr><td>3</td><td>删除</td><td>活动介绍、业务办理、app操作指南/功能介绍</td><td>3</td><td>330</td></tr>
+<tr><td>4</td><td>合计</td><td></td><td><strong>11</strong></td><td><strong>1,499</strong></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- 五、数据治理情况 -->
+<div class="wr-section">
+<div class="wr-section-title"><span>05</span>数据治理情况</div>
+
+<div class="wr-sub-title">标签应用情况（6.19—6.25）</div>
+<div class="wr-content-text">标记用户<strong>6,989人</strong>（新增），触发<strong>2,891次</strong>。</div>
+<div class="wr-table-box">
+<table class="wr-data-table">
+<thead><tr><th>序号</th><th>标签场景名称</th><th>标记用户数（新增）</th><th>场景应用触发量</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>短信接收电费</td><td>3,141</td><td>1,838</td></tr>
+<tr><td>2</td><td>查询多月电费</td><td>549</td><td>438</td></tr>
+<tr><td>3</td><td>查询多户电费</td><td>42</td><td>235</td></tr>
+<tr><td>4</td><td>智能关爱服务</td><td>192</td><td>231</td></tr>
+<tr><td>5</td><td>偏好地址查询</td><td>3,065</td><td>149</td></tr>
+<tr><td>6</td><td>合计</td><td><strong>6,989</strong></td><td><strong>2,891</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="wr-sub-title">地址数据治理</div>
+<div class="wr-content-text">三批次地址数据优化已完成生产环境部署：</div>
+<div class="wr-chart-box">
+<h4>地址数据治理验证通过率</h4>
+<div id="chart-address" style="width:100%;height:280px"></div>
+</div>
+</div>
+
+<!-- 六、服务风险管理 -->
+<div class="wr-section">
+<div class="wr-section-title"><span>06</span>服务风险管理</div>
+<div class="wr-content-text">26年累计服务风险12个，已解决8个，整改中4个。本周无新增服务风险事件。</div>
+<div class="wr-chart-row">
+<div class="wr-chart-box">
+<h4>服务风险处置状态</h4>
+<div id="chart-risk" style="width:100%;height:280px"></div>
+</div>
+<div class="wr-table-box" style="margin:12px 0">
+<h4>当前进行中的风险事件</h4>
+<table class="wr-data-table">
+<thead><tr><th>序号</th><th>风险事件</th><th>状态</th></tr></thead>
+<tbody>
+<tr><td>3</td><td>传统按键智能服务欢迎语优化</td><td><span class="wr-tag fail">进行中</span></td></tr>
+<tr><td>7</td><td>嘉兴客户投诉语音播报与实际不符</td><td><span class="wr-tag fail">进行中</span></td></tr>
+<tr><td>10</td><td>用户投诉接到多次95598外呼</td><td><span class="wr-tag fail">进行中</span></td></tr>
+<tr><td>11</td><td>湖北用户外呼机器人播报1小时50分钟</td><td><span class="wr-tag fail">进行中</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- 七、重点任务进展 -->
+<div class="wr-section">
+<div class="wr-section-title"><span>07</span>重点任务进展</div>
+<div class="wr-content-text">附表1共41条需求（重点任务22条 + 常态化需求19条），汇总统计如下：</div>
+<div class="wr-kpi-row" style="grid-template-columns:repeat(4,1fr)">
+<div class="wr-kpi-card">
+<div class="wr-kpi-label">重点任务</div>
+<div class="wr-kpi-value">22</div>
+<div class="wr-kpi-change">已上线7 · 研发中7</div>
+</div>
+<div class="wr-kpi-card">
+<div class="wr-kpi-label">常态化需求</div>
+<div class="wr-kpi-value">19</div>
+<div class="wr-kpi-change">已上线3 · 编制中8</div>
+</div>
+<div class="wr-kpi-card">
+<div class="wr-kpi-label">合计</div>
+<div class="wr-kpi-value">41</div>
+<div class="wr-kpi-change">已上线10 · 待开展2</div>
+</div>
+<div class="wr-kpi-card wr-success">
+<div class="wr-kpi-label">上线率</div>
+<div class="wr-kpi-value">24.4%</div>
+<div class="wr-kpi-change">10/41 已完成上线</div>
+</div>
+</div>
+
+<div class="wr-chart-box">
+<h4>重点任务进展状态分布</h4>
+<div id="chart-task" style="width:100%;height:300px"></div>
+</div>
+</div>
+
+<!-- 八、附录 -->
+<div class="wr-section">
+<div class="wr-section-title"><span>08</span>附录</div>
+<div class="wr-content-text">
+📎 需求清单详见附表1<br>
+📎 缺陷清单详见附表2<br>
+📎 服务风险清单详见附表3
+</div>
+</div>
+
+<!-- 页脚 -->
+<div class="wr-footer">
+95598智能服务运营工作周报 · 第23期 · 2026年6月19日—6月25日
+</div>
+
+</div>
+</div>
+
+<script>
+function initCharts(){
+const P='#667eea',PU='#764ba2',G='#10b981',R='#ef4444',Y='#f59e0b',BL='#3b82f6';
+
+// 1. 全渠道重点指标完成情况雷达图
+const cRadar=echarts.init(document.getElementById('chart-radar'));
+cRadar.setOption({
+  tooltip:{trigger:'item'},
+  legend:{bottom:0,data:['本期值','达标线'],textStyle:{fontSize:11}},
+  radar:{indicator:[
+    {name:'电话渠道智能\n业务量占比',max:55},{name:'全渠道业务量占比',max:55},
+    {name:'互联网渠道场景\n流程完成率',max:85},{name:'互联网渠道智能\n服务业务量占比',max:80},
+    {name:'电话渠道场景\n流程完成率',max:70}
+  ],radius:'70%',center:['50%','52%'],axisName:{color:'#333',fontSize:10,fontWeight:'bold',lineHeight:14},splitArea:{areaStyle:{color:['#f8f9ff','#eef1ff']}},nameGap:20},
+  series:[{type:'radar',data:[
+    {value:[39.71,61.28,78.11,83.97,42.23],name:'本期值',
+     areaStyle:{color:'rgba(59,130,246,0.15)'},lineStyle:{color:'#3b82f6',width:2},itemStyle:{color:'#3b82f6'},
+     label:{show:true,formatter:function(p){return p.value+'%'},fontSize:10,color:'#3b82f6',distance:-8,position:'inside'}},
+    {value:[55,55,85,80,70],name:'达标线',
+     lineStyle:{color:'#ef4444',type:'dashed',width:2},itemStyle:{color:'#ef4444'},
+     label:{show:true,formatter:function(p){return p.value+'%'},fontSize:9,color:'#ef4444',distance:8,position:'outside'}}
+  ]}]
+});
+
+// 2. 互联网各渠道指标完成情况柱状图+折线
+const cBar=echarts.init(document.getElementById('chart-internet-bar'));
+cBar.setOption({
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+  legend:{data:['本期','环比变化'],bottom:0,textStyle:{fontSize:11}},
+  grid:{left:40,right:30,top:20,bottom:40},
+  xAxis:{type:'category',data:['网上国网','微信小程序','95598网站'],axisLabel:{fontSize:11}},
+  yAxis:[{type:'value',axisLabel:{formatter:'{value}%',fontSize:11},max:100},{type:'value',axisLabel:{formatter:'{value}%',fontSize:11},min:-5,max:5}],
+  series:[
+    {type:'bar',name:'本期',data:[86.09,75.53,55.37],barWidth:30,itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#3b82f6'},{offset:1,color:'#6366f1'}])},label:{show:true,position:'top',formatter:'{c}%',fontSize:11,color:'#333'},
+     markLine:{silent:true,symbol:'none',lineStyle:{color:'#ef4444',width:2,type:'dashed'},label:{show:true,position:'insideEndTop',formatter:'目标80%',fontSize:10,color:'#ef4444',fontWeight:'bold'},data:[{yAxis:80}]}},
+    {type:'line',name:'环比变化',yAxisIndex:1,data:[0.52,-0.20,0.58],lineStyle:{color:'#f59e0b',width:2},itemStyle:{color:'#f59e0b'},symbol:'circle',symbolSize:8,label:{show:true,formatter:function(p){return(p.value>=0?'+':'')+p.value+'%'},fontSize:10,color:'#f59e0b'}}
+  ]
+});
+
+
+// 5. 答复校核对比柱状图
+const cVerify=echarts.init(document.getElementById('chart-verify'));
+cVerify.setOption({
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+  legend:{data:['南分中心','北分中心'],bottom:0,textStyle:{fontSize:11}},
+  grid:{left:50,right:20,top:20,bottom:40},
+  xAxis:{type:'category',data:['校核数据条数','发现问题数','已解决','无法解决','待解决'],axisLabel:{fontSize:10,interval:0,rotate:15}},
+  yAxis:{type:'value',axisLabel:{fontSize:11}},
+  series:[
+    {type:'bar',name:'南分中心',data:[11684,3667,653,2583,431],itemStyle:{color:P},label:{show:true,position:'top',fontSize:9,formatter:function(p){return p.value>=1000?(p.value/1000).toFixed(1)+'k':p.value}}},
+    {type:'bar',name:'北分中心',data:[5500,155,153,0,2],itemStyle:{color:PU},label:{show:true,position:'top',fontSize:9,formatter:function(p){return p.value>=1000?(p.value/1000).toFixed(1)+'k':p.value}}}
+  ]
+});
+
+// 6. 南中心问题维护分布饼图
+const cSouth=echarts.init(document.getElementById('chart-south-issue'));
+cSouth.setOption({
+  tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
+  legend:{type:'scroll',bottom:0,textStyle:{fontSize:10}},
+  series:[{type:'pie',radius:['0%','60%'],center:['50%','42%'],data:[
+    {name:'意图识别错误',value:3176,itemStyle:{color:P}},
+    {name:'大模型知识融合推荐',value:401,itemStyle:{color:PU}},
+    {name:'大模型标签应用问题',value:48,itemStyle:{color:BL}},
+    {name:'系统问题',value:23,itemStyle:{color:Y}},
+    {name:'语音转译问题',value:8,itemStyle:{color:'#94a3b8'}},
+    {name:'大模型标签生成问题',value:5,itemStyle:{color:G}},
+    {name:'服务流程问题',value:3,itemStyle:{color:'#f97316'}},
+    {name:'对外标答问题',value:2,itemStyle:{color:'#06b6d4'}},
+    {name:'模板问题',value:1,itemStyle:{color:'#ec4899'}}
+  ],label:{fontSize:10,formatter:'{b}\n{c}'},emphasis:{itemStyle:{shadowBlur:10,shadowOffsetX:0,shadowColor:'rgba(0,0,0,0.2)'}}}]
+});
+
+// 8. 地址数据治理验证通过率柱状图
+const cAddr=echarts.init(document.getElementById('chart-address'));
+cAddr.setOption({
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+  legend:{data:['南中心验证','北中心验证'],bottom:0,textStyle:{fontSize:11}},
+  grid:{left:50,right:20,top:20,bottom:40},
+  xAxis:{type:'category',data:['第一批次','第二批次','第三批次'],axisLabel:{fontSize:11}},
+  yAxis:{type:'value',max:100,axisLabel:{formatter:'{value}%',fontSize:11}},
+  series:[
+    {type:'bar',name:'南中心验证',data:[92.73,86.36,90.91],barWidth:24,itemStyle:{color:P},label:{show:true,position:'top',formatter:'{c}%',fontSize:11}},
+    {type:'bar',name:'北中心验证',data:[87.80,90.00,93.75],barWidth:24,itemStyle:{color:PU},label:{show:true,position:'top',formatter:'{c}%',fontSize:11}}
+  ]
+});
+
+// 9. 服务风险处置状态环形图
+const cRisk=echarts.init(document.getElementById('chart-risk'));
+cRisk.setOption({
+  tooltip:{trigger:'item',formatter:'{b}: {c}个 ({d}%)'},
+  legend:{bottom:0,textStyle:{fontSize:11}},
+  series:[{type:'pie',radius:['35%','65%'],center:['50%','42%'],data:[
+    {name:'已解决',value:8,itemStyle:{color:G}},
+    {name:'整改中',value:4,itemStyle:{color:R}}
+  ],label:{formatter:'{b}\n{c}个',fontSize:12},emphasis:{itemStyle:{shadowBlur:10,shadowOffsetX:0,shadowColor:'rgba(0,0,0,0.2)'}}}]
+});
+
+// 10. 重点任务状态分布柱状图
+const cTask=echarts.init(document.getElementById('chart-task'));
+cTask.setOption({
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+  legend:{data:['重点任务','常态化需求'],bottom:0,textStyle:{fontSize:11}},
+  grid:{left:60,right:20,top:20,bottom:40},
+  xAxis:{type:'category',data:['已上线','文档编制中','技术评估中','研发中','待开展'],axisLabel:{fontSize:11}},
+  yAxis:{type:'value',axisLabel:{fontSize:11}},
+  series:[
+    {type:'bar',name:'重点任务',data:[7,2,6,7,0],barWidth:24,itemStyle:{color:P},label:{show:true,position:'top',fontSize:11}},
+    {type:'bar',name:'常态化需求',data:[3,8,3,3,2],barWidth:24,itemStyle:{color:PU},label:{show:true,position:'top',fontSize:11}}
+  ]
+});
+
+// 响应式
+window.addEventListener('resize',function(){
+  [cRadar,cBar,cEmergency,cDefect2,cVerify,cSouth,cKnow,cAddr,cRisk,cTask].forEach(function(c){c.resize()});
+});
+}
+
+// Auto-init
+document.addEventListener('DOMContentLoaded',initCharts);
+if(document.readyState!=='loading') initCharts();
+</script>
+</body>
+</html>
