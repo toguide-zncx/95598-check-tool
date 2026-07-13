@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-07-13 12:25",
+  "syncTime": "2026-07-13 18:22",
   "source": "金山文档95598智能座席助手实施计划表",
   "tasks": [
     {
@@ -284,7 +284,7 @@
       "end": "2026-6-29",
       "category": "实施",
       "name": "V1.01 版本迭代",
-      "detail": "完成 V1.01 版本部署，覆盖8个客服部共80台座席终端。本版本以存量功能缺陷整改为主要迭代内容。",
+      "detail": "完成 V2.01 版本部署，覆盖8个客服部共80台座席终端。本版本以存量功能缺陷整改为主要迭代内容。",
       "deliverable": "部署包",
       "owner": "梁嵩、李琳等",
       "priority": "重要",
@@ -384,7 +384,7 @@
       "deliverable": "问题清单",
       "owner": "曲维元",
       "priority": "关键",
-      "status": "待开展"
+      "status": "已完成"
     },
     {
       "id": "28",
@@ -396,12 +396,12 @@
       "deliverable": "字准率运营报告",
       "owner": "冯成亮",
       "priority": "关键",
-      "status": "进行中",
+      "status": "已完成",
       "metric": "字准率91.47%",
       "metric_date": "2026-06-30"
     },
     {
-      "id": "六、风险防控标签识别",
+      "id": "29",
       "start": "",
       "end": "",
       "category": "",
@@ -458,10 +458,10 @@
     }
   ],
   "stats": {
-    "total": 28,
-    "done": 22,
-    "doing": 5,
-    "pending": 1,
+    "total": 29,
+    "done": 24,
+    "doing": 4,
+    "pending": 0,
     "delayed": 0,
     "seatsBound": 80,
     "seatsTotal": 80
