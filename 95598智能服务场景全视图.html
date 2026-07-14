@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>95598智能服务场景全视图</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #F0F2F5;
+    color: #212121;
+    padding: 12px;
+}
+
+/* 顶部标题栏 */
+.header {
+    background: linear-gradient(135deg, #006B54 0%, #008667 100%);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header h1 { font-size: 20px; font-weight: 600; }
+.header .subtitle { font-size: 12px; opacity: 0.85; margin-top: 3px; }
+
+/* KPI横排 */
+.kpi-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.kpi-card {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border-left: 3px solid #006B54;
+}
+.kpi-card .kpi-label { font-size: 12px; color: #757575; margin-bottom: 4px; }
+.kpi-card .kpi-value { font-size: 22px; font-weight: 700; color: #006B54; line-height: 1.2; }
+.kpi-card .kpi-unit { font-size: 12px; color: #757575; font-weight: 400; margin-left: 2px; }
+.kpi-card .kpi-sub { font-size: 11px; color: #4CAF50; margin-top: 3px; }
+
+/* 筛选区 */
+.filters {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.filter-group { display: flex; align-items: center; gap: 6px; }
+.filter-group label { font-size: 12px; color: #757575; white-space: nowrap; }
+.filter-group select {
+    padding: 4px 10px;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    font-size: 12px;
+    background: white;
+    cursor: pointer;
+    min-width: 90px;
+}
+.search-box {
+    padding: 4px 10px;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    font-size: 12px;
+    width: 180px;
+}
+.reset-btn {
+    padding: 4px 14px;
+    background: #E8F5E9;
+    color: #006B54;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: auto;
+}
+.reset-btn:hover { background: #81C784; color: white; }
+
+/* 图表行 */
+.chart-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.chart-card {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.chart-card.full-width { grid-column: 1 / -1; }
+.chart-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #212121;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.chart-title::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: #006B54;
+    border-radius: 2px;
+}
+.chart-container { width: 100%; height: 200px; }
+.chart-container.tall { height: 300px; }
+
+/* 维度编号 */
+.dim-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: #006B54;
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* 底部列表 */
+.scene-list-section {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.scene-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.scene-table th {
+    background: #E8F5E9;
+    color: #006B54;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #006B54;
+    position: sticky;
+    top: 0;
+}
+.scene-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.scene-table tr:hover { background: #FAFAFA; }
+.llm-badge {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 500;
+}
+.llm-yes { background: #FFEBEE; color: #E53935; }
+.llm-no { background: #F5F5F5; color: #9E9E9E; }
+.channel-tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 3px;
+    font-size: 10px;
+    background: #E8F5E9;
+    color: #006B54;
+}
+.table-scroll { max-height: 380px; overflow-y: auto; }
+
+@media (max-width: 1400px) {
+    .kpi-row { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+    .chart-row { grid-template-columns: 1fr; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div>
+        <h1>95598智能服务场景全视图</h1>
+        <div class="subtitle">十大维度立体式管理 · 全景洞察智能服务能力布局</div>
+    </div>
+    <div style="text-align:right;">
+        <div style="font-size:22px;font-weight:700;">73<span style="font-size:12px;opacity:0.8;margin-left:4px;">个场景</span></div>
+        <div style="font-size:12px;opacity:0.85;">日均 25.84万 笔 · 大模型 11 个</div>
+    </div>
+</div>
+
+<!-- KPI横排 -->
+<div class="kpi-row">
+    <div class="kpi-card">
+        <div class="kpi-label">场景总数</div>
+        <div class="kpi-value" id="kpiTotal">73<span class="kpi-unit">个</span></div>
+        <div class="kpi-sub">全渠道覆盖</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: #4CAF50;">
+        <div class="kpi-label">大模型应用</div>
+        <div class="kpi-value" id="kpiLlm" style="color: #4CAF50;">11<span class="kpi-unit">个</span></div>
+        <div class="kpi-sub">渗透率 15.1%</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: #008667;">
+        <div class="kpi-label">日均业务量</div>
+        <div class="kpi-value" id="kpiVolume" style="color: #008667;">25.84万<span class="kpi-unit">笔</span></div>
+        <div class="kpi-sub">全渠道合计</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: #FF9800;">
+        <div class="kpi-label">场景大类</div>
+        <div class="kpi-value" id="kpiCategory" style="color: #FF9800;">14<span class="kpi-unit">类</span></div>
+        <div class="kpi-sub">核心业务域</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: #F44336;">
+        <div class="kpi-label">平均完成率</div>
+        <div class="kpi-value" id="kpiCompletion" style="color: #F44336;">53.4<span class="kpi-unit">%</span></div>
+        <div class="kpi-sub">有数据场景加权</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: #9C27B0;">
+        <div class="kpi-label">产品形态</div>
+        <div class="kpi-value" style="color: #7B1FA2;">4<span class="kpi-unit">种</span></div>
+        <div class="kpi-sub">语音机器人 / 文本机器人 / 座席辅助 / 智能外呼</div>
+    </div>
+</div>
+
+<!-- 筛选区 -->
+<div class="filters">
+    <div class="filter-group">
+        <label>🔍</label>
+        <input type="text" class="search-box" id="searchInput" placeholder="搜索场景名称...">
+    </div>
+    <div class="filter-group">
+        <label>渠道：</label>
+        <select id="channelFilter">
+            <option value="">全部</option>
+            <option value="电话渠道">电话渠道</option><option value="互联网渠道">互联网渠道</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label>类型：</label>
+        <select id="typeFilter">
+            <option value="">全部</option>
+            <option value="语音机器人">语音机器人</option><option value="文本机器人">文本机器人</option><option value="座席辅助">座席辅助</option><option value="智能外呼">智能外呼</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label>大类：</label>
+        <select id="categoryFilter">
+            <option value="">全部</option>
+            <option value="咨询类">咨询类</option><option value="业务办理">业务办理</option><option value="交费提醒">交费提醒</option><option value="停电类">停电类</option><option value="活动通知">活动通知</option><option value="电费预警">电费预警</option><option value="档案信息业务">档案信息业务</option><option value="通用类">通用类</option><option value="座席辅助">座席辅助</option><option value="停电通知类">停电通知类</option><option value="电价政策">电价政策</option><option value="档案校核">档案校核</option><option value="满意度回访">满意度回访</option><option value="档案信息">档案信息</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label>年份：</label>
+        <select id="yearFilter">
+            <option value="">全部</option>
+            <option value="2019">2019</option><option value="2020">2020</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label>大模型：</label>
+        <select id="llmFilter">
+            <option value="">全部</option>
+            <option value="已应用">已应用</option>
+            <option value="未应用">未应用</option>
+        </select>
+    </div>
+    <button class="reset-btn" onclick="resetFilters()">重置</button>
+</div>
+
+<!-- 第一行：年度趋势 / 渠道分布 / 产品形态 -->
+<div class="chart-row">
+    <div class="chart-card">
+        <div class="chart-title"><span class="dim-badge">1</span>年度上线趋势</div>
+        <div class="chart-container" id="chart1"></div>
+    </div>
+    <div class="chart-card">
+        <div class="chart-title"><span class="dim-badge">2</span>渠道分布</div>
+        <div class="chart-container" id="chart2"></div>
+    </div>
+    <div class="chart-card">
+        <div class="chart-title"><span class="dim-badge">3</span>产品形态分布</div>
+        <div class="chart-container" id="chart3"></div>
+    </div>
+</div>
+
+<!-- 第二行：业务场景分类全景（全宽大图） -->
+<div class="chart-row">
+    <div class="chart-card full-width">
+        <div class="chart-title"><span class="dim-badge">4</span>业务场景分类全景</div>
+        <div class="chart-container tall" id="chart4"></div>
+    </div>
+</div>
+
+<!-- 第三行：大模型渗透率 / 业务量TOP10 / 完成率分布 -->
+<div class="chart-row">
+    <div class="chart-card">
+        <div class="chart-title"><span class="dim-badge">5</span>大模型应用渗透率</div>
+        <div class="chart-container" id="chart5"></div>
+    </div>
+    <div class="chart-card">
+        <div class="chart-title"><span class="dim-badge">6</span>业务量 TOP10</div>
+        <div class="chart-container" id="chart6"></div>
+    </div>
+    <div class="chart-card">
+        <div class="chart-title"><span class="dim-badge">7</span>完成率分布</div>
+        <div class="chart-container" id="chart7"></div>
+    </div>
+</div>
+
+<!-- 第四行：价值四象限 / 健康度雷达 / 六维矩阵 -->
+<div class="chart-row">
+    <div class="chart-card">
+        <div class="chart-title"><span class="dim-badge">8</span>价值四象限分析</div>
+        <div class="chart-container" id="chart8"></div>
+    </div>
+    <div class="chart-card">
+        <div class="chart-title"><span class="dim-badge">9</span>运营健康度雷达</div>
+        <div class="chart-container" id="chart9"></div>
+    </div>
+    <div class="chart-card">
+        <div class="chart-title"><span class="dim-badge">10</span>六维能力矩阵</div>
+        <div class="chart-container" id="chart10"></div>
+    </div>
+</div>
+
+<!-- 场景明细列表 -->
+<div class="scene-list-section">
+    <div class="chart-title">场景明细列表</div>
+    <div class="table-scroll">
+        <table class="scene-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>场景名称</th>
+                    <th>渠道</th>
+                    <th>类型</th>
+                    <th>场景大类</th>
+                    <th>大模型</th>
+                    <th>上线年份</th>
+                    <th>日均业务量</th>
+                    <th>完成率</th>
+                </tr>
+            </thead>
+            <tbody id="sceneTableBody">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+const allScenes = [{"id": 1, "channel": "电话渠道", "type": "语音机器人", "category": "停电类", "name": "故障报修", "intro": "用于辅助客户对停电原因进行研判，通过收集客户的户号、身份证号、表号、预留手机号信息对主动抢修工、在途故障工单、欠费状态匹配及继电器状态等信息进行研判，对故障停电信息进行播报，为客户提供更加便捷、准确的智能化服务。", "logic": "1.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是直接转至人工服务，否则进入历史服务记录收集环节\n2.历史服务记录收集：判断历史工单是否存在，若存在，根据研判信息进行播报，若不存在跳转至故障范围采集\n3.故障范围采集：向客户侧收集单户停电还是多户停电，收集成功后跳转至身份识别环节\n4.用户认证：有历史户号进入客户关系匹配，无历史户号通过地址、户号、表号等进行身份认证，认证通过后跳转至停电研判环节\n5.停电研判环节：\n   （1）单户：停电信息研判-》表记类型判断-》欠费停电判定-》继电器状态判定\n   （2）多户：停电信息研判-》在途故障/复电工单信息判定", "llm": "未应用", "year": "2020", "volume": 19667.0, "volumeDisplay": "19667", "completionRate": 0.0956}, {"id": 2, "channel": "电话渠道", "type": "语音机器人", "category": "停电类", "name": "停电信息查询", "intro": "用于客户查询当前及近期停电信息，通过户号、供电单位或地址等信息，获取停电类型、原因、起止时间等关键信息，辅助客户了解停电情况", "logic": "1.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是直接转至人工服务，否则进入历史服务记录收集环节\n2.用户认证：有历史户号进入客户关系匹配，无历史户号通过地址、户号、表号等进行身份认证，认证通过后跳转至停电信息查询环节\n3.停电信息查询：根据客户户号或地址查询区域内其他报修记录结合停电基础信息向客户反馈区域保修情况，判断停电性质并提供处理建议。同时根据是否北京用户及购电类型进行欠费停电判定", "llm": "已应用", "year": "2019", "volume": 5153.0, "volumeDisplay": "5153", "completionRate": 0.4515}, {"id": 3, "channel": "电话渠道", "type": "语音机器人", "category": "停电类", "name": "欠费复电", "intro": "欠费复电场景通过收集客户的户号对客户的用户类型、停电原因、复电申请情况、余额判断等信息进行研判，实现用户在欠费复电登记业务场景下的全过程对话沟通， 引导客户完成欠费复电登记服务申请业务。", "logic": "1.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是直接转至人工服务，否则进入历史服务记录收集环节\n2.历史服务记录收集：判断历史工单是否存在，若存在，询问客户是否查询该户号，若不存在跳转至用户认证\n3.用户认证：收集户号、表号、身份证号、手机号任一信息，得户号直接条件判断；得表号需用户验证；得身份证号，先判断单个/多个户号再条件判断\n4.条件判断：先依据客户类型判定是否满足应急送电条件，同步结合是否欠费判断停电原因；接着核查有无复电申请，若有则查询工单，若无则查询账户余额，余额大于零再开展手动复电判定", "llm": "未应用", "year": "2020", "volume": 596.0, "volumeDisplay": "596", "completionRate": 0.24539999999999998}, {"id": 4, "channel": "电话渠道", "type": "语音机器人", "category": "咨询类", "name": "电费电量信息查询", "intro": "电费查询场景通过收集客户的表号、身份证号、户号、手机号等任一信息，对客户的户号数量（单/多户号）、客户类型、所属地区（是否北京）、查询次数（首/非首次）、电费类别等信息进行研判，实现用户在电费查询业务场景下的全过程对话沟通，引导客户完成电费信息查询服务需求。", "logic": "1.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是则询问是否需要转人工，否则进入历史服务记录收集环节\n2.历史服务记录收集：判断历史工单是否存在，若存在，询问客户是否查询该户号，若不存在跳转至用户认证\n3.用户认证：依据已收集信息区分单 / 多户号，采集表号、身份证号、户号、手机号任一信息；若为表号 / 身份证号 / 户号，直接播报结果；若为手机号，先研判，研判通过则进入客户类型判定，未通过则触发用户验证。\n4.客户类型判定：判断客户类型及是否为北京客户，之后结合是否首次查询进行播报，非首查询时进行供售同期判定\n5.非北京电费结果播报：若电费类别为 “正常电费”，按场景细分播报，否则跳转人工服务", "llm": "已应用", "year": "2019", "volume": 9165.0, "volumeDisplay": "9165", "completionRate": 0.5129}, {"id": 5, "channel": "电话渠道", "type": "语音机器人", "category": "咨询类", "name": "欠费及违约金查询", "intro": "欠费及违约金查询场景通过收集客户信息，研判客户的来电频次、历史工单情况、户号数量（单 / 多户号）、客户类型、所属地区、查询次数等信息，实现用户在欠费及违约金查询业务场景下的全过程对话沟通，引导客户完成欠费及违约金查询服务需求。", "logic": "1.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是则询问是否需要转人工，否则进入历史服务记录收集环节\n2.历史服务记录收集：判断历史工单是否存在，若存在，询问客户是否查询该户号，若不存在跳转至用户认证\n3.用户认证：依据已收集信息区分单 / 多户号，采集表号、身份证号、户号、手机号任一信息；若为表号 / 身份证号 / 户号，则进入客户类型判定；若为手机号，先研判，研判通过则进入客户类型判定，未通过则触发用户验证。\n4.客户类型判定：判断客户类型及是否为北京客户，之后结合是否首次查询进行播报，非首查询时进行供售同期判定\n5.非北京欠费及违约金结果播报：若有结果则按场景细分播报，否则跳转人工服务", "llm": "未应用", "year": "2020", "volume": 891.0, "volumeDisplay": "891", "completionRate": 0.5318}, {"id": 6, "channel": "电话渠道", "type": "语音机器人", "category": "咨询类", "name": "交费信息查询", "intro": "电量电费查询场景通过识别客户的业务诉求、根据户号绑定状态，实现用户在电量电费查询业务场景下的全过程对话沟通，引导客户完成交费查询服务需求。", "logic": "1.客户诉求识别：识别客户希望办理的业务\n2.户号绑定识别：未绑定户号时推送“户号绑定”微应用，绑定后收集用户选择业务信息\n3.电量电费查询接口调用：若成功则推送“交费记录”微应用，若失败则转人工", "llm": "未应用", "year": "2020", "volume": 190.0, "volumeDisplay": "190", "completionRate": 0.6377}, {"id": 7, "channel": "电话渠道", "type": "语音机器人", "category": "咨询类", "name": "抄表示数查询", "intro": "抄表查询场景先核验客户来电频次与历史工单，再经用户认证、查询次数判定及结果状态研判，实现全程对话沟通，引导客户完成服务查询需求。", "logic": "1.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是则询问是否需要转人工，否则进入历史服务记录收集环节\n2.历史服务记录收集：判断历史工单是否存在，若存在，询问客户是否查询该户号，若不存在跳转至用户认证\n3.用户认证：依据已收集信息区分单 / 多户号，采集表号、身份证号、户号、手机号任一信息；若为表号 / 身份证号 / 户号，则进入客户类型判定；若为手机号，先研判，研判通过则进入客户类型判定，未通过则触发用户验证。\n4.是否首次查询判定：结合是否首次查询进行播报，非首查询时进行供售同期判定\n5.结果播报：若有结果则按场景细分播报，若无结果则进行特殊播报", "llm": "未应用", "year": "2020", "volume": 542.0, "volumeDisplay": "542", "completionRate": 0.66}, {"id": 8, "channel": "电话渠道", "type": "语音机器人", "category": "咨询类", "name": "电费计算方式查询", "intro": "电力服务查询场景通过收集客户信息及月份信息，经多维度信息研判，为用户在电力服务查询业务场景提供支持，助力客户高效完成电力服务相关问题的查询服务需求。", "logic": "1.网省判定：根据省份判定是智能引导还是直接转人工\n2.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是则询问是否需要转人工，否则进入历史服务记录收集环节\n3.历史服务记录收集：判断历史工单是否存在，若存在，询问客户是否查询该户号，若不存在跳转至用户认证\n4.用户认证：依据已收集信息区分单 / 多户号，采集表号、身份证号、户号、手机号任一信息；若为表号 / 身份证号 / 户号，直接播报结果；若为手机号，先研判，研判通过则进入客户类型判定，未通过则触发用户验证。\n5.结果播报：根据是否为首次查询及月份信息判定采暖季网省，之后根据有无结果及用户类型来播报结果，若存在多笔数据则转到人工坐席", "llm": "未应用", "year": "2020", "volume": 107.0, "volumeDisplay": "107", "completionRate": 0.5760000000000001}, {"id": 9, "channel": "电话渠道", "type": "语音机器人", "category": "咨询类", "name": "电价信息查询", "intro": "电价信息查询场景通过收集客户信息与位置信息，进行多维度信息研判，为用户在电力服务查询业务场景提供支持，助力客户高效满足电价信息相关问题的查询服务需求。", "logic": "1.网省判定：根据省份判定是智能引导还是直接转人工\n2.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是则询问是否需要转人工，否则进入历史服务记录收集环节\n3.历史服务记录收集：判断历史工单是否存在，若存在，询问客户是否查询该户号，若不存在跳转至用户认证\n4.用户认证：依据已收集信息区分单 / 多户号，采集表号、身份证号、户号、手机号任一信息；若为表号 / 身份证号 / 户号，直接播报结果；若为手机号，先研判，研判通过则进入客户类型判定，未通过则触发用户验证。\n5.结果播报：为客户播报电价信息", "llm": "未应用", "year": "2023", "volume": 343.0, "volumeDisplay": "343", "completionRate": 0.5654}, {"id": 10, "channel": "电话渠道", "type": "语音机器人", "category": "档案信息业务", "name": "户号查询", "intro": "户号查询场景通过来电号码与客户关系库户匹配校验，匹配成功的直接推送户号供用户选择，不成功的需客户输入身份证号、表号、预留收集号，然后对客户的客户编号进行播报。", "logic": "1.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是则询问是否需要转人工，否则进入身份识别\n2.身份识别：根据绑定单/多户号进行结果播报，若未绑定户号则进行用户认证\n3.用户认证：通过收集的身份证号、户号、表号、手机号来判定为单/多户号并进行结果播报", "llm": "未应用", "year": "2020", "volume": 12037.0, "volumeDisplay": "12037", "completionRate": 0.5700999999999999}, {"id": 11, "channel": "电话渠道", "type": "语音机器人", "category": "档案信息业务", "name": "联系方式变更", "intro": "联系方式变更场景根据客户信息进行身份识别，全程引导满足客户需求。", "logic": "1.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是则询问是否需要转人工，否则进入身份识别\n2.身份识别：判断是否绑定户号，之后进行用户认证\n3.判读是否为浙江用户：若为浙江用户可直接变更手机号码，之后进行号码匹配研判；若为其他地区用户则根据是否为居民用户进行不同的结果播报", "llm": "未应用", "year": "2020", "volume": 152.0, "volumeDisplay": "152", "completionRate": 0.0}, {"id": 12, "channel": "电话渠道", "type": "语音机器人", "category": "档案信息业务", "name": "用电地址变更", "intro": "用电地址变更场景通过识别客户身份判断客户类型，之后细分进行不同结果播报，便捷用户变更用电地址", "logic": "1.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是则询问是否需要转人工，否则进入身份识别\n2.身份识别：判断是否绑定户号，之后进行用户认证\n3.判读是否为浙江用户：系统根据用户属地（浙江/非浙江）及用户类型（居民/非居民）自动匹配差异化服务内容，实现精准播报。", "llm": "未应用", "year": "2020", "volume": 5.0, "volumeDisplay": "5", "completionRate": 0.0}, {"id": 13, "channel": "电话渠道", "type": "语音机器人", "category": "档案信息业务", "name": "密码重置", "intro": "密码重置场景通过识别客户身份信息进行用户认证，通过认证后即可为用户提供密码重置服务，保障用户的账号安全", "logic": "1.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是则询问是否需要转人工，否则进入身份识别\n2.身份识别：根据已绑定户号进行选择，若未绑定户号则进行用户认证，用户认证通过后进入预留联系方式类型判断\n3.重置密码：判断预留联系方式的类型，若为手机号码，则进入手机号码匹配研判流程；若不是手机号码，则进行播报。研判通过后，可进行密码重置；若未通过，则先进行用户验证，再重置密码。", "llm": "未应用", "year": "2020", "volume": 125.0, "volumeDisplay": "125", "completionRate": 0.2729}, {"id": 14, "channel": "电话渠道", "type": "语音机器人", "category": "档案信息业务", "name": "密码修改", "intro": "密码修改场景通过先对客户进行身份识别，再完成两次密码校验，为客户提供安全规范的密码修改服务。", "logic": "1.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是则询问是否需要转人工，否则进入身份识别\n2.身份识别：根据已绑定户号进行选择，若未绑定户号则进行用户认证，用户认证通过后可进行修改密码\n3.密码修改：新密码进行两次校验，通过后即可修改密码。", "llm": "未应用", "year": "2020", "volume": 11.0, "volumeDisplay": "11", "completionRate": 0.0333}, {"id": 15, "channel": "电话渠道", "type": "语音机器人", "category": "业务办理", "name": "业务处理进度及催办", "intro": "业务处理进度查询场景通过用户身份信息认证后，查询用户在途工单，并为用户播报业务进度，方便用户了解业务进度", "logic": "1.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是则询问是否需要转人工，否则进入身份识别\n2.身份识别：根据已绑定户号进行选择，若未绑定户号则进行用户认证，用户认证通过后可进行工单信息判断\n3.有无在途工单信息判断：若存在工单，则判断其是否为95598业务工单，并依据工单进度进行播报；若不存在工单，则直接进行播报。", "llm": "未应用", "year": "2020", "volume": 10.0, "volumeDisplay": "10", "completionRate": 0.0}, {"id": 16, "channel": "电话渠道", "type": "语音机器人", "category": "业务办理", "name": "电费交纳失败", "intro": "当电费交纳失败时，为用户提供提醒", "logic": "识别到电费缴纳失败时为用户进行播报", "llm": "未应用", "year": "2022", "volume": 326.0, "volumeDisplay": "326", "completionRate": 0.237}, {"id": 17, "channel": "电话渠道", "type": "语音机器人", "category": "业务办理", "name": "电费电量异常排查", "intro": "电量异常查询场景通过收集客户的户号及月份信息，对客户诉求、户号绑定状态、电量异常排查接口结果、电费发行状态、区域及用电量信息等进行研判，实现用户在电量异常查询业务场景下的全过程对话沟通，引导客户完成电量异常相关问题的查询服务需求。", "logic": "1.网省判定：根据省份判定是智能引导还是直接转人工\n2.客户2小时内来电4次判断：研判客户2小内是否来电4次，若是则询问是否需要转人工，否则进入历史服务记录收集环节\n3.历史服务记录收集：判断历史工单是否存在，若存在，询问客户是否查询该户号，若不存在跳转至用户认证\n4.用户认证：依据已收集信息区分单 / 多户号，采集表号、身份证号、户号、手机号任一信息；若为表号 / 身份证号 / 户号，直接播报结果；若为手机号，先研判，研判通过则进入客户类型判定，未通过则触发用户验证。\n5.结果播报：根据是否为首次查询及月份信息判定采暖季网省，之后根据有无结果及用户类型来播报结果，若存在多笔数据则转到人工坐席。若存在电量电费异常则进行结果播报。", "llm": "未应用", "year": "2023", "volume": 545.0, "volumeDisplay": "545", "completionRate": 0.12890000000000001}, {"id": 18, "channel": "电话渠道", "type": "语音机器人", "category": "业务办理", "name": "业扩报装携带材料", "intro": "便捷客户准备相关材料", "logic": "根据客户办理业务给客户播报所需材料", "llm": "未应用", "year": "2023", "volume": 2295.0, "volumeDisplay": "2295", "completionRate": 0.38799999999999996}, {"id": 19, "channel": "电话渠道", "type": "语音机器人", "category": "业务办理", "name": "电能表异常业务", "intro": "用电问题处理服务场景通过地区状态判断、省份差异适配、历史记录查询及身份验证等环节，对客户所属地区、停电状态、电表错误代码、历史户号信息、身份绑定状态、在途工单情况等进行研判，引导客户完成用电相关问题的咨询与处理需求。​", "logic": "1.地区状态判断及代码确认：上海地区直接转接人工客服；其他地区先查是否停电，停电转人工，未停电则确认电表错误代码，为err-04按对应省份方式操作，否则转人工。 \n2.省差异处理：根据用户的不同省份进行不同的播报，2次未识别时转人工处理\n3.历史服务记录查询及身份识别：先判断用户是否通过历史户号查询，若是则直接处理；若否或无历史记录，先完成用户身份识别，已绑定户号的直接处理，未绑定的则引导用户进行认证。 \n4.用户认证及验证：用户输入信息后，根据信息种类进行播报和识别，两次未识别则转人工，之后进行用户验证，通过后进行处理，两次未通过则转人工。\n5.处理及派单：调用工单查询接口，判断是否存在在途工单信息。若存在同类型的在途工单，则进行播报；若不存在，则继续流程。对客户信息进行确认后，派发工单。若两次未识别客户信息，则转人工处理。", "llm": "已应用", "year": "2025", "volume": 145.0, "volumeDisplay": "145", "completionRate": 0.0}, {"id": 20, "channel": "电话渠道", "type": "语音机器人", "category": "业务办理", "name": "预约抄表业务", "intro": "预约抄表业务场景通过识别客户需求和归属地，并检查客户是否在关系库，最后判断同类型在途工单情况，完成信息采集后播报结果并派发工单，满足客户的预约抄表需求", "logic": "1.客户意图及归属地判断：先识需求定播报方向、核验归属地：不支持业务的播报说明或转人工，支持的则进一步验证身份。 \n2.身份验证及识别：先查客户是否在关系库：已存在则直接服务；不存在则收集户号、表号等信息后服务或验证，同步判断用户状态。\n3.工单信息判断：判断是否存在同类型在途工单，若不存在则直接开展信息采集工作；若存在，则依据用户需求进行播报。当出现两次未识别情况时，转接人工处理。 \n4.预约信息采集及结果播报：用户填写采集时间及电话，信息通过后进行结果播报并派发工单", "llm": "已应用", "year": "2024", "volume": 25.0, "volumeDisplay": "25", "completionRate": 0}, {"id": 21, "channel": "电话渠道", "type": "语音机器人", "category": "通用类", "name": "全语音导航", "intro": "语音渠道首层实现语音及按键导航", "logic": "首层支撑直接与智能客服交互，也可以支持进入传统按键模型。", "llm": "未应用", "year": "2023", "volume": 115365.0, "volumeDisplay": "115365", "completionRate": 0.34590000000000004}, {"id": 22, "channel": "电话渠道", "type": "语音机器人", "category": "通用类", "name": "知识查询", "intro": "根据客户咨询语义匹配知识标问标答。", "logic": "1.客户意图及归属地判断：先识需求定播报方向、核验归属地。\n2.匹配客户意图及归属地，推送播报标问标答。", "llm": "未应用", "year": "2019", "volume": 4723.0, "volumeDisplay": "4723", "completionRate": 0}, {"id": 23, "channel": "电话渠道", "type": "语音机器人", "category": "通用类", "name": "服务策略精准推送", "intro": "根据客户标签制定个性化服务策略", "logic": "1.根据客户诉求语义生成电费查询、智能关爱服务标签。\n2.客户来电时，根据标签匹配服务策略。", "llm": "已应用", "year": "2024", "volume": 396.0, "volumeDisplay": "396", "completionRate": 0}, {"id": 24, "channel": "互联网渠道", "type": "文本机器人", "category": "咨询类", "name": "电量电费查询", "intro": "推送电费账单，提供详细电费、电量、阶梯电量、抄表示数等电费类信息。", "logic": "向客户推送电费账单，账单中包含详细的电费、电量、阶梯电量、抄表示数等电费类信息，供客户查看。", "llm": "未应用", "year": "2023", "volume": 1395.0, "volumeDisplay": "1395", "completionRate": 0.6945}, {"id": 25, "channel": "互联网渠道", "type": "文本机器人", "category": "咨询类", "name": "交费记录查询", "intro": "当客户需要时，推送最近一次交费信息，满足客户的交费查询需求", "logic": "当客户提出查询交费信息的需求时，系统调取其最近一次的交费记录，将该交费信息推送至客户，以满足其查询需求。", "llm": "未应用", "year": "2023", "volume": 589.0, "volumeDisplay": "589", "completionRate": 0.7741}, {"id": 26, "channel": "互联网渠道", "type": "文本机器人", "category": "咨询类", "name": "余额查询", "intro": "为用户提供余额信息查询服务", "logic": "接收用户的余额信息查询请求，向用户提供其账户的余额信息，完成查询服务。", "llm": "未应用", "year": "2023", "volume": 263.0, "volumeDisplay": "263", "completionRate": 0.648}, {"id": 27, "channel": "互联网渠道", "type": "文本机器人", "category": "咨询类", "name": "欠费及违约金查询", "intro": "根据用户需求为用户播报当前欠费及违约金信息。", "logic": "接收用户关于欠费及违约金信息的查询需求，向用户播报其当前的欠费金额及违约金信息，满足用户需求。", "llm": "未应用", "year": "2023", "volume": 52.0, "volumeDisplay": "52", "completionRate": 0.6123}, {"id": 28, "channel": "互联网渠道", "type": "文本机器人", "category": "咨询类", "name": "抄表示数查询", "intro": "提供抄表示数、抄表周期等信息查询服务", "logic": "接收用户关于抄表示数的查询需求，向用户播报抄表示数、抄表周期等信息，满足用户需求。", "llm": "未应用", "year": "2023", "volume": 132.0, "volumeDisplay": "132", "completionRate": 1.0}, {"id": 29, "channel": "互联网渠道", "type": "文本机器人", "category": "停电类", "name": "故障报修", "intro": "从停电状态、原因，是否存在违约用电，是否有欠费复电工单等方面进行综合研判，按对应方式进行处理。", "logic": "综合研判客户的停电状态及原因、是否存在违约用电、有无欠费复电工单等情况，依据研判结果，按对应方式处理。", "llm": "未应用", "year": "2023", "volume": 1289.0, "volumeDisplay": "1289", "completionRate": 1.0012}, {"id": 30, "channel": "互联网渠道", "type": "文本机器人", "category": "停电类", "name": "停电信息查询", "intro": "根据停电状态为客户提供停电信息查询服务", "logic": "接收客户的停电信息查询请求，获取客户对应的停电状态，根据该停电状态，向客户提供具体的停电信息，完成查询服务。", "llm": "未应用", "year": "2023", "volume": 437.0, "volumeDisplay": "437", "completionRate": 1.0}, {"id": 31, "channel": "互联网渠道", "type": "文本机器人", "category": "停电类", "name": "欠费复电", "intro": "欠费复电场景通过收集客户的户号对客户的用户类型、停电原因、复电申请情况、余额判断等信息进行研判，实现客户的欠费复电需求", "logic": "1.户号绑定识别：若未绑定户号，则推送户号绑定微应用，若已绑定户号则进行信息收集\n2.判断电表类型及是否欠费：若为本地费控类型则根据地区进行处理，否则先判断是否欠费，若无欠费则转人工，欠费则判断是否有在途工单\n3.判断是否有在途工单：若有则根据办理周期进行播报，若无则进行是否满足欠费复电条件判断。\n4.北京用户应急流程：根据余额进行播报或转人工处理", "llm": "未应用", "year": "2023", "volume": 568.0, "volumeDisplay": "568", "completionRate": 0.7762}, {"id": 32, "channel": "互联网渠道", "type": "文本机器人", "category": "档案信息", "name": "户号查询", "intro": "户号查询场景通过为客户推送微场景，调用户号查询接口，为客户提供户号查询服务", "logic": "1.微场景推送：推送两轮户号采集微场景，提交信息后进行户号查询接口调用，两轮均错误则直接转人工\n2.户号查询接口调用：进行两轮查询，根据两轮结果进行跳转人工服务或用户选择采集，若两轮均正确则直接播报结果\n3.用户选择采集：若第一次未查询户号，则提示用户重新输入或通过微应用查询", "llm": "未应用", "year": "2023", "volume": 3221.0, "volumeDisplay": "3221", "completionRate": 0.5134000000000001}, {"id": 33, "channel": "互联网渠道", "type": "文本机器人", "category": "业务办理", "name": "电量电费异常排查", "intro": "电量电费异常排查场景通过识别客户诉求，收集客户信息进行电量电费异常排查，之后进行结果播报，满足客户的电量电费异常排查需求", "logic": "1.客户诉求识别：根据客户需求判断需电表校验还是电费异常查询\n2.户号识别及信息收集：若客户已绑定户号则收集客户信息及月份信息，未绑定户号则推送户号绑定微应用进行户号绑定。\n3.电量异常排查接口调用：若成功则进行条件判断及结果播报，若失败则转人工服务\n4.条件判断及结果播报：根据电费是否已发行，进一步判断区域及用电量信息进行不同播报，之后进行电表校验微应用", "llm": "未应用", "year": "2023", "volume": 959.0, "volumeDisplay": "959", "completionRate": 0.34619999999999995}, {"id": 34, "channel": "互联网渠道", "type": "文本机器人", "category": "业务办理", "name": "营业厅信息查询", "intro": "为用户智能推荐附近的营业厅", "logic": "1. 读取位置：获取用户位置信息及业务需求。\n2. 智能推荐：系统基于位置智能筛选附近营业厅并推荐给用户。", "llm": "未应用", "year": "2023", "volume": 252.0, "volumeDisplay": "252", "completionRate": 0.4082}, {"id": 35, "channel": "互联网渠道", "type": "文本机器人", "category": "业务办理", "name": "新装增容", "intro": "记录用户的新装、增容需求，之后进行工单派发", "logic": "1. 记录需求：接收并记录用户的新装需求信息。\n2.工单派发：依据记录内容进行工单创建与派发。", "llm": "未应用", "year": "2023", "volume": 240.0, "volumeDisplay": "240", "completionRate": 0.46149999999999997}, {"id": 36, "channel": "互联网渠道", "type": "文本机器人", "category": "业务办理", "name": "更名过户办理", "intro": "按照流程引导客户进行更名过户办理", "logic": "1. 验证客户信息：接收客户的更名过户办理请求，明确客户需求及相关信息。\n2. 引导过户办理：按既定流程向客户告知办理所需材料、步骤及注意事项，引导客户逐步完成更名过户手续。", "llm": "未应用", "year": "2023", "volume": 862.0, "volumeDisplay": "862", "completionRate": 0.5294}, {"id": 37, "channel": "互联网渠道", "type": "文本机器人", "category": "通用类", "name": "客户侧知识问答", "intro": "根据客户意图匹配知识答案", "logic": "1.客户意图及归属地判断：先识需求定播报方向、核验归属地。\n2.匹配客户意图及归属地，推送播报标问标答。", "llm": "已应用", "year": "2025", "volume": 40430.0, "volumeDisplay": "40430", "completionRate": 1.0}, {"id": 38, "channel": "互联网渠道", "type": "座席辅助", "category": "座席辅助", "name": "知识融合推荐", "intro": "根据会话内容进行知识融合推荐", "logic": "1. 获取对话信息：实时捕捉会话中的关键信息（如用户提及的业务需求、疑问点等）。\n2. 推荐知识：结合捕捉到的信息，从知识库中匹配相关联的知识内容，向用户进行融合推荐。", "llm": "已应用", "year": "2025", "volume": 32315.0, "volumeDisplay": "32315", "completionRate": 0}, {"id": 39, "channel": "互联网渠道", "type": "座席辅助", "category": "座席辅助", "name": "会话摘要智能生成", "intro": "根据会话内容智能进行摘要生成", "logic": "1. 提取会话信息：实时提取会话中的核心信息，包括用户需求、关键提问、业务相关内容等。\n2. 生成摘要：基于提取的核心信息，智能生成简洁、准确的会话摘要，呈现会话重点。", "llm": "已应用", "year": "2025", "volume": 1.0, "volumeDisplay": "1", "completionRate": 0}, {"id": 40, "channel": "互联网渠道", "type": "座席辅助", "category": "座席辅助", "name": "情绪识别", "intro": "根据客户的输入文本识别客户的情绪", "logic": "捕捉客户输入文本中的情绪关键词、语气特征及表达倾向，基于这些信息识别客户当前的情绪状态。", "llm": "已应用", "year": "2025", "volume": 2551.0, "volumeDisplay": "2551", "completionRate": 0}, {"id": 41, "channel": "电话渠道", "type": "智能外呼", "category": "停电通知类", "name": "停电检修信息告知", "intro": "根据省公司推送停电清单客户信息，外呼告知客户。", "logic": "1.获取省公司推送停电信息关联客户清单。\n2.根据各省配置的停电提醒话术播报内容进行外呼告知\n3.采集客户侧对于外呼结果的反馈，包含客户外呼类型标签等信息并返回省公司。", "llm": "已应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 42, "channel": "电话渠道", "type": "智能外呼", "category": "停电通知类", "name": "福建主动送电确认", "intro": "", "logic": "", "llm": "未应用", "year": "2023", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 43, "channel": "电话渠道", "type": "智能外呼", "category": "停电通知类", "name": "费控欠费停电提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 44, "channel": "电话渠道", "type": "智能外呼", "category": "电价政策", "name": "阶梯提醒", "intro": "根据省公司推送政策相关的客户信息，外呼告知政策变化情况。", "logic": "1.获取省公司推送电价等政策变更等关联客户清单。\n2.根据各省配置的政策变更话术播报内容进行外呼告知\n3.采集客户侧对于外呼结果的反馈，包含客户外呼类型标签等信息并返回省公司。", "llm": "未应用", "year": "2026", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 45, "channel": "电话渠道", "type": "智能外呼", "category": "电价政策", "name": "峰谷分时变更政策提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2025", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 46, "channel": "电话渠道", "type": "智能外呼", "category": "电价政策", "name": "煤改电办理", "intro": "", "logic": "", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 47, "channel": "电话渠道", "type": "智能外呼", "category": "活动通知", "name": "网上国网E起节电", "intro": "根据省公司营销活动计划时间等详细信息，外呼告知活动情况。", "logic": "1.获取省公司推送活动通知关联客户清单、电费余额内容。\n2.根据各省配置的活动话术播报内容进行外呼告知\n3.采集客户侧对于外呼结果的反馈，包含客户外呼类型标签等信息并返回省公司。", "llm": "未应用", "year": "2025", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 48, "channel": "电话渠道", "type": "智能外呼", "category": "活动通知", "name": "山东可交易电券活动提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2025", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 49, "channel": "电话渠道", "type": "智能外呼", "category": "活动通知", "name": "分布式光伏竞价提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2025", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 50, "channel": "电话渠道", "type": "智能外呼", "category": "活动通知", "name": "交费渠道推荐", "intro": "", "logic": "", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 51, "channel": "电话渠道", "type": "智能外呼", "category": "活动通知", "name": "宁夏换表提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 52, "channel": "电话渠道", "type": "智能外呼", "category": "活动通知", "name": "天津换表提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 53, "channel": "电话渠道", "type": "智能外呼", "category": "交费提醒", "name": "山东交费提醒", "intro": "对当前电费余额不足的客户，结合省结合省公司需求，细化各省不同交费提醒话术播报内容。", "logic": "1.获取省公司推送交费客户清单。\n2.根据各省配置的交费提醒话术播报内容进行外呼告知\n3.采集客户侧对于外呼结果的反馈，包含客户外呼类型标签等信息并返回省公司。", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 54, "channel": "电话渠道", "type": "智能外呼", "category": "交费提醒", "name": "冀北交费提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 55, "channel": "电话渠道", "type": "智能外呼", "category": "交费提醒", "name": "山西交费提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2025", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 56, "channel": "电话渠道", "type": "智能外呼", "category": "交费提醒", "name": "天津交费提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 57, "channel": "电话渠道", "type": "智能外呼", "category": "交费提醒", "name": "江苏交费提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 58, "channel": "电话渠道", "type": "智能外呼", "category": "交费提醒", "name": "河南交费提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 59, "channel": "电话渠道", "type": "智能外呼", "category": "交费提醒", "name": "河北交费提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 60, "channel": "电话渠道", "type": "智能外呼", "category": "交费提醒", "name": "甘肃交费提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 61, "channel": "电话渠道", "type": "智能外呼", "category": "交费提醒", "name": "陕西交费提醒", "intro": "", "logic": "", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 62, "channel": "电话渠道", "type": "智能外呼", "category": "电费预警", "name": "天津电费预警", "intro": "对当前已超阶梯一档电量的客户，播报阶梯超档电费提醒内容。", "logic": "1.获取省公司推送阶梯超档的客户清单及超档明细数据。\n2.根据各省配置的阶梯超档提醒话术播报内容进行外呼告知\n3.采集客户侧对于外呼结果的反馈，包含客户外呼类型标签等信息并返回省公司。", "llm": "未应用", "year": "2023", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 63, "channel": "电话渠道", "type": "智能外呼", "category": "电费预警", "name": "冀北电费预警", "intro": "", "logic": "", "llm": "未应用", "year": "2023", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 64, "channel": "电话渠道", "type": "智能外呼", "category": "电费预警", "name": "甘肃电费预警", "intro": "", "logic": "", "llm": "未应用", "year": "2023", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 65, "channel": "电话渠道", "type": "智能外呼", "category": "电费预警", "name": "吉林电费预警", "intro": "", "logic": "", "llm": "未应用", "year": "2023", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 66, "channel": "电话渠道", "type": "智能外呼", "category": "电费预警", "name": "四川电费预警", "intro": "", "logic": "", "llm": "未应用", "year": "2023", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 67, "channel": "电话渠道", "type": "智能外呼", "category": "电费预警", "name": "辽宁电费预警", "intro": "", "logic": "", "llm": "未应用", "year": "2023", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 68, "channel": "电话渠道", "type": "智能外呼", "category": "档案校核", "name": "联办更名核实", "intro": "对客户档案信息存在问题的客户，外呼核对信息。", "logic": "1.获取省公司推送档案信息疑似不准确客户清单、档案信息内容。\n2.根据各省配置的校核提醒话术播报内容进行外呼告知\n3.采集客户侧对于外呼结果的反馈，包含客户外呼类型标签等信息并返回省公司。", "llm": "未应用", "year": "2022", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 69, "channel": "电话渠道", "type": "智能外呼", "category": "档案校核", "name": "联系方式核实", "intro": "", "logic": "", "llm": "未应用", "year": "2025", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 70, "channel": "电话渠道", "type": "智能外呼", "category": "档案校核", "name": "档案信息核实", "intro": "", "logic": "", "llm": "未应用", "year": "2026", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 71, "channel": "电话渠道", "type": "智能外呼", "category": "满意度回访", "name": "8890回访", "intro": "针对95598工单、8890工单开展处理满意度回访", "logic": "1.获取省公司推送工单处理信息内容。\n2.根据各省配置的满意回访采集话术播报内容进行外呼告知\n3.采集客户侧对于外呼结果的反馈，包含客户外呼类型标签等信息并返回省公司。", "llm": "未应用", "year": "2024", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 72, "channel": "电话渠道", "type": "智能外呼", "category": "满意度回访", "name": "95598工单满意度回访", "intro": "", "logic": "", "llm": "未应用", "year": "2023", "volume": 0, "volumeDisplay": "0", "completionRate": 0}, {"id": 73, "channel": "电话渠道", "type": "语音机器人", "category": "咨询类", "name": "多要素日用电量查询", "intro": "", "logic": "", "llm": "已应用", "year": "2026", "volume": 0, "volumeDisplay": "0", "completionRate": 0}];
+
+const C_PRIMARY = '#006B54';
+const C_SECONDARY = '#008667';
+const C_ACCENT = '#4CAF50';
+const C_LIGHT = '#81C784';
+const C_PALE = '#E8F5E9';
+const C_WARN = '#FF9800';
+const C_ERROR = '#F44336';
+
+let charts = {};
+let filteredScenes = [...allScenes];
+
+function initCharts() {
+    for (let i = 1; i <= 10; i++) {
+        charts['chart'+i] = echarts.init(document.getElementById('chart'+i));
+    }
+    updateAllCharts();
+    updateTable();
+}
+
+function applyFilters() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const channel = document.getElementById('channelFilter').value;
+    const type = document.getElementById('typeFilter').value;
+    const category = document.getElementById('categoryFilter').value;
+    const year = document.getElementById('yearFilter').value;
+    const llm = document.getElementById('llmFilter').value;
+    
+    filteredScenes = allScenes.filter(s => {
+        if (search && !(s.name || '').toLowerCase().includes(search) && !(s.intro || '').toLowerCase().includes(search)) return false;
+        if (channel && s.channel !== channel) return false;
+        if (type && s.type !== type) return false;
+        if (category && s.category !== category) return false;
+        if (year && String(s.year) !== year) return false;
+        if (llm) {
+            if (llm === '已应用' && !String(s.llm || '').includes('已应用')) return false;
+            if (llm === '未应用' && String(s.llm || '').includes('已应用')) return false;
+        }
+        return true;
+    });
+    
+    updateAllCharts();
+    updateTable();
+    updateKpis();
+}
+
+function resetFilters() {
+    ['searchInput','channelFilter','typeFilter','categoryFilter','yearFilter','llmFilter']
+        .forEach(id => document.getElementById(id).value = '');
+    filteredScenes = [...allScenes];
+    updateAllCharts();
+    updateTable();
+    updateKpis();
+}
+
+function updateKpis() {
+    const total = filteredScenes.length;
+    const llm = filteredScenes.filter(s => String(s.llm || '').includes('已应用')).length;
+    const vol = filteredScenes.reduce((sum, s) => sum + (s.volume || 0), 0);
+    const cats = new Set(filteredScenes.map(s => s.category));
+    const crs = filteredScenes.filter(s => s.completionRate > 0).map(s => s.completionRate);
+    const avgCr = crs.length ? crs.reduce((a, b) => a + b, 0) / crs.length : 0;
+    
+    document.getElementById('kpiTotal').innerHTML = total + '<span class="kpi-unit">个</span>';
+    document.getElementById('kpiLlm').innerHTML = llm + '<span class="kpi-unit">个</span>';
+    document.getElementById('kpiVolume').innerHTML = fmtVol(vol) + '<span class="kpi-unit">笔</span>';
+    document.getElementById('kpiCategory').innerHTML = cats.size + '<span class="kpi-unit">类</span>';
+    document.getElementById('kpiCompletion').innerHTML = (avgCr * 100).toFixed(1) + '<span class="kpi-unit">%</span>';
+}
+
+function fmtVol(v) {
+    if (v >= 10000) return (v / 10000).toFixed(2) + '万';
+    return v.toFixed(0);
+}
+
+// 1.年度上线趋势
+function updateChart1() {
+    const yc = {};
+    filteredScenes.forEach(s => { if (s.year) yc[s.year] = (yc[s.year] || 0) + 1; });
+    const years = Object.keys(yc).sort();
+    charts.chart1.setOption({
+        tooltip: { trigger: 'axis' },
+        grid: { left: 35, right: 15, top: 15, bottom: 25 },
+        xAxis: { type: 'category', data: years, axisLabel: { fontSize: 10 } },
+        yAxis: { type: 'value', axisLabel: { fontSize: 10 } },
+        series: [{
+            type: 'bar',
+            data: years.map(y => yc[y]),
+            itemStyle: {
+                color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C_ACCENT},{offset:1,color:C_PRIMARY}]),
+                borderRadius: [3,3,0,0]
+            },
+            barWidth: '50%',
+            label: { show: true, position: 'top', fontSize: 10 }
+        }]
+    });
+}
+
+// 2.渠道分布
+function updateChart2() {
+    const cc = {};
+    filteredScenes.forEach(s => { cc[s.channel] = (cc[s.channel] || 0) + 1; });
+    charts.chart2.setOption({
+        tooltip: { trigger: 'item', formatter: '{b}: {c}个 ({d}%)' },
+        legend: { bottom: 0, fontSize: 10 },
+        series: [{
+            type: 'pie',
+            radius: ['42%', '68%'],
+            center: ['50%', '42%'],
+            data: Object.entries(cc).map(([n,v]) => ({name:n,value:v})),
+            color: [C_PRIMARY, C_ACCENT, C_SECONDARY, C_LIGHT],
+            label: { fontSize: 10, formatter: '{b} {d}%' },
+            labelLine: { length: 6, length2: 6 }
+        }]
+    });
+}
+
+// 3.产品形态
+function updateChart3() {
+    const tc = {};
+    filteredScenes.forEach(s => { tc[s.type] = (tc[s.type] || 0) + 1; });
+    const types = Object.keys(tc);
+    charts.chart3.setOption({
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+        grid: { left: 70, right: 20, top: 8, bottom: 15 },
+        xAxis: { type: 'value', axisLabel: { fontSize: 10 } },
+        yAxis: { type: 'category', data: types, axisLabel: { fontSize: 10 }, inverse: true },
+        series: [{
+            type: 'bar',
+            data: types.map(t => tc[t]),
+            itemStyle: {
+                color: new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:C_PRIMARY},{offset:1,color:C_ACCENT}]),
+                borderRadius: [0,3,3,0]
+            },
+            barWidth: '55%',
+            label: { show: true, position: 'right', fontSize: 10 }
+        }]
+    });
+}
+
+// 4.业务场景分类全景
+function updateChart4() {
+    const cc = {}, cv = {}, cl = {};
+    filteredScenes.forEach(s => {
+        cc[s.category] = (cc[s.category] || 0) + 1;
+        cv[s.category] = (cv[s.category] || 0) + (s.volume || 0);
+        if (String(s.llm || '').includes('已应用')) cl[s.category] = (cl[s.category] || 0) + 1;
+    });
+    const sorted = Object.entries(cc).sort((a,b) => b[1]-a[1]);
+    const cats = sorted.map(([k]) => k);
+    const counts = sorted.map(([k]) => cc[k]);
+    const vols = sorted.map(([k]) => Math.round(cv[k]));
+    const llms = sorted.map(([k]) => cl[k] || 0);
+    
+    charts.chart4.setOption({
+        tooltip: {
+            trigger: 'axis', axisPointer: { type: 'shadow' },
+            formatter: function(p) {
+                let r = p[0].name + '<br/>';
+                p.forEach(x => {
+                    r += x.marker + x.seriesName + ': ' + 
+                        (x.seriesName === '业务量' ? fmtVol(x.value)+'笔' : x.value+'个') + '<br/>';
+                });
+                return r;
+            }
+        },
+        legend: { data: ['场景数量','大模型应用','业务量'], top: 0, fontSize: 11 },
+        grid: { left: 45, right: 65, top: 30, bottom: 60 },
+        xAxis: { type: 'category', data: cats, axisLabel: { fontSize: 11, rotate: 30, interval: 0 } },
+        yAxis: [
+            { type: 'value', name: '场景数', axisLabel: { fontSize: 10 }, nameTextStyle: { fontSize: 10 } },
+            { type: 'value', name: '业务量', axisLabel: { fontSize: 10, formatter: v => fmtVol(v) }, nameTextStyle: { fontSize: 10 } }
+        ],
+        series: [
+            {
+                name: '场景数量', type: 'bar', data: counts, barWidth: '22%',
+                itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:C_SECONDARY},{offset:1,color:C_PRIMARY}]),
+                    borderRadius: [3,3,0,0]
+                },
+                label: { show: true, position: 'top', fontSize: 10, color: C_PRIMARY, fontWeight: 'bold' }
+            },
+            {
+                name: '大模型应用', type: 'bar', data: llms, barWidth: '22%',
+                itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#FF7043'},{offset:1,color:'#E64A19'}]),
+                    borderRadius: [3,3,0,0]
+                },
+                label: { show: true, position: 'top', fontSize: 10 }
+            },
+            {
+                name: '业务量', type: 'line', yAxisIndex: 1, data: vols,
+                smooth: true, lineStyle: { width: 2.5, color: C_ACCENT },
+                itemStyle: { color: C_ACCENT }, symbol: 'circle', symbolSize: 7
+            }
+        ]
+    });
+}
+
+// 5.大模型渗透率
+function updateChart5() {
+    const yes = filteredScenes.filter(s => String(s.llm || '').includes('已应用')).length;
+    const no = filteredScenes.length - yes;
+    charts.chart5.setOption({
+        tooltip: { trigger: 'item', formatter: '{b}: {c}个 ({d}%)' },
+        legend: { bottom: 0, fontSize: 10 },
+        series: [{
+            type: 'pie', radius: ['48%','72%'], center: ['50%','42%'],
+            data: [
+                { name: '已应用', value: yes, itemStyle: { color: '#E53935' } },
+                { name: '未应用', value: no, itemStyle: { color: '#BDBDBD' } }
+            ],
+            label: { fontSize: 11, formatter: '{b}\n{d}%', fontWeight: 'bold' }
+        }],
+        graphic: [
+            { type:'text', left:'center', top:'38%', style: { text: yes+'个', fontSize:18, fontWeight:'bold', fill:C_PRIMARY, textAlign:'center' } },
+            { type:'text', left:'center', top:'50%', style: { text: '大模型场景', fontSize:10, fill:'#999', textAlign:'center' } }
+        ]
+    });
+}
+
+// 6.业务量TOP10
+function updateChart6() {
+    const top = filteredScenes.filter(s => s.volume > 0).sort((a,b) => b.volume-a.volume).slice(0,10);
+    const names = top.map(s => s.name.length > 7 ? s.name.slice(0,7)+'...' : s.name);
+    charts.chart6.setOption({
+        tooltip: {
+            trigger: 'axis',
+            formatter: p => top[p[0].dataIndex].name + '<br/>业务量: ' + fmtVol(top[p[0].dataIndex].volume) + '笔'
+        },
+        grid: { left: 75, right: 45, top: 8, bottom: 15 },
+        xAxis: { type: 'value', axisLabel: { fontSize: 10, formatter: v => fmtVol(v) } },
+        yAxis: { type: 'category', data: names.reverse(), axisLabel: { fontSize: 10 } },
+        series: [{
+            type: 'bar', data: top.map(s=>s.volume).reverse(),
+            itemStyle: {
+                color: p => [C_PRIMARY,'#00796B',C_SECONDARY,'#009688',C_ACCENT][p.dataIndex%5],
+                borderRadius: [0,3,3,0]
+            },
+            barWidth: '55%',
+            label: { show: true, position: 'right', fontSize: 10, formatter: p => fmtVol(p.value) }
+        }]
+    });
+}
+
+// 7.完成率分布
+function updateChart7() {
+    const bk = [
+        {n:'0-20%',min:0,max:0.2,c:0},
+        {n:'20-40%',min:0.2,max:0.4,c:0},
+        {n:'40-60%',min:0.4,max:0.6,c:0},
+        {n:'60-80%',min:0.6,max:0.8,c:0},
+        {n:'80-100%',min:0.8,max:1,c:0}
+    ];
+    filteredScenes.forEach(s => {
+        if (s.completionRate > 0) {
+            for (let b of bk) { if (s.completionRate >= b.min && s.completionRate < b.max) { b.c++; break; } }
+        }
+    });
+    charts.chart7.setOption({
+        tooltip: { trigger: 'axis' },
+        grid: { left: 35, right: 15, top: 15, bottom: 25 },
+        xAxis: { type: 'category', data: bk.map(b=>b.n), axisLabel: { fontSize: 10 } },
+        yAxis: { type: 'value', axisLabel: { fontSize: 10 } },
+        series: [{
+            type: 'bar', data: bk.map(b=>b.c),
+            itemStyle: { color: p => ['#EF5350','#FFA726','#FFEE58','#66BB6A',C_PRIMARY][p.dataIndex], borderRadius: [3,3,0,0] },
+            barWidth: '55%',
+            label: { show: true, position: 'top', fontSize: 10 }
+        }]
+    });
+}
+
+// 8.价值四象限
+function updateChart8() {
+    const data = filteredScenes
+        .filter(s => s.volume > 0 && s.completionRate > 0)
+        .map(s => [s.volume, s.completionRate*100, s.name, s.category]);
+    const avgVol = data.length ? data.reduce((s,d)=>s+d[0],0)/data.length : 0;
+    const avgCr = data.length ? data.reduce((s,d)=>s+d[1],0)/data.length : 0;
+    
+    charts.chart8.setOption({
+        tooltip: {
+            formatter: p => p.data[2]+'<br/>业务量: '+fmtVol(p.data[0])+'<br/>完成率: '+p.data[1].toFixed(1)+'%<br/>分类: '+p.data[3]
+        },
+        grid: { left: 55, right: 15, top: 30, bottom: 35 },
+        xAxis: { 
+            type: 'log', 
+            name: '业务量(对数)', 
+            nameTextStyle:{fontSize:10, padding:[0,0,0,20]}, 
+            axisLabel: { fontSize: 9, formatter: v => fmtVol(v) },
+            min: 10,
+            axisLine: { onZero: false }
+        },
+        yAxis: { 
+            type: 'value', 
+            name: '完成率(%)', 
+            nameTextStyle:{fontSize:10}, 
+            axisLabel: { fontSize: 9 },
+            min: 0, max: 100
+        },
+        series: [{
+            type: 'scatter', data: data, symbolSize: 12,
+            markLine: {
+                silent: true, symbol: 'none',
+                label: { show: false },
+                data: [
+                    { xAxis: avgVol, lineStyle: { type:'dashed', color:'#999', width:1 } },
+                    { yAxis: avgCr, lineStyle: { type:'dashed', color:'#999', width:1 } }
+                ]
+            },
+            itemStyle: {
+                color: p => {
+                    const hv = p.data[0] > avgVol, hc = p.data[1] > avgCr;
+                    if (hv && hc) return C_ACCENT;
+                    if (hv && !hc) return C_WARN;
+                    if (!hv && hc) return C_PRIMARY;
+                    return '#BDBDBD';
+                }
+            }
+        }],
+        graphic: [
+            { type: 'text', left: '70%', top: '6%', style: { text: '★ 明星场景', fill: C_ACCENT, fontSize: 11, fontWeight: 'bold' } },
+            { type: 'text', left: '6%', top: '6%', style: { text: '✦ 潜力场景', fill: C_PRIMARY, fontSize: 11, fontWeight: 'bold' } },
+            { type: 'text', left: '70%', top: '75%', style: { text: '⚠ 重点优化', fill: C_WARN, fontSize: 11, fontWeight: 'bold' } },
+            { type: 'text', left: '6%', top: '75%', style: { text: '○ 观察培育', fill: '#999', fontSize: 11, fontWeight: 'bold' } }
+        ]
+    });
+}
+
+// 9.运营健康度雷达
+function updateChart9() {
+    const total = filteredScenes.length || 1;
+    const llmRate = filteredScenes.filter(s => String(s.llm||'').includes('已应用')).length / total * 100;
+    const withCr = filteredScenes.filter(s => s.completionRate > 0);
+    const avgCr = withCr.length ? withCr.reduce((s,x)=>s+x.completionRate,0)/withCr.length*100 : 0;
+    const withVol = filteredScenes.filter(s => s.volume > 0);
+    const volScore = Math.min(100, withVol.length/total*100);
+    const cats = new Set(filteredScenes.map(s => s.category)).size;
+    const catScore = Math.min(100, cats * 6);
+    const yrs = new Set(filteredScenes.map(s => s.year)).size;
+    const yearScore = Math.min(100, yrs * 12);
+    const chs = new Set(filteredScenes.map(s => s.channel)).size;
+    const chScore = Math.min(100, chs * 50);
+    
+    charts.chart9.setOption({
+        tooltip: {},
+        radar: {
+            indicator: [
+                {name:'大模型渗透',max:100},
+                {name:'完成率表现',max:100},
+                {name:'业务量覆盖',max:100},
+                {name:'场景丰富度',max:100},
+                {name:'建设连续性',max:100},
+                {name:'渠道覆盖度',max:100}
+            ],
+            center: ['50%','52%'], radius: '58%',
+            axisName: { fontSize: 10 }
+        },
+        series: [{
+            type: 'radar',
+            data: [{
+                value: [llmRate, avgCr, volScore, catScore, yearScore, chScore],
+                name: '健康度',
+                areaStyle: { color: 'rgba(0,107,84,0.2)' },
+                lineStyle: { color: C_PRIMARY, width: 2 },
+                itemStyle: { color: C_PRIMARY }
+            }]
+        }]
+    });
+}
+
+// 10.六维能力矩阵
+function updateChart10() {
+    const dims = [
+        {name:'咨询解答', cats:['咨询类','通用类']},
+        {name:'业务办理', cats:['业务办理','档案信息业务','档案校核','档案信息']},
+        {name:'费用管理', cats:['电费预警','交费提醒','电价政策']},
+        {name:'停电服务', cats:['停电类','停电通知类']},
+        {name:'客户关怀', cats:['满意度回访','活动通知']},
+        {name:'座席辅助', cats:['座席辅助']}
+    ];
+    const scores = dims.map(d => {
+        const cnt = filteredScenes.filter(s => d.cats.includes(s.category)).length;
+        return Math.min(100, cnt * 5);
+    });
+    charts.chart10.setOption({
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+        grid: { left: 65, right: 30, top: 8, bottom: 15 },
+        xAxis: { type: 'value', max: 100, axisLabel: { fontSize: 10, formatter: '{value}%' } },
+        yAxis: { type: 'category', data: dims.map(d=>d.name), axisLabel: { fontSize: 11 }, inverse: true },
+        series: [{
+            type: 'bar', data: scores,
+            itemStyle: {
+                color: p => [C_PRIMARY, C_SECONDARY, '#009688', C_ACCENT, C_WARN, '#78909C'][p.dataIndex],
+                borderRadius: [0,4,4,0]
+            },
+            barWidth: '50%',
+            label: { show: true, position: 'right', fontSize: 11, fontWeight: 'bold', formatter: p => p.value+'%' }
+        }]
+    });
+}
+
+function updateAllCharts() {
+    for (let i = 1; i <= 10; i++) {
+        window['updateChart'+i]();
+    }
+}
+
+function updateTable() {
+    const tbody = document.getElementById('sceneTableBody');
+    tbody.innerHTML = filteredScenes.map(s => `
+        <tr>
+            <td>${s.id}</td>
+            <td style="font-weight:500;">${s.name}</td>
+            <td><span class="channel-tag">${s.channel}</span></td>
+            <td>${s.type}</td>
+            <td>${s.category}</td>
+            <td><span class="llm-badge ${String(s.llm||'').includes('已应用')?'llm-yes':'llm-no'}">${s.llm||'未应用'}</span></td>
+            <td>${s.year||'-'}</td>
+            <td>${s.volume?s.volumeDisplay:'-'}</td>
+            <td>${s.completionRate?(s.completionRate*100).toFixed(1)+'%':'-'}</td>
+        </tr>
+    `).join('');
+}
+
+// 事件绑定
+['searchInput'].forEach(id => document.getElementById(id).addEventListener('input', applyFilters));
+['channelFilter','typeFilter','categoryFilter','yearFilter','llmFilter']
+    .forEach(id => document.getElementById(id).addEventListener('change', applyFilters));
+
+window.addEventListener('resize', () => { Object.values(charts).forEach(c => c.resize()); });
+initCharts();
+</script>
+</body>
+</html>
