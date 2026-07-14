@@ -1,5 +1,5 @@
 {
-  "syncTime": "2026-07-14 07:36",
+  "syncTime": "2026-07-14 12:25",
   "source": "金山文档95598智能座席助手实施计划表",
   "tasks": [
     {
@@ -402,14 +402,14 @@
     },
     {
       "id": "29",
-      "start": "",
-      "end": "",
-      "category": "",
-      "name": "",
-      "detail": "",
-      "deliverable": "",
-      "owner": "",
-      "priority": "",
+      "start": "2026-7-14",
+      "end": "2026-7-11",
+      "category": "研发",
+      "name": "强制更新功能研发及上线",
+      "detail": "完全座席助手强制更新功能研发及上线",
+      "deliverable": "部署包",
+      "owner": "曲维元、钟明原",
+      "priority": "关键",
       "status": ""
     }
   ],
