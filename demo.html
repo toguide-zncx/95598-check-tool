@@ -1689,7 +1689,15 @@ a { text-decoration:none; color:inherit; }
       </div>
       <div class="page-body">
         <!-- 工具卡片 -->
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px">
+        <!-- 平台内置工具 -->
+        <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px">
+            <span style="width:4px;height:16px;background:var(--primary);border-radius:2px"></span>
+            🏠 平台内置工具
+          </div>
+          <span class="tag tag-green">2个可用</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
           <!-- 周报自动生成 -->
           <div class="card" style="cursor:pointer;border:2px solid var(--primary);position:relative;overflow:hidden" onclick="openAITool('weekly-report')">
             <div style="position:absolute;top:0;right:0;background:var(--primary);color:#fff;font-size:10px;padding:2px 10px;border-radius:0 0 0 8px">HOT</div>
@@ -1714,18 +1722,99 @@ a { text-decoration:none; color:inherit; }
             </div>
             <div style="font-size:12px;color:var(--text-light);line-height:1.6">上传会话记录Excel，AI自动识别聊天内容填充空列（关系库、身份验证、地址判定等），生成各环节流失率汇总</div>
           </div>
-          <!-- 自定义报告 -->
-          <div class="card" style="cursor:pointer;border:1px dashed var(--border)" onclick="showToast('🚧 更多AI工具持续接入中...')">
+          <!-- 开发中占位 -->
+          <div class="card" style="cursor:pointer;border:1px dashed var(--border)" onclick="showToast('🚧 更多内置工具开发中...')">
             <div style="display:flex;align-items:center;justify-content:center;height:100%;min-height:100px">
               <div style="text-align:center;color:var(--text-light)">
                 <div style="font-size:32px;margin-bottom:8px">➕</div>
-                <div style="font-size:13px">更多AI工具开发中</div>
+                <div style="font-size:13px">更多工具开发中</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- AI周报生成区（默认隐藏） -->
+        <!-- 外部AI工具集 -->
+        <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px">
+            <span style="width:4px;height:16px;background:#008667;border-radius:2px"></span>
+            🔗 外部AI工具集
+            <span style="font-size:11px;font-weight:400;color:var(--text-light);margin-left:4px">（扣子应用 · 新窗口打开）</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="tag tag-lightgreen">6个可用</span>
+            <button onclick="window.open('https://q423nh2mfz.coze.site/index.html?v=4', '_blank')" style="padding:4px 12px;border:1px solid var(--primary-light);background:#fff;color:var(--primary-light);border-radius:4px;cursor:pointer;font-size:12px;font-weight:600">打开完整工具集 ↗</button>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px">
+          <!-- 工具1: 项目合规性自动化检验 -->
+          <div class="card" style="cursor:pointer;position:relative;overflow:hidden;transition:all .2s;border:1px solid #e8f5e9" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,107,84,0.15)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='var(--shadow)';this.style.transform='translateY(0)'" onclick="window.open('https://q423nh2mfz.coze.site/index.html?v=4', '_blank')">
+            <div style="position:absolute;top:0;right:0;background:#008667;color:#fff;font-size:10px;padding:2px 8px;border-radius:0 0 0 6px">合规自动化</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <div style="width:44px;height:44px;border-radius:10px;background:#E8F5E9;display:flex;align-items:center;justify-content:center;font-size:22px">🔍</div>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:var(--text)">项目合规性自动化检验</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--text-light);line-height:1.6">自动核验项目合规性，提取证书信息并查验真伪和有效期</div>
+          </div>
+          <!-- 工具2: 智能客服场景客户流失原因分析 -->
+          <div class="card" style="cursor:pointer;position:relative;overflow:hidden;transition:all .2s;border:1px solid #e8f5e9" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,107,84,0.15)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='var(--shadow)';this.style.transform='translateY(0)'" onclick="window.open('https://q423nh2mfz.coze.site/index.html?v=4', '_blank')">
+            <div style="position:absolute;top:0;right:0;background:#008667;color:#fff;font-size:10px;padding:2px 8px;border-radius:0 0 0 6px">AI客服分析</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <div style="width:44px;height:44px;border-radius:10px;background:#E3F2FD;display:flex;align-items:center;justify-content:center;font-size:22px">📊</div>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:var(--text)">客户流失原因分析</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--text-light);line-height:1.6">会话标注、环节诊断、AI建议、报告生成，用于95598智能客服场景分析</div>
+          </div>
+          <!-- 工具3: 招投标筛查工具 -->
+          <div class="card" style="cursor:pointer;position:relative;overflow:hidden;transition:all .2s;border:1px solid #e8f5e9" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,107,84,0.15)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='var(--shadow)';this.style.transform='translateY(0)'" onclick="window.open('https://q423nh2mfz.coze.site/index.html?v=4', '_blank')">
+            <div style="position:absolute;top:0;right:0;background:#F9A825;color:#fff;font-size:10px;padding:2px 8px;border-radius:0 0 0 6px">招投标演示</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <div style="width:44px;height:44px;border-radius:10px;background:#FFF8E1;display:flex;align-items:center;justify-content:center;font-size:22px">📋</div>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:var(--text)">招投标筛查工具</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--text-light);line-height:1.6">选择日期范围，智能匹配招标公告中的关键词（演示版）</div>
+          </div>
+          <!-- 工具4: 风险录音提取工具 -->
+          <div class="card" style="cursor:pointer;position:relative;overflow:hidden;transition:all .2s;border:1px solid #e8f5e9" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,107,84,0.15)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='var(--shadow)';this.style.transform='translateY(0)'" onclick="window.open('https://q423nh2mfz.coze.site/index.html?v=4', '_blank')">
+            <div style="position:absolute;top:0;right:0;background:#C62828;color:#fff;font-size:10px;padding:2px 8px;border-radius:0 0 0 6px">录音演示</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <div style="width:44px;height:44px;border-radius:10px;background:#FFEBEE;display:flex;align-items:center;justify-content:center;font-size:22px">🎙️</div>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:var(--text)">风险录音提取工具</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--text-light);line-height:1.6">按专业小类、业务场景查询风险工单，演示录音提取与Excel导出流程</div>
+          </div>
+          <!-- 工具5: 录音质检系统 -->
+          <div class="card" style="cursor:pointer;position:relative;overflow:hidden;transition:all .2s;border:1px solid #e8f5e9" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,107,84,0.15)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='var(--shadow)';this.style.transform='translateY(0)'" onclick="window.open('https://q423nh2mfz.coze.site/index.html?v=4', '_blank')">
+            <div style="position:absolute;top:0;right:0;background:#7B1FA2;color:#fff;font-size:10px;padding:2px 8px;border-radius:0 0 0 6px">录音质检</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <div style="width:44px;height:44px;border-radius:10px;background:#F3E5F5;display:flex;align-items:center;justify-content:center;font-size:22px">🎙️</div>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:var(--text)">录音质检系统</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--text-light);line-height:1.6">评标录音智能质检，识别敏感词与违规风险</div>
+          </div>
+          <!-- 工具6: 95598周报看板 -->
+          <div class="card" style="cursor:pointer;position:relative;overflow:hidden;transition:all .2s;border:1px solid #e8f5e9" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,107,84,0.15)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='var(--shadow)';this.style.transform='translateY(0)'" onclick="window.open('https://q423nh2mfz.coze.site/index.html?v=4', '_blank')">
+            <div style="position:absolute;top:0;right:0;background:#006B54;color:#fff;font-size:10px;padding:2px 8px;border-radius:0 0 0 6px">周报数据看板</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <div style="width:44px;height:44px;border-radius:10px;background:#E8F5E9;display:flex;align-items:center;justify-content:center;font-size:22px">📊</div>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:var(--text)">95598周报看板</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--text-light);line-height:1.6">智能服务运营工作周报数据可视化看板</div>
+          </div>
+        </div>
+
+<!-- AI周报生成区（默认隐藏） -->
         <div id="ai-weekly-panel" style="display:none">
           <div class="card" style="margin-bottom:16px">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
