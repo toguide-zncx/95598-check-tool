@@ -1691,149 +1691,389 @@ a { text-decoration:none; color:inherit; }
       <div class="page-body">
         <div class="card" style="padding:16px 20px"><style>
 .seat-matrix {
-  font-family: "Microsoft YaHei", sans-serif;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
   color: #333;
-  padding: 10px 0;
+  padding: 8px 0 12px;
+  position: relative;
 }
+
+/* ===== 标题区 ===== */
 .seat-matrix-header {
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+  position: relative;
+  padding: 6px 0;
+}
+.seat-matrix-header::before,
+.seat-matrix-header::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 18%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #008667 100%);
+}
+.seat-matrix-header::before {
+  left: 8%;
+  background: linear-gradient(90deg, transparent 0%, #008667 100%);
+}
+.seat-matrix-header::after {
+  right: 8%;
+  background: linear-gradient(90deg, #008667 0%, transparent 100%);
 }
 .seat-matrix-title {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
-  color: #006B54;
-  margin-bottom: 6px;
-  letter-spacing: 2px;
+  background: linear-gradient(135deg, #006B54 0%, #00A870 50%, #006B54 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 5px;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 10px rgba(0,107,84,0.15);
+  display: inline-block;
+  position: relative;
+}
+.seat-matrix-title::before {
+  content: "🎧";
+  margin-right: 10px;
+  -webkit-text-fill-color: initial;
 }
 .seat-matrix-subtitle {
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
+  margin-top: 4px;
 }
 .seat-matrix-subtitle span {
   color: #008667;
-  font-weight: 500;
+  font-weight: 600;
+  padding: 2px 8px;
+  background: linear-gradient(135deg, #f0f9f4 0%, #e8f5f0 100%);
+  border-radius: 12px;
+  margin: 0 2px;
+  font-size: 12px;
 }
 
-/* 核心价值区 */
+/* ===== 核心价值区 ===== */
 .core-values {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 12px;
 }
 .core-value-item {
-  background: #fff;
-  border: 1px solid #e8f5f0;
-  border-radius: 8px;
-  padding: 10px 8px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fcf9 100%);
+  border: 1px solid #e0f0ea;
+  border-radius: 10px;
+  padding: 10px 8px 8px;
   text-align: center;
-  transition: all .2s;
+  transition: all .25s cubic-bezier(.4,0,.2,1);
+  position: relative;
+  overflow: hidden;
+}
+.core-value-item::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #008667, #4CAF50, #008667);
+  opacity: 0;
+  transition: opacity .25s;
 }
 .core-value-item:hover {
-  border-color: #008667;
-  box-shadow: 0 2px 8px rgba(0,107,84,0.12);
-  transform: translateY(-2px);
+  border-color: #00A870;
+  box-shadow: 0 6px 20px rgba(0,107,84,0.15);
+  transform: translateY(-3px);
+}
+.core-value-item:hover::before {
+  opacity: 1;
 }
 .core-value-icon {
-  font-size: 22px;
-  margin-bottom: 4px;
+  font-size: 24px;
+  margin-bottom: 5px;
+  filter: drop-shadow(0 2px 4px rgba(0,107,84,0.2));
 }
 .core-value-title {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   color: #006B54;
   margin-bottom: 3px;
 }
 .core-value-desc {
-  font-size: 11px;
+  font-size: 10.5px;
   color: #888;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
-/* 产品定位条 */
+/* ===== 产品定位条 ===== */
 .product-positioning {
-  background: linear-gradient(90deg, #f0f9f4 0%, #e8f5f0 50%, #f0f9f4 100%);
-  border-left: 3px solid #008667;
-  border-radius: 4px;
-  padding: 10px 16px;
-  margin-bottom: 14px;
-  font-size: 13px;
+  background: linear-gradient(90deg, #f0f9f4 0%, #e6f5ee 30%, #e0f2eb 50%, #e6f5ee 70%, #f0f9f4 100%);
+  border-left: 4px solid #008667;
+  border-right: 4px solid #008667;
+  border-radius: 6px;
+  padding: 9px 18px;
+  margin-bottom: 12px;
+  font-size: 12.5px;
   color: #555;
-  line-height: 1.6;
+  line-height: 1.65;
+  position: relative;
+  box-shadow: inset 0 1px 3px rgba(0,107,84,0.06);
 }
 .product-positioning strong {
   color: #006B54;
+  font-weight: 700;
+}
+.product-positioning::before {
+  content: "💡";
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  padding: 2px;
+  border-radius: 50%;
+  font-size: 14px;
 }
 
-/* 主体矩阵区 */
+/* ===== 主体矩阵区 ===== */
 .matrix-main {
   display: flex;
-  gap: 12px;
-  margin-bottom: 14px;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 .matrix-sidebar {
-  width: 56px;
-  background: linear-gradient(180deg, #008667 0%, #006B54 100%);
-  border-radius: 8px;
+  width: 50px;
+  background: linear-gradient(180deg, #00A870 0%, #006B54 50%, #004d3d 100%);
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px 6px;
+  padding: 14px 4px;
   color: #fff;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   writing-mode: vertical-rl;
-  letter-spacing: 4px;
+  letter-spacing: 5px;
+  box-shadow: 0 4px 12px rgba(0,107,84,0.2);
+  position: relative;
+  overflow: hidden;
+}
+.matrix-sidebar::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
 }
 .matrix-sidebar .small {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 400;
   letter-spacing: 2px;
-  margin-top: 10px;
-  opacity: 0.85;
+  margin-top: 12px;
+  opacity: 0.8;
 }
 
 .modules-grid {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  gap: 9px;
 }
 .module-card {
-  background: #fff;
-  border: 1px solid #e8f5f0;
-  border-radius: 8px;
-  padding: 10px;
-  transition: all .2s;
-  min-height: 120px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfefc 100%);
+  border: 1px solid #e0f0ea;
+  border-radius: 10px;
+  padding: 9px 10px 10px;
+  transition: all .25s cubic-bezier(.4,0,.2,1);
+  min-height: 118px;
   position: relative;
-  border-top: 3px solid #008667;
+  overflow: hidden;
+}
+.module-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #008667, #00A870, #4CAF50);
+  opacity: 0.9;
 }
 .module-card:hover {
-  border-color: #008667;
-  box-shadow: 0 4px 12px rgba(0,107,84,0.12);
-  transform: translateY(-2px);
+  border-color: #00A870;
+  box-shadow: 0 8px 24px rgba(0,107,84,0.18);
+  transform: translateY(-3px);
+}
+.module-card:hover::before {
+  opacity: 1;
 }
 .module-num {
   position: absolute;
-  top: -1px;
+  top: 6px;
   right: 8px;
   font-size: 10px;
-  color: #008667;
-  background: #f0f9f4;
-  padding: 2px 6px;
-  border-radius: 0 0 4px 4px;
+  color: #fff;
+  background: linear-gradient(135deg, #008667 0%, #00A870 100%);
+  padding: 2px 7px;
+  border-radius: 10px;
   font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,107,84,0.2);
 }
 .module-title {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12.5px;
+  font-weight: 700;
   color: #006B54;
   margin-bottom: 6px;
-  padding-bottom: 4px;
-  border-bottom: 1px dashed #e8f5f0;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed #d0e8dd;
+  padding-right: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.module-title .status-badge {
+  font-size: 9px;
+  font-weight: 500;
+  padding: 1px 5px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+/* 状态配色 */
+.module-card.status-done {
+  background: linear-gradient(180deg, #f0faf4 0%, #e8f7ed 100%);
+  border-color: #a8dcc0;
+}
+.module-card.status-done::before {
+  background: linear-gradient(90deg, #4CAF50, #66BB6A, #81C784);
+}
+.module-card.status-done .module-num {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+}
+.module-card.status-done .module-title {
+  color: #2E7D32;
+  border-bottom-color: #b8e4c8;
+}
+.module-card.status-done .status-badge {
+  background: #E8F5E9;
+  color: #2E7D32;
+  border: 1px solid #A5D6A7;
+}
+
+.module-card.status-doing {
+  background: linear-gradient(180deg, #f0f7ff 0%, #e8f0ff 100%);
+  border-color: #a8c8dc;
+}
+.module-card.status-doing::before {
+  background: linear-gradient(90deg, #1976D2, #2196F3, #42A5F5);
+}
+.module-card.status-doing .module-num {
+  background: linear-gradient(135deg, #1976D2 0%, #2196F3 100%);
+}
+.module-card.status-doing .module-title {
+  color: #1565C0;
+  border-bottom-color: #b8d4e8;
+}
+.module-card.status-doing .status-badge {
+  background: #E3F2FD;
+  color: #1565C0;
+  border: 1px solid #90CAF9;
+  animation: pulse-badge 2s ease-in-out infinite;
+}
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.module-card.status-planning .module-title {
+  color: #666;
+}
+.module-card.status-planning .status-badge {
+  background: #F5F5F5;
+  color: #888;
+  border: 1px solid #E0E0E0;
+}
+
+/* 状态色优先级高于行级样式 */
+.modules-grid .module-card.status-done::before,
+.modules-grid.row-6col .module-card.status-done::before,
+.modules-grid.row-4col .module-card.status-done::before {
+  background: linear-gradient(90deg, #4CAF50, #66BB6A, #81C784);
+}
+.modules-grid .module-card.status-doing::before,
+.modules-grid.row-6col .module-card.status-doing::before,
+.modules-grid.row-4col .module-card.status-doing::before {
+  background: linear-gradient(90deg, #1976D2, #2196F3, #42A5F5);
+}
+.modules-grid.row-6col .module-card.status-done .module-num,
+.modules-grid.row-4col .module-card.status-done .module-num {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+}
+.modules-grid.row-6col .module-card.status-doing .module-num,
+.modules-grid.row-4col .module-card.status-doing .module-num {
+  background: linear-gradient(135deg, #1976D2 0%, #2196F3 100%);
+}
+.modules-grid.row-6col .module-card.status-done .module-title,
+.modules-grid.row-4col .module-card.status-done .module-title {
+  color: #2E7D32;
+}
+.modules-grid.row-6col .module-card.status-doing .module-title,
+.modules-grid.row-4col .module-card.status-doing .module-title {
+  color: #1565C0;
+}
+
+/* 进度状态图例 */
+.matrix-legend {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+  font-size: 11px;
+  color: #666;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.legend-dot.done {
+  background: linear-gradient(135deg, #4CAF50, #66BB6A);
+  box-shadow: 0 1px 3px rgba(76,175,80,0.4);
+}
+.legend-dot.doing {
+  background: linear-gradient(135deg, #1976D2, #2196F3);
+  box-shadow: 0 1px 3px rgba(33,150,243,0.4);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.legend-dot.planning {
+  background: #BDBDBD;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.legend-progress {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f5faf7;
+  border: 1px solid #dcede4;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  color: #555;
+}
+.legend-progress strong {
+  color: #006B54;
+  font-weight: 700;
+  font-size: 13px;
 }
 .module-list {
   list-style: none;
@@ -1841,140 +2081,266 @@ a { text-decoration:none; color:inherit; }
   margin: 0;
 }
 .module-list li {
-  font-size: 11px;
+  font-size: 10.5px;
   color: #666;
-  line-height: 1.8;
+  line-height: 1.85;
   padding-left: 12px;
   position: relative;
+  transition: color .2s;
+}
+.module-card:hover .module-list li {
+  color: #555;
 }
 .module-list li::before {
-  content: "▸";
+  content: "";
   position: absolute;
-  left: 0;
-  color: #4CAF50;
-  font-size: 10px;
+  left: 2px;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  background: linear-gradient(135deg, #00A870, #4CAF50);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,168,112,0.3);
 }
 
-/* 第三行6列的特殊样式 */
+/* ===== 第三行6列 ===== */
 .modules-grid.row-6col {
   grid-template-columns: repeat(6, 1fr);
-  margin-top: 10px;
+  margin-top: 9px;
 }
 .modules-grid.row-6col .module-card {
-  border-top-color: #00A870;
-  min-height: 100px;
+  min-height: 96px;
+}
+.modules-grid.row-6col .module-card::before {
+  background: linear-gradient(90deg, #00A870, #4CAF50, #66BB6A);
 }
 .modules-grid.row-6col .module-num {
-  color: #00A870;
-  background: #f0faf5;
+  background: linear-gradient(135deg, #00A870 0%, #4CAF50 100%);
 }
 .modules-grid.row-6col .module-title {
-  color: #008667;
+  color: #007A5E;
   font-size: 12px;
 }
 
-/* 第四行 */
+/* ===== 第四行 ===== */
 .modules-grid.row-4col {
   grid-template-columns: 2fr 2fr 2fr 3fr;
-  margin-top: 10px;
+  margin-top: 9px;
 }
 .modules-grid.row-4col .module-card {
-  border-top-color: #2E8B57;
-  min-height: 90px;
+  min-height: 88px;
+}
+.modules-grid.row-4col .module-card::before {
+  background: linear-gradient(90deg, #2E8B57, #3CB371, #66BB6A);
 }
 .modules-grid.row-4col .module-num {
-  color: #2E8B57;
-  background: #f0faf5;
+  background: linear-gradient(135deg, #2E8B57 0%, #3CB371 100%);
 }
 .modules-grid.row-4col .module-title {
-  color: #2E8B57;
+  color: #2E7D50;
   font-size: 12px;
 }
 
-/* 分布式部署架构卡片 */
+/* ===== AI工具箱 重点卡片 ===== */
+.module-card.ai-toolbox-card {
+  background: linear-gradient(135deg, #f0f9f4 0%, #e6f7ef 50%, #f0f9f4 100%);
+  border: 1px solid #b8e0cc;
+}
+.module-card.ai-toolbox-card::before {
+  height: 3px;
+  background: linear-gradient(90deg, #006B54, #00A870, #4CAF50, #00A870, #006B54);
+}
+.module-card.ai-toolbox-card .module-num {
+  background: linear-gradient(135deg, #FF8C00 0%, #FFA726 100%);
+  box-shadow: 0 2px 8px rgba(255,140,0,0.3);
+}
+.ai-toolbox-label {
+  display: inline-block;
+  font-size: 9px;
+  color: #FF8C00;
+  background: #FFF3E0;
+  padding: 1px 5px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.ai-toolbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  margin-top: 4px;
+}
+.ai-tool-item {
+  background: #fff;
+  border: 1px solid #d0ebe0;
+  border-radius: 6px;
+  padding: 5px 6px;
+  font-size: 10px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  transition: all .2s;
+  cursor: pointer;
+}
+.ai-tool-item:hover {
+  background: linear-gradient(135deg, #e8f5f0 0%, #f0f9f4 100%);
+  border-color: #00A870;
+  transform: translateX(2px);
+  box-shadow: 0 2px 6px rgba(0,107,84,0.1);
+}
+.ai-tool-item .tool-icon {
+  font-size: 13px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+.ai-tool-item .tool-name {
+  font-size: 9.5px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: #333;
+}
+
+/* ===== 分布式部署架构卡片 ===== */
 .deploy-card {
-  background: linear-gradient(135deg, #f0f9f4 0%, #e0f2eb 100%) !important;
-  border: 1px dashed #008667 !important;
-  border-top: 3px solid #006B54 !important;
+  background: linear-gradient(135deg, #e8f5f0 0%, #d0ece0 50%, #e8f5f0 100%) !important;
+  border: 1px dashed #00A870 !important;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 10px 14px !important;
+  position: relative;
+  overflow: hidden;
+}
+.deploy-card::before {
+  display: none !important;
+}
+.deploy-card::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #006B54, #00A870, #4CAF50, #00A870, #006B54);
 }
 .deploy-card .deploy-icon {
-  font-size: 28px;
-  margin-right: 10px;
+  font-size: 30px;
+  margin-right: 12px;
+  filter: drop-shadow(0 2px 6px rgba(0,107,84,0.25));
 }
 .deploy-card .deploy-info {
   flex: 1;
 }
 .deploy-card .deploy-title {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12.5px;
+  font-weight: 700;
   color: #006B54;
   margin-bottom: 4px;
 }
 .deploy-card .deploy-desc {
   font-size: 10px;
   color: #555;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-/* 在线帮查中心 */
+/* ===== 在线帮查中心 ===== */
 .help-center-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 6px;
+  gap: 4px;
   margin-top: 6px;
 }
 .help-center-item {
-  background: #f6faf8;
-  border-radius: 4px;
-  padding: 6px 4px;
+  background: linear-gradient(180deg, #f6fbf9 0%, #eef9f3 100%);
+  border: 1px solid #dcede4;
+  border-radius: 6px;
+  padding: 5px 2px;
   text-align: center;
-  font-size: 10px;
+  font-size: 9.5px;
   color: #555;
+  transition: all .2s;
+}
+.help-center-item:hover {
+  background: linear-gradient(135deg, #e8f5f0 0%, #d0ece0 100%);
+  border-color: #00A870;
+  transform: translateY(-1px);
 }
 .help-center-item .icon {
   font-size: 14px;
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 
-/* 产品亮点 */
+/* ===== 产品亮点 ===== */
 .product-highlights {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  gap: 8px;
+  gap: 7px;
   margin-bottom: 10px;
 }
 .highlight-item {
-  background: #fff;
-  border: 1px solid #e8f5f0;
+  background: linear-gradient(135deg, #ffffff 0%, #f5fbf8 100%);
+  border: 1px solid #dcede4;
   border-radius: 20px;
-  padding: 6px 8px;
+  padding: 6px 6px;
   text-align: center;
-  font-size: 11px;
+  font-size: 10.5px;
   color: #555;
+  font-weight: 500;
+  transition: all .2s;
+  position: relative;
+  padding-left: 22px;
 }
 .highlight-item::before {
-  content: "✓ ";
-  color: #4CAF50;
+  content: "✓";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  background: linear-gradient(135deg, #00A870 0%, #4CAF50 100%);
+  color: #fff;
   font-weight: 700;
+  font-size: 9px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,168,112,0.3);
+}
+.highlight-item:hover {
+  border-color: #00A870;
+  box-shadow: 0 3px 10px rgba(0,107,84,0.12);
+  transform: translateY(-1px);
 }
 
-/* 底部条 */
+/* ===== 底部条 ===== */
 .seat-matrix-footer {
-  background: linear-gradient(90deg, #006B54 0%, #008667 50%, #006B54 100%);
-  border-radius: 8px;
-  padding: 10px;
+  background: linear-gradient(90deg, #004d3d 0%, #006B54 20%, #008667 50%, #006B54 80%, #004d3d 100%);
+  border-radius: 10px;
+  padding: 11px 16px;
   text-align: center;
   color: #fff;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
   letter-spacing: 2px;
+  position: relative;
+  box-shadow: 0 4px 14px rgba(0,107,84,0.25);
+  overflow: hidden;
+}
+.seat-matrix-footer::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
 }
 .seat-matrix-footer .emoji {
-  margin-right: 6px;
+  margin-right: 8px;
+}
+.seat-matrix-footer strong {
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 </style>
 
@@ -2028,6 +2394,14 @@ a { text-decoration:none; color:inherit; }
     <strong>一站式一体化智能座席助手</strong>，帮助座席更快、更准、更稳地解决客户问题。
   </div>
 
+  <!-- 进度图例 -->
+  <div class="matrix-legend">
+    <div class="legend-progress">整体进度：<strong>1/18</strong> 已完成 · 2/18 进行中</div>
+    <div class="legend-item"><span class="legend-dot done"></span>已完成</div>
+    <div class="legend-item"><span class="legend-dot doing"></span>进行中</div>
+    <div class="legend-item"><span class="legend-dot planning"></span>规划中</div>
+  </div>
+
   <!-- 主体矩阵 -->
   <div class="matrix-main">
     <div class="matrix-sidebar">
@@ -2037,9 +2411,9 @@ a { text-decoration:none; color:inherit; }
     <div style="flex:1; display:flex; flex-direction:column;">
       <!-- 第一行 5列 -->
       <div class="modules-grid">
-        <div class="module-card">
+        <div class="module-card status-done">
           <span class="module-num">01</span>
-          <div class="module-title">实时座席工作台</div>
+          <div class="module-title">实时座席工作台<span class="status-badge">✓ 已完成</span></div>
           <ul class="module-list">
             <li>语音实时转写（全双工）</li>
             <li>主叫识别与通话计时</li>
@@ -2049,9 +2423,9 @@ a { text-decoration:none; color:inherit; }
             <li>事件标记与备注</li>
           </ul>
         </div>
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">02</span>
-          <div class="module-title">智能应答推荐</div>
+          <div class="module-title">智能应答推荐<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>语义理解与意图识别</li>
             <li>知识内容关联推荐</li>
@@ -2061,9 +2435,9 @@ a { text-decoration:none; color:inherit; }
             <li>个性化话术水印</li>
           </ul>
         </div>
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">03</span>
-          <div class="module-title">客户诉求识别</div>
+          <div class="module-title">客户诉求识别<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>客户意图分类识别</li>
             <li>诉求重点自动提取</li>
@@ -2073,9 +2447,9 @@ a { text-decoration:none; color:inherit; }
             <li>诉求变化追踪</li>
           </ul>
         </div>
-        <div class="module-card">
+        <div class="module-card status-doing">
           <span class="module-num">04</span>
-          <div class="module-title">风险预警与升级</div>
+          <div class="module-title">风险预警与升级<span class="status-badge">◐ 进行中</span></div>
           <ul class="module-list">
             <li>实时风险识别（20个标签）</li>
             <li>红/橙/黄三级预警</li>
@@ -2085,9 +2459,9 @@ a { text-decoration:none; color:inherit; }
             <li>风险处置流程与通知</li>
           </ul>
         </div>
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">05</span>
-          <div class="module-title">工单智能填单</div>
+          <div class="module-title">工单智能填单<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>关键信息自动提取</li>
             <li>工单字段智能填充</li>
@@ -2101,9 +2475,9 @@ a { text-decoration:none; color:inherit; }
 
       <!-- 第二行 5列 -->
       <div class="modules-grid" style="margin-top:10px;">
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">06</span>
-          <div class="module-title">通话摘要与回顾</div>
+          <div class="module-title">通话摘要与回顾<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>通话自动摘要</li>
             <li>关键信息提取</li>
@@ -2113,9 +2487,9 @@ a { text-decoration:none; color:inherit; }
             <li>间隔时间展示</li>
           </ul>
         </div>
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">07</span>
-          <div class="module-title">历史客户画像</div>
+          <div class="module-title">历史客户画像<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>基本信息与业务画像</li>
             <li>历史通话记录汇总</li>
@@ -2125,9 +2499,9 @@ a { text-decoration:none; color:inherit; }
             <li>画像标签细分</li>
           </ul>
         </div>
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">08</span>
-          <div class="module-title">服务质检</div>
+          <div class="module-title">服务质检<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>话术准确度检测</li>
             <li>服务规范度评估</li>
@@ -2137,9 +2511,9 @@ a { text-decoration:none; color:inherit; }
             <li>质检结果回调</li>
           </ul>
         </div>
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">09</span>
-          <div class="module-title">座席能力分析</div>
+          <div class="module-title">座席能力分析<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>个人服务指标统计</li>
             <li>能力画像雷达图</li>
@@ -2149,9 +2523,9 @@ a { text-decoration:none; color:inherit; }
             <li>培训课程推荐</li>
           </ul>
         </div>
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">10</span>
-          <div class="module-title">班组运营看板</div>
+          <div class="module-title">班组运营看板<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>班组服务指标总览</li>
             <li>实时预警与队列监控</li>
@@ -2165,9 +2539,9 @@ a { text-decoration:none; color:inherit; }
 
       <!-- 第三行 6列 -->
       <div class="modules-grid row-6col">
-        <div class="module-card">
+        <div class="module-card status-doing">
           <span class="module-num">11</span>
-          <div class="module-title">在线帮查中心</div>
+          <div class="module-title">在线帮查中心<span class="status-badge">◐ 进行中</span></div>
           <div class="help-center-grid">
             <div class="help-center-item"><span class="icon">⚡</span>停电研判</div>
             <div class="help-center-item"><span class="icon">👤</span>户号查询</div>
@@ -2177,9 +2551,9 @@ a { text-decoration:none; color:inherit; }
             <div class="help-center-item"><span class="icon">🔧</span>设备查询</div>
           </div>
         </div>
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">12</span>
-          <div class="module-title">知识席管理</div>
+          <div class="module-title">知识席管理<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>知识分类与标签管理</li>
             <li>知识内容管理与发布</li>
@@ -2188,9 +2562,9 @@ a { text-decoration:none; color:inherit; }
             <li>RAG检索优化</li>
           </ul>
         </div>
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">13</span>
-          <div class="module-title">风险规则管理</div>
+          <div class="module-title">风险规则管理<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>风险标签配置（20个）</li>
             <li>风险触发规则配置</li>
@@ -2199,9 +2573,9 @@ a { text-decoration:none; color:inherit; }
             <li>规则版本管理</li>
           </ul>
         </div>
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">14</span>
-          <div class="module-title">话术与质检规则</div>
+          <div class="module-title">话术与质检规则<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>标准话术库管理</li>
             <li>话术版本与发布</li>
@@ -2210,19 +2584,21 @@ a { text-decoration:none; color:inherit; }
             <li>规则生效周期管理</li>
           </ul>
         </div>
-        <div class="module-card">
+        <div class="module-card ai-toolbox-card status-planning">
           <span class="module-num">15</span>
-          <div class="module-title">AI工具箱</div>
-          <ul class="module-list">
-            <li>智能总结 / 文本润色</li>
-            <li>语义改写 / 播报安抚</li>
-            <li>多维数据分析</li>
-            <li>AI工具持续拓展</li>
-          </ul>
+          <div class="module-title">AI工具箱<span class="status-badge">规划中</span></div>
+          <div class="ai-toolbox-grid">
+            <div class="ai-tool-item"><span class="tool-icon">📉</span><span class="tool-name">客户流失原因分析</span></div>
+            <div class="ai-tool-item"><span class="tool-icon">🎧</span><span class="tool-name">录音质检系统</span></div>
+            <div class="ai-tool-item"><span class="tool-icon">⚠️</span><span class="tool-name">风险录音提取</span></div>
+            <div class="ai-tool-item"><span class="tool-icon">📋</span><span class="tool-name">招投标筛查工具</span></div>
+            <div class="ai-tool-item"><span class="tool-icon">📊</span><span class="tool-name">周报看板生成</span></div>
+            <div class="ai-tool-item"><span class="tool-icon">✅</span><span class="tool-name">合规性自动检验</span></div>
+          </div>
         </div>
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">16</span>
-          <div class="module-title">系统运行监控</div>
+          <div class="module-title">系统运行监控<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>系统运行状态监控</li>
             <li>服务健康度总览</li>
@@ -2235,9 +2611,9 @@ a { text-decoration:none; color:inherit; }
 
       <!-- 第四行 4列（最后一个是分布式部署架构） -->
       <div class="modules-grid row-4col">
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">17</span>
-          <div class="module-title">开放集成中心</div>
+          <div class="module-title">开放集成中心<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>标准API接口</li>
             <li>Webhook推送</li>
@@ -2246,9 +2622,9 @@ a { text-decoration:none; color:inherit; }
             <li>数据导入导出</li>
           </ul>
         </div>
-        <div class="module-card">
+        <div class="module-card status-planning">
           <span class="module-num">18</span>
-          <div class="module-title">系统设置与管理</div>
+          <div class="module-title">系统设置与管理<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>基础参数配置</li>
             <li>功能开关管理</li>
