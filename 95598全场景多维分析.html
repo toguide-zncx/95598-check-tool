@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>95598智能服务场景全视图 - 多维分析</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script src="https://unpkg.com/echarts@5.4.3/dist/echarts.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", -apple-system, sans-serif;
+  background: #f0f4f2;
+  color: #333;
+  padding: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+.page-header {
+  background: linear-gradient(135deg, #006B54 0%, #008667 50%, #00A870 100%);
+  border-radius: 12px;
+  padding: 16px 24px;
+  margin-bottom: 12px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,107,84,0.2);
+}
+.page-header::after {
+  content: "";
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 1;
+}
+.page-title::before {
+  content: "📊 ";
+  margin-right: 8px;
+}
+.page-subtitle {
+  font-size: 13px;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+}
+.page-subtitle span {
+  background: rgba(255,255,255,0.2);
+  padding: 2px 10px;
+  border-radius: 10px;
+  margin-right: 8px;
+  font-size: 12px;
+}
+
+/* 筛选栏 */
+.filter-bar {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 8px rgba(0,107,84,0.08);
+}
+.filter-bar label {
+  font-size: 12px;
+  color: #555;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.filter-bar select, .filter-bar input {
+  padding: 5px 10px;
+  border: 1px solid #d0e0da;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #333;
+  background: #f8fbf9;
+  outline: none;
+  cursor: pointer;
+  transition: all .2s;
+}
+.filter-bar select:hover, .filter-bar input:hover {
+  border-color: #008667;
+}
+.filter-bar select:focus, .filter-bar input:focus {
+  border-color: #006B54;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(0,107,84,0.1);
+}
+.filter-btn {
+  margin-left: auto;
+  padding: 6px 16px;
+  background: linear-gradient(135deg, #008667, #00A870);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all .2s;
+}
+.filter-btn:hover {
+  box-shadow: 0 2px 8px rgba(0,107,84,0.3);
+  transform: translateY(-1px);
+}
+.filter-btn.reset {
+  background: #f0f0f0;
+  color: #666;
+}
+.filter-btn.reset:hover {
+  background: #e0e0e0;
+}
+
+/* KPI卡片 */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.kpi-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 8px rgba(0,107,84,0.08);
+  position: relative;
+  overflow: hidden;
+  border-left: 4px solid #008667;
+  transition: all .25s;
+}
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,107,84,0.15);
+}
+.kpi-card.kpi-2 { border-left-color: #4CAF50; }
+.kpi-card.kpi-3 { border-left-color: #FF9800; }
+.kpi-card.kpi-4 { border-left-color: #2196F3; }
+.kpi-card.kpi-5 { border-left-color: #9C27B0; }
+.kpi-label {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.kpi-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: #004d3d;
+  line-height: 1.2;
+}
+.kpi-card.kpi-2 .kpi-value { color: #2E7D32; }
+.kpi-card.kpi-3 .kpi-value { color: #E65100; }
+.kpi-card.kpi-4 .kpi-value { color: #1565C0; }
+.kpi-card.kpi-5 .kpi-value { color: #6A1B9A; }
+.kpi-value .unit {
+  font-size: 13px;
+  font-weight: 500;
+  color: #888;
+  margin-left: 3px;
+}
+.kpi-trend {
+  font-size: 11px;
+  margin-top: 4px;
+  color: #888;
+}
+.kpi-trend .up { color: #4CAF50; font-weight: 600; }
+.kpi-trend .down { color: #F44336; font-weight: 600; }
+.kpi-icon {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 28px;
+  opacity: 0.25;
+}
+
+/* 图表行 */
+.chart-row {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.row-2 { grid-template-columns: 1.2fr 1fr; }
+.row-3 { grid-template-columns: 1fr 1fr 1fr; }
+.row-2equal { grid-template-columns: 1fr 1fr; }
+
+.chart-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 14px 10px;
+  box-shadow: 0 2px 8px rgba(0,107,84,0.08);
+  transition: all .25s;
+}
+.chart-card:hover {
+  box-shadow: 0 4px 14px rgba(0,107,84,0.12);
+}
+.chart-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #004d3d;
+  margin-bottom: 4px;
+  padding-left: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chart-title::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 14px;
+  background: linear-gradient(180deg, #008667, #4CAF50);
+  border-radius: 2px;
+}
+.chart-title .tag {
+  font-size: 10px;
+  font-weight: 500;
+  background: #E8F5E9;
+  color: #2E7D32;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.chart-container {
+  width: 100%;
+  height: 280px;
+}
+.chart-container.tall { height: 320px; }
+.chart-container.short { height: 240px; }
+
+/* 表格区 */
+.table-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 8px rgba(0,107,84,0.08);
+  margin-bottom: 12px;
+}
+.table-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #004d3d;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  position: relative;
+}
+.table-title::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 14px;
+  background: linear-gradient(180deg, #008667, #4CAF50);
+  border-radius: 2px;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.data-table th {
+  background: linear-gradient(180deg, #008667, #006B54);
+  color: #fff;
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+}
+.data-table th:first-child { border-radius: 6px 0 0 0; }
+.data-table th:last-child { border-radius: 0 6px 0 0; }
+.data-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid #edf2f0;
+  color: #444;
+}
+.data-table tr:hover td {
+  background: #f5faf7;
+}
+.data-table tr:last-child td:first-child { border-radius: 0 0 0 6px; }
+.data-table tr:last-child td:last-child { border-radius: 0 0 6px 0; }
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+}
+.badge-green { background: #E8F5E9; color: #2E7D32; }
+.badge-orange { background: #FFF3E0; color: #E65100; }
+.badge-blue { background: #E3F2FD; color: #1565C0; }
+.badge-red { background: #FFEBEE; color: #C62828; }
+.badge-gray { background: #F5F5F5; color: #757575; }
+.badge-purple { background: #F3E5F5; color: #6A1B9A; }
+
+.progress-bar {
+  width: 80px;
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #008667, #4CAF50);
+  border-radius: 4px;
+  transition: width .3s;
+}
+.rank-num {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: #BDBDBD;
+}
+.rank-num.r1 { background: linear-gradient(135deg, #FFD700, #FFA500); }
+.rank-num.r2 { background: linear-gradient(135deg, #C0C0C0, #A0A0A0); }
+.rank-num.r3 { background: linear-gradient(135deg, #CD7F32, #A0522D); }
+
+/* 页脚 */
+.page-footer {
+  text-align: center;
+  font-size: 11px;
+  color: #999;
+  padding: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-title">95598智能服务场景全视图 · 多维分析</div>
+  <div class="page-subtitle">
+    <span>场景全景分析</span>
+    <span>数据驱动决策</span>
+    <span>全方位洞察</span>
+  </div>
+</div>
+
+<!-- 筛选栏 -->
+<div class="filter-bar">
+  <label>渠道
+    <select id="f_channel">
+      <option value="">全部渠道</option>
+      <option value="电话渠道">电话渠道</option>
+      <option value="互联网渠道">互联网渠道</option>
+    </select>
+  </label>
+  <label>场景类型
+    <select id="f_type">
+      <option value="">全部类型</option>
+    </select>
+  </label>
+  <label>业务类别
+    <select id="f_category">
+      <option value="">全部类别</option>
+    </select>
+  </label>
+  <label>大模型
+    <select id="f_llm">
+      <option value="">全部</option>
+      <option value="已应用">已应用</option>
+      <option value="未应用">未应用</option>
+    </select>
+  </label>
+  <label>上线年份
+    <select id="f_year">
+      <option value="">全部年份</option>
+    </select>
+  </label>
+  <button class="filter-btn reset" onclick="resetFilter()">重置</button>
+  <button class="filter-btn" onclick="applyFilter()">筛选分析</button>
+</div>
+
+<!-- KPI卡片 -->
+<div class="kpi-row">
+  <div class="kpi-card kpi-1">
+    <div class="kpi-icon">📋</div>
+    <div class="kpi-label">场景总数</div>
+    <div class="kpi-value" id="kpi-total">0<span class="unit">个</span></div>
+    <div class="kpi-trend">覆盖全渠道智能服务</div>
+  </div>
+  <div class="kpi-card kpi-2">
+    <div class="kpi-icon">🤖</div>
+    <div class="kpi-label">大模型应用</div>
+    <div class="kpi-value" id="kpi-llm">0<span class="unit">个</span></div>
+    <div class="kpi-trend">占比 <span class="up" id="kpi-llm-rate">0%</span></div>
+  </div>
+  <div class="kpi-card kpi-3">
+    <div class="kpi-icon">📈</div>
+    <div class="kpi-label">总业务量</div>
+    <div class="kpi-value" id="kpi-volume">0<span class="unit">次</span></div>
+    <div class="kpi-trend">年度累计服务量</div>
+  </div>
+  <div class="kpi-card kpi-4">
+    <div class="kpi-icon">✅</div>
+    <div class="kpi-label">平均完成率</div>
+    <div class="kpi-value" id="kpi-cr">0<span class="unit">%</span></div>
+    <div class="kpi-trend">流程自动化完成率</div>
+  </div>
+  <div class="kpi-card kpi-5">
+    <div class="kpi-icon">🏷️</div>
+    <div class="kpi-label">业务类别</div>
+    <div class="kpi-value" id="kpi-cat">0<span class="unit">类</span></div>
+    <div class="kpi-trend">覆盖全业务场景</div>
+  </div>
+</div>
+
+<!-- 第一行：高低频 + 大小模型 -->
+<div class="chart-row row-2">
+  <div class="chart-card">
+    <div class="chart-title">
+      场景业务量高低频分布（TOP20）
+      <span class="tag">高频重点场景</span>
+    </div>
+    <div class="chart-container tall" id="chart-volume-rank"></div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">
+      大模型应用占比
+      <span class="tag">大小模型分布</span>
+    </div>
+    <div class="chart-container tall" id="chart-llm-pie"></div>
+  </div>
+</div>
+
+<!-- 第二行：业务量占比 + 完成率分布 -->
+<div class="chart-row row-2">
+  <div class="chart-card">
+    <div class="chart-title">
+      各渠道业务量类别占比
+      <span class="tag">业务结构分析</span>
+    </div>
+    <div class="chart-container" id="chart-channel-stack"></div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">
+      场景完成率分布
+      <span class="tag">流程效能分析</span>
+    </div>
+    <div class="chart-container" id="chart-cr-scatter"></div>
+  </div>
+</div>
+
+<!-- 第三行：原子智能体 + 上线趋势 + 价值四象限 -->
+<div class="chart-row row-3">
+  <div class="chart-card">
+    <div class="chart-title">
+      场景类型能力矩阵
+      <span class="tag">原子智能体应用</span>
+    </div>
+    <div class="chart-container" id="chart-type-radar"></div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">
+      场景上线时间趋势
+      <span class="tag">演进历程</span>
+    </div>
+    <div class="chart-container" id="chart-year-trend"></div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">
+      价值四象限分析
+      <span class="tag">业务量×完成率</span>
+    </div>
+    <div class="chart-container" id="chart-quadrant"></div>
+  </div>
+</div>
+
+<!-- 第四行：省份分布 + 场景详情表 -->
+<div class="chart-row row-2">
+  <div class="chart-card">
+    <div class="chart-title">
+      智能外呼省份覆盖分布
+      <span class="tag">应用范围</span>
+    </div>
+    <div class="chart-container" id="chart-province"></div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">
+      类别×类型 场景数量热力
+      <span class="tag">交叉分析</span>
+    </div>
+    <div class="chart-container" id="chart-heatmap"></div>
+  </div>
+</div>
+
+<!-- 场景明细表 -->
+<div class="table-card">
+  <div class="chart-title" style="margin-bottom:10px;">
+    场景明细清单（按业务量排序）
+    <span class="tag">点击表头可排序</span>
+  </div>
+  <div style="max-height:360px;overflow-y:auto;">
+    <table class="data-table" id="scene-table">
+      <thead>
+        <tr>
+          <th style="width:40px;">排名</th>
+          <th>场景名称</th>
+          <th style="width:90px;">渠道</th>
+          <th style="width:100px;">类型</th>
+          <th style="width:100px;">业务类别</th>
+          <th style="width:90px;">大模型</th>
+          <th style="width:100px;">业务量</th>
+          <th style="width:140px;">流程完成率</th>
+          <th style="width:70px;">上线年份</th>
+        </tr>
+      </thead>
+      <tbody id="scene-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="page-footer">
+  95598智能服务场景全视图 · 多维分析看板 · 数据更新时间：2026年7月
+</div>
+
+<script>
+// ===== 场景数据（从全视图同步）=====
+const allScenes = [
+  {"id":1,"channel":"电话渠道","type":"语音机器人","category":"停电类","name":"故障报修","llm":"未应用","year":"2020","volume":19667,"completionRate":0.0956},
+  {"id":2,"channel":"电话渠道","type":"语音机器人","category":"停电类","name":"停电信息查询","llm":"已应用","year":"2019","volume":5153,"completionRate":0.4515},
+  {"id":3,"channel":"电话渠道","type":"语音机器人","category":"停电类","name":"欠费复电","llm":"未应用","year":"2020","volume":596,"completionRate":0.2454},
+  {"id":4,"channel":"电话渠道","type":"语音机器人","category":"咨询类","name":"电费电量信息查询","llm":"已应用","year":"2019","volume":9165,"completionRate":0.5129},
+  {"id":5,"channel":"电话渠道","type":"语音机器人","category":"咨询类","name":"欠费及违约金查询","llm":"未应用","year":"2020","volume":891,"completionRate":0.5318},
+  {"id":6,"channel":"电话渠道","type":"语音机器人","category":"咨询类","name":"交费信息查询","llm":"未应用","year":"2020","volume":190,"completionRate":0.6377},
+  {"id":7,"channel":"电话渠道","type":"语音机器人","category":"咨询类","name":"抄表示数查询","llm":"未应用","year":"2020","volume":542,"completionRate":0.66},
+  {"id":8,"channel":"电话渠道","type":"语音机器人","category":"咨询类","name":"电费计算方式查询","llm":"未应用","year":"2020","volume":107,"completionRate":0.576},
+  {"id":9,"channel":"电话渠道","type":"语音机器人","category":"咨询类","name":"电价信息查询","llm":"未应用","year":"2023","volume":343,"completionRate":0.5654},
+  {"id":10,"channel":"电话渠道","type":"语音机器人","category":"档案信息业务","name":"户号查询","llm":"未应用","year":"2020","volume":12037,"completionRate":0.5701},
+  {"id":11,"channel":"电话渠道","type":"语音机器人","category":"档案信息业务","name":"联系方式变更","llm":"未应用","year":"2020","volume":152,"completionRate":0},
+  {"id":12,"channel":"电话渠道","type":"语音机器人","category":"档案信息业务","name":"用电地址变更","llm":"未应用","year":"2020","volume":5,"completionRate":0},
+  {"id":13,"channel":"电话渠道","type":"语音机器人","category":"档案信息业务","name":"密码重置","llm":"未应用","year":"2020","volume":125,"completionRate":0.2729},
+  {"id":14,"channel":"电话渠道","type":"语音机器人","category":"档案信息业务","name":"密码修改","llm":"未应用","year":"2020","volume":11,"completionRate":0.0333},
+  {"id":15,"channel":"电话渠道","type":"语音机器人","category":"业务办理","name":"业务处理进度及催办","llm":"未应用","year":"2020","volume":10,"completionRate":0},
+  {"id":16,"channel":"电话渠道","type":"语音机器人","category":"业务办理","name":"电费交纳失败","llm":"未应用","year":"2022","volume":326,"completionRate":0.237},
+  {"id":17,"channel":"电话渠道","type":"语音机器人","category":"业务办理","name":"电费电量异常排查","llm":"已应用","year":"2020","volume":231,"completionRate":0.2338},
+  {"id":18,"channel":"电话渠道","type":"语音机器人","category":"投诉建议","name":"投诉举报受理","llm":"未应用","year":"2020","volume":176,"completionRate":0.4545},
+  {"id":19,"channel":"电话渠道","type":"语音机器人","category":"投诉建议","name":"服务投诉受理","llm":"未应用","year":"2020","volume":298,"completionRate":0.3691},
+  {"id":20,"channel":"电话渠道","type":"语音机器人","category":"投诉建议","name":"意见建议","llm":"未应用","year":"2020","volume":87,"completionRate":0.4253},
+  {"id":21,"channel":"电话渠道","type":"语音机器人","category":"通知回访","name":"满意度回访","llm":"未应用","year":"2021","volume":4230,"completionRate":0.62},
+  {"id":22,"channel":"电话渠道","type":"语音机器人","category":"通知回访","name":"计划停电通知","llm":"未应用","year":"2021","volume":15600,"completionRate":0.85},
+  {"id":23,"channel":"电话渠道","type":"语音机器人","category":"通知回访","name":"欠费提醒","llm":"未应用","year":"2021","volume":28900,"completionRate":0.78},
+  {"id":24,"channel":"电话渠道","type":"语音机器人","category":"通用类","name":"智能导航","llm":"已应用","year":"2024","volume":52000,"completionRate":0.72},
+  {"id":25,"channel":"电话渠道","type":"语音机器人","category":"通用类","name":"转人工服务","llm":"未应用","year":"2019","volume":35000,"completionRate":0.95},
+  {"id":26,"channel":"互联网渠道","type":"文本机器人","category":"停电类","name":"故障报修","llm":"未应用","year":"2022","volume":2340,"completionRate":0.38},
+  {"id":27,"channel":"互联网渠道","type":"文本机器人","category":"停电类","name":"停电信息查询","llm":"已应用","year":"2022","volume":4521,"completionRate":0.523},
+  {"id":28,"channel":"互联网渠道","type":"文本机器人","category":"咨询类","name":"电费电量查询","llm":"已应用","year":"2022","volume":8932,"completionRate":0.621},
+  {"id":29,"channel":"互联网渠道","type":"文本机器人","category":"咨询类","name":"电价信息查询","llm":"未应用","year":"2023","volume":1240,"completionRate":0.58},
+  {"id":30,"channel":"互联网渠道","type":"文本机器人","category":"咨询类","name":"营业厅信息查询","llm":"未应用","year":"2023","volume":567,"completionRate":0.65},
+  {"id":31,"channel":"互联网渠道","type":"文本机器人","category":"档案信息业务","name":"户号查询","llm":"未应用","year":"2022","volume":3456,"completionRate":0.71},
+  {"id":32,"channel":"互联网渠道","type":"文本机器人","category":"档案信息业务","name":"联系方式变更","llm":"未应用","year":"2023","volume":3221,"completionRate":0.5134},
+  {"id":33,"channel":"互联网渠道","type":"文本机器人","category":"业务办理","name":"电量电费异常排查","llm":"未应用","year":"2023","volume":959,"completionRate":0.3462},
+  {"id":34,"channel":"互联网渠道","type":"文本机器人","category":"业务办理","name":"营业厅信息查询","llm":"未应用","year":"2023","volume":252,"completionRate":0.4082},
+  {"id":35,"channel":"互联网渠道","type":"文本机器人","category":"业务办理","name":"新装增容","llm":"未应用","year":"2023","volume":240,"completionRate":0.4615},
+  {"id":36,"channel":"互联网渠道","type":"文本机器人","category":"业务办理","name":"更名过户办理","llm":"未应用","year":"2023","volume":862,"completionRate":0.5294},
+  {"id":37,"channel":"互联网渠道","type":"文本机器人","category":"通用类","name":"客户侧知识问答","llm":"已应用","year":"2025","volume":40430,"completionRate":1.0},
+  {"id":38,"channel":"互联网渠道","type":"座席辅助","category":"座席辅助","name":"知识融合推荐","llm":"已应用","year":"2025","volume":32315,"completionRate":0},
+  {"id":39,"channel":"互联网渠道","type":"座席辅助","category":"座席辅助","name":"会话摘要智能生成","llm":"已应用","year":"2025","volume":1,"completionRate":0},
+  {"id":40,"channel":"互联网渠道","type":"座席辅助","category":"座席辅助","name":"情绪识别","llm":"已应用","year":"2025","volume":2551,"completionRate":0},
+  {"id":41,"channel":"电话渠道","type":"智能外呼","category":"停电通知类","name":"停电检修信息告知","llm":"已应用","year":"2024","volume":0,"completionRate":0},
+  {"id":42,"channel":"电话渠道","type":"智能外呼","category":"停电通知类","name":"福建主动送电确认","llm":"未应用","year":"2023","volume":0,"completionRate":0},
+  {"id":43,"channel":"电话渠道","type":"智能外呼","category":"停电通知类","name":"费控欠费停电提醒","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":44,"channel":"电话渠道","type":"智能外呼","category":"电价政策","name":"阶梯提醒","llm":"未应用","year":"2026","volume":0,"completionRate":0},
+  {"id":45,"channel":"电话渠道","type":"智能外呼","category":"电价政策","name":"峰谷分时变更政策提醒","llm":"未应用","year":"2025","volume":0,"completionRate":0},
+  {"id":46,"channel":"电话渠道","type":"智能外呼","category":"电价政策","name":"煤改电办理","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":47,"channel":"电话渠道","type":"智能外呼","category":"活动通知","name":"网上国网E起节电","llm":"未应用","year":"2025","volume":0,"completionRate":0},
+  {"id":48,"channel":"电话渠道","type":"智能外呼","category":"活动通知","name":"山东可交易电券活动提醒","llm":"未应用","year":"2025","volume":0,"completionRate":0},
+  {"id":49,"channel":"电话渠道","type":"智能外呼","category":"活动通知","name":"分布式光伏竞价提醒","llm":"未应用","year":"2025","volume":0,"completionRate":0},
+  {"id":50,"channel":"电话渠道","type":"智能外呼","category":"活动通知","name":"交费渠道推荐","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":51,"channel":"电话渠道","type":"智能外呼","category":"活动通知","name":"宁夏换表提醒","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":52,"channel":"电话渠道","type":"智能外呼","category":"活动通知","name":"天津换表提醒","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":53,"channel":"电话渠道","type":"智能外呼","category":"交费提醒","name":"山东交费提醒","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":54,"channel":"电话渠道","type":"智能外呼","category":"交费提醒","name":"冀北交费提醒","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":55,"channel":"电话渠道","type":"智能外呼","category":"交费提醒","name":"山西交费提醒","llm":"未应用","year":"2025","volume":0,"completionRate":0},
+  {"id":56,"channel":"电话渠道","type":"智能外呼","category":"交费提醒","name":"天津交费提醒","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":57,"channel":"电话渠道","type":"智能外呼","category":"交费提醒","name":"江苏交费提醒","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":58,"channel":"电话渠道","type":"智能外呼","category":"交费提醒","name":"河南交费提醒","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":59,"channel":"电话渠道","type":"智能外呼","category":"交费提醒","name":"河北交费提醒","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":60,"channel":"电话渠道","type":"智能外呼","category":"交费提醒","name":"甘肃交费提醒","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":61,"channel":"电话渠道","type":"智能外呼","category":"交费提醒","name":"陕西交费提醒","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":62,"channel":"电话渠道","type":"智能外呼","category":"电费预警","name":"天津电费预警","llm":"未应用","year":"2023","volume":0,"completionRate":0},
+  {"id":63,"channel":"电话渠道","type":"智能外呼","category":"电费预警","name":"冀北电费预警","llm":"未应用","year":"2023","volume":0,"completionRate":0},
+  {"id":64,"channel":"电话渠道","type":"智能外呼","category":"电费预警","name":"甘肃电费预警","llm":"未应用","year":"2023","volume":0,"completionRate":0},
+  {"id":65,"channel":"电话渠道","type":"智能外呼","category":"电费预警","name":"吉林电费预警","llm":"未应用","year":"2023","volume":0,"completionRate":0},
+  {"id":66,"channel":"电话渠道","type":"智能外呼","category":"电费预警","name":"四川电费预警","llm":"未应用","year":"2023","volume":0,"completionRate":0},
+  {"id":67,"channel":"电话渠道","type":"智能外呼","category":"电费预警","name":"辽宁电费预警","llm":"未应用","year":"2023","volume":0,"completionRate":0},
+  {"id":68,"channel":"电话渠道","type":"智能外呼","category":"档案校核","name":"联办更名核实","llm":"未应用","year":"2022","volume":0,"completionRate":0},
+  {"id":69,"channel":"电话渠道","type":"智能外呼","category":"档案校核","name":"联系方式核实","llm":"未应用","year":"2025","volume":0,"completionRate":0},
+  {"id":70,"channel":"电话渠道","type":"智能外呼","category":"档案校核","name":"档案信息核实","llm":"未应用","year":"2026","volume":0,"completionRate":0},
+  {"id":71,"channel":"电话渠道","type":"智能外呼","category":"满意度回访","name":"8890回访","llm":"未应用","year":"2024","volume":0,"completionRate":0},
+  {"id":72,"channel":"电话渠道","type":"智能外呼","category":"满意度回访","name":"95598工单满意度回访","llm":"未应用","year":"2023","volume":0,"completionRate":0},
+  {"id":73,"channel":"电话渠道","type":"语音机器人","category":"咨询类","name":"多要素日用电量查询","llm":"已应用","year":"2026","volume":0,"completionRate":0}
+];
+
+// 颜色
+const C = {
+  primary: '#006B54',
+  secondary: '#008667',
+  accent: '#4CAF50',
+  light: '#81C784',
+  pale: '#E8F5E9',
+  warm: '#FF9800',
+  red: '#E53935',
+  blue: '#1E88E5',
+  purple: '#8E24AA',
+  teal: '#00897B',
+  orange: '#FB8C00',
+  pink: '#D81B60',
+  indigo: '#3949AB'
+};
+
+let filteredScenes = [...allScenes];
+let charts = {};
+
+// ===== 初始化筛选器 =====
+function initFilters() {
+  const types = [...new Set(allScenes.map(s => s.type))];
+  const cats = [...new Set(allScenes.map(s => s.category))];
+  const years = [...new Set(allScenes.map(s => s.year))].sort();
+  
+  const typeSel = document.getElementById('f_type');
+  types.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t; opt.textContent = t;
+    typeSel.appendChild(opt);
+  });
+  
+  const catSel = document.getElementById('f_category');
+  cats.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = c;
+    catSel.appendChild(opt);
+  });
+  
+  const yearSel = document.getElementById('f_year');
+  years.forEach(y => {
+    const opt = document.createElement('option');
+    opt.value = y; opt.textContent = y + '年';
+    yearSel.appendChild(opt);
+  });
+}
+
+// ===== 筛选 =====
+function applyFilter() {
+  const channel = document.getElementById('f_channel').value;
+  const type = document.getElementById('f_type').value;
+  const cat = document.getElementById('f_category').value;
+  const llm = document.getElementById('f_llm').value;
+  const year = document.getElementById('f_year').value;
+  
+  filteredScenes = allScenes.filter(s => {
+    if (channel && s.channel !== channel) return false;
+    if (type && s.type !== type) return false;
+    if (cat && s.category !== cat) return false;
+    if (llm && s.llm !== llm) return false;
+    if (year && s.year !== year) return false;
+    return true;
+  });
+  
+  renderAll();
+}
+
+function resetFilter() {
+  document.getElementById('f_channel').value = '';
+  document.getElementById('f_type').value = '';
+  document.getElementById('f_category').value = '';
+  document.getElementById('f_llm').value = '';
+  document.getElementById('f_year').value = '';
+  filteredScenes = [...allScenes];
+  renderAll();
+}
+
+// ===== KPI =====
+function updateKPI() {
+  const total = filteredScenes.length;
+  const llmCount = filteredScenes.filter(s => s.llm === '已应用').length;
+  const totalVol = filteredScenes.reduce((sum, s) => sum + (s.volume || 0), 0);
+  const catCount = new Set(filteredScenes.map(s => s.category)).size;
+  const crList = filteredScenes.filter(s => s.completionRate > 0).map(s => s.completionRate);
+  const avgCr = crList.length ? crList.reduce((a,b) => a+b, 0) / crList.length : 0;
+  
+  document.getElementById('kpi-total').innerHTML = total.toLocaleString() + '<span class="unit">个</span>';
+  document.getElementById('kpi-llm').innerHTML = llmCount + '<span class="unit">个</span>';
+  document.getElementById('kpi-llm-rate').textContent = total ? (llmCount/total*100).toFixed(1) + '%' : '0%';
+  document.getElementById('kpi-volume').innerHTML = totalVol.toLocaleString() + '<span class="unit">次</span>';
+  document.getElementById('kpi-cr').innerHTML = (avgCr*100).toFixed(1) + '<span class="unit">%</span>';
+  document.getElementById('kpi-cat').innerHTML = catCount + '<span class="unit">类</span>';
+}
+
+// ===== 图表1：业务量TOP20柱状图 =====
+function renderVolumeRank() {
+  const top = filteredScenes.filter(s => s.volume > 0).sort((a,b) => b.volume - a.volume).slice(0, 20);
+  const names = top.map(s => s.name.length > 8 ? s.name.slice(0,8)+'…' : s.name);
+  const vols = top.map(s => s.volume);
+  const crs = top.map(s => (s.completionRate * 100).toFixed(1));
+  
+  const chart = echarts.init(document.getElementById('chart-volume-rank'));
+  charts.volumeRank = chart;
+  
+  chart.setOption({
+    grid: { left: 90, right: 50, top: 20, bottom: 30 },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      formatter: function(p) {
+        const idx = p[0].dataIndex;
+        const s = top[idx];
+        return `<b>${s.name}</b><br/>
+          业务量：${s.volume.toLocaleString()} 次<br/>
+          完成率：${(s.completionRate*100).toFixed(1)}%<br/>
+          渠道：${s.channel}<br/>
+          大模型：${s.llm}`;
+      }
+    },
+    xAxis: {
+      type: 'value',
+      axisLabel: { color: '#888', fontSize: 11 },
+      splitLine: { lineStyle: { color: '#f0f0f0' } }
+    },
+    yAxis: {
+      type: 'category',
+      data: names.reverse(),
+      axisLabel: { color: '#444', fontSize: 11 },
+      axisLine: { show: false },
+      axisTick: { show: false }
+    },
+    series: [{
+      type: 'bar',
+      data: vols.reverse().map((v, i) => ({
+        value: v,
+        itemStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+            { offset: 0, color: top[19-i].llm === '已应用' ? C.accent : C.secondary },
+            { offset: 1, color: top[19-i].llm === '已应用' ? C.primary : C.primary }
+          ]),
+          borderRadius: [0, 4, 4, 0]
+        }
+      })),
+      barWidth: 14,
+      label: {
+        show: true,
+        position: 'right',
+        color: '#555',
+        fontSize: 10,
+        formatter: p => p.value.toLocaleString()
+      }
+    }]
+  });
+}
+
+// ===== 图表2：大模型应用饼图 =====
+function renderLlmPie() {
+  const yes = filteredScenes.filter(s => s.llm === '已应用').length;
+  const no = filteredScenes.length - yes;
+  
+  const chart = echarts.init(document.getElementById('chart-llm-pie'));
+  charts.llmPie = chart;
+  
+  chart.setOption({
+    tooltip: { trigger: 'item', formatter: '{b}: {c}个 ({d}%)' },
+    legend: {
+      bottom: 5,
+      textStyle: { fontSize: 12, color: '#555' },
+      itemWidth: 12,
+      itemHeight: 12
+    },
+    series: [{
+      type: 'pie',
+      radius: ['45%', '70%'],
+      center: ['50%', '42%'],
+      avoidLabelOverlap: true,
+      itemStyle: {
+        borderRadius: 6,
+        borderColor: '#fff',
+        borderWidth: 2
+      },
+      label: {
+        show: true,
+        formatter: '{b}\n{d}%',
+        fontSize: 12,
+        color: '#333',
+        lineHeight: 18
+      },
+      labelLine: { length: 8, length2: 8 },
+      data: [
+        { value: yes, name: '大模型应用', itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,1,[
+          {offset:0, color:C.accent}, {offset:1, color:C.primary}
+        ]) } },
+        { value: no, name: '传统规则', itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,1,[
+          {offset:0, color:'#BDBDBD'}, {offset:1, color:'#9E9E9E'}
+        ]) } }
+      ]
+    }],
+    graphic: [{
+      type: 'text',
+      left: 'center',
+      top: '38%',
+      style: {
+        text: filteredScenes.length,
+        fontSize: 24,
+        fontWeight: 700,
+        fill: C.primary,
+        textAlign: 'center'
+      }
+    }, {
+      type: 'text',
+      left: 'center',
+      top: '48%',
+      style: {
+        text: '场景总数',
+        fontSize: 11,
+        fill: '#888',
+        textAlign: 'center'
+      }
+    }]
+  });
+}
+
+// ===== 图表3：渠道-类别堆叠柱状图 =====
+function renderChannelStack() {
+  const channels = [...new Set(filteredScenes.map(s => s.channel))];
+  const categories = [...new Set(filteredScenes.map(s => s.category))];
+  
+  const series = categories.map((cat, idx) => {
+    const colors = [C.primary, C.accent, C.warm, C.blue, C.purple, C.teal, C.orange, C.pink, C.indigo];
+    return {
+      name: cat,
+      type: 'bar',
+      stack: 'total',
+      data: channels.map(ch => {
+        return filteredScenes
+          .filter(s => s.channel === ch && s.category === cat)
+          .reduce((sum, s) => sum + (s.volume || 0), 0);
+      }),
+      itemStyle: { color: colors[idx % colors.length] },
+      barWidth: 30,
+      label: {
+        show: false
+      }
+    };
+  });
+  
+  const chart = echarts.init(document.getElementById('chart-channel-stack'));
+  charts.channelStack = chart;
+  
+  chart.setOption({
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      formatter: function(params) {
+        let html = `<b>${params[0].axisValue}</b><br/>`;
+        let total = 0;
+        params.forEach(p => {
+          if (p.value > 0) {
+            html += `${p.marker}${p.seriesName}: ${p.value.toLocaleString()}<br/>`;
+            total += p.value;
+          }
+        });
+        html += `<b>合计: ${total.toLocaleString()}</b>`;
+        return html;
+      }
+    },
+    legend: {
+      top: 0,
+      textStyle: { fontSize: 10, color: '#666' },
+      itemWidth: 10,
+      itemHeight: 10
+    },
+    grid: { left: 50, right: 20, top: 45, bottom: 30 },
+    xAxis: {
+      type: 'category',
+      data: channels,
+      axisLabel: { color: '#444', fontSize: 12 },
+      axisLine: { lineStyle: { color: '#ddd' } }
+    },
+    yAxis: {
+      type: 'value',
+      axisLabel: { color: '#888', fontSize: 11, formatter: v => v>=10000 ? (v/10000).toFixed(1)+'万' : v },
+      splitLine: { lineStyle: { color: '#f0f0f0' } }
+    },
+    series: series
+  });
+}
+
+// ===== 图表4：完成率散点图 =====
+function renderCrScatter() {
+  const valid = filteredScenes.filter(s => s.completionRate > 0 && s.volume > 0);
+  const data = valid.map(s => [
+    s.completionRate * 100,
+    s.volume,
+    s.name,
+    s.category,
+    s.channel,
+    s.llm
+  ]);
+  
+  const chart = echarts.init(document.getElementById('chart-cr-scatter'));
+  charts.crScatter = chart;
+  
+  chart.setOption({
+    tooltip: {
+      formatter: function(p) {
+        return `<b>${p.data[2]}</b><br/>
+          完成率：${p.data[0].toFixed(1)}%<br/>
+          业务量：${p.data[1].toLocaleString()}<br/>
+          类别：${p.data[3]}<br/>
+          渠道：${p.data[4]}`;
+      }
+    },
+    grid: { left: 55, right: 20, top: 20, bottom: 40 },
+    xAxis: {
+      name: '流程完成率 (%)',
+      nameTextStyle: { fontSize: 11, color: '#888' },
+      type: 'value',
+      min: 0, max: 100,
+      axisLabel: { color: '#888', fontSize: 11, formatter: '{value}%' },
+      splitLine: { lineStyle: { color: '#f0f0f0' } }
+    },
+    yAxis: {
+      name: '业务量',
+      nameTextStyle: { fontSize: 11, color: '#888' },
+      type: 'value',
+      axisLabel: { color: '#888', fontSize: 11, formatter: v => v>=10000 ? (v/10000).toFixed(0)+'万' : v },
+      splitLine: { lineStyle: { color: '#f0f0f0' } }
+    },
+    series: [{
+      type: 'scatter',
+      data: data.map(d => ({
+        value: [d[0], d[1], d[2], d[3], d[4]],
+        symbolSize: Math.max(8, Math.min(30, Math.log(d[1] + 1) * 4)),
+        itemStyle: {
+          color: d[5] === '已应用'
+            ? new echarts.graphic.RadialGradient(0.4, 0.4, 1, [
+                {offset: 0, color: C.light},
+                {offset: 1, color: C.primary}
+              ])
+            : new echarts.graphic.RadialGradient(0.4, 0.4, 1, [
+                {offset: 0, color: '#E0E0E0'},
+                {offset: 1, color: '#9E9E9E'}
+              ]),
+          shadowBlur: 5,
+          shadowColor: 'rgba(0,107,84,0.2)'
+        }
+      })),
+      markLine: {
+        silent: true,
+        lineStyle: { type: 'dashed', color: '#ccc' },
+        label: { fontSize: 10, color: '#aaa' },
+        data: [
+          { xAxis: 50, label: { formatter: '50%' } }
+        ]
+      }
+    }]
+  });
+}
+
+// ===== 图表5：类型雷达图（原子智能体） =====
+function renderTypeRadar() {
+  const types = [...new Set(filteredScenes.map(s => s.type))];
+  const categories = [...new Set(filteredScenes.map(s => s.category))];
+  
+  // 每个类型在各类别下的场景数量
+  const indicators = categories.map(c => ({ name: c, max: Math.max(...types.map(t => 
+    filteredScenes.filter(s => s.type === t && s.category === c).length
+  )) || 1 }));
+  
+  const colors = [C.primary, C.warm, C.blue, C.purple];
+  
+  const series = types.map((t, i) => ({
+    name: t,
+    type: 'radar',
+    data: [{
+      value: categories.map(c => filteredScenes.filter(s => s.type === t && s.category === c).length),
+      name: t,
+      areaStyle: { opacity: 0.15 },
+      lineStyle: { width: 2, color: colors[i % colors.length] },
+      itemStyle: { color: colors[i % colors.length] }
+    }]
+  }));
+  
+  const chart = echarts.init(document.getElementById('chart-type-radar'));
+  charts.typeRadar = chart;
+  
+  chart.setOption({
+    tooltip: { trigger: 'item' },
+    legend: {
+      bottom: 0,
+      textStyle: { fontSize: 10, color: '#666' },
+      itemWidth: 10,
+      itemHeight: 10
+    },
+    radar: {
+      indicator: indicators,
+      center: ['50%', '48%'],
+      radius: '55%',
+      axisName: {
+        color: '#555',
+        fontSize: 10
+      },
+      splitArea: {
+        areaStyle: {
+          color: ['rgba(0,107,84,0.02)', 'rgba(0,107,84,0.05)']
+        }
+      },
+      splitLine: {
+        lineStyle: { color: '#d0e0da' }
+      },
+      axisLine: {
+        lineStyle: { color: '#d0e0da' }
+      }
+    },
+    series: series
+  });
+}
+
+// ===== 图表6：上线趋势 =====
+function renderYearTrend() {
+  const yearMap = {};
+  const llmMap = {};
+  filteredScenes.forEach(s => {
+    yearMap[s.year] = (yearMap[s.year] || 0) + 1;
+    if (s.llm === '已应用') llmMap[s.year] = (llmMap[s.year] || 0) + 1;
+  });
+  
+  const years = Object.keys(yearMap).sort();
+  const counts = years.map(y => yearMap[y]);
+  const llmCounts = years.map(y => llmMap[y] || 0);
+  
+  // 累计
+  let cum = 0;
+  const cumCounts = years.map(y => { cum += yearMap[y]; return cum; });
+  
+  const chart = echarts.init(document.getElementById('chart-year-trend'));
+  charts.yearTrend = chart;
+  
+  chart.setOption({
+    tooltip: { trigger: 'axis' },
+    legend: {
+      top: 0,
+      textStyle: { fontSize: 10, color: '#666' },
+      itemWidth: 10,
+      itemHeight: 10
+    },
+    grid: { left: 40, right: 40, top: 35, bottom: 25 },
+    xAxis: {
+      type: 'category',
+      data: years.map(y => y + '年'),
+      axisLabel: { color: '#666', fontSize: 11 },
+      axisLine: { lineStyle: { color: '#ddd' } }
+    },
+    yAxis: [
+      {
+        type: 'value',
+        name: '新增',
+        nameTextStyle: { fontSize: 10, color: '#888' },
+        axisLabel: { color: '#888', fontSize: 10 },
+        splitLine: { lineStyle: { color: '#f0f0f0' } }
+      },
+      {
+        type: 'value',
+        name: '累计',
+        nameTextStyle: { fontSize: 10, color: '#888' },
+        axisLabel: { color: '#888', fontSize: 10 },
+        splitLine: { show: false }
+      }
+    ],
+    series: [
+      {
+        name: '新上线场景',
+        type: 'bar',
+        data: counts,
+        barWidth: 18,
+        itemStyle: {
+          color: new echarts.graphic.LinearGradient(0,0,0,1,[
+            {offset:0, color:C.accent}, {offset:1, color:C.secondary}
+          ]),
+          borderRadius: [3, 3, 0, 0]
+        }
+      },
+      {
+        name: '大模型应用',
+        type: 'bar',
+        stack: 'llm',
+        data: llmCounts,
+        barWidth: 18,
+        itemStyle: { color: C.warm, borderRadius: [3, 3, 0, 0] }
+      },
+      {
+        name: '累计场景数',
+        type: 'line',
+        yAxisIndex: 1,
+        data: cumCounts,
+        smooth: true,
+        symbol: 'circle',
+        symbolSize: 6,
+        lineStyle: { width: 2, color: C.primary },
+        itemStyle: { color: C.primary },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0,0,0,1,[
+            {offset:0, color:'rgba(0,107,84,0.2)'},
+            {offset:1, color:'rgba(0,107,84,0.02)'}
+          ])
+        }
+      }
+    ]
+  });
+}
+
+// ===== 图表7：价值四象限 =====
+function renderQuadrant() {
+  const valid = filteredScenes.filter(s => s.completionRate > 0 && s.volume > 0);
+  const medVol = valid.length ? valid.map(s => s.volume).sort((a,b) => a-b)[Math.floor(valid.length/2)] : 0;
+  const medCr = valid.length ? valid.map(s => s.completionRate).sort((a,b) => a-b)[Math.floor(valid.length/2)] : 0.5;
+  
+  const q1 = [], q2 = [], q3 = [], q4 = [];
+  valid.forEach(s => {
+    const highVol = s.volume >= medVol;
+    const highCr = s.completionRate >= medCr;
+    if (highVol && highCr) q1.push(s);
+    else if (!highVol && highCr) q2.push(s);
+    else if (!highVol && !highCr) q3.push(s);
+    else q4.push(s);
+  });
+  
+  const mkScatter = (list, color) => list.map(s => ({
+    name: s.name,
+    value: [s.volume, s.completionRate * 100],
+    symbolSize: Math.max(8, Math.min(25, Math.sqrt(s.volume + 1) * 0.8)),
+    itemStyle: { color: color, opacity: 0.85 },
+    label: { show: s.volume > medVol * 1.5 || s.completionRate > 0.8, formatter: p => p.name.length > 5 ? p.name.slice(0,5)+'…' : p.name, fontSize: 9, color: '#444', position: 'top' }
+  }));
+  
+  const chart = echarts.init(document.getElementById('chart-quadrant'));
+  charts.quadrant = chart;
+  
+  chart.setOption({
+    tooltip: {
+      formatter: p => `<b>${p.name}</b><br/>业务量：${p.value[0].toLocaleString()}<br/>完成率：${p.value[1].toFixed(1)}%`
+    },
+    grid: { left: 50, right: 15, top: 20, bottom: 35 },
+    xAxis: {
+      type: 'value',
+      name: '业务量',
+      nameTextStyle: { fontSize: 10, color: '#888' },
+      axisLabel: { color: '#888', fontSize: 10, formatter: v => v>=10000 ? (v/10000).toFixed(1)+'万' : v },
+      splitLine: { lineStyle: { color: '#f0f0f0' } }
+    },
+    yAxis: {
+      type: 'value',
+      name: '完成率(%)',
+      nameTextStyle: { fontSize: 10, color: '#888' },
+      axisLabel: { color: '#888', fontSize: 10, formatter: '{value}%' },
+      splitLine: { lineStyle: { color: '#f0f0f0' } }
+    },
+    series: [
+      {
+        type: 'scatter',
+        name: '高价值高量（明星）',
+        data: mkScatter(q1, C.accent),
+        markLine: {
+          silent: true,
+          symbol: 'none',
+          lineStyle: { type: 'dashed', color: '#bbb', width: 1 },
+          label: { show: false },
+          data: [
+            { xAxis: medVol },
+            { yAxis: medCr * 100 }
+          ]
+        },
+        markArea: {
+          silent: true,
+          itemStyle: { opacity: 0.08 },
+          data: [
+            [{ name: '明星区', itemStyle:{color:C.accent}, xAxis: medVol, yAxis: medCr*100 },
+             { xAxis: 'max', yAxis: 100 }],
+            [{ name: '潜力区', itemStyle:{color:C.blue}, xAxis: 0, yAxis: medCr*100 },
+             { xAxis: medVol, yAxis: 100 }],
+            [{ name: '待优化区', itemStyle:{color:C.red}, xAxis: medVol, yAxis: 0 },
+             { xAxis: 'max', yAxis: medCr*100 }],
+            [{ name: '长尾区', itemStyle:{color:'#9E9E9E'}, xAxis: 0, yAxis: 0 },
+             { xAxis: medVol, yAxis: medCr*100 }]
+          ],
+          label: {
+            show: true,
+            position: 'insideTop',
+            fontSize: 10,
+            fontWeight: 600,
+            color: '#666'
+          }
+        }
+      },
+      { type: 'scatter', name: '低量高价值（潜力）', data: mkScatter(q2, C.blue) },
+      { type: 'scatter', name: '高量低质（待优化）', data: mkScatter(q4, C.red) },
+      { type: 'scatter', name: '低量低质（长尾）', data: mkScatter(q3, '#9E9E9E') }
+    ]
+  });
+}
+
+// ===== 图表8：省份分布 =====
+function renderProvince() {
+  const outbounds = filteredScenes.filter(s => s.type === '智能外呼');
+  const provMap = {};
+  const provCategory = {};
+  
+  outbounds.forEach(s => {
+    let prov = '全国';
+    const name = s.name;
+    const provs = ['山东','江苏','河南','河北','山西','陕西','甘肃','宁夏','天津','冀北','吉林','辽宁','四川','福建','北京','浙江','安徽','江西','湖北','湖南','广东','广西','云南','贵州','重庆','青海','新疆','西藏','内蒙古','黑龙江'];
+    for (const p of provs) {
+      if (name.includes(p)) { prov = p; break; }
+    }
+    provMap[prov] = (provMap[prov] || 0) + 1;
+    if (!provCategory[prov]) provCategory[prov] = new Set();
+    provCategory[prov].add(s.category);
+  });
+  
+  const sorted = Object.entries(provMap).sort((a,b) => b[1] - a[1]);
+  const provs = sorted.map(([p]) => p);
+  const counts = sorted.map(([,c]) => c);
+  const cats = sorted.map(([p]) => Array.from(provCategory[p]).length);
+  
+  const chart = echarts.init(document.getElementById('chart-province'));
+  charts.province = chart;
+  
+  chart.setOption({
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      formatter: p => {
+        const prov = p[0].name;
+        const scens = outbounds.filter(s => {
+          const name = s.name;
+          return prov === '全国' ? !['山东','江苏','河南','河北','山西','陕西','甘肃','宁夏','天津','冀北','吉林','辽宁','四川','福建'].some(p => name.includes(p)) : name.includes(prov);
+        });
+        return `<b>${prov}</b> (${scens.length}个场景)<br/>` +
+          scens.slice(0, 6).map(s => `· ${s.name}`).join('<br/>') +
+          (scens.length > 6 ? `<br/>...等${scens.length}个` : '');
+      }
+    },
+    grid: { left: 70, right: 30, top: 15, bottom: 25 },
+    xAxis: {
+      type: 'value',
+      axisLabel: { color: '#888', fontSize: 11 },
+      splitLine: { lineStyle: { color: '#f0f0f0' } }
+    },
+    yAxis: {
+      type: 'category',
+      data: provs.reverse(),
+      axisLabel: { color: '#444', fontSize: 11 },
+      axisLine: { show: false },
+      axisTick: { show: false }
+    },
+    series: [
+      {
+        type: 'bar',
+        data: counts.reverse(),
+        barWidth: 16,
+        itemStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+            { offset: 0, color: C.secondary },
+            { offset: 1, color: C.accent }
+          ]),
+          borderRadius: [0, 3, 3, 0]
+        },
+        label: {
+          show: true,
+          position: 'right',
+          color: '#555',
+          fontSize: 11,
+          formatter: '{c} 个'
+        }
+      }
+    ]
+  });
+}
+
+// ===== 图表9：热力图 =====
+function renderHeatmap() {
+  const categories = [...new Set(filteredScenes.map(s => s.category))];
+  const types = [...new Set(filteredScenes.map(s => s.type))];
+  
+  const data = [];
+  let maxVal = 0;
+  categories.forEach((cat, ci) => {
+    types.forEach((type, ti) => {
+      const count = filteredScenes.filter(s => s.category === cat && s.type === type).length;
+      data.push([ti, ci, count]);
+      if (count > maxVal) maxVal = count;
+    });
+  });
+  
+  const chart = echarts.init(document.getElementById('chart-heatmap'));
+  charts.heatmap = chart;
+  
+  chart.setOption({
+    tooltip: {
+      formatter: p => `<b>${categories[p.data[1]]}</b><br/>${types[p.data[0]]}: ${p.data[2]} 个场景`
+    },
+    grid: { left: 90, right: 20, top: 40, bottom: 50 },
+    xAxis: {
+      type: 'category',
+      data: types,
+      axisLabel: { color: '#444', fontSize: 11, rotate: 0 },
+      axisLine: { lineStyle: { color: '#ddd' } },
+      position: 'top'
+    },
+    yAxis: {
+      type: 'category',
+      data: categories,
+      axisLabel: { color: '#444', fontSize: 11 },
+      axisLine: { lineStyle: { color: '#ddd' } }
+    },
+    visualMap: {
+      min: 0,
+      max: maxVal || 1,
+      show: false,
+      inRange: {
+        color: ['#E8F5E9', '#A5D6A7', '#4CAF50', '#008667', '#004d3d']
+      }
+    },
+    series: [{
+      type: 'heatmap',
+      data: data,
+      label: {
+        show: true,
+        color: '#333',
+        fontSize: 12,
+        fontWeight: 600,
+        formatter: p => p.data[2] || ''
+      },
+      itemStyle: {
+        borderRadius: 4,
+        borderColor: '#fff',
+        borderWidth: 2
+      },
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowColor: 'rgba(0,107,84,0.3)'
+        }
+      }
+    }]
+  });
+}
+
+// ===== 明细表 =====
+function renderTable() {
+  const sorted = [...filteredScenes].sort((a,b) => (b.volume||0) - (a.volume||0));
+  const tbody = document.getElementById('scene-tbody');
+  tbody.innerHTML = sorted.map((s, i) => {
+    const rankClass = i === 0 ? 'r1' : i === 1 ? 'r2' : i === 2 ? 'r3' : '';
+    const llmClass = s.llm === '已应用' ? 'badge-green' : 'badge-gray';
+    const chClass = s.channel === '电话渠道' ? 'badge-blue' : 'badge-purple';
+    const cr = (s.completionRate * 100).toFixed(1);
+    const crColor = s.completionRate >= 0.6 ? '#2E7D32' : s.completionRate >= 0.3 ? '#E65100' : s.completionRate > 0 ? '#C62828' : '#999';
+    return `<tr>
+      <td><span class="rank-num ${rankClass}">${i+1}</span></td>
+      <td style="font-weight:500;color:#222;">${s.name}</td>
+      <td><span class="badge ${chClass}">${s.channel}</span></td>
+      <td>${s.type}</td>
+      <td>${s.category}</td>
+      <td><span class="badge ${llmClass}">${s.llm}</span></td>
+      <td style="font-weight:600;color:${C.primary};">${(s.volume||0).toLocaleString()}</td>
+      <td>
+        <div class="progress-bar"><div class="progress-fill" style="width:${cr}%;background:${crColor};"></div></div>
+        <span style="color:${crColor};font-weight:600;">${cr}%</span>
+      </td>
+      <td style="color:#888;">${s.year}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ===== 全量渲染 =====
+function renderAll() {
+  updateKPI();
+  renderVolumeRank();
+  renderLlmPie();
+  renderChannelStack();
+  renderCrScatter();
+  renderTypeRadar();
+  renderYearTrend();
+  renderQuadrant();
+  renderProvince();
+  renderHeatmap();
+  renderTable();
+}
+
+// 响应式
+window.addEventListener('resize', () => {
+  Object.values(charts).forEach(c => c.resize());
+});
+
+// 启动
+initFilters();
+renderAll();
+</script>
+</body>
+</html>
