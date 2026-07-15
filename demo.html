@@ -1762,52 +1762,123 @@ a { text-decoration:none; color:inherit; }
 .core-values {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 10px;
+  margin-bottom: 14px;
 }
 .core-value-item {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fcf9 100%);
-  border: 1px solid #e0f0ea;
-  border-radius: 10px;
-  padding: 10px 8px 8px;
+  background: linear-gradient(160deg, #ffffff 0%, #e8f5ee 100%);
+  border: 1px solid #b8dccb;
+  border-radius: 12px;
+  padding: 12px 8px 10px;
   text-align: center;
-  transition: all .25s cubic-bezier(.4,0,.2,1);
+  transition: all .3s cubic-bezier(.4,0,.2,1);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,107,84,0.08), inset 0 1px 0 rgba(255,255,255,0.8);
 }
 .core-value-item::before {
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #008667, #4CAF50, #008667);
-  opacity: 0;
-  transition: opacity .25s;
+  height: 3px;
+  background: linear-gradient(90deg, #006B54, #00A870, #4CAF50);
+  opacity: 1;
+}
+.core-value-item::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -50%;
+  width: 200%;
+  height: 60%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
 }
 .core-value-item:hover {
   border-color: #00A870;
-  box-shadow: 0 6px 20px rgba(0,107,84,0.15);
-  transform: translateY(-3px);
-}
-.core-value-item:hover::before {
-  opacity: 1;
+  box-shadow: 0 8px 24px rgba(0,107,84,0.2), inset 0 1px 0 rgba(255,255,255,0.9);
+  transform: translateY(-4px);
 }
 .core-value-icon {
-  font-size: 24px;
-  margin-bottom: 5px;
-  filter: drop-shadow(0 2px 4px rgba(0,107,84,0.2));
+  font-size: 28px;
+  margin-bottom: 6px;
+  filter: drop-shadow(0 2px 6px rgba(0,107,84,0.3));
+  position: relative;
+  z-index: 1;
 }
 .core-value-title {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
-  color: #005a46;
-  margin-bottom: 3px;
+  color: #004d3d;
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
 }
 .core-value-desc {
   font-size: 11px;
-  color: #555;
-  line-height: 1.45;
+  color: #444;
+  line-height: 1.5;
   font-weight: 400;
+  position: relative;
+  z-index: 1;
+}
+/* 6个卡片差异化配色 */
+.core-value-item:nth-child(1) {
+  background: linear-gradient(160deg, #f0faf4 0%, #c8e8d4 100%);
+  border-color: #8fc9a8;
+}
+.core-value-item:nth-child(1)::before {
+  background: linear-gradient(90deg, #2E7D32, #4CAF50, #81C784);
+}
+.core-value-item:nth-child(2) {
+  background: linear-gradient(160deg, #fff0f0 0%, #ffd4d4 100%);
+  border-color: #f0a0a0;
+}
+.core-value-item:nth-child(2)::before {
+  background: linear-gradient(90deg, #C62828, #E53935, #EF5350);
+}
+.core-value-item:nth-child(2) .core-value-title {
+  color: #b71c1c;
+}
+.core-value-item:nth-child(3) {
+  background: linear-gradient(160deg, #f0f4ff 0%, #d4e0ff 100%);
+  border-color: #a0b8f0;
+}
+.core-value-item:nth-child(3)::before {
+  background: linear-gradient(90deg, #1565C0, #2196F3, #64B5F6);
+}
+.core-value-item:nth-child(3) .core-value-title {
+  color: #0d47a1;
+}
+.core-value-item:nth-child(4) {
+  background: linear-gradient(160deg, #fff8f0 0%, #ffe8cc 100%);
+  border-color: #f0c080;
+}
+.core-value-item:nth-child(4)::before {
+  background: linear-gradient(90deg, #E65100, #FF9800, #FFB74D);
+}
+.core-value-item:nth-child(4) .core-value-title {
+  color: #e65100;
+}
+.core-value-item:nth-child(5) {
+  background: linear-gradient(160deg, #f5f0ff 0%, #e0d4ff 100%);
+  border-color: #b8a0f0;
+}
+.core-value-item:nth-child(5)::before {
+  background: linear-gradient(90deg, #6A1B9A, #9C27B0, #BA68C8);
+}
+.core-value-item:nth-child(5) .core-value-title {
+  color: #6a1b9a;
+}
+.core-value-item:nth-child(6) {
+  background: linear-gradient(160deg, #f0fcf8 0%, #c8f0e0 100%);
+  border-color: #7fd4b8;
+}
+.core-value-item:nth-child(6)::before {
+  background: linear-gradient(90deg, #00695C, #009688, #4DB6AC);
+}
+.core-value-item:nth-child(6) .core-value-title {
+  color: #004d40;
 }
 
 /* ===== 产品定位条 ===== */
