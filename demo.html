@@ -1689,50 +1689,6 @@ a { text-decoration:none; color:inherit; }
       </div>
       <div class="page-body">
         <!-- 工具卡片 -->
-        <!-- 平台内置工具 -->
-        <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
-          <div style="font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px">
-            <span style="width:4px;height:16px;background:var(--primary);border-radius:2px"></span>
-            🏠 平台内置工具
-          </div>
-          <span class="tag tag-green">2个可用</span>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
-          <!-- 周报自动生成 -->
-          <div class="card" style="cursor:pointer;border:2px solid var(--primary);position:relative;overflow:hidden" onclick="openAITool('weekly-report')">
-            <div style="position:absolute;top:0;right:0;background:var(--primary);color:#fff;font-size:10px;padding:2px 10px;border-radius:0 0 0 8px">HOT</div>
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-              <div style="width:48px;height:48px;border-radius:12px;background:var(--primary-pale);display:flex;align-items:center;justify-content:center;font-size:24px">📊</div>
-              <div>
-                <div style="font-size:16px;font-weight:700;color:var(--text)">运营周报生成</div>
-                <div style="font-size:11px;color:var(--text-light)">AI自动汇总 · 一键出周报</div>
-              </div>
-            </div>
-            <div style="font-size:12px;color:var(--text-light);line-height:1.6">自动汇总本周运营指标、工单进展、校核标注数据，智能生成周报文档，支持自定义模板和导出</div>
-          </div>
-          <!-- 智能会话抽检自动填充 -->
-          <div class="card" style="cursor:pointer;position:relative;overflow:hidden" onclick="openAITool('auto-fill')">
-            <div style="position:absolute;top:0;right:0;background:#e65100;color:#fff;font-size:10px;padding:2px 10px;border-radius:0 0 0 8px">NEW</div>
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
-              <div style="width:48px;height:48px;border-radius:12px;background:#FFF3E0;display:flex;align-items:center;justify-content:center;font-size:24px">🔍</div>
-              <div>
-                <div style="font-size:16px;font-weight:700;color:var(--text)">会话抽检自动填充</div>
-                <div style="font-size:11px;color:var(--text-light)">上传Excel · AI填空列 · 流失率统计</div>
-              </div>
-            </div>
-            <div style="font-size:12px;color:var(--text-light);line-height:1.6">上传会话记录Excel，AI自动识别聊天内容填充空列（关系库、身份验证、地址判定等），生成各环节流失率汇总</div>
-          </div>
-          <!-- 开发中占位 -->
-          <div class="card" style="cursor:pointer;border:1px dashed var(--border)" onclick="showToast('🚧 更多内置工具开发中...')">
-            <div style="display:flex;align-items:center;justify-content:center;height:100%;min-height:100px">
-              <div style="text-align:center;color:var(--text-light)">
-                <div style="font-size:32px;margin-bottom:8px">➕</div>
-                <div style="font-size:13px">更多工具开发中</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- 外部AI工具集 -->
         <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
           <div style="font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px">
