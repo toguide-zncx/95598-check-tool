@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>95598智能服务运营工作周报看板 - 2026年第25期</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:16px;font-size:14px;color:#333}
+.container{max-width:1400px;margin:0 auto}
+.section,.header{background:white;padding:24px;border-radius:12px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.header{text-align:center;padding:28px 24px}
+.header h1{font-size:26px;color:#333;margin-bottom:8px}
+.header h2{font-size:18px;color:#667eea;margin-bottom:10px}
+.header p{font-size:14px;color:#666}
+.section-title{font-size:16px;color:#333;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #667eea;font-weight:600}
+.section-title span{display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:3px 10px;border-radius:6px;margin-right:8px;font-size:13px}
+.sub-title{font-size:14px;color:#333;margin:14px 0 8px;font-weight:600}
+.summary-text{font-size:13px;color:#555;line-height:1.8;margin-bottom:14px;text-align:justify}
+.bold-num{font-weight:700;color:#333}
+
+/* KPI卡片 */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.kpi-card{background:white;border-radius:10px;padding:14px 10px;text-align:center;border:1px solid #e5e7eb}
+.kpi-card.danger{border-top:3px solid #ef4444}
+.kpi-card.warning{border-top:3px solid #f59e0b}
+.kpi-card.success{border-top:3px solid #10b981}
+.kpi-label{font-size:12px;color:#666;margin-bottom:6px}
+.kpi-value{font-size:26px;font-weight:700;color:#333}
+.kpi-change{font-size:11px;color:#666;margin-top:4px}
+.kpi-change .up{color:#10b981}
+.kpi-change .down{color:#ef4444}
+.kpi-gap{font-size:11px;color:#999;margin-top:2px}
+.kpi-progress{background:#e5e7eb;border-radius:4px;height:6px;margin-top:8px}
+.kpi-progress .fill{border-radius:4px;height:6px}
+.kpi-progress .fill.danger{background:#ef4444}
+.kpi-progress .fill.warning{background:#f59e0b}
+.kpi-progress .fill.success{background:#10b981}
+.kpi-tag{display:inline-block;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:600;margin-left:4px}
+.kpi-tag.pass{background:#d1fae5;color:#059669}
+.kpi-tag.fail{background:#fee2e2;color:#dc2626}
+
+/* 图表盒子 */
+.chart-box{background:#f8f9fa;border-radius:8px;padding:12px;margin:0}
+.chart-box h4{font-size:13px;color:#333;margin-bottom:10px;text-align:center;font-weight:600}
+.chart-container{width:100%;height:280px}
+.chart-container-sm{width:100%;height:220px}
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:12px 0}
+.chart-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:12px 0}
+
+/* 淡蓝色表格 */
+.data-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px;border-radius:6px;overflow:hidden;border:1px solid #bfdbfe}
+.data-table th{background:#e0f2fe;color:#1e40af;padding:10px 12px;font-weight:600;text-align:left;font-size:11px;white-space:nowrap}
+.data-table td{padding:9px 12px;border-bottom:1px solid #f0f7ff;color:#444;font-size:11px;background:white}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:#f0f7ff}
+.data-table tr td:first-child{text-align:center;color:#667eea;font-weight:600}
+.table-box{background:white;border-radius:8px;padding:14px;border:1px solid #bfdbfe}
+.table-box h4{font-size:13px;color:#333;margin-bottom:10px;text-align:center;font-weight:600}
+
+/* 分析框 */
+.analysis-box{background:#eef2ff;border-radius:8px;padding:14px;margin-top:12px}
+.analysis-box h4{color:#4f46e5;font-size:13px;margin-bottom:10px}
+.analysis-box p{color:#555;font-size:12px;line-height:1.8;margin-bottom:6px}
+
+/* 工作计划折叠 */
+.work-plan .plan-content{max-height:120px;overflow:hidden;position:relative;transition:max-height 0.5s ease}
+.work-plan.expanded .plan-content{max-height:5000px;overflow:visible}
+.work-plan .plan-content::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(transparent,white);pointer-events:none}
+.work-plan.expanded .plan-content::after{display:none}
+.toggle-btn{display:block;margin:12px auto 0;padding:6px 20px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:20px;cursor:pointer;font-size:12px}
+.toggle-btn:hover{opacity:0.9}
+
+/* 里程碑 */
+.milestone-item{padding:10px 0;border-bottom:1px dashed #e5e7eb;display:flex;gap:10px;align-items:flex-start}
+.milestone-item:last-child{border-bottom:none}
+.milestone-dot{width:8px;height:8px;border-radius:50%;background:#667eea;margin-top:6px;flex-shrink:0}
+.milestone-content{flex:1}
+.milestone-title{font-size:12px;font-weight:600;color:#333;margin-bottom:3px}
+.milestone-desc{font-size:11px;color:#666;line-height:1.6}
+
+/* 附录 */
+.appendix-block{margin-bottom:12px}
+.appendix-title{padding:12px 16px;background:transparent;color:#667eea;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border:none;border-bottom:1px solid #eef2ff;transition:all .2s ease}
+.appendix-title:hover{background:#f5f3ff}
+.appendix-title .appendix-left{display:flex;align-items:center;gap:8px}
+.appendix-icon{font-size:10px;transition:transform .3s;color:#667eea}
+.appendix-detail-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:11px;padding:4px 12px;border-radius:12px;font-weight:500;display:inline-flex;align-items:center;gap:4px;box-shadow:0 2px 8px rgba(102,126,234,0.2)}
+.appendix-table-wrapper{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.appendix-table-wrapper.open{max-height:2000px;overflow:auto}
+.appendix-table{font-size:11px;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);table-layout:fixed;width:100%}
+.appendix-table th{font-size:11px;white-space:normal;background:linear-gradient(90deg,#eef2ff,#e0e7ff);color:#4338ca;padding:8px 6px;line-height:1.4;font-weight:600}
+.appendix-table td{font-size:10.5px;line-height:1.5;padding:6px;word-break:break-all;vertical-align:top}
+.status-tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500}
+.status-done{background:#d1fae5;color:#065f46}
+.status-checking{background:#fef3c7;color:#92400e}
+.status-pending{background:#dbeafe;color:#1e40af}
+.status-fixing{background:#fce7f3;color:#9d174d}
+
+/* 底部 */
+.footer{text-align:center;color:rgba(255,255,255,0.7);padding:16px;font-size:12px}
+
+@media(max-width:900px){.kpi-row{grid-template-columns:repeat(3,1fr)}.chart-row,.chart-row-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- 头部 -->
+<div class="header">
+<h1>95598智能服务运营工作周报看板</h1>
+<h2>2026年第25期（7.3-7.9）</h2>
+<p>业务运营部 | 统计日期：2026年7月10日</p>
+</div>
+
+<!-- KPI概览 -->
+<div class="kpi-row">
+<div class="kpi-card success">
+<div class="kpi-label">全渠道业务量占比</div>
+<div class="kpi-value">64.19%</div>
+<div class="kpi-change">环比 <span class="up">↑2.13%</span> · 同比 <span class="up">↑12.67%</span></div>
+<div class="kpi-gap">目标≥55% <span class="kpi-tag pass">√达标</span></div>
+<div class="kpi-progress"><div class="fill success" style="width:100%"></div></div>
+</div>
+<div class="kpi-card danger">
+<div class="kpi-label">电话渠道智能业务量占比</div>
+<div class="kpi-value">43.59%</div>
+<div class="kpi-change">环比 <span class="up">↑3.79%</span> · 同比 <span class="up">↑8.29%</span></div>
+<div class="kpi-gap">目标≥55% <span class="kpi-tag fail">×未达标</span></div>
+<div class="kpi-progress"><div class="fill danger" style="width:79%"></div></div>
+</div>
+<div class="kpi-card danger">
+<div class="kpi-label">电话渠道场景流程完成率</div>
+<div class="kpi-value">48.05%</div>
+<div class="kpi-change">环比 <span class="up">↑3.30%</span> · 同比 <span class="up">↑3.16%</span></div>
+<div class="kpi-gap">目标≥70% <span class="kpi-tag fail">×未达标</span></div>
+<div class="kpi-progress"><div class="fill danger" style="width:69%"></div></div>
+</div>
+<div class="kpi-card success">
+<div class="kpi-label">互联网渠道智能服务占比</div>
+<div class="kpi-value">85.19%</div>
+<div class="kpi-change">环比 <span class="up">↑0.48%</span> · 同比 <span class="up">↑12.48%</span></div>
+<div class="kpi-gap">目标≥80% <span class="kpi-tag pass">√达标</span></div>
+<div class="kpi-progress"><div class="fill success" style="width:100%"></div></div>
+</div>
+<div class="kpi-card warning">
+<div class="kpi-label">互联网渠道场景流程完成率</div>
+<div class="kpi-value">81.38%</div>
+<div class="kpi-change">环比 <span class="up">↑1.86%</span> · 同比 <span class="up">↑31.81%</span></div>
+<div class="kpi-gap">目标≥85% <span class="kpi-tag fail">×未达标</span></div>
+<div class="kpi-progress"><div class="fill warning" style="width:96%"></div></div>
+</div>
+</div>
+
+<!-- 一、业务运营情况 -->
+<div class="section">
+<div class="section-title"><span>01</span>业务运营情况</div>
+<p class="summary-text">
+2026年7月3日至7月9日，全渠道智能客服业务量占比64.19%，环比上升2.13个百分点；电话渠道累计服务164.02万件，智能客服业务量占比43.59%，环比上升3.79个百分点，智能客服流程完成率48.05%，环比上升3.30个百分点；互联网渠道累计服务139.05万件，智能客服业务量占比85.19%，环比上升0.48个百分点，智能客服流程完成率81.38%，环比上升1.86个百分点。近期已针对考核指标开展专项分析，正在制定提升方案。
+</p>
+
+<div class="chart-row">
+<div class="chart-box">
+<h4>全渠道重点指标完成情况</h4>
+<div id="chartRadar" style="width:100%;height:380px"></div>
+</div>
+<div class="chart-box">
+<h4>互联网各渠道指标完成情况</h4>
+<div id="chartInternet" style="width:100%;height:380px"></div>
+</div>
+</div>
+
+<div class="analysis-box">
+<h4>📊 运营指标分析</h4>
+<p style="font-size:13px;font-weight:600;color:#333;margin-bottom:8px">（1）电话渠道</p>
+<p style="font-size:12px;color:#444;margin-bottom:8px"><strong>波动指标1：</strong>电话渠道智能客服业务量占比为43.59%，环比上升3.79%，流程完成率为48.05%，环比上升3.30%。</p>
+<p style="font-size:12px;color:#444;margin-bottom:6px"><strong>根因分析：</strong></p>
+<p style="font-size:12px;color:#555;margin-bottom:6px;line-height:1.8">本周智能客服业务量占比上升3.79%，主要由于应急场景开启时间延长，进入应急场景的会话数上升8.94%，各场景转人工数有所下降，导致智能客服业务量环比上升3.79%。</p>
+<p style="font-size:12px;color:#555;margin-bottom:10px;line-height:1.8">本周智能客服流程完成率环比上升3.30%，主要是由于6月25日至6月29日，查询停电信息话术异常，未向用户播报查询结果且引导客户转人工，该问题已于6月30日通过维护会话树消缺。消缺后停电信息场景导致整体流程完成率上升1.05%，由于应急场景开启时间延长，各场景转人工数有所下降，智能客服整体流程完成率上升2.25%。</p>
+<table style="width:100%;border-collapse:collapse;font-size:11px;margin:10px 0;background:white;border-radius:6px;overflow:hidden">
+<thead>
+<tr style="background:#e0e7ff">
+<th style="padding:8px;text-align:left;color:#4338ca;font-weight:600;border:1px solid #c7d2fe">异常话术</th>
+<th style="padding:8px;text-align:left;color:#4338ca;font-weight:600;border:1px solid #c7d2fe">调整后话术</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:8px;color:#444;border:1px solid #e0e7ff;vertical-align:top;line-height:1.6">c查停电信息。<br/>a好的，我给您查一下停电情况。根据您地址在天津，4-608，户号尾号是1531的信息，<mark style="background:#fef08a;padding:0 2px;border-radius:2px">（缺少查询结果）</mark>为给您更加便捷的服务体验，推荐您通过网上国网95598微信公众号、小程序或网上国网APP自助查询停电信息详情，<mark style="background:#fef08a;padding:0 2px;border-radius:2px">您也可以说"转人工"，由人工客服为您准确查询。</mark>如需重复收听请说重复，如需发短信请说发短信。</td>
+<td style="padding:8px;color:#444;border:1px solid #e0e7ff;vertical-align:top;line-height:1.6">c查停电信息<br/>a好的，我给您查一下停电情况。根据您地址在武清区，1单元1701，户号尾号是5118的信息，<mark style="background:#fef08a;padding:0 2px;border-radius:2px">很抱歉未能查询到相关停电信息，</mark>您可以通过网上国网95598微信公众号、网上国网APP自助查询停电信息，还可以登录网上国网微信小程序、APP一键报修。您可以说重听、查其他户号，您还可说"报修故障，查欠费，缴费记录。</td>
+</tr>
+</tbody>
+</table>
+<p style="font-size:12px;color:#555;margin-top:10px"><strong>后续措施：</strong>迎峰度夏期间，业务量会逐步上升，请南（北）分中心保持应急场景常态化开启。</p>
+</div>
+</div>
+
+<!-- 二、需求及检修情况 -->
+<div class="section">
+<div class="section-title"><span>二</span>需求及检修情况</div>
+<p class="summary-text">本周重点任务<span class="bold-num">22</span>个、常态化需求<span class="bold-num">19</span>个，累计需求<span class="bold-num">41</span>个；未解决缺陷<span class="bold-num">39</span>个，已解决缺陷<span class="bold-num">333</span>个，累计缺陷<span class="bold-num">375</span>个（包含非智能侧问题123个）。</p>
+
+<!-- 第1行：需求统计表 + 本期已整改缺陷清单 -->
+<div class="chart-row">
+<div class="table-box">
+<h4>需求情况统计表</h4>
+<table class="data-table">
+<thead>
+<tr><th>序号</th><th>分类</th><th>合计</th><th>已上线</th><th>文档编制中</th><th>技术评估中</th><th>研发中</th><th>待开展</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>重点任务</td><td><strong>22</strong></td><td>7</td><td>1</td><td>4</td><td>10</td><td>0</td></tr>
+<tr><td>2</td><td>常态化需求</td><td><strong>19</strong></td><td>3</td><td>8</td><td>3</td><td>3</td><td>2</td></tr>
+<tr><td>3</td><td><strong>总计</strong></td><td><strong>41</strong></td><td><strong>10</strong></td><td><strong>9</strong></td><td><strong>7</strong></td><td><strong>13</strong></td><td><strong>2</strong></td></tr>
+</tbody>
+</table>
+</div>
+<div class="table-box">
+<h4>本期已整改缺陷清单</h4>
+<table class="data-table">
+<thead>
+<tr><th>序号</th><th>缺陷名称</th><th>提出人</th><th>提出时间</th><th>整改方案</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>传统按键服务异常</td><td>张金磊</td><td>2026.7.3</td><td>/</td></tr>
+<tr><td>2</td><td>查询户号语音播报不清晰</td><td>於林</td><td>2026.7.6</td><td>/</td></tr>
+<tr><td>3</td><td>智能帮查使用问题</td><td>周权</td><td>2026.7.6</td><td>/</td></tr>
+<tr><td>4</td><td>外呼满意度收集失败</td><td>於林</td><td>2026.7.6</td><td>/</td></tr>
+<tr><td>5</td><td>智能外呼数据异常</td><td>焦琴</td><td>2026.4.24</td><td>补充区域编码后解决</td></tr>
+<tr><td>6</td><td>知识问题</td><td>邵圆圆</td><td>2026.5.7</td><td>重新维护关联关系</td></tr>
+<tr><td>7</td><td>停电信息匹配不准确</td><td>雷雅琳</td><td>2026.5.6</td><td>/</td></tr>
+<tr><td>8</td><td>删除中间库重复标问</td><td>邵圆圆</td><td>2026.4.20</td><td>删除重复标问</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- 第2行：缺陷统计表 + 缺陷统计图 -->
+<div class="chart-row">
+<div class="table-box">
+<h4>缺陷情况统计表</h4>
+<table class="data-table">
+<thead>
+<tr><th>序号</th><th>缺陷状态</th><th>已整改待发版</th><th>正在排查中</th><th>总计</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>未解决</td><td>2</td><td>37</td><td>39</td></tr>
+<tr><td>2</td><td>已解决</td><td>/</td><td>/</td><td>333</td></tr>
+<tr><td>3</td><td>转成需求</td><td>/</td><td>/</td><td>3</td></tr>
+<tr><td>4</td><td><strong>共计</strong></td><td colspan="3"><strong>375（包含非智能侧问题123个）</strong></td></tr>
+</tbody>
+</table>
+</div>
+<div class="chart-box">
+<h4>缺陷情况统计图</h4>
+<div id="chartDefect" class="chart-container-sm"></div>
+</div>
+</div>
+
+<!-- 第3行：常规检修工作 -->
+<div class="table-box">
+<h4>常规检修工作</h4>
+<table class="data-table">
+<thead>
+<tr><th>序号</th><th>发版时间</th><th>发版主题</th><th>版本号</th><th>任务项</th><th>发版内容</th><th>发版结果</th></tr>
+</thead>
+<tbody>
+<tr><td colspan="7" style="text-align:center;color:#999">本周智能侧无发版内容</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- 三、校核及标注情况 -->
+<div class="section">
+<div class="section-title"><span>三</span>校核及标注情况</div>
+<p class="summary-text">本周校核数据总量<span class="bold-num">3680</span>条，发现问题<span class="bold-num">150</span>个，已解决<span class="bold-num">91</span>个，待解决<span class="bold-num">59</span>个。南分中心校核800条发现问题69个，北分中心校核2880条发现问题81个。</p>
+
+<!-- 第1行：问题维护柱图 + 待解决跟进柱图 -->
+<div class="chart-row">
+<div class="chart-box">
+<h4>问题维护情况</h4>
+<div id="chartProblemType" class="chart-container-sm"></div>
+</div>
+<div class="chart-box">
+<h4>校核待解决问题处置进度跟进</h4>
+<div id="chartPending" class="chart-container-sm"></div>
+</div>
+</div>
+
+<!-- 第2行：答复校核表 + 待解决跟进表 -->
+<div class="chart-row">
+<div class="table-box">
+<h4>答复校核情况</h4>
+<table class="data-table">
+<thead>
+<tr><th>序号</th><th>统计维度</th><th>校核数据条数</th><th>发现问题数</th><th>已解决</th><th>无法解决</th><th>待解决</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>南分中心</td><td>800</td><td>69</td><td>10</td><td>0</td><td>59</td></tr>
+<tr><td>2</td><td>北分中心</td><td>2880</td><td>81</td><td>81</td><td>0</td><td>0</td></tr>
+<tr><td>3</td><td><strong>合计</strong></td><td><strong>3680</strong></td><td><strong>150</strong></td><td><strong>91</strong></td><td><strong>0</strong></td><td><strong>59</strong></td></tr>
+</tbody>
+</table>
+</div>
+<div class="table-box">
+<h4>校核待解决问题处置进度跟进</h4>
+<table class="data-table">
+<thead>
+<tr><th>序号</th><th>责任部门</th><th>问题数量</th><th>已闭环</th><th>无法解决</th><th>未解决</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>信息运维中心</td><td>134</td><td>75</td><td>0</td><td>59</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- 第3行：标注数据统计表 -->
+<div class="table-box">
+<h4>标注数据统计表</h4>
+<table class="data-table">
+<thead>
+<tr><th>序号</th><th>分中心</th><th>标注方式</th><th>标注类型</th><th>标注样本量</th><th>已同步</th><th>已生效</th><th>未生效</th><th>生效率</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>南中心</td><td>线上</td><td>文本标注</td><td>126</td><td>126</td><td>126</td><td>0</td><td>100%</td></tr>
+<tr><td>2</td><td>北中心</td><td>线下</td><td>文本标注</td><td>71</td><td>71</td><td>71</td><td>0</td><td>100%</td></tr>
+<tr><td>3</td><td><strong>总计</strong></td><td>-</td><td>-</td><td><strong>197</strong></td><td><strong>197</strong></td><td><strong>197</strong></td><td><strong>0</strong></td><td><strong>100%</strong></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- 四、知识数据维护 -->
+<div class="section">
+<div class="section-title"><span>四</span>知识数据维护</div>
+<p class="summary-text">本周知识数据维护总量<span class="bold-num">1216</span>条，其中新增<span class="bold-num">58</span>条、更新<span class="bold-num">946</span>条、删除<span class="bold-num">212</span>条。</p>
+<div class="table-box">
+<h4>知识数据维护统计表</h4>
+<table class="data-table">
+<thead>
+<tr><th>序号</th><th>维护类型</th><th>标问类别</th><th>类型个数</th><th>维护条数</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>新增</td><td>活动介绍、业务办理、app操作指南/功能介绍、政策文件通知</td><td>4</td><td>58</td></tr>
+<tr><td>2</td><td>更新</td><td>业务办理、活动介绍、app操作指南/功能介绍、行政区域及供电单位信息</td><td>4</td><td>946</td></tr>
+<tr><td>3</td><td>删除</td><td>活动介绍、业务办理、app操作指南/功能介绍</td><td>3</td><td>212</td></tr>
+<tr><td>4</td><td><strong>合计</strong></td><td>-</td><td><strong>11</strong></td><td><strong>1216</strong></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- 五、数据治理情况 -->
+<div class="section">
+<div class="section-title"><span>五</span>数据治理情况</div>
+<p class="summary-text">本周标签应用统计，标记用户<span class="bold-num">17,003</span>人（新增），场景应用触发<span class="bold-num">8,256</span>次。偏好地址查询类标记用户最多达8,442人，短信接收电费类触发量最高达5,638次。</p>
+
+<!-- 第1行：标签应用统计表 -->
+<div class="table-box">
+<h4>标签应用统计表</h4>
+<table class="data-table">
+<thead>
+<tr><th>序号</th><th>标签生成类型</th><th>标记用户数（新增）</th><th>场景应用触发量</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>短信接收电费</td><td>6,423</td><td>5,638</td></tr>
+<tr><td>2</td><td>查询多月电费</td><td>1,438</td><td>1,047</td></tr>
+<tr><td>3</td><td>查询多户电费</td><td>314</td><td>681</td></tr>
+<tr><td>4</td><td>智能关爱服务</td><td>386</td><td>431</td></tr>
+<tr><td>5</td><td>偏好地址查询</td><td>8,442</td><td>459</td></tr>
+<tr><td>6</td><td><strong>合计</strong></td><td><strong>17,003</strong></td><td><strong>8,256</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- 第2行：3个批次优化效果（第25期周报未提供批次数据，用标签应用柱图替代说明） -->
+<div class="chart-row-3">
+<div class="chart-box">
+<h4>标记用户数分布</h4>
+<div id="chartTagUser" class="chart-container-sm"></div>
+</div>
+<div class="chart-box">
+<h4>场景触发量分布</h4>
+<div id="chartTagTrigger" class="chart-container-sm"></div>
+</div>
+<div class="chart-box">
+<h4>标签应用转化对比</h4>
+<div id="chartTagRate" class="chart-container-sm"></div>
+</div>
+</div>
+</div>
+
+<!-- 六、服务风险管理 -->
+<div class="section">
+<div class="section-title"><span>六</span>服务风险管理</div>
+<p class="summary-text">2026年累计服务风险12个，已解决8个，整改中4个。</p>
+
+<div class="chart-row">
+<div class="table-box">
+<h4>服务风险详细清单（本周新增）</h4>
+<table class="data-table">
+<thead>
+<tr><th>序号</th><th>提出时间</th><th>涉及系统</th><th>来源</th><th>服务事件内容</th><th>解决措施</th><th>解决结果</th></tr>
+</thead>
+<tbody>
+<tr><td colspan="7" style="text-align:center;color:#999">本周无新增服务风险事件</td></tr>
+</tbody>
+</table>
+</div>
+<div class="chart-box">
+<h4>服务风险处置状态</h4>
+<div id="chartRisk" class="chart-container-sm"></div>
+</div>
+</div>
+</div>
+
+<!-- 七、项目进展 -->
+<div class="section">
+<div class="section-title"><span>七</span>项目进展</div>
+<p class="summary-text">当前2个项目有序推进，上周累计投入120人天。</p>
+
+<div class="chart-row">
+<div class="chart-box">
+<h4>项目进度对比</h4>
+<div id="chartProject" class="chart-container-sm"></div>
+</div>
+<div class="chart-box">
+<h4>人天投入对比</h4>
+<div id="chartManday" class="chart-container-sm"></div>
+</div>
+</div>
+</div>
+
+<!-- 八、工作计划 -->
+<div class="section work-plan" id="workPlan">
+<div class="section-title"><span>八</span>工作计划</div>
+<div class="plan-content">
+
+<div class="sub-title">上周完成工作</div>
+<div class="milestone-item">
+<div class="milestone-dot"></div>
+<div class="milestone-content">
+<div class="milestone-title">1. 打造智能客服高频查询类精选场景</div>
+<div class="milestone-desc">升级高频业务意图识别、知识答复能力，打造在线渠道智能帮查功能。共涉及10个场景：电话渠道4个场景中，日用电量查询、多要素电量电费查询已上线验证，户号查询已上线开放全网，多要素停电信息查询研发中（70%）；互联网渠道3个场景中，日用电量查询研发中（65%），多要素电量电费查询及多要素户号查询研发中（70%）；座席辅助3个场景中，日用电量信息查询技术评估中，多要素电量电费查询研发中（70%），多要素户号查询已成功上线。</div>
+</div>
+</div>
+
+<div class="milestone-item">
+<div class="milestone-dot"></div>
+<div class="milestone-content">
+<div class="milestone-title">2. 拓展"人工+智能"协同模式</div>
+<div class="milestone-desc">实现报修工单智能派发，探索多模态交互能力。共涉及4个场景：电话渠道故障报修场景已上线验证中（80%）；互联网渠道网上国网实名认证异常场景技术评估中；座席辅助高频查询业务智能代查场景已上线；智能外呼转人工座席场景研发中（60%）。</div>
+</div>
+</div>
+
+<div class="milestone-item">
+<div class="milestone-dot"></div>
+<div class="milestone-content">
+<div class="milestone-title">3. 做精座席业务受理智能辅助</div>
+<div class="milestone-desc">构建电话渠道智能制单功能，建设电话渠道智能研判场景。共涉及4个场景：电话渠道智能制单已成功上线；知识跟随推荐、互联网渠道停电关联信息查询研发中（60%）；情绪识别及服务风险预警提醒、电话渠道停电关联信息查询技术评估中。</div>
+</div>
+</div>
+
+<div class="milestone-item">
+<div class="milestone-dot"></div>
+<div class="milestone-content">
+<div class="milestone-title">4. 推动管理事务减负增效</div>
+<div class="milestone-desc">推广智能文档处理、会议纪要自动生成、制度文本合规性智能校验等工具应用。目前会议纪要自动生成工具已应用；常态化运营可视化管理研究已实现2026年周例会汇报内容可视化界面展示。</div>
+</div>
+</div>
+
+<div class="sub-title">其他重点工作</div>
+<div class="milestone-item">
+<div class="milestone-dot"></div>
+<div class="milestone-content">
+<div class="milestone-desc">1. 为加快推进人工智能与客户服务深度融合高效落地，完善《国网客服中心2026年95598人工智能专班组建方案》。</div>
+</div>
+</div>
+<div class="milestone-item">
+<div class="milestone-dot"></div>
+<div class="milestone-content">
+<div class="milestone-desc">2. 持续支撑95598座席助手风险防控功能研发及客户诉求风险13类标签样本标注与规则引擎完善。</div>
+</div>
+</div>
+<div class="milestone-item">
+<div class="milestone-dot"></div>
+<div class="milestone-content">
+<div class="milestone-desc">3. 借鉴阿里指标体系建设经验，迭代完善95598智能服务系统运营指标体系。</div>
+</div>
+</div>
+<div class="milestone-item">
+<div class="milestone-dot"></div>
+<div class="milestone-content">
+<div class="milestone-desc">4. 以日为维度，常态化收集电话渠道与互联网渠道的智能服务量占比，做好数据监测与汇总。</div>
+</div>
+</div>
+
+<div class="sub-title">本周工作计划</div>
+<div class="milestone-item">
+<div class="milestone-dot" style="background:#f59e0b"></div>
+<div class="milestone-content">
+<div class="milestone-title">重点里程碑计划</div>
+<div class="milestone-desc">
+1. <strong>高频查询类精选场景：</strong>跟进智能客服电话渠道多要素停电信息查询场景、互联网渠道多要素电量电费查询及多要素户号查询场景联调测试，配合业务验证；跟进座席辅助互联网渠道日用电量数据查询场景技术评估，跟进多要素电量电费查询场景联调测试。<br>
+2. <strong>"人工+智能"协同模式：</strong>跟进电话渠道故障报修场景联调测试，配合业务验证；跟进网上国网实名认证异常需求方案技术评估进度。<br>
+3. <strong>座席业务受理智能辅助：</strong>跟进电话渠道情绪识别及服务风险预警提醒、互联网渠道日用电量数据查询、电话渠道停电关联信息查询场景技术评估进度。
+</div>
+</div>
+</div>
+
+<div class="milestone-item">
+<div class="milestone-dot" style="background:#f59e0b"></div>
+<div class="milestone-content">
+<div class="milestone-title">其他重点工作</div>
+<div class="milestone-desc">
+1. 完成95598智能座席助手V2.1.12版本发布上线：新增客户诉求风险标签识别能力、优化座席端软件迭代更新机制，完成南北分中心合计90台座席终端部署。<br>
+2. 开展95598智能服务系统全场景视图设计：启动系统全域运营视图规划设计工作，实现全场景多维度立体式管控。<br>
+3. 组织V1.106版本测试用例评审：组织南（北）分中心、信息运维中心开展测试用例评审，提升智能服务版本迭代通过率。
+</div>
+</div>
+</div>
+
+</div>
+<button class="toggle-btn" onclick="togglePlan()">详情 ▼</button>
+</div>
+
+<!-- 九、附录 -->
+<div class="section">
+<div class="section-title"><span>九</span>附录</div>
+
+<!-- 附表1 需求清单 -->
+<div class="appendix-block">
+<div class="appendix-title" onclick="toggleTable('tab-requirement')">
+  <div class="appendix-left"><span class="appendix-icon">▼</span>附表1 需求清单（41项）</div>
+  <span class="appendix-detail-btn">详情</span>
+</div>
+<div id="tab-requirement" class="appendix-table-wrapper">
+<table class="data-table appendix-table">
+<thead>
+<tr><th>序号</th><th>场景类型</th><th>场景名称</th><th>渠道</th><th>场景功能简介</th><th>牵头单位</th><th>模型需求</th><th>1号文</th><th>设计方案</th><th>优化重点</th><th>开展状态</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td rowspan="24">场景建设及优化</td><td>日用电量查询</td><td>电话渠道</td><td>实现客户表述查询一段周期、指定具体某日用电量查询</td><td>南中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>上线验证中</td></tr>
+<tr><td>2</td><td>多要素电量电费查询</td><td>电话渠道</td><td>实现客户表述任意周期、多个诉求、户号等信息准确提取及信息一次查询告知</td><td>南中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>上线验证中</td></tr>
+<tr><td>3</td><td>多要素停电信息查询</td><td>电话渠道</td><td>实现客户表述地址、户号等信息准确提取及停电信息查询结果告知</td><td>北中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>研发中（部分功能上线验证中）</td></tr>
+<tr><td>4</td><td>户号查询</td><td>电话渠道</td><td>补齐应用标准化地址、户名进行身份验证能力，在关系库信息推送基础上实现信息一查两核验</td><td>北中心</td><td>专用模型</td><td>是</td><td>是</td><td>是</td><td>已上线</td></tr>
+<tr><td>5</td><td>服务策略精准推送</td><td>电话渠道</td><td>新增1类标签</td><td>北中心</td><td>大模型</td><td>否</td><td>否</td><td>否</td><td>需求文档编制中</td></tr>
+<tr><td>6</td><td>业务工单智能派发</td><td>电话渠道</td><td>新增电量电费异常排查、预约验表子场景</td><td>南中心</td><td>大模型</td><td>否</td><td>是</td><td>否</td><td>技术评估中</td></tr>
+<tr><td>7</td><td>故障报修</td><td>电话渠道</td><td>多户报修工单直派；单户报修工单智能客服预受理，人工复核后派发。（先建设电话渠道，后建设在线渠道场景）</td><td>北中心</td><td>专用模型</td><td>是</td><td>是</td><td>是</td><td>上线验证中</td></tr>
+<tr><td>8</td><td>故障报修</td><td>互联网渠道</td><td>多户报修工单直派；单户报修工单智能客服预受理，人工复核后派发。（先建设电话渠道，后建设在线渠道场景）</td><td>北中心</td><td>专用模型</td><td>是</td><td>否</td><td>否</td><td>待开展</td></tr>
+<tr><td>9</td><td>日用电量查询</td><td>互联网渠道</td><td>实现客户表述查询一段周期、指定具体某日用电量查询</td><td>南中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>研发中</td></tr>
+<tr><td>10</td><td>多要素日用电量查询</td><td>互联网渠道</td><td>用户表述内容触发场景后，利用大模型技术进一步识别用户诉求中是否包含时间、身份要素信息并进行提取。为客户提供近3个自然月的日用电量数据查询。</td><td>南中心</td><td>大模型</td><td>否</td><td>是</td><td>否</td><td>上线验证中</td></tr>
+<tr><td>11</td><td>多要素电量电费查询</td><td>互联网渠道</td><td>实现客户表述任意周期、多个诉求、户号等信息准确提取及信息一次查询告知</td><td>南中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>研发中（部分功能上线验证中）</td></tr>
+<tr><td>12</td><td>多要素户号查询</td><td>互联网渠道</td><td>实现客户表述身份证号、手机号、地址、户名、表号等信息准确提取及查询结果告知</td><td>北中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>研发中（部分功能上线验证中）</td></tr>
+<tr><td>13</td><td>网上国网APP缴费未到账</td><td>互联网渠道</td><td>新增网上国网缴费未到账处理场景，基于大模型实现意图理解、业务流程思维链，完成网上国网缴费未到账诉求处理</td><td>北中心</td><td>大模型</td><td>否</td><td>否</td><td>否</td><td>需求文档编制中</td></tr>
+<tr><td>14</td><td>客户侧问答推广</td><td>互联网渠道</td><td>将客户侧问答场景由现有应用4省推广至27省</td><td>南中心</td><td>大模型</td><td>否</td><td>是</td><td>否</td><td>已推广应用13个省份</td></tr>
+<tr><td>15</td><td>网上国网实名认证异常</td><td>互联网渠道</td><td>应用大模型推理、多模态识别能力，探索落地业务办理思维链、图文交互识别应用，实现可进行实名认证取消等业务自助办理</td><td>南中心</td><td>大模型</td><td>是</td><td>否</td><td>是</td><td>技术评估中</td></tr>
+<tr><td>16</td><td>台区信息查询</td><td>互联网渠道</td><td>实现根据客户户号查询供电台区信息，支撑客户可自助查询台区可开放容量</td><td>北中心</td><td>专用模型</td><td>否</td><td>否</td><td>是</td><td>需求文档编制中</td></tr>
+<tr><td>17</td><td>台区信息查询</td><td>电话渠道</td><td>实现根据客户户号查询供电台区信息，支撑客户可自助查询台区可开放容量</td><td>北中心</td><td>专用模型</td><td>否</td><td>否</td><td>否</td><td>需求文档编制中</td></tr>
+<tr><td>18</td><td>电量未下发查询处理</td><td>电话渠道</td><td>新增根据客户表述电量未下发问题、所属网省和缴费记录，查询出用电信息等，并根据业务规则将电量未下发结果播报给客户</td><td>南中心</td><td>专用模型</td><td>否</td><td>否</td><td>否</td><td>需求文档编制中</td></tr>
+<tr><td>19</td><td>抄表信息查询</td><td>电话渠道</td><td>新增网省取值规则判定和抄表日期取值规则判定，实现针对一个月内出现多笔抄表示数且抄表日期不一致情况下，为客户精准播报抄表示数。北京电量电费查询优化</td><td>南中心</td><td>专用模型</td><td>否</td><td>是</td><td>否</td><td>技术评估中</td></tr>
+<tr><td>20</td><td>表号查询</td><td>互联网渠道</td><td>新增根据客户户号查询电能表表号，并为客户送电能表号查询结果</td><td>北中心</td><td>专用模型</td><td>否</td><td>否</td><td>否</td><td>需求文档编制中</td></tr>
+<tr><td>21</td><td>更名过户</td><td>互联网渠道</td><td>新增根据客户表述更名过户查询意图，并为客户推送更名过户办理流程及查询结果等</td><td>南中心</td><td>专用模型</td><td>否</td><td>否</td><td>否</td><td>需求文档编制中</td></tr>
+<tr><td>22</td><td>欠费复电查询</td><td>互联网渠道</td><td>新增网省判断、优化查欠费信息查询方式、新增工单派发等功能，实现网省差异化服务</td><td>南中心</td><td>专用模型</td><td>否</td><td>否</td><td>否</td><td>需求文档编制中</td></tr>
+<tr><td>23</td><td>传统按键智能服务欢迎语及流程优化</td><td>电话渠道</td><td>针对传统按键交互的话术冗余、系统衔接断层问题，本次聚焦故障报修、停电信息查询2个场景，对呼叫平台与智能客服的衔接流程及话术进行优化。</td><td>业管部</td><td>专用模型</td><td>否</td><td>是</td><td>否</td><td>研发中</td></tr>
+<tr><td>24</td><td>查电费、查欠费及违约金场景优化方案</td><td>电话渠道</td><td>优化北京和辽宁卡表用户的查余额流程；优化北京查电费场景。</td><td>南中心</td><td>大模型</td><td>否</td><td>是</td><td>否</td><td>已上线</td></tr>
+<tr><td>25</td><td rowspan="13">场景建设及优化</td><td>智能制单</td><td>电话渠道</td><td>实现电话渠道办结工单智能直填、派发工单辅助填写。智能客服将人机会话对话明细内容推送至大模型，生成咨询办结、故障办结、业务申请等类型的会话摘要信息。</td><td>北中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>已上线</td></tr>
+<tr><td>26</td><td>情绪识别及服务风险预警提醒</td><td>电话渠道</td><td>基于电话渠道客户与座席通话语义实现客户负面情绪识别、座席服务忌语实时监测等功能。</td><td>北中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>技术评估中</td></tr>
+<tr><td>27</td><td>知识跟随推荐</td><td>电话渠道</td><td>基于电话渠道客户诉求推送业务受理相关知识。</td><td>南中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>研发中</td></tr>
+<tr><td>28</td><td>日用电量数据查询</td><td>互联网渠道</td><td>建设数据辅助查询功能，实现根据客户户号、查询周期等，查询推送日用电量信息。</td><td>南中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>研发中</td></tr>
+<tr><td>29</td><td>电量电费查询</td><td>互联网渠道</td><td>建设数据辅助查询功能，实现根据客户户号、查询周期等，查询推送电量、电费、抄表底数、阶梯电量等信息。</td><td>南中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>研发中（部分功能上线验证中）</td></tr>
+<tr><td>30</td><td>户号查询</td><td>互联网渠道</td><td>建设数据辅助查询功能，实现根据客户户名、地址、手机号、身份证号、表号等，查询推送户号查询结果信息。</td><td>北中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>已上线</td></tr>
+<tr><td>31</td><td>停电关联信息查询</td><td>互联网渠道</td><td>建设数据辅助查询功能，实现根据客户户号、地址查询停电关联数据并整合推送。互联网渠道先行上线应用，后试点拓展至电话渠道。</td><td>北中心</td><td>大模型</td><td>是</td><td>是</td><td>是</td><td>研发中</td></tr>
+<tr><td>32</td><td>停电关联信息查询</td><td>电话渠道</td><td>建设数据辅助查询功能，实现根据客户户号、地址查询停电关联数据并整合推送。互联网渠道先行上线应用，后试点拓展至电话渠道。</td><td>北中心</td><td>大模型</td><td>是</td><td>否</td><td>是</td><td>技术评估中</td></tr>
+<tr><td>33</td><td>实名认证信息查询</td><td>互联网渠道</td><td>引入OCR识别、图像识别能力，辅助座席直接提取客户发送身份证等图片信息语义，并查询推送客户实名认证信息。</td><td>南中心</td><td>专用模型</td><td>否</td><td>是</td><td>是</td><td>研发中</td></tr>
+<tr><td>34</td><td>会话摘要智能生成</td><td>互联网渠道</td><td>新增热词总结、历史诉求总结功能。</td><td>北中心</td><td>大模型</td><td>否</td><td>是</td><td>否</td><td>上线验证中（由于算力不足，目前处于关闭状态）</td></tr>
+<tr><td>35</td><td>知识融合推荐</td><td>互联网渠道</td><td>新增知识润色工具。</td><td>北中心</td><td>大模型</td><td>否</td><td>是</td><td>否</td><td>技术评估中</td></tr>
+<tr><td>36</td><td>电能表异常</td><td>互联网渠道</td><td>新增电能表异常在线识别功能，搭建电能表状态在线识别智能体，实现对1-2款电能表的欠费、黑屏、跳闸、亮灯、错误码等5类常见异常识别。</td><td>南中心</td><td>大模型</td><td>否</td><td>否</td><td>否</td><td>需求文档编制中</td></tr>
+<tr><td>37</td><td>外呼、呼入数据贯通</td><td>电话渠道</td><td>外呼数据可共享至电话呼入侧，实现外呼失败及联系客户信息主动播报。</td><td>北中心</td><td>——</td><td>否</td><td>是</td><td>是</td><td>研发中</td></tr>
+<tr><td>38</td><td rowspan="4">平台基础能力建设及优化</td><td>智能外呼转人工座席</td><td>电话渠道</td><td>智能外呼过程中客户表述投诉、人工服务等诉求，可由智能外呼转至人工座席。</td><td>南中心</td><td>——</td><td>是</td><td>是</td><td>是</td><td>研发中</td></tr>
+<tr><td>39</td><td>高频查询业务智能代查</td><td>电话渠道</td><td>人工座席高频查询电量电费、户号查询业务可转智能代查。</td><td>南中心</td><td>——</td><td>是</td><td>是</td><td>是</td><td>已上线</td></tr>
+<tr><td>40</td><td rowspan="2">智能外呼常态化拓展</td><td>客户静默超时自动挂机</td><td>电话渠道</td><td>在智能外呼系统中新增客户连续静默两次（每次8秒无有效输入）后自动播报挂机话术并挂机的功能。</td><td>南中心</td><td>——</td><td>否</td><td>是</td><td>否</td><td>研发中</td></tr>
+<tr><td>41</td><td>智能外呼场景（常态拓展）</td><td>——</td><td>协同省公司拓展外呼数据线上化及外呼业务范围。</td><td>南（北）分中心</td><td>专用模型</td><td>否</td><td>——</td><td>否</td><td>已上线11个省份，预计今年再上线4个省份（湖北、河北、四川联调测试中）</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- 附表2 缺陷清单 -->
+<div class="appendix-block">
+<div class="appendix-title" onclick="toggleTable('tab-defect')">
+  <div class="appendix-left"><span class="appendix-icon">▼</span>附表2 缺陷清单（39项）</div>
+  <span class="appendix-detail-btn">详情</span>
+</div>
+<div id="tab-defect" class="appendix-table-wrapper">
+<table class="data-table appendix-table">
+<thead>
+<tr><th>序号</th><th>渠道</th><th>秒享编号</th><th>咨询主题</th><th>咨询/缺陷详情</th><th>影响范围</th><th>提出人</th><th>提出时间</th><th>问题原因</th><th>解决状态</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>运营平台</td><td>ZNFWWT-20260422901</td><td>应急质效统计表导出异常</td><td>报表可以正常查询但是导出异常，短期报表有数据，长期的导出就是空</td><td>/</td><td>喻玮</td><td>2026/4/22</td><td>数据量超过excel页面显示最大记录数</td><td><span class="status-tag status-pending">待发版</span></td></tr>
+<tr><td>2</td><td>运营平台</td><td>ZNFWWT-20260422902</td><td>流程完成率统计异常</td><td>流程完成率最高为100%，报表中存在高于100%的情况</td><td>/</td><td>喻玮</td><td>2026/4/22</td><td>识别不到场景意图，导致流程完成数＞意图命中数</td><td><span class="status-tag status-fixing">已定位</span></td></tr>
+<tr><td>3</td><td>运营平台</td><td>ZNFWWT-20251011858</td><td>节点合理性报表统计异常</td><td>节点合理性报表中户号查询场景转人工数合计南中心远高于意图命中数</td><td>/</td><td>朱蓉芳</td><td>2025/10/11</td><td>预计7月份发版解决</td><td><span class="status-tag status-pending">待发版</span></td></tr>
+<tr><td>4</td><td>语音</td><td>ZNFWWT-20260429909</td><td>核实未应用电费智能服务引导策略原因</td><td>未应用电费智能服务引导策略</td><td>单一用户</td><td>雷雅琳</td><td>2026/4/29</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>5</td><td>语音</td><td>ZNFWWT-20260506911</td><td>质检问题，停电信息匹配不准确</td><td>匹配停电信息错误</td><td>单一用户</td><td>雷雅琳</td><td>2026/5/6</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>6</td><td>语音</td><td>ZNFWWT-20260509913</td><td>电话渠道停电信息未播报</td><td>电话渠道停电信息未播报</td><td>单一用户</td><td>雷雅琳</td><td>2026/5/9</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>7</td><td>语音</td><td>ZNFWWT-20260413895</td><td>语义理解错误</td><td>"电费交了，他是不是自己就来电了"错误识别为查电费</td><td>全网省</td><td>雷雅琳</td><td>2026/4/13</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>8</td><td>运营平台</td><td>ZNFWWT-20260422898</td><td>网上国网渠道转人工数据统计有误</td><td>网上国网渠道转人工数据统计有误</td><td>/</td><td>喻玮</td><td>2026/4/22</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>9</td><td>运营平台</td><td>ZNFWWT-20260422899</td><td>微信小程序渠道转人工数据统计有误</td><td>微信小程序渠道转人工数据统计有误</td><td>/</td><td>喻玮</td><td>2026/4/22</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>10</td><td>运营平台</td><td>ZNFWWT-20260422900</td><td>综合查询导出</td><td>综合查询导出的明细表同一个会话存在多个转人工原因、分成多条展示</td><td>/</td><td>喻玮</td><td>2026/4/22</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>11</td><td>运营平台</td><td>ZNFWWT-20260428906</td><td>排查电量电费异常场景流程完成率统计不准及意图理解不准原因</td><td>因意图误触进场景，并未进入该场景后续服务流程，不应算该场景流程未完成</td><td>/</td><td>郑清泉</td><td>2026/4/28</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>12</td><td>语音</td><td>ZNFWWT-20260330890</td><td>查询多月份标签播报问题</td><td>已被标签为查询多月电费号码，未播报最近一期出账的账单欠费余额</td><td>单个用户</td><td>朱蓉芳</td><td>2026/3/30</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>13</td><td>语音</td><td>ZNFWWT-20260330891</td><td>智能测试拨打超10通后无法调取前期在途工单结果</td><td>智能测试拨打95598超10通后，无法调取前期在途工单结果</td><td>/</td><td>李思瑶</td><td>2026/3/30</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>14</td><td>语音</td><td>ZNFWWT-20260403893</td><td>故障报修查询结果不一致</td><td>故障报修查询结果不一致</td><td>单个用户</td><td>雷雅琳</td><td>2026/4/3</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>15</td><td>运营平台</td><td>XTWT-2026032789179</td><td>智能侧核实</td><td>同维度同时间同渠道，会话记录数据不同</td><td>/</td><td>王聪</td><td>2026/3/27</td><td>答复校核模块数据导入页面查询时间仅生效至天</td><td><span class="status-tag status-pending">待发版</span></td></tr>
+<tr><td>16</td><td>语音</td><td>XTWT-2026060884491</td><td>知识融合推荐模型相关异常问题</td><td>模型未推荐知识、省市维度推送错误、缺少维度等4类问题</td><td>全网省</td><td>王艳玲</td><td>2026/6/8</td><td>待全量评估后修改</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>17</td><td>业支系统</td><td>ZNFWWT-20260526917</td><td>智能派单异常</td><td>催办工单下派失败后间隔24小时才下派催办工单</td><td>全网省</td><td>雷雅琳</td><td>2026/5/26</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>18</td><td>语音</td><td>ZNFWWT-20260527919</td><td>业支录音无法播放</td><td>业务支持系统2.0，存在录音文件但无法播放</td><td>/</td><td>喻玮</td><td>2026/5/27</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>19</td><td>语音</td><td>ZNFWWT-20260601921</td><td>智能派单漏派</td><td>故障报修多户派单漏派</td><td>全网省</td><td>武帅</td><td>2026/6/8</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>20</td><td>语音</td><td>ZNFWWT-20260520916</td><td>户号查询场景应报关系库未报</td><td>南中心应急场景变量配置问题，但变量涉及一键启停功能</td><td>冀北</td><td>朱蓉芳</td><td>2026/5/20</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>21</td><td>语音</td><td>ZNFWWT-20260604923</td><td>故障报修场景未播报历史工单信息</td><td>故障报修场景未播报历史工单信息</td><td>单一用户</td><td>雷雅琳</td><td>2026/6/4</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>22</td><td>文本</td><td>XTWT-2026061784691</td><td>知识推荐模型调用数据明细异常</td><td>每天总有部分数据未区分南北中心，无供电单位，分中心数据导出丢失</td><td>单一用户</td><td>王艳玲</td><td>2026/6/17</td><td>冀北供电单位编码对应不上</td><td><span class="status-tag status-pending">待发版</span></td></tr>
+<tr><td>23</td><td>运营平台</td><td>XTWT-2026060884502</td><td>答复校核功能异常</td><td>会话有交互记录，但匹配类型和匹配标注项为空白，消息数为0</td><td>/</td><td>焦琴</td><td>2026/6/8</td><td>标问字节过大导致数据超长保存失败</td><td><span class="status-tag status-fixing">已定位</span></td></tr>
+<tr><td>24</td><td>语音</td><td>XTWT-2026062392642</td><td>电话查电费场景身份验证环节</td><td>两通会话流程不一致：一通直接播报电费，一通进入身份验证</td><td>全网省</td><td>陈明亮</td><td>2026/6/23</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>25</td><td>语音</td><td>XTWT-2026062584844</td><td>会话树异常</td><td>bot会话树装配无电费计算方式流程片段导致异常</td><td>/</td><td>王聪</td><td>2026/6/25</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>26</td><td>运营平台</td><td>XTWT-2026062584838</td><td>智能侧核实</td><td>客户输入户号后，机器人答复"对话树配置的跳转存在死循环"</td><td>/</td><td>王聪</td><td>2026/6/25</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>27</td><td>运营平台</td><td>XTWT-2026062284769</td><td>知识推荐模型出现自动推荐异常</td><td>同一会话内容，模型输入内容不同，模型调用时间不同，但都是自动推荐</td><td>全网省</td><td>王艳玲</td><td>2026/6/22</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>28</td><td>文本</td><td>XTWT-2026062284765</td><td>座席侧知识推荐内容与客户省维度不对应</td><td>重庆客户推荐内容显示北中心维度，不应出现北中心推荐内容</td><td>重庆市</td><td>王艳玲</td><td>2026/6/22</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>29</td><td>语音</td><td>ZNFWWT-20260610931</td><td>【短信接收电费】标签应用异常</td><td>只要当通会话有短信发送记录，不管什么类型都被算作应用了短信标签</td><td>全网省</td><td>徐彬</td><td>2026/6/10</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>30</td><td>文本</td><td>ZNFWWT-20260608925</td><td>客户侧大模型存在问题</td><td>点选标问A却推送标问B、系统异常转人工、标答网省推送错误、图片下载失败等4类问题</td><td>全网省</td><td>邵圆圆</td><td>2026/6/8</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>31</td><td>语音</td><td>ZNFWWT-20260605924</td><td>服务流程核实</td><td>绑定唯一户号客户，未推送电费而是播报身份识别容错话术</td><td>全网省</td><td>朱蓉芳</td><td>2026/6/5</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>32</td><td>语音</td><td>ZNFWWT-20260609926</td><td>核实客户致电次数</td><td>北京客户当天致电4次，前台只能查到2次，呼叫平台查询3次进入智能</td><td>单一用户</td><td>雷雅琳</td><td>2026/6/9</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>33</td><td>语音</td><td>ZNFWWT-20260609927</td><td>停电信息查询地址偏好标签客户输入户号系统不识别</td><td>停电信息查询地址偏好标签客户输入户号系统不识别</td><td>单一用户</td><td>雷雅琳</td><td>2026/6/9</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>34</td><td>语音</td><td>ZNFWWT-20260612932</td><td>欠费复电场景流程核实</td><td>湖南省侧反馈收到机器人下派复电申请单非欠费停电</td><td>单一用户</td><td>朱蓉芳</td><td>2026/6/12</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>35</td><td>文本</td><td>XTWT-2026040184943</td><td>标问异常</td><td>湖北分布式光伏可开放容量查询渠道标问错误推送供电区域电网可开放容量查询渠道</td><td>湖北省</td><td>李梦瑶</td><td>2026/7/1</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>36</td><td>文本</td><td>XTWT-2026070184942</td><td>标问异常</td><td>重庆市电能表接线图标问提示图片下载失败</td><td>重庆市</td><td>李梦瑶</td><td>2026/7/1</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>37</td><td>文本</td><td>XTWT-2026070184940</td><td>标问异常</td><td>冀北农业用电电价表标问提示图片下载失败</td><td>冀北</td><td>李梦瑶</td><td>2026/7/1</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>38</td><td>文本</td><td>XTWT-2026070184941</td><td>标问异常</td><td>江苏省微信关注方法标问提示图片下载失败</td><td>江苏省</td><td>李梦瑶</td><td>2026/7/1</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+<tr><td>39</td><td>文本</td><td>XTWT-2026070785053</td><td>图片解析</td><td>网上国网图片提取上线以来，房产证、营业执照、银行卡三类图片解析成功率只有7%左右</td><td>全网省</td><td>周权</td><td>2026/7/7</td><td>/</td><td><span class="status-tag status-checking">排查中</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- 附表3 服务风险管理清单 -->
+<div class="appendix-block">
+<div class="appendix-title" onclick="toggleTable('tab-risk')">
+  <div class="appendix-left"><span class="appendix-icon">▼</span>附表3 服务风险管理清单（12项）</div>
+  <span class="appendix-detail-btn">详情</span>
+</div>
+<div id="tab-risk" class="appendix-table-wrapper">
+<table class="data-table appendix-table">
+<thead>
+<tr><th>序号</th><th>涉及系统</th><th>问题名称</th><th>问题描述</th><th>问题来源</th><th>提出时间</th><th>问题原因</th><th>整改方式</th><th>解决状态</th><th>排期</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>呼叫平台</td><td>客户投诉</td><td>安徽马鞍山群众投诉：等待20分钟左右仍未接入人工座席，人工座席未详细解答</td><td>12398转办投诉</td><td>2026/1/7</td><td>综合应急场景下智能播报环节无法被打断</td><td>增加静默提醒机制；新增服务引导语播报中语音/按键打断</td><td><span class="status-tag status-done">已解决</span></td><td>2026年2月6日</td></tr>
+<tr><td>2</td><td>智能服务</td><td>智能服务失效</td><td>2026.1.22-1.23 AICP故障，导致智能服务失效</td><td>内部校核</td><td>2026/1/22</td><td>AICP故障，且无备用环境</td><td>更新AICP并搭建备用环境</td><td><span class="status-tag status-done">已解决</span></td><td>2026年1月24日</td></tr>
+<tr><td>3</td><td>呼叫平台</td><td>传统按键智能服务欢迎语优化</td><td>传统按键交互话术冗余、系统衔接断层，聚焦故障报修、停电信息查询2个场景优化</td><td>内部校核</td><td>2026/1/26</td><td>呼叫平台和智能客服都配置了意图收集话术，但不互通</td><td>将呼叫平台的播报环节调整为向智能客服传递客户意图</td><td><span class="status-tag status-checking">整改中</span></td><td>已提交运维中心，待排期</td></tr>
+<tr><td>4</td><td>网上国网</td><td>满意度推送的策略</td><td>在线客服未给智能客服推送结束标识，导致两通会话间隔＜2分钟时错误推送</td><td>内部校核</td><td>2026/1/27</td><td>在线客服拦截了会话结束标识</td><td>在转人工链接里增加会话结束标识</td><td><span class="status-tag status-done">已解决</span></td><td>2026年4月20日</td></tr>
+<tr><td>5</td><td>网上国网</td><td>网站渠道被脚本攻击</td><td>网站渠道在线客服受到自动化脚本恶意攻击，上海、江苏地区出现多起恶意访问</td><td>内部校核</td><td>2026/1/30</td><td>/</td><td>设置单日同一账号访问阈值（＞10次限制），页面展示提示语</td><td><span class="status-tag status-done">已解决</span></td><td>2026年3月26日</td></tr>
+<tr><td>6</td><td>智能服务</td><td>文本机器人查询电费错误</td><td>电费信息报送错误、脱敏信息报送错误、会话内容与实际服务不一致</td><td>内部校核</td><td>2026/2/5</td><td>户号从缓存中获取，导致电费信息不一样</td><td>取消户号从缓存中取的逻辑；优化地址特殊字符的处理</td><td><span class="status-tag status-done">已解决</span></td><td>2026年4月28日</td></tr>
+<tr><td>7</td><td>智能服务</td><td>客户投诉</td><td>嘉兴用户投诉95598语音播报内容与实际不符，人工服务接入不畅</td><td>12398转办投诉</td><td>2026/3/2</td><td>"没有欠费啊"置信度过高，命中欠费及违约金查询场景</td><td>将"没有欠费啊"作为否定意图维护至会话树</td><td><span class="status-tag status-checking">整改中</span></td><td>2026年5月30日</td></tr>
+<tr><td>8</td><td>智能服务</td><td>客户投诉</td><td>浙江用户早上查询无欠费，下午收到欠费通知，租户搬离导致用户损失</td><td>12398转办投诉</td><td>2026/3/2</td><td>业支系统发行账单后，智能客服未调取到相关数据</td><td>非费控用户欠费及违约金查询场景播报话术调整，增加用电周期提示</td><td><span class="status-tag status-done">已解决</span></td><td>2026年4月1日</td></tr>
+<tr><td>9</td><td>智能服务</td><td>智能服务异常</td><td>南中心拨测江苏、上海电话出现"小E优选"</td><td>南中心测试</td><td>2026/3/19</td><td>NGD异常</td><td>异常会话临时转人工；1小时内完成NGD备用环境切换；开展主环境故障修复</td><td><span class="status-tag status-done">已解决</span></td><td>2026年3月26日</td></tr>
+<tr><td>10</td><td>呼叫平台</td><td>客户投诉</td><td>用户接到多次95598外呼，认为被骚扰</td><td>内部投诉</td><td>2026/4/2</td><td>偶发性数据重复提交</td><td>临时停用北中心外呼环境，转南中心外呼；呼叫平台完成程序改造</td><td><span class="status-tag status-checking">整改中</span></td><td>预计迎峰度夏后发版</td></tr>
+<tr><td>11</td><td>呼叫平台</td><td>客户投诉</td><td>湖北用户接到外呼催费电话，机器人播报1小时50分钟"抱歉未理解"</td><td>内部投诉</td><td>2026/4/7</td><td>用户超时未输入，导致重复调用智能并持续回复无法理解</td><td>为外呼渠道配置超时自动挂机功能</td><td><span class="status-tag status-checking">整改中</span></td><td>已提交运维中心，待排期</td></tr>
+<tr><td>12</td><td>呼叫平台</td><td>客户投诉</td><td>山东用户接到机器人催费外呼，接通后机器人无声18分钟</td><td>内部投诉</td><td>2026/5/16</td><td>初步推断为运营商方面问题</td><td>向用户补偿10元或20元优惠券</td><td><span class="status-tag status-done">已解决</span></td><td>2026/5/18</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+数据来源：95598智能服务运营工作周报第25期（2026.7.3-7.9）· 国网客服中心业务运营部
+</div>
+
+</div>
+
+<script>
+// 1. 全渠道重点指标雷达图（本期 vs 达标线）
+var chartRadar = echarts.init(document.getElementById('chartRadar'));
+chartRadar.setOption({
+  tooltip: { trigger: 'item' },
+  legend: {
+    bottom: 0,
+    data: ['本期值', '达标线'],
+    textStyle: { fontSize: 12, color: '#555' },
+    itemWidth: 18,
+    itemHeight: 10
+  },
+  radar: {
+    indicator: [
+      { name: '电话渠道智能\n业务量占比', max: 55 },
+      { name: '全渠道业务量占比', max: 55 },
+      { name: '互联网渠道场景\n流程完成率', max: 85 },
+      { name: '互联网渠道智能\n服务业务量占比', max: 80 },
+      { name: '电话渠道场景\n流程完成率', max: 70 }
+    ],
+    radius: '58%',
+    center: ['50%', '52%'],
+    axisName: {
+      color: '#333',
+      fontSize: 11,
+      fontWeight: 'bold',
+      lineHeight: 14
+    },
+    splitArea: { areaStyle: { color: ['#f8f9ff', '#eef1ff'] } },
+    nameGap: 40,
+    splitLine: { lineStyle: { color: '#d0d7e8' } }
+  },
+  series: [{
+    type: 'radar',
+    data: [
+      {
+        value: [43.59, 64.19, 81.38, 85.19, 48.05],
+        name: '本期值',
+        areaStyle: { color: 'rgba(59,130,246,0.15)' },
+        lineStyle: { color: '#3b82f6', width: 2 },
+        itemStyle: { color: '#3b82f6', borderWidth: 2, borderColor: '#fff' },
+        label: {
+          show: true,
+          formatter: function(p) { return p.value + '%'; },
+          fontSize: 10,
+          color: '#3b82f6',
+          distance: 4,
+          position: 'outside',
+          fontWeight: 'bold'
+        }
+      },
+      {
+        value: [55, 55, 85, 80, 70],
+        name: '达标线',
+        lineStyle: { color: '#ef4444', type: 'dashed', width: 2 },
+        itemStyle: { color: '#ef4444' },
+        areaStyle: { color: 'rgba(239,68,68,0.05)' },
+        label: { show: false }
+      }
+    ]
+  }]
+});
+
+// 2. 互联网各渠道指标（柱+折线+目标线）
+var chartInternet = echarts.init(document.getElementById('chartInternet'));
+chartInternet.setOption({
+  tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+  legend: {
+    data: ['本期', '环比变化'],
+    bottom: 0,
+    textStyle: { fontSize: 12, color: '#555' },
+    itemWidth: 18,
+    itemHeight: 10
+  },
+  grid: { left: 40, right: 30, top: 25, bottom: 40, containLabel: true },
+  xAxis: {
+    type: 'category',
+    data: ['网上国网', '微信小程序', '95598网站'],
+    axisLabel: { fontSize: 12, color: '#555' },
+    axisLine: { lineStyle: { color: '#ccc' } },
+    axisTick: { show: false }
+  },
+  yAxis: [
+    {
+      type: 'value',
+      max: 100,
+      axisLabel: { formatter: '{value}%', fontSize: 11, color: '#888' },
+      splitLine: { lineStyle: { color: '#e8e8e8' } }
+    },
+    {
+      type: 'value',
+      min: -5,
+      max: 5,
+      axisLabel: { formatter: '{value}%', fontSize: 11, color: '#888' },
+      splitLine: { show: false }
+    }
+  ],
+  series: [
+    {
+      name: '本期',
+      type: 'bar',
+      data: [87.78, 75.70, 57.54],
+      barWidth: 30,
+      itemStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: '#3b82f6' },
+          { offset: 1, color: '#6366f1' }
+        ])
+      },
+      label: {
+        show: true,
+        position: 'top',
+        formatter: '{c}%',
+        fontSize: 12,
+        color: '#333',
+        fontWeight: 'bold'
+      },
+      markLine: {
+        silent: true,
+        symbol: 'none',
+        lineStyle: { color: '#ef4444', width: 2, type: 'dashed' },
+        label: {
+          show: true,
+          position: 'end',
+          formatter: '目标80%',
+          fontSize: 11,
+          color: '#ef4444',
+          fontWeight: 'bold',
+          backgroundColor: 'rgba(239,68,68,0.1)',
+          padding: [2, 6],
+          borderRadius: 4
+        },
+        data: [{ yAxis: 80 }]
+      }
+    },
+    {
+      name: '环比变化',
+      type: 'line',
+      yAxisIndex: 1,
+      data: [0.97, -0.83, 1.72],
+      lineStyle: { color: '#f59e0b', width: 2 },
+      itemStyle: { color: '#f59e0b' },
+      symbol: 'circle',
+      symbolSize: 8,
+      label: {
+        show: true,
+        formatter: function(p) { return (p.value >= 0 ? '+' : '') + p.value + '%'; },
+        fontSize: 11,
+        color: '#f59e0b',
+        fontWeight: 'bold'
+      }
+    }
+  ]
+});
+
+// 3. 缺陷情况统计图（饼图）
+var chartDefect = echarts.init(document.getElementById('chartDefect'));
+chartDefect.setOption({
+  tooltip: { trigger: 'item', formatter: '{b}: {c}个 ({d}%)' },
+  legend: {
+    bottom: 5,
+    itemWidth: 18,
+    itemHeight: 12,
+    itemGap: 16,
+    textStyle: { fontSize: 11, color: '#444' },
+    data: ['已解决', '排查中', '待发版', '转需求']
+  },
+  title: {
+    text: '累计375个',
+    subtext: '缺陷总数',
+    left: 'center',
+    top: '38%',
+    textStyle: { fontSize: 16, fontWeight: 'bold', color: '#4338ca' },
+    subtextStyle: { fontSize: 10, color: '#999' }
+  },
+  series: [{
+    type: 'pie',
+    radius: ['42%', '65%'],
+    center: ['50%', '42%'],
+    avoidLabelOverlap: true,
+    itemStyle: {
+      borderRadius: 4,
+      borderColor: '#fff',
+      borderWidth: 2
+    },
+    label: {
+      fontSize: 11,
+      formatter: '{b}\n{c}个',
+      color: '#333',
+      lineHeight: 16
+    },
+    labelLine: {
+      length: 12,
+      length2: 8,
+      smooth: true
+    },
+    emphasis: {
+      scale: true,
+      scaleSize: 6,
+      itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.2)' }
+    },
+    data: [
+      { value: 333, name: '已解决', itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,1,[{offset:0,color:'#10b981'},{offset:1,color:'#059669'}]) } },
+      { value: 37, name: '排查中', itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,1,[{offset:0,color:'#f59e0b'},{offset:1,color:'#d97706'}]) } },
+      { value: 2, name: '待发版', itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,1,[{offset:0,color:'#fbbf24'},{offset:1,color:'#f59e0b'}]) } },
+      { value: 3, name: '转需求', itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,1,[{offset:0,color:'#3b82f6'},{offset:1,color:'#2563eb'}]) } }
+    ]
+  }]
+});
+
+// 4. 问题维护情况（堆叠柱）
+var chartProblemType = echarts.init(document.getElementById('chartProblemType'));
+chartProblemType.setOption({
+  tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+  legend: { data: ['南中心', '北中心'], bottom: 0, textStyle: { fontSize: 10 } },
+  grid: { left: '3%', right: '4%', bottom: '20%', top: '8%', containLabel: true },
+  xAxis: { type: 'category', data: ['大模型标签生成问题', '大模型标签应用问题', '意图识别错误', '对外知识校核'], axisLabel: { fontSize: 9, interval: 0 } },
+  yAxis: { type: 'value' },
+  series: [
+    { name: '南中心', type: 'bar', stack: 'total', data: [19, 50, 0, 0], itemStyle: { color: '#667eea' }, barWidth: 22,
+      label: { show: true, position: 'inside', color: 'white', fontSize: 10, formatter: function(p) { return p.value > 0 ? p.value + '个' : ''; } } },
+    { name: '北中心', type: 'bar', stack: 'total', data: [0, 0, 71, 10], itemStyle: { color: '#764ba2' }, barWidth: 22,
+      label: { show: true, position: 'inside', color: 'white', fontSize: 10, formatter: function(p) { return p.value > 0 ? p.value + '个' : ''; } } }
+  ]
+});
+
+// 5. 待解决问题处置进度
+var chartPending = echarts.init(document.getElementById('chartPending'));
+chartPending.setOption({
+  tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+  legend: { data: ['已闭环', '未解决'], bottom: 0, textStyle: { fontSize: 10 } },
+  grid: { left: '3%', right: '4%', bottom: '20%', top: '8%', containLabel: true },
+  xAxis: { type: 'category', data: ['信息运维中心'], axisLabel: { fontSize: 10 } },
+  yAxis: { type: 'value' },
+  series: [
+    { name: '已闭环', type: 'bar', stack: 'total', data: [75], itemStyle: { color: '#10b981' }, barWidth: 35,
+      label: { show: true, position: 'inside', color: 'white', fontSize: 11, formatter: '{c}' } },
+    { name: '未解决', type: 'bar', stack: 'total', data: [59], itemStyle: { color: '#f59e0b' }, barWidth: 35,
+      label: { show: true, position: 'inside', color: 'white', fontSize: 11, formatter: '{c}' } }
+  ]
+});
+
+// 6. 标签应用 - 标记用户数
+var chartTagUser = echarts.init(document.getElementById('chartTagUser'));
+chartTagUser.setOption({
+  tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+  grid: { left: '3%', right: '8%', bottom: '3%', top: '5%', containLabel: true },
+  xAxis: { type: 'value' },
+  yAxis: { type: 'category', data: ['智能关爱', '多户电费', '多月电费', '短信电费', '偏好地址'], axisLabel: { fontSize: 10 } },
+  series: [{
+    type: 'bar',
+    data: [386, 314, 1438, 6423, 8442],
+    itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#c7d2fe'},{offset:1,color:'#667eea'}]) },
+    barWidth: 12,
+    label: { show: true, position: 'right', fontSize: 9 }
+  }]
+});
+
+// 7. 标签应用 - 触发量
+var chartTagTrigger = echarts.init(document.getElementById('chartTagTrigger'));
+chartTagTrigger.setOption({
+  tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+  grid: { left: '3%', right: '8%', bottom: '3%', top: '5%', containLabel: true },
+  xAxis: { type: 'value' },
+  yAxis: { type: 'category', data: ['智能关爱', '多户电费', '多月电费', '偏好地址', '短信电费'], axisLabel: { fontSize: 10 } },
+  series: [{
+    type: 'bar',
+    data: [431, 681, 1047, 459, 5638],
+    itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#ddd6fe'},{offset:1,color:'#764ba2'}]) },
+    barWidth: 12,
+    label: { show: true, position: 'right', fontSize: 9 }
+  }]
+});
+
+// 8. 标签转化率
+var chartTagRate = echarts.init(document.getElementById('chartTagRate'));
+chartTagRate.setOption({
+  tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
+  series: [{
+    type: 'pie',
+    radius: ['35%', '60%'],
+    center: ['50%', '45%'],
+    label: { fontSize: 9, formatter: '{b}\n{c}%' },
+    labelLine: { length: 4, length2: 3 },
+    data: [
+      { value: 87.8, name: '短信电费', itemStyle: { color: '#667eea' } },
+      { value: 72.8, name: '多月电费', itemStyle: { color: '#764ba2' } },
+      { value: 216.9, name: '多户电费', itemStyle: { color: '#8b5cf6' } },
+      { value: 111.7, name: '智能关爱', itemStyle: { color: '#a78bfa' } },
+      { value: 5.4, name: '偏好地址', itemStyle: { color: '#c4b5fd' } }
+    ]
+  }]
+});
+
+// 9. 服务风险处置状态
+var chartRisk = echarts.init(document.getElementById('chartRisk'));
+chartRisk.setOption({
+  tooltip: { trigger: 'item', formatter: '{b}: {c}个 ({d}%)' },
+  legend: { bottom: 0, textStyle: { fontSize: 10 } },
+  series: [{
+    type: 'pie',
+    radius: ['40%', '65%'],
+    center: ['50%', '42%'],
+    label: { fontSize: 11, formatter: '{b}\n{c}个' },
+    labelLine: { length: 6, length2: 4 },
+    data: [
+      { value: 8, name: '已解决', itemStyle: { color: '#10b981' } },
+      { value: 4, name: '整改中', itemStyle: { color: '#f59e0b' } }
+    ]
+  }]
+});
+
+// 10. 项目进度对比
+var chartProject = echarts.init(document.getElementById('chartProject'));
+chartProject.setOption({
+  tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+  grid: { left: '3%', right: '8%', bottom: '3%', top: '8%', containLabel: true },
+  xAxis: { type: 'value', max: 100, axisLabel: { formatter: '{value}%', fontSize: 10 } },
+  yAxis: { type: 'category', data: ['大模型语料项目', '质量分析运营优化'], axisLabel: { fontSize: 11 } },
+  series: [{
+    type: 'bar',
+    data: [
+      { value: 10, itemStyle: { color: '#f59e0b' } },
+      { value: 85, itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#667eea'},{offset:1,color:'#764ba2'}]) } }
+    ],
+    barWidth: 18,
+    label: { show: true, position: 'right', formatter: '{c}%', fontSize: 11, fontWeight: 600, color: '#667eea' }
+  }]
+});
+
+// 11. 人天投入对比
+var chartManday = echarts.init(document.getElementById('chartManday'));
+chartManday.setOption({
+  tooltip: { trigger: 'axis' },
+  legend: { data: ['已投入', '计划投入'], bottom: 0, textStyle: { fontSize: 10 } },
+  grid: { left: '3%', right: '4%', bottom: '18%', top: '8%', containLabel: true },
+  xAxis: { type: 'category', data: ['质量分析项目', '大模型语料项目'], axisLabel: { fontSize: 10 } },
+  yAxis: { type: 'value', name: '人天', nameTextStyle: { fontSize: 10 } },
+  series: [
+    { name: '已投入', type: 'bar', data: [1536, 130],
+      itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#667eea'},{offset:1,color:'#764ba2'}]) }, barWidth: 18 },
+    { name: '计划投入', type: 'bar', data: [1980, 1369], itemStyle: { color: '#c7d2fe' }, barWidth: 18 }
+  ]
+});
+
+// 详情展开/折叠
+function togglePlan() {
+  var wp = document.getElementById('workPlan');
+  var btn = wp.querySelector('.toggle-btn');
+  wp.classList.toggle('expanded');
+  btn.textContent = wp.classList.contains('expanded') ? '收起 ▲' : '详情 ▼';
+}
+
+// 响应式
+window.addEventListener('resize', function() {
+  var charts = [chartRadar, chartInternet, chartDefect, chartProblemType, chartPending,
+    chartTagUser, chartTagTrigger, chartTagRate, chartRisk, chartProject, chartManday];
+  charts.forEach(function(c) { c.resize(); });
+});
+
+// 附录表格折叠展开
+function toggleTable(id) {
+  var wrapper = document.getElementById(id);
+  var block = wrapper.closest('.appendix-block');
+  var icon = block.querySelector('.appendix-icon');
+  var btn = block.querySelector('.appendix-detail-btn');
+  if (wrapper.classList.contains('open')) {
+    wrapper.classList.remove('open');
+    icon.style.transform = 'rotate(0deg)';
+    btn.textContent = '详情';
+  } else {
+    wrapper.classList.add('open');
+    icon.style.transform = 'rotate(90deg)';
+    btn.textContent = '收起';
+  }
+}
+</script>
+</body>
+</html>
