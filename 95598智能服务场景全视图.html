@@ -96,6 +96,9 @@ body {
     gap: 12px;
     margin-bottom: 12px;
 }
+.chart-row.row-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
 .chart-card {
     background: #FFFFFF;
     border-radius: 8px;
@@ -112,6 +115,20 @@ body {
     align-items: center;
     gap: 6px;
 }
+.chart-tags {
+    margin-left: auto;
+    display: flex;
+    gap: 6px;
+}
+.chart-tags .tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+}
+.tag-high { background: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
+.tag-mid { background: #FFF3E0; color: #E65100; border: 1px solid #FFCC80; }
+.tag-low { background: #FFEBEE; color: #C62828; border: 1px solid #EF9A9A; }
 .chart-title::before {
     content: '';
     width: 3px;
@@ -299,23 +316,30 @@ body {
     </div>
 </div>
 
-<!-- 第二行：业务场景分类全景（全宽大图） -->
+<!-- 第二行：业务量高低频分布（主打全宽图） -->
 <div class="chart-row">
     <div class="chart-card full-width">
-        <div class="chart-title"><span class="dim-badge">4</span>业务场景分类全景</div>
-        <div class="chart-container tall" id="chart4"></div>
+        <div class="chart-title">
+            <span class="dim-badge">4</span>场景业务量高低频分布（TOP10）
+            <span class="chart-tags">
+                <span class="tag tag-high">高频 ≥1万</span>
+                <span class="tag tag-mid">中频 1千-1万</span>
+                <span class="tag tag-low">低频 <1千</span>
+            </span>
+        </div>
+        <div class="chart-container tall" id="chart6"></div>
     </div>
 </div>
 
-<!-- 第三行：大模型渗透率 / 业务量TOP10 / 完成率分布 -->
-<div class="chart-row">
-    <div class="chart-card">
-        <div class="chart-title"><span class="dim-badge">5</span>大模型应用渗透率</div>
-        <div class="chart-container" id="chart5"></div>
+<!-- 第三行：业务分类全景 / 大模型渗透率 / 完成率分布 -->
+<div class="chart-row row-4">
+    <div class="chart-card" style="grid-column: span 2;">
+        <div class="chart-title"><span class="dim-badge">5</span>业务场景分类全景</div>
+        <div class="chart-container" id="chart4"></div>
     </div>
     <div class="chart-card">
-        <div class="chart-title"><span class="dim-badge">6</span>业务量 TOP10</div>
-        <div class="chart-container" id="chart6"></div>
+        <div class="chart-title"><span class="dim-badge">6</span>大模型应用渗透率</div>
+        <div class="chart-container" id="chart5"></div>
     </div>
     <div class="chart-card">
         <div class="chart-title"><span class="dim-badge">7</span>完成率分布</div>
@@ -586,27 +610,133 @@ function updateChart5() {
     });
 }
 
-// 6.业务量TOP10
+// 6.业务量高低频TOP10（主打图）
 function updateChart6() {
     const top = filteredScenes.filter(s => s.volume > 0).sort((a,b) => b.volume-a.volume).slice(0,10);
-    const names = top.map(s => s.name.length > 7 ? s.name.slice(0,7)+'...' : s.name);
+    const names = top.map(s => s.name.length > 9 ? s.name.slice(0,9)+'…' : s.name);
+    const vols = top.map(s => s.volume);
+    const crs = top.map(s => (s.completionRate * 100).toFixed(0));
+    const llms = top.map(s => String(s.llm || '').includes('已应用'));
+    
+    // 高低频分级颜色
+    const getFreqColor = (v, isLlvm) => {
+        let base;
+        if (v >= 10000) base = ['#2E7D32', '#4CAF50']; // 高频-深绿
+        else if (v >= 1000) base = ['#E65100', '#FF9800']; // 中频-橙色
+        else base = ['#C62828', '#EF5350']; // 低频-红色
+        return {
+            type: 'linear', x: 0, y: 0, x2: 1, y2: 0,
+            colorStops: [
+                { offset: 0, color: base[0] },
+                { offset: 1, color: base[1] }
+            ]
+        };
+    };
+    
     charts.chart6.setOption({
         tooltip: {
             trigger: 'axis',
-            formatter: p => top[p[0].dataIndex].name + '<br/>业务量: ' + fmtVol(top[p[0].dataIndex].volume) + '笔'
+            axisPointer: { type: 'shadow' },
+            formatter: p => {
+                const idx = p[0].dataIndex;
+                const s = top[idx];
+                const freq = s.volume >= 10000 ? '高频' : s.volume >= 1000 ? '中频' : '低频';
+                return `<b style="font-size:13px;">${s.name}</b><br/>
+                    业务量：<b>${fmtVol(s.volume)}</b> 笔<br/>
+                    完成率：${(s.completionRate*100).toFixed(1)}%<br/>
+                    大模型：${String(s.llm||'').includes('已应用') ? '✅ 已应用' : '未应用'}<br/>
+                    分级：${freq}<br/>
+                    渠道：${s.channel}/${s.type}<br/>
+                    类别：${s.category}`;
+            }
         },
-        grid: { left: 75, right: 45, top: 8, bottom: 15 },
-        xAxis: { type: 'value', axisLabel: { fontSize: 10, formatter: v => fmtVol(v) } },
-        yAxis: { type: 'category', data: names.reverse(), axisLabel: { fontSize: 10 } },
-        series: [{
-            type: 'bar', data: top.map(s=>s.volume).reverse(),
-            itemStyle: {
-                color: p => [C_PRIMARY,'#00796B',C_SECONDARY,'#009688',C_ACCENT][p.dataIndex%5],
-                borderRadius: [0,3,3,0]
+        grid: { left: 100, right: 120, top: 10, bottom: 20 },
+        xAxis: {
+            type: 'value',
+            axisLabel: { fontSize: 11, color: '#888', formatter: v => fmtVol(v) },
+            splitLine: { lineStyle: { color: '#f0f0f0', type: 'dashed' } }
+        },
+        yAxis: {
+            type: 'category',
+            data: names.reverse(),
+            axisLabel: { fontSize: 12, color: '#333', fontWeight: 500 },
+            axisLine: { show: false },
+            axisTick: { show: false }
+        },
+        series: [
+            {
+                type: 'bar',
+                data: vols.reverse().map((v, i) => ({
+                    value: v,
+                    itemStyle: {
+                        color: getFreqColor(v, llms[9-i]),
+                        borderRadius: [0, 5, 5, 0]
+                    }
+                })),
+                barWidth: 20,
+                label: {
+                    show: true,
+                    position: 'right',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: '#333',
+                    formatter: p => fmtVol(p.value),
+                    distance: 8
+                },
+                markLine: {
+                    silent: true,
+                    symbol: 'none',
+                    lineStyle: { type: 'dashed', color: '#bbb', width: 1 },
+                    label: { show: false },
+                    data: [
+                        { xAxis: 10000, label: { show: true, position: 'insideEndTop', formatter: '高频线', fontSize: 10, color: '#2E7D32', fontWeight: 600 } },
+                        { xAxis: 1000, label: { show: true, position: 'insideEndTop', formatter: '中频线', fontSize: 10, color: '#E65100', fontWeight: 600 } }
+                    ]
+                }
             },
-            barWidth: '55%',
-            label: { show: true, position: 'right', fontSize: 10, formatter: p => fmtVol(p.value) }
-        }]
+            // 完成率小圆点
+            {
+                type: 'scatter',
+                data: crs.reverse().map((c, i) => ({
+                    value: [top[i].volume * 1.05, i, c]
+                })),
+                symbolSize: 0,
+                label: {
+                    show: true,
+                    position: 'right',
+                    formatter: p => {
+                        const cr = p.data[2];
+                        const llm = llms[9-p.data[1]] ? '  🤖' : '';
+                        return `${cr}%${llm}`;
+                    },
+                    fontSize: 10,
+                    color: '#666',
+                    offset: [50, 0]
+                }
+            }
+        ],
+        // 排名徽章
+        graphic: top.reverse().map((s, i) => ({
+            type: 'text',
+            left: 12,
+            top: 30 + i * 26.5,
+            style: {
+                text: (10-i).toString().padStart(2, '0'),
+                fontSize: 11,
+                fontWeight: 700,
+                fill: i >= 7 ? '#fff' : '#fff',
+                textAlign: 'center'
+            },
+            z: 10
+        })).concat(top.reverse().map((s, i) => ({
+            type: 'circle',
+            shape: { cx: 20, cy: 36 + i * 26.5, r: 10 },
+            style: {
+                fill: i >= 7 ? '#2E7D32' : i >= 4 ? '#E65100' : '#C62828',
+                opacity: 0.9
+            },
+            z: 9
+        })))
     });
 }
 
