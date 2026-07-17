@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>95598座席助手 - 故障综合研判</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#d5d9df;color:#1e1e1e;-webkit-font-smoothing:antialiased;display:flex;justify-content:center;align-items:center}
+
+.app-shell{display:flex;flex-direction:column;width:1360px;height:760px;background:#fff;border:1px solid #c5c9ce;border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+
+/* 顶栏 */
+.top-bar{display:flex;align-items:center;padding:0 16px;height:44px;background:#f0f0f0;flex-shrink:0}
+.top-title{font-size:15px;font-weight:600;color:#1a1a1a;flex:1;display:flex;align-items:center;gap:8px}
+.top-title .badge{font-size:11px;padding:2px 8px;border-radius:10px;background:#006B54;color:#fff;font-weight:500}
+.top-ctrl{display:flex;align-items:center;gap:6px}
+.top-ctrl svg{cursor:pointer;transition:all .15s}
+.top-ctrl svg:hover{stroke:#555}
+.top-ctrl .ctrl-close:hover{stroke:#e03030}
+
+.app-body{display:flex;flex:1;overflow:hidden;min-height:0}
+
+/* 左侧导航栏 */
+.sidebar{width:160px;min-width:160px;background:#f2f2f4;display:flex;flex-direction:column;flex-shrink:0}
+.side-nav{flex:1;padding:10px 8px}
+.side-nav .nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:2px;font-size:13px;color:#555;cursor:pointer;transition:all .15s;border-radius:6px;white-space:nowrap}
+.side-nav .nav-item:hover{background:#e8e9ec;color:#1e1e1e}
+.side-nav .nav-item.active{background:#e0efe8;color:#006B54;font-weight:600}
+.side-nav .nav-icon{width:18px;height:18px;flex-shrink:0;opacity:.65}
+.side-nav .nav-item.active .nav-icon{opacity:1}
+.side-footer{padding:10px 8px}
+.side-footer .foot-btn{display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:13px;color:#999;cursor:pointer;border-radius:6px;transition:all .15s}
+.side-footer .foot-btn:hover{background:#e8e9ec;color:#555}
+
+/* 主内容区域 */
+.main-area{flex:1;display:flex;flex-direction:row;overflow:hidden;min-width:0;background:#FAFAFA}
+
+/* === 中间对话面板 === */
+.conv-area{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;border-right:1px solid #d0d0d0}
+#trans-app{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+.call-info-bar{display:flex;align-items:center;justify-content:space-between;padding:6px 14px;font-size:12px;color:#262626;flex-shrink:0;gap:6px;background:#fff;border-bottom:1px solid #eee}
+.call-info-bar .cl-label{color:#7A7A7A;font-size:12px}
+.call-info-bar .cl-val{color:#262626;font-size:12px;font-weight:500}
+.call-info-bar .cl-sep{width:1px;height:14px;background:#d0d0d0;margin:0 8px}
+
+.cl-dur-wrap{display:flex;align-items:center;gap:8px}
+.cl-dur{color:#7A7A7A;font-size:12px}
+.cl-dur.live{color:#006B54;font-weight:600}
+
+.call-status-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600}
+.call-status-badge.ongoing{background:#dcfce7;color:#166534}
+.call-status-badge.ongoing::before{content:"";width:6px;height:6px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite}
+.call-status-badge.ended{background:#f3f4f6;color:#6b7280}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* 对话面板内部样式 */
+.panel-label-row{display:flex;align-items:center;justify-content:space-between;padding:8px 14px 6px 14px;background:#fff}
+.panel-label-row .inner{display:flex;align-items:center;gap:10px}
+.slider-wrap{display:flex;align-items:center;gap:6px}
+.slider-switch{position:relative;width:34px;height:18px;border-radius:9px;background:#ccc;cursor:pointer;transition:background .3s}
+.slider-switch.on{background:#006B54}
+.slider-switch .thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .3s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.slider-switch.on .thumb{left:18px}
+.slider-label{font-size:12px;color:#555}
+
+/* 户号信息条 */
+.customer-info-bar{display:flex;align-items:center;gap:20px;padding:8px 14px;background:#f8faf9;border-bottom:1px solid #e8e8e8;font-size:12px;flex-shrink:0}
+.customer-info-bar .info-item{display:flex;align-items:center;gap:4px}
+.customer-info-bar .info-label{color:#888;font-size:11px}
+.customer-info-bar .info-value{color:#333;font-weight:500;font-size:12px}
+.extract-method{margin-left:auto;font-size:11px;color:#888;display:flex;align-items:center;gap:4px}
+.extract-method .method-tag{padding:1px 6px;border-radius:3px;background:#e8f0ec;color:#006B54;font-size:10px;font-weight:500}
+
+.transcript-panel{flex:1;overflow-y:auto;padding:10px 14px}
+.transcript-panel::-webkit-scrollbar{width:5px}
+.transcript-panel::-webkit-scrollbar-thumb{background:#d0d0d0;border-radius:3px}
+
+.conv-line{display:flex;gap:8px;margin-bottom:12px;font-size:13px;line-height:1.6;animation:fadeInUp .4s ease}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.conv-time{color:#999;font-size:11px;white-space:nowrap;padding-top:2px;min-width:42px}
+.conv-role{white-space:nowrap;font-weight:600;min-width:42px;padding-top:2px}
+.conv-role.cust{color:#1e40af}
+.conv-role.agt{color:#006B54}
+.conv-text{flex:1;color:#333}
+
+.keyword{padding:1px 3px;border-radius:3px;font-weight:500}
+.keyword.red{background:#fecaca;color:#991b1b}
+.keyword.orange{background:#fed7aa;color:#9a3412}
+.keyword.yellow{background:#fef08a;color:#854d0e}
+.keyword.green{background:#dcfce7;color:#166534}
+
+.typing-cursor{display:inline-block;width:2px;height:1em;background:#006B54;margin-left:2px;animation:blink .6s infinite;vertical-align:text-bottom}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.conv-end-mark{text-align:center;color:#949494;font-size:11px;padding:10px 0;visibility:hidden}
+.conv-end-mark.show{visibility:visible}
+
+.hint{color:#949494;font-size:12px;display:flex;align-items:center;justify-content:center;height:100%}
+
+/* === 右侧面板 === */
+.right-panel{width:370px;min-width:370px;background:#fff;display:flex;flex-direction:column;overflow:hidden}
+
+/* 右侧Tab */
+.right-tabs{display:flex;background:#f5f5f5;border-bottom:1px solid #e0e0e0;flex-shrink:0}
+.right-tab{flex:1;padding:10px 8px;text-align:center;font-size:13px;font-weight:500;color:#666;cursor:pointer;transition:all .2s;border-bottom:2px solid transparent}
+.right-tab:hover{color:#333;background:#f0f0f0}
+.right-tab.active{color:#006B54;background:#fff;border-bottom-color:#006B54;font-weight:600}
+.right-tab .tab-badge{display:inline-block;min-width:18px;height:18px;line-height:18px;padding:0 5px;border-radius:9px;font-size:10px;font-weight:700;margin-left:4px;vertical-align:1px}
+.right-tab .tab-badge.red{background:#dc2626;color:#fff}
+.right-tab .tab-badge.green{background:#006B54;color:#fff}
+
+.right-tab-content{display:none;flex:1;overflow:hidden;flex-direction:column}
+.right-tab-content.active{display:flex}
+
+/* ===== 风险识别面板 ===== */
+.risk-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+.risk-banner{padding:8px 12px;font-size:12px;transition:all .5s ease;flex-shrink:0}
+.risk-banner.no-risk{background:#f0fdf4;border-bottom:1px solid #bbf7d0}
+.risk-banner.has-risk{background:#fef2f2;border-bottom:1px solid #fca5a5}
+.risk-banner-title{font-weight:700;font-size:12px;margin-bottom:1px}
+.risk-banner.no-risk .risk-banner-title{color:#166534}
+.risk-banner.has-risk .risk-banner-title{color:#991b1b}
+.risk-banner-desc{font-size:11px;color:#6b7280}
+@keyframes bannerShake{
+  0%,100%{transform:translateX(0)}
+  10%,30%,50%,70%,90%{transform:translateX(-3px)}
+  20%,40%,60%,80%{transform:translateX(3px)}
+}
+.risk-banner.alert-anim{animation:bannerShake .6s ease}
+
+.risk-tags-area{flex:1;overflow-y:auto;padding:8px 10px}
+.risk-tags-area::-webkit-scrollbar{width:4px}
+.risk-tags-area::-webkit-scrollbar-thumb{background:#d0d0d0;border-radius:2px}
+.risk-tags-title{font-size:11px;font-weight:600;color:#6b7280;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+
+.risk-tag-card{border:1px solid #e5e7eb;border-radius:6px;padding:8px 10px;margin-bottom:6px;cursor:default;transition:all .2s}
+.risk-tag-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.risk-tag-card.red{background:#fef2f2;border-color:#fca5a5}
+.risk-tag-card.orange{background:#fff7ed;border-color:#fdba74}
+.risk-tag-card.yellow{background:#fefce8;border-color:#fde047}
+.risk-tag-card.pop-in{animation:riskPopIn .5s ease forwards}
+@keyframes riskPopIn{from{opacity:0;transform:translateX(20px) scale(.95)}to{opacity:1;transform:translateX(0) scale(1)}}
+
+.risk-tag-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.risk-tag-name{font-weight:600;font-size:12px;color:#1f2937}
+.risk-tag-level{padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700}
+.risk-tag-level.red{background:#FF0000;color:#fff}
+.risk-tag-level.orange{background:#FFAA00;color:#fff}
+.risk-tag-level.yellow{background:#FFFF00;color:#333}
+.risk-tag-reason{font-size:11px;color:#6b7280;line-height:1.5}
+
+.risk-actions{padding:10px;border-top:1px solid #d0d0d0;flex-shrink:0;display:flex;gap:8px}
+.btn-action{flex:1;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #d0d0d0;background:#fff;color:#1e1e1e;transition:all .2s;text-align:center}
+.btn-action:hover{border-color:#006B54;color:#006B54}
+.btn-action.primary{background:#006B54;color:#fff;border-color:#006B54}
+.btn-action.primary:hover{background:#005a47}
+
+/* ===== 故障综合研判面板 ===== */
+.fault-panel{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* 研判控制条 */
+.fault-control{padding:10px 12px;background:#f8faf9;border-bottom:1px solid #e8e8e8;flex-shrink:0}
+.fault-control-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.fault-control-title{font-size:13px;font-weight:600;color:#333;display:flex;align-items:center;gap:6px}
+.fault-control-title .icon{font-size:14px}
+.fault-progress{font-size:11px;color:#888;font-weight:500}
+.fault-progress .done{color:#006B54;font-weight:600}
+.fault-progress .loading{color:#e65100;font-weight:600}
+
+.btn-fault-research{width:100%;padding:9px 12px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:linear-gradient(135deg,#006B54,#008667);color:#fff;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 4px rgba(0,107,84,.2)}
+.btn-fault-research:hover{background:linear-gradient(135deg,#005a47,#007559);box-shadow:0 3px 8px rgba(0,107,84,.3);transform:translateY(-1px)}
+.btn-fault-research:active{transform:translateY(0)}
+.btn-fault-research:disabled{background:#ccc;cursor:not-allowed;box-shadow:none;transform:none;opacity:.7}
+.btn-fault-research .spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.query-threshold{display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:10px;color:#999}
+.query-threshold .threshold-bar{flex:1;height:3px;background:#eee;border-radius:2px;margin:0 8px;overflow:hidden}
+.query-threshold .threshold-fill{height:100%;background:linear-gradient(90deg,#4CAF50,#FF9800);width:0%;border-radius:2px;transition:width .3s linear}
+
+/* 研判结果区域 */
+.fault-results{flex:1;overflow-y:auto;padding:10px 12px}
+.fault-results::-webkit-scrollbar{width:4px}
+.fault-results::-webkit-scrollbar-thumb{background:#d0d0d0;border-radius:2px}
+
+.fault-section{margin-bottom:10px;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;transition:all .3s}
+.fault-section.loading{border-color:#ffe0b2;background:#fff8f0}
+.fault-section.done{border-color:#c8e6c9;background:#f8fff9}
+.fault-section.timeout{border-color:#ffcdd2;background:#fff5f5}
+.fault-section.empty{border-color:#e0e0e0;background:#fafafa}
+
+.fault-section-header{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;cursor:pointer;user-select:none}
+.fault-section.loading .fault-section-header{background:#fff3e0}
+.fault-section.done .fault-section-header{background:#e8f5e9}
+.fault-section.timeout .fault-section-header{background:#ffebee}
+.fault-section.empty .fault-section-header{background:#f5f5f5}
+
+.fault-section-title{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#333}
+.fault-section-title .status-icon{font-size:12px;width:16px;text-align:center}
+.fault-section.loading .fault-section-title{color:#e65100}
+.fault-section.done .fault-section-title{color:#2e7d32}
+.fault-section.timeout .fault-section-title{color:#c62828}
+.fault-section.empty .fault-section-title{color:#757575}
+
+.fault-section-toggle{font-size:10px;color:#999;transition:transform .2s}
+.fault-section.collapsed .fault-section-toggle{transform:rotate(-90deg)}
+
+.fault-section-body{padding:8px 10px;font-size:12px;color:#555;line-height:1.6;border-top:1px solid #f0f0f0}
+.fault-section.collapsed .fault-section-body{display:none}
+
+.fault-result-row{display:flex;justify-content:space-between;padding:3px 0;font-size:12px}
+.fault-result-row .label{color:#888}
+.fault-result-row .value{color:#333;font-weight:500;text-align:right}
+.fault-result-row .value.green{color:#2e7d32}
+.fault-result-row .value.red{color:#c62828}
+.fault-result-row .value.orange{color:#e65100}
+.fault-result-row .value.blue{color:#1565c0}
+
+.more-link{color:#006B54;cursor:pointer;font-size:11px;margin-left:4px}
+.more-link:hover{text-decoration:underline}
+
+/* 研判结论卡片 */
+.fault-conclusion{margin:10px 12px;padding:12px;border-radius:8px;background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border:1px solid #a5d6a7;flex-shrink:0;display:none}
+.fault-conclusion.show{display:block;animation:fadeInUp .4s ease}
+.fault-conclusion-title{font-size:13px;font-weight:700;color:#1b5e20;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.fault-conclusion-body{font-size:12px;color:#33691e;line-height:1.7}
+.fault-conclusion-body .conclusion-item{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px}
+.fault-conclusion-body .conclusion-item .dot{width:6px;height:6px;border-radius:50%;background:#4CAF50;margin-top:6px;flex-shrink:0}
+
+/* 空状态 */
+.fault-empty{text-align:center;padding:40px 20px;color:#999}
+.fault-empty .empty-icon{font-size:36px;margin-bottom:10px;opacity:.4}
+.fault-empty .empty-text{font-size:13px}
+.fault-empty .empty-hint{font-size:11px;margin-top:4px;color:#bbb}
+
+/* Toast */
+.toast{position:fixed;bottom:30px;right:30px;background:#006B54;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,.15);animation:toastIn .3s ease;z-index:9999;display:flex;align-items:center;gap:6px}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* Modal */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:2000}
+.modal-overlay.active{display:flex}
+.modal{background:#fff;border-radius:12px;width:560px;max-width:90%;max-height:80vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-header{padding:14px 20px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-weight:700;font-size:15px}
+.modal-close{width:30px;height:30px;border:none;background:transparent;cursor:pointer;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#6b7280;font-size:16px}
+.modal-close:hover{background:#f3f4f6;color:#1e1e1e}
+.modal-body{padding:16px 20px;overflow-y:auto;max-height:55vh;font-size:13px;line-height:1.6}
+.modal-body::-webkit-scrollbar{width:5px}
+.modal-body::-webkit-scrollbar-thumb{background:#d0d0d0;border-radius:3px}
+.modal-footer{padding:14px 20px;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:10px}
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px}
+.form-input,.form-textarea{width:100%;padding:7px 10px;border:1px solid #d0d0d0;border-radius:6px;font-size:13px;font-family:inherit;color:#1e1e1e;background:#fff}
+.form-textarea{min-height:80px;resize:vertical}
+.form-input[readonly],.form-textarea[readonly]{background:#f9fafb;color:#374151}
+
+.btn-modal{padding:8px 18px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .2s}
+.btn-modal.default{background:#fff;border-color:#d0d0d0;color:#374151}
+.btn-modal.default:hover{border-color:#006B54;color:#006B54}
+.btn-modal.primary{background:#006B54;color:#fff;border-color:#006B54}
+.btn-modal.primary:hover{background:#005a47}
+
+/* 加载点动画 */
+.loading-dots{display:inline-block}
+.loading-dots span{animation:loadingDot 1.4s infinite ease-in-out both}
+.loading-dots span:nth-child(1){animation-delay:-.32s}
+.loading-dots span:nth-child(2){animation-delay:-.16s}
+@keyframes loadingDot{0%,80%,100%{opacity:0}40%{opacity:1}}
+</style>
+</head>
+<body>
+<div class="app-shell">
+<!-- 顶栏 -->
+<div class="top-bar">
+<span class="top-title">
+  95598座席助手
+  <span class="badge">AI 智能研判</span>
+</span>
+<div class="top-ctrl">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+<svg class="ctrl-close" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</div>
+</div>
+
+<div class="app-body">
+<!-- 左侧导航栏 -->
+<aside class="sidebar">
+<nav class="side-nav">
+<div class="nav-item active" data-page="transcribe" onclick="switchPage('transcribe')">
+<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+实时转写与研判
+</div>
+<div class="nav-item" data-page="order" onclick="switchPage('order')">
+<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+智能制单
+</div>
+<div class="nav-item" data-page="dict" onclick="switchPage('dict')">
+<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+专有名词配置
+</div>
+</nav>
+<div class="side-footer">
+<div class="foot-btn">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+设置
+</div>
+</div>
+</aside>
+
+<!-- 主内容区域 -->
+<div class="main-area">
+<!-- 中间：对话转写面板 -->
+<div class="conv-area">
+<div id="trans-app">
+<div class="panel-label-row">
+<div class="inner">
+<div class="slider-wrap">
+<div class="slider-switch on" id="slider" onclick="toggleTranscribe()">
+<div class="thumb"></div>
+</div>
+<span class="slider-label" id="sliderLabel">开</span>
+</div>
+<span class="call-status-badge ongoing" id="callStatusBadge">通话中</span>
+</div>
+<div class="call-info-bar" style="padding:0;background:transparent;border:none">
+<div class="cl-dur-wrap">
+<span class="cl-label">来电号码</span>&nbsp;<span class="cl-val">138****5678</span>
+</div>
+<span class="cl-sep"></span>
+<div class="cl-dur-wrap">
+<span class="cl-label">通话时长</span>&nbsp;<span class="cl-dur live" id="callTimer">00:00</span>
+</div>
+</div>
+</div>
+
+<!-- 户号信息条 -->
+<div class="customer-info-bar">
+  <div class="info-item">
+    <span class="info-label">户号</span>
+    <span class="info-value" id="custHuhao">——</span>
+  </div>
+  <div class="info-item">
+    <span class="info-label">地址</span>
+    <span class="info-value" id="custAddress">——</span>
+  </div>
+  <div class="info-item">
+    <span class="info-label">联系电话</span>
+    <span class="info-value">138****5678</span>
+  </div>
+  <div class="extract-method">
+    <span class="method-tag">工单受理内容</span>
+    <span>信息提取方式</span>
+  </div>
+</div>
+
+<div class="transcript-panel" id="transcriptPanel">
+<div class="hint">点击「开关」开始实时转写。</div>
+</div>
+<div class="conv-end-mark" id="convEndMark">—— 通话结束 ——</div>
+</div>
+</div>
+
+<!-- 右侧：多Tab面板 -->
+<div class="right-panel">
+  <div class="right-tabs">
+    <div class="right-tab active" onclick="switchRightTab('risk')">
+      🛡️ 风险识别
+      <span class="tab-badge red" id="riskBadge" style="display:none">0</span>
+    </div>
+    <div class="right-tab" onclick="switchRightTab('fault')">
+      ⚡ 故障研判
+      <span class="tab-badge green" id="faultBadge" style="display:none">0/9</span>
+    </div>
+  </div>
+
+  <!-- 风险识别Tab -->
+  <div class="right-tab-content active" id="tab-risk">
+    <div class="risk-area">
+    <div class="risk-banner no-risk" id="riskBanner">
+    <div class="risk-banner-title" id="riskBannerTitle">🛡️ 风险研判中 — 正在实时检测对话内容</div>
+    <div class="risk-banner-desc" id="riskBannerDesc">正在实时检测对话内容，风险研判中...</div>
+    </div>
+    <div class="risk-tags-area" id="riskTagsArea">
+    <div class="risk-tags-title" id="riskTagsTitle" style="display:none">已识别风险标签</div>
+    </div>
+    <div class="risk-actions">
+    <div class="btn-action" onclick="sendSms()">📱 发送风险督办短信</div>
+    <div class="btn-action primary" onclick="openSuperviseModal()">📝 生成风险督办单</div>
+    </div>
+    </div>
+  </div>
+
+  <!-- 故障综合研判Tab -->
+  <div class="right-tab-content" id="tab-fault">
+    <div class="fault-panel">
+      <!-- 研判控制条 -->
+      <div class="fault-control">
+        <div class="fault-control-header">
+          <div class="fault-control-title">
+            <span class="icon">🔍</span>
+            故障综合研判
+          </div>
+          <div class="fault-progress" id="faultProgress">
+            <span class="loading" id="faultProgressText">待启动</span>
+          </div>
+        </div>
+        <button class="btn-fault-research" id="btnResearch" onclick="startFaultResearch()">
+          <span id="btnResearchText">一键研判停电原因</span>
+        </button>
+        <div class="query-threshold">
+          <span>查询阈值</span>
+          <div class="threshold-bar"><div class="threshold-fill" id="thresholdFill"></div></div>
+          <span id="thresholdText">8s</span>
+        </div>
+      </div>
+
+      <!-- 研判结论卡片 -->
+      <div class="fault-conclusion" id="faultConclusion">
+        <div class="fault-conclusion-title">
+          ✅ 研判结论
+        </div>
+        <div class="fault-conclusion-body" id="faultConclusionBody"></div>
+      </div>
+
+      <!-- 研判结果区域 -->
+      <div class="fault-results" id="faultResults">
+        <div class="fault-empty">
+          <div class="empty-icon">⚡</div>
+          <div class="empty-text">点击上方按钮启动研判</div>
+          <div class="empty-hint">系统将自动查询9项停电关联信息</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 督办单 Modal -->
+<div class="modal-overlay" id="superviseModal">
+<div class="modal">
+<div class="modal-header">
+<span class="modal-title">📝 生成风险督办单</span>
+<button class="modal-close" onclick="closeSuperviseModal()">✕</button>
+</div>
+<div class="modal-body" id="superviseModalBody"></div>
+<div class="modal-footer">
+<button class="btn-modal default" onclick="closeSuperviseModal()">取消</button>
+<button class="btn-modal primary" onclick="confirmSupervise()">确认生成</button>
+</div>
+</div>
+</div>
+
+<!-- 短信发送 Modal -->
+<div class="modal-overlay" id="smsModal">
+<div class="modal">
+<div class="modal-header">
+<span class="modal-title">📱 发送风险督办短信</span>
+<button class="modal-close" onclick="closeSmsModal()">✕</button>
+</div>
+<div class="modal-body" id="smsModalBody"></div>
+<div class="modal-footer">
+<button class="btn-modal default" onclick="closeSmsModal()">取消</button>
+<button class="btn-modal primary" onclick="confirmSendSms()">确认发送</button>
+</div>
+</div>
+</div>
+
+<script>
+// ===== 全局状态 =====
+let running = true;
+let timerId = null;
+let secs = 0;
+let faultResearchStarted = false;
+
+// ===== 对话剧本（停电场景） =====
+const script = [
+  { role: 'agent', time: '00:03', delay: 800, text: '您好，请问需要什么帮助吗？', keywords: [], risks: [] },
+  { role: 'customer', time: '00:10', delay: 1500, text: '嗯，你好，我家突然停电了，整个小区都黑了，什么时候能来电？', keywords: [{t:'停电了',lv:'orange'},{t:'整个小区都黑了',lv:'orange'}], risks: ['停电投诉'], huhao: null, address: null },
+  { role: 'agent', time: '00:22', delay: 2000, text: '好的先生，您先别急，请问您家的户号是多少？我帮您查询一下停电信息。', keywords: [], risks: [] },
+  { role: 'customer', time: '00:35', delay: 1800, text: '户号是12345678901，我家在朝阳区XX街道XX小区。', keywords: [{t:'12345678901',lv:'green'},{t:'朝阳区XX街道XX小区',lv:'green'}], risks: [], huhao: '12345678901', address: '朝阳区XX街道XX小区', triggerResearch: true },
+  { role: 'agent', time: '00:48', delay: 2200, text: '好的，我帮您查一下。您这个户号有在途的报修工单吗？', keywords: [], risks: [] },
+  { role: 'customer', time: '01:00', delay: 2000, text: '不知道啊，你们赶紧派人来看看吧，这都停了一个多小时了，家里冰箱里的东西都要坏了！', keywords: [{t:'一个多小时',lv:'orange'}], risks: [], emotion: 'anxious', emotionText: '客户情绪：焦虑' },
+  { role: 'agent', time: '01:15', delay: 2500, text: '好的，我马上帮您研判故障原因，请稍等。系统正在查询您的停电关联信息。', keywords: [], risks: [] },
+  { role: 'customer', time: '01:28', delay: 1800, text: '那要多久啊？我这大热天的没电怎么行！', keywords: [{t:'大热天',lv:'yellow'}], risks: [], emotion: 'anxious', emotionText: '客户情绪：焦虑' },
+  { role: 'agent', time: '01:40', delay: 2200, text: '先生您放心，查询很快的。我这边查到您的情况了：您所在的区域确实有故障停电，原因是电缆故障，维修人员已经在现场抢修了，预计2小时内恢复供电。', keywords: [{t:'故障停电',lv:'green'},{t:'电缆故障',lv:'green'}], risks: [] },
+  { role: 'customer', time: '01:58', delay: 2000, text: '哦，那还好。那能给我解释一下为什么会电缆故障吗？以后还会不会经常停啊？', keywords: [], risks: [] },
+  { role: 'agent', time: '02:12', delay: 2500, text: '这次电缆故障是因为设备老化加上近期高温高负荷导致的，我们已经安排了全面巡检。这次故障修复后，我们会对您所在片区的电缆进行专项排查，减少类似情况发生。', keywords: [], risks: [] },
+  { role: 'customer', time: '02:30', delay: 1800, text: '行吧，那就先这样，希望你们快点修好。', keywords: [], risks: [], emotion: 'calm', emotionText: '客户情绪：平稳' },
+  { role: 'agent', time: '02:42', delay: 2000, text: '非常抱歉给您带来不便，我们会全力抢修。请问还有其他问题需要帮您处理吗？', keywords: [], risks: [] },
+  { role: 'customer', time: '02:55', delay: 1200, text: '没有了，就这样吧。', keywords: [], risks: [] },
+  { role: 'agent', time: '03:02', delay: 1500, text: '好的，感谢您的来电，祝您生活愉快，再见。', keywords: [], risks: [] }
+];
+
+// ===== 风险标签定义 =====
+const riskDefs = {
+  '停电投诉': {
+    name: '【停电投诉】', level: 'orange', levelText: '橙色',
+    reason: '客户反映家中及所在小区停电，情绪焦虑，已停电1小时以上。属于典型故障停电投诉场景，需及时研判停电原因并安抚客户。',
+    suggestions: [
+      '立即查询停电信息及在途报修工单',
+      '启动故障综合研判，确认停电原因',
+      '向客户说明停电原因及预计恢复时间',
+      '必要时派发紧急报修工单'
+    ]
+  }
+};
+
+// ===== 风险检测状态 =====
+const detectedRisks = [];
+const detectedSet = new Set();
+
+// ===== 故障研判数据定义 =====
+const faultItems = [
+  { key: 'zdgd', name: '在途工单', delay: 1200, status: 'done', data: [
+    { label: '工单编号', value: 'GD20260115001、GD20260114002', more: true, total: 5 },
+    { label: '类型', value: '故障报修' },
+    { label: '最近受理时间', value: '2026-01-15 08:32:15' }
+  ]},
+  { key: 'dfye', name: '电费余额', delay: 800, status: 'done', data: [
+    { label: '当前余额', value: '¥128.50', cls: 'green' },
+    { label: '费控状态', value: '费控用户' },
+    { label: '上次缴费', value: '2026-01-10' }
+  ]},
+  { key: 'tdxx', name: '停电信息', delay: 1500, status: 'done', data: [
+    { label: '停电编号', value: 'TD20260115003、TD20260114004', more: true, total: 3 },
+    { label: '停电类型', value: '故障停电', cls: 'red' },
+    { label: '停电开始时间', value: '2026-01-15 07:45:00' }
+  ]},
+  { key: 'zdqx', name: '主动抢修工单', delay: 2000, status: 'done', data: [
+    { label: '抢修工单', value: 'QX20260115005' },
+    { label: '抢修状态', value: '抢修中', cls: 'orange' },
+    { label: '预计恢复', value: '2026-01-15 10:30:00' }
+  ]},
+  { key: 'wyqd', name: '违约窃电', delay: 1800, status: 'empty', emptyText: '未查到', data: [
+    { label: '查询结果', value: '近期无违约窃电记录' }
+  ]},
+  { key: 'tdzt', name: '停电状态', delay: 1000, status: 'done', data: [
+    { label: '当前状态', value: '故障停电', cls: 'red' },
+    { label: '停电时长', value: '1小时25分钟', cls: 'orange' }
+  ]},
+  { key: 'jdqzt', name: '继电器状态', delay: 9500, status: 'timeout', timeoutText: '超时未获取', data: [
+    { label: '状态', value: '查询超时' }
+  ]},
+  { key: 'tdjl', name: '停电记录-停电原因', delay: 2500, status: 'done', data: [
+    { label: '最近停电原因', value: '电缆故障', cls: 'red' },
+    { label: '停电时间', value: '2026-01-15 07:45:00' },
+    { label: '近90天停电次数', value: '2次' }
+  ]},
+  { key: 'bjxx', name: '表计信息', delay: 1600, status: 'done', data: [
+    { label: '电表类型', value: '智能电能表（三相）' },
+    { label: '电表型号', value: 'DDZY1789-Z' },
+    { label: '接线方式', value: '单相' }
+  ]}
+];
+
+let completedCount = 0;
+const totalItems = faultItems.length;
+
+// ===== 工具函数 =====
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function formatTime(totalSecs) {
+  const m = Math.floor(totalSecs / 60).toString().padStart(2, '0');
+  const s = (totalSecs % 60).toString().padStart(2, '0');
+  return m + ':' + s;
+}
+
+// ===== 打字机效果 =====
+async function typeText(element, text, keywords, speed) {
+  const kwTexts = keywords.map(kw => kw.t);
+  let charIndex = 0;
+  const cursor = document.createElement('span');
+  cursor.className = 'typing-cursor';
+
+  while (charIndex < text.length) {
+    let matchedKw = null;
+    let matchedLv = '';
+    for (const kw of keywords) {
+      if (text.substring(charIndex, charIndex + kw.t.length) === kw.t) {
+        matchedKw = kw.t;
+        matchedLv = kw.lv;
+        break;
+      }
+    }
+
+    if (matchedKw) {
+      const span = document.createElement('span');
+      span.className = 'keyword ' + matchedLv;
+      element.appendChild(span);
+      for (let i = 0; i < matchedKw.length; i++) {
+        span.textContent += matchedKw[i];
+        charIndex++;
+        element.appendChild(cursor);
+        await sleep(speed);
+        if (i < matchedKw.length - 1) {
+          try { element.removeChild(cursor); } catch(e) {}
+        }
+      }
+      try { element.removeChild(cursor); } catch(e) {}
+    } else {
+      element.appendChild(document.createTextNode(text[charIndex]));
+      element.appendChild(cursor);
+      charIndex++;
+      await sleep(speed);
+      try { element.removeChild(cursor); } catch(e) {}
+    }
+  }
+}
+
+// ===== 风险标签添加 =====
+function addRiskTag(key) {
+  if (detectedSet.has(key)) return;
+  detectedSet.add(key);
+  const def = riskDefs[key];
+  if (!def) return;
+  detectedRisks.push(key);
+
+  document.getElementById('riskTagsTitle').style.display = 'block';
+  const badge = document.getElementById('riskBadge');
+  badge.style.display = 'inline-block';
+  badge.textContent = detectedRisks.length;
+
+  const banner = document.getElementById('riskBanner');
+  banner.className = 'risk-banner has-risk alert-anim';
+  setTimeout(() => banner.classList.remove('alert-anim'), 600);
+  document.getElementById('riskBannerTitle').textContent = '⚠️ 检测到 ' + detectedRisks.length + ' 个风险 — 请及时处置';
+  document.getElementById('riskBannerDesc').textContent = '系统已识别风险标签，请座席及时处置';
+
+  const card = document.createElement('div');
+  card.className = 'risk-tag-card ' + def.level + ' pop-in';
+  card.innerHTML = '<div class="risk-tag-header">' +
+    '<span class="risk-tag-name">' + def.name + '</span>' +
+    '<span class="risk-tag-level ' + def.level + '">' + def.levelText + '</span>' +
+    '</div>' +
+    '<div class="risk-tag-reason">' + def.reason + '</div>';
+  document.getElementById('riskTagsArea').appendChild(card);
+}
+
+// ===== Toast 提示 =====
+function showToast(msg) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => { if (t.parentNode) t.remove(); }, 3000);
+}
+
+// ===== 右侧Tab切换 =====
+function switchRightTab(name) {
+  document.querySelectorAll('.right-tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.right-tab-content').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ===== 故障综合研判 =====
+function startFaultResearch() {
+  if (faultResearchStarted) return;
+  
+  // 检查是否有户号信息
+  const huhao = document.getElementById('custHuhao').textContent;
+  if (huhao === '——') {
+    showToast('请先获取户号信息再进行研判');
+    return;
+  }
+
+  faultResearchStarted = true;
+  completedCount = 0;
+  const btn = document.getElementById('btnResearch');
+  const btnText = document.getElementById('btnResearchText');
+  const progressText = document.getElementById('faultProgressText');
+  const resultsEl = document.getElementById('faultResults');
+  const thresholdFill = document.getElementById('thresholdFill');
+  const thresholdText = document.getElementById('thresholdText');
+  const badge = document.getElementById('faultBadge');
+
+  btn.disabled = true;
+  btnText.innerHTML = '<span class="spinner"></span> 正在查询中...';
+  progressText.textContent = '查询中 0/' + totalItems;
+  progressText.className = 'loading';
+  badge.style.display = 'inline-block';
+  badge.textContent = '0/9';
+
+  // 清空结果区
+  resultsEl.innerHTML = '';
+
+  // 阈值进度条（8秒）
+  let thresholdElapsed = 0;
+  const thresholdInterval = setInterval(() => {
+    thresholdElapsed += 100;
+    const pct = Math.min(thresholdElapsed / 8000 * 100, 100);
+    thresholdFill.style.width = pct + '%';
+    const remain = Math.max(0, 8 - thresholdElapsed / 1000);
+    thresholdText.textContent = remain.toFixed(1) + 's';
+    if (thresholdElapsed >= 8000) {
+      clearInterval(thresholdInterval);
+    }
+  }, 100);
+
+  // 依次创建各查询项并模拟异步返回
+  faultItems.forEach((item, index) => {
+    const section = document.createElement('div');
+    section.className = 'fault-section loading collapsed';
+    section.id = 'fault-' + item.key;
+    
+    let statusIcon = '⏳';
+    section.innerHTML = `
+      <div class="fault-section-header" onclick="toggleSection('${item.key}')">
+        <div class="fault-section-title">
+          <span class="status-icon" id="icon-${item.key}">${statusIcon}</span>
+          ${item.name}
+        </div>
+        <div class="fault-section-toggle">▼</div>
+      </div>
+      <div class="fault-section-body">
+        <div style="color:#e65100;font-size:12px">
+          查询中<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+        </div>
+      </div>
+    `;
+    resultsEl.appendChild(section);
+
+    // 模拟异步返回
+    setTimeout(() => {
+      completeFaultItem(item.key, item);
+    }, item.delay);
+  });
+
+  // 全部完成后显示结论
+  const maxDelay = Math.max(...faultItems.map(i => i.delay));
+  setTimeout(() => {
+    showFaultConclusion();
+  }, maxDelay + 500);
+}
+
+function completeFaultItem(key, item) {
+  const section = document.getElementById('fault-' + key);
+  if (!section) return;
+
+  completedCount++;
+  const progressText = document.getElementById('faultProgressText');
+  const badge = document.getElementById('faultBadge');
+  badge.textContent = completedCount + '/9';
+
+  let statusClass = '';
+  let statusIcon = '';
+  let bodyHtml = '';
+
+  if (item.status === 'timeout') {
+    statusClass = 'timeout';
+    statusIcon = '⏰';
+    bodyHtml = `<div style="color:#c62828;font-size:12px">${item.timeoutText}</div>`;
+  } else if (item.status === 'empty') {
+    statusClass = 'empty';
+    statusIcon = '📋';
+    bodyHtml = `<div style="color:#757575;font-size:12px">${item.emptyText}</div>`;
+  } else {
+    statusClass = 'done';
+    statusIcon = '✓';
+    bodyHtml = item.data.map(row => {
+      const valCls = row.cls ? ' value="' + row.cls + '"' : '';
+      let valHtml = `<span class="value${row.cls ? ' ' + row.cls : ''}">${row.value}</span>`;
+      if (row.more) {
+        valHtml += `<span class="more-link">[更多…]</span>`;
+      }
+      return `<div class="fault-result-row">
+        <span class="label">${row.label}</span>
+        ${valHtml}
+      </div>`;
+    }).join('');
+  }
+
+  section.className = 'fault-section ' + statusClass;
+  document.getElementById('icon-' + key).textContent = statusIcon;
+  section.querySelector('.fault-section-body').innerHTML = bodyHtml;
+
+  // 第一个完成的展开
+  if (completedCount === 1) {
+    section.classList.remove('collapsed');
+  }
+
+  // 更新进度
+  if (completedCount < totalItems) {
+    progressText.textContent = '查询中 ' + completedCount + '/' + totalItems;
+  } else {
+    progressText.textContent = '已完成 ' + completedCount + '/' + totalItems;
+    progressText.className = 'done';
+    
+    const btn = document.getElementById('btnResearch');
+    const btnText = document.getElementById('btnResearchText');
+    btn.disabled = false;
+    btnText.innerHTML = '↻ 重新研判';
+    faultResearchStarted = false;
+
+    // 切到故障研判tab
+    if (detectedRisks.length === 0) {
+      switchRightTabByCode('fault');
+    }
+  }
+}
+
+function toggleSection(key) {
+  const section = document.getElementById('fault-' + key);
+  section.classList.toggle('collapsed');
+}
+
+function switchRightTabByCode(name) {
+  document.querySelectorAll('.right-tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.right-tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelector(`[onclick="switchRightTab('${name}')"]`).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+function showFaultConclusion() {
+  const conclusion = document.getElementById('faultConclusion');
+  const body = document.getElementById('faultConclusionBody');
+
+  body.innerHTML = `
+    <div class="conclusion-item"><span class="dot"></span><span><strong>停电类型：</strong>故障停电，原因为电缆故障</span></div>
+    <div class="conclusion-item"><span class="dot"></span><span><strong>在途工单：</strong>2张故障报修工单 + 1张主动抢修工单</span></div>
+    <div class="conclusion-item"><span class="dot"></span><span><strong>抢修状态：</strong>抢修中，预计10:30恢复供电</span></div>
+    <div class="conclusion-item"><span class="dot"></span><span><strong>电费状态：</strong>余额充足（¥128.50），非欠费停电</span></div>
+    <div class="conclusion-item"><span class="dot"></span><span><strong>建议话术：</strong>告知客户故障原因、抢修进度及预计恢复时间</span></div>
+  `;
+
+  conclusion.classList.add('show');
+}
+
+// ===== 更新户号信息 =====
+function updateCustomerInfo(huhao, address) {
+  if (huhao) {
+    document.getElementById('custHuhao').textContent = huhao;
+  }
+  if (address) {
+    document.getElementById('custAddress').textContent = address;
+  }
+}
+
+// ===== 发送风险督办短信 =====
+function sendSms() {
+  if (detectedRisks.length === 0) {
+    showToast('暂未检测到风险标签');
+    return;
+  }
+
+  const summaryParts = detectedRisks.map(k => riskDefs[k].name + '：' + riskDefs[k].reason.substring(0, 30) + '...');
+  const tagNames = detectedRisks.map(k => riskDefs[k].name).join('、');
+  const smsContent = '【风险督办】' + tagNames + '。客户反映停电问题，户号12345678901，地址朝阳区XX街道XX小区，已启动故障综合研判。请相关部门及时处置。';
+
+  const body = document.getElementById('smsModalBody');
+  body.innerHTML =
+    '<div class="form-group"><div class="form-label">供电单位</div><input type="text" class="form-input" value="国网北京朝阳供电公司" readonly></div>' +
+    '<div class="form-group"><div class="form-label">联系电话</div><input type="text" class="form-input" value="010-66668888" readonly></div>' +
+    '<div class="form-group"><div class="form-label">短信内容</div><textarea class="form-textarea" readonly>' + smsContent + '</textarea></div>';
+
+  document.getElementById('smsModal').classList.add('active');
+}
+
+function closeSmsModal() {
+  document.getElementById('smsModal').classList.remove('active');
+}
+
+function confirmSendSms() {
+  closeSmsModal();
+  showToast('风险督办短信已发送');
+}
+
+document.getElementById('smsModal').addEventListener('click', function(e) {
+  if (e.target === this) closeSmsModal();
+});
+
+// ===== 生成风险督办单 Modal =====
+function openSuperviseModal() {
+  if (detectedRisks.length === 0) {
+    showToast('暂未检测到风险标签');
+    return;
+  }
+
+  const levelOrder = { red: 1, orange: 2, yellow: 3 };
+  let highestLevel = 'yellow';
+  detectedRisks.forEach(k => {
+    const lv = riskDefs[k].level;
+    if (levelOrder[lv] < levelOrder[highestLevel]) highestLevel = lv;
+  });
+  const levelTextMap = { red: '红色', orange: '橙色', yellow: '黄色' };
+  const tagNames = detectedRisks.map(k => riskDefs[k].name).join('、');
+
+  const body = document.getElementById('superviseModalBody');
+  body.innerHTML =
+    '<div class="form-group"><div class="form-label">督办单号</div><input type="text" class="form-input" value="R20260115001" readonly></div>' +
+    '<div class="form-group"><div class="form-label">风险等级</div><input type="text" class="form-input" value="' + levelTextMap[highestLevel] + '" readonly></div>' +
+    '<div class="form-group"><div class="form-label">风险标签</div><input type="text" class="form-input" value="' + tagNames + '" readonly></div>' +
+    '<div class="form-group"><div class="form-label">客户信息</div><input type="text" class="form-input" value="户号12345678901 / 朝阳区XX街道XX小区" readonly></div>' +
+    '<div class="form-group"><div class="form-label">故障研判结论</div><textarea class="form-textarea" readonly>故障停电，原因为电缆故障；主动抢修工单QX20260115005正在抢修中，预计10:30恢复供电；电费余额充足（¥128.50），非欠费停电。</textarea></div>';
+
+  document.getElementById('superviseModal').classList.add('active');
+}
+
+function closeSuperviseModal() {
+  document.getElementById('superviseModal').classList.remove('active');
+}
+
+function confirmSupervise() {
+  closeSuperviseModal();
+  showToast('督办单已生成并推送至运维部门');
+}
+
+document.getElementById('superviseModal').addEventListener('click', function(e) {
+  if (e.target === this) closeSuperviseModal();
+});
+
+// ===== 计时器 =====
+function startTimer() {
+  secs = 0;
+  stopTimer();
+  timerId = setInterval(() => {
+    secs++;
+    const el = document.getElementById('callTimer');
+    if (el) el.textContent = formatTime(secs);
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerId) { clearInterval(timerId); timerId = null; }
+}
+
+// ===== 播放对话 =====
+async function playConversation() {
+  const panel = document.getElementById('transcriptPanel');
+  panel.innerHTML = '';
+
+  for (let i = 0; i < script.length; i++) {
+    if (!running) break;
+    const msg = script[i];
+    await sleep(msg.delay);
+
+    const line = document.createElement('div');
+    line.className = 'conv-line';
+
+    const timeSpan = document.createElement('span');
+    timeSpan.className = 'conv-time';
+    timeSpan.textContent = '[' + msg.time + ']';
+    line.appendChild(timeSpan);
+
+    const roleSpan = document.createElement('span');
+    roleSpan.className = 'conv-role ' + (msg.role === 'customer' ? 'cust' : 'agt');
+    roleSpan.textContent = msg.role === 'customer' ? '客户：' : '座席：';
+    line.appendChild(roleSpan);
+
+    const textSpan = document.createElement('span');
+    textSpan.className = 'conv-text';
+    line.appendChild(textSpan);
+
+    panel.appendChild(line);
+    panel.scrollTop = panel.scrollHeight;
+
+    await typeText(textSpan, msg.text, msg.keywords, 40);
+
+    // 更新户号信息
+    if (msg.huhao || msg.address) {
+      updateCustomerInfo(msg.huhao, msg.address);
+    }
+
+    // 检测风险
+    if (msg.risks && msg.risks.length > 0) {
+      for (const risk of msg.risks) {
+        await sleep(800);
+        addRiskTag(risk);
+      }
+    }
+
+    // 触发故障研判（当客户提供户号后自动切换并提示可用）
+    if (msg.triggerResearch) {
+      await sleep(500);
+      const btn = document.getElementById('btnResearch');
+      btn.style.animation = 'none';
+      btn.offsetHeight;
+      btn.style.animation = 'pulse 2s infinite';
+      btn.style.boxShadow = '0 0 0 4px rgba(0,107,84,0.2)';
+    }
+  }
+
+  stopTimer();
+  const badge = document.getElementById('callStatusBadge');
+  badge.textContent = '已结束';
+  badge.className = 'call-status-badge ended';
+  document.getElementById('convEndMark').classList.add('show');
+}
+
+// ===== 开关控制 =====
+function toggleTranscribe() {
+  running = !running;
+  const slider = document.getElementById('slider');
+  const label = document.getElementById('sliderLabel');
+  if (running) {
+    slider.classList.add('on');
+    label.textContent = '开';
+    startTimer();
+    playConversation();
+  } else {
+    slider.classList.remove('on');
+    label.textContent = '关';
+    stopTimer();
+    document.getElementById('transcriptPanel').innerHTML = '<div class="hint">点击「开关」开始实时转写。</div>';
+    document.getElementById('convEndMark').classList.remove('show');
+    // 重置风险面板
+    detectedRisks.length = 0;
+    detectedSet.clear();
+    document.getElementById('riskBanner').className = 'risk-banner no-risk';
+    document.getElementById('riskBannerTitle').textContent = '🛡️ 风险研判中 — 正在实时检测对话内容';
+    document.getElementById('riskBannerDesc').textContent = '正在实时检测对话内容，风险研判中...';
+    document.getElementById('riskTagsTitle').style.display = 'none';
+    document.getElementById('riskBadge').style.display = 'none';
+    document.querySelectorAll('.risk-tag-card').forEach(c => c.remove());
+    // 重置故障研判
+    faultResearchStarted = false;
+    completedCount = 0;
+    document.getElementById('btnResearch').disabled = false;
+    document.getElementById('btnResearchText').textContent = '一键研判停电原因';
+    document.getElementById('faultProgressText').textContent = '待启动';
+    document.getElementById('faultProgressText').className = 'loading';
+    document.getElementById('faultBadge').style.display = 'none';
+    document.getElementById('thresholdFill').style.width = '0%';
+    document.getElementById('thresholdText').textContent = '8s';
+    document.getElementById('faultConclusion').classList.remove('show');
+    document.getElementById('faultResults').innerHTML = `
+      <div class="fault-empty">
+        <div class="empty-icon">⚡</div>
+        <div class="empty-text">点击上方按钮启动研判</div>
+        <div class="empty-hint">系统将自动查询9项停电关联信息</div>
+      </div>`;
+    // 重置通话状态
+    const badge = document.getElementById('callStatusBadge');
+    badge.textContent = '通话中';
+    badge.className = 'call-status-badge ongoing';
+    // 重置户号信息
+    document.getElementById('custHuhao').textContent = '——';
+    document.getElementById('custAddress').textContent = '——';
+  }
+}
+
+// ===== 导航切换 =====
+function switchPage(name) {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.querySelector('[data-page="' + name + '"]').classList.add('active');
+  const app = document.getElementById('trans-app');
+  if (name === 'transcribe') {
+    location.reload();
+  } else {
+    stopTimer();
+    app.innerHTML = '<div style="flex:1;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:15px">敬请期待</div>';
+  }
+}
+
+// ===== 初始化 =====
+startTimer();
+playConversation();
+</script>
+</body>
+</html>
