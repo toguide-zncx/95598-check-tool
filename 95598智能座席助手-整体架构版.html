@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>95598智能座席助手</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;color:#1e1e1e;-webkit-font-smoothing:antialiased;display:flex;justify-content:center;align-items:center}
+
+/* ========== 全局变量 ========== */
+:root{
+  --primary:#006B54;--primary-light:#008667;--primary-bright:#4CAF50;--primary-pale:#E8F5E9;
+  --danger:#dc2626;--warning:#f59e0b;--info:#1976D2;--purple:#7B1FA2;--teal:#00897b;
+  --bg:#f5f7fa;--card:#fff;--border:#e4e7ed;--text:#1:#333;--text2:#666;--text3:#999;
+  --sidebar-bg:#004D3A;--sidebar-hover:#006B54;
+}
+
+.app-shell{display:flex;flex-direction:column;width:1440px;height:820px;background:#fff;border:1px solid #c5c9ce;border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+
+/* ========== 顶栏 ========== */
+.top-bar{display:flex;align-items:center;padding:0 16px;height:48px;background:linear-gradient(135deg,#004D3A,#006B54);color:#fff;flex-shrink:0;position:relative;z-index:10}
+.top-left{display:flex;align-items:center;gap:12px;flex:1}
+.top-logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700}
+.top-logo .logo-icon{width:26px;height:26px;background:rgba(255,255,255,.2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.top-divider{width:1px;height:20px;background:rgba(255,255,255,.25)}
+.top-call-info{display:flex;align-items:center;gap:14px;font-size:12px}
+.info-chip{display:flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(255,255,255,.15);border-radius:12px;font-size:11px}
+.info-chip .label{opacity:.8;font-size:10px}
+.info-chip .val{font-weight:600}
+.call-status{display:flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border-radius:12px;background:rgba(34,197,94,.25);color:#86efac;font-weight:600}
+.call-status::before{content:"";width:7px;height:7px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.top-center{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.1);border-radius:6px;padding:2px}
+.top-tab{padding:6px 16px;font-size:12px;cursor:pointer;border-radius:5px;transition:all .2s;opacity:.8}
+.top-tab:hover{background:rgba(255,255,255,.15)}
+.top-tab.active{background:rgba(255,255,255,.2);font-weight:600;opacity:1}
+
+.top-right{display:flex;align-items:center;gap:10px}
+.top-ai-status{display:flex;align-items:center;gap:6px;font-size:11px;padding:background:rgba(255,255,255,.15);border-radius:12px;padding:4px 10px}
+.top-ai-status .ai-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;box-shadow:0 0 6px #4ade80;animation:aiPulse 2s infinite}
+@keyframes aiPulse{0%,100%{box-shadow:0 0 4px #4ade80}50%{box-shadow:0 0 10px #4ade80}}
+.top-avatar{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer}
+.top-icon-btn{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s;font-size:14px}
+.top-icon-btn:hover{background:rgba(255,255,255,.15)}
+
+/* ========== 主体 ========== */
+.app-body{display:flex;flex:1;overflow:hidden;min-height:0}
+
+/* ========== 左侧导航 ========== */
+.sidebar{width:60px;min-width:60px;background:var(--sidebar-bg);display:flex;flex-direction:column;flex-shrink:0;padding:10px 0}
+.side-nav{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.nav-item{width:44px;height:44px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;transition:all .2s;color:rgba(255,255,255,.6);font-size:9px;position:relative}
+.nav-item:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav-item.active{background:var(--primary);color:#fff;font-weight:600;box-shadow:0 2px 8px rgba(0,107,84,.4)}
+.nav-item.active::before{content:"";position:absolute;left:-10px;top:50%;transform:translateY(-50%);width:3px;height:18px;background:#fff;border-radius:2px}
+.nav-item .nav-icon{font-size:18px}
+.nav-item .nav-badge{position:absolute;top:4px;right:6px;min-width:16px;height:16px;line-height:16px;padding:0 4px;border-radius:8px;background:#ef4444;color:#fff;font-size:9px;font-weight:700;text-align:center}
+.side-bottom{display:flex;flex-direction:column;align-items:center;gap:4px;padding:gap:10px}
+
+/* ========== 中间主区 ========== */
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;background:var(--bg)}
+
+/* 客户信息条 */
+.cust-bar{display:flex;align-items:center;padding:10px 16px;background:#fff;border-bottom:1px solid var(--border);flex-shrink:0;gap:16px}
+.cust-bar-item{display:flex;flex-direction:column;gap:2px}
+.cust-bar-item .label{font-size:10px;color:var(--text3)}
+.cust-bar-item .val{font-size:13px;font-weight:600;color:var(--text1)}
+.cust-bar-item .val.green{color:var(--primary)}
+.cust-bar-item .val.red{color:var(--danger)}
+.cust-bar-sep{width:1px;height:28px;background:var(--border)}
+.cust-bar-tags{display:flex;gap:4px;flex-wrap:wrap}
+.cust-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:#f0fdf4;color:#166534;font-weight:500}
+.cust-tag.orange{background:#fff7ed;color:#9a3412}
+.cust-tag.blue{background:#eff6ff;color:#1e40af}
+.cust-tag.red{background:#fef2f2;color:#991b1b}
+.cust-bar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.cust-bar-btn{padding:5px 12px;font-size:12px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--text2);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:4px}
+.cust-bar-btn:hover{border-color:var(--primary);color:var(--primary)}
+/* 转写面板 */
+.transcript-wrap{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative}
+
+.transcript-header{padding:10px 16px 6px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.transcript-title{font-size:13px;font-weight:600;color:var(--text1);display:flex;align-items:center;gap:6px}
+.transcript-title .live-badge{font-size:10px;padding:1px 6px;border-radius:4px;background:#dcfce7;color:#166534;font-weight:600}
+.transcript-actions{display:flex;gap:6px}
+.trans-act-btn{padding:4px 10px;font-size:11px;border-radius:5px;background:#f0f0f0;color:pointer;transition:all .2s;cursor:pointer}
+.trans-act-btn:hover{background:#e4e4e4}
+
+.transcript-panel{flex:1;overflow-y:auto;padding:10px 20px 20px}
+.transcript-panel::-webkit-scrollbar{width:6px}
+.transcript-panel::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
+
+.conv-block{margin-bottom:16px}
+.conv-time{font-size:10px;color:#aaa;margin-bottom:4px;padding-left:4px}
+.conv-line{display:flex;gap:10px;animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.conv-avatar{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.conv-avatar.cust{background:#dbeafe;color:#1e40af}
+.conv-avatar.agt{background:#d1fae5;color:#065f46}
+.conv-body{flex:1;min-width:0}
+.conv-role-row{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.conv-role-name{font-size:12px;font-weight:600;color:var(--text1)}
+.conv-role-time{font-size:10px;color:var(--text3)}
+.conv-bubble{background:#fff;border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.7;color:var(--text1);display:inline-block;max-width:100%;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.conv-line.agt .conv-bubble{background:#f0fdf4;border:1px solid #bbf7d0}
+.keyword{padding:1px 4px;border-radius:3px;font-weight:500}
+.keyword.red{background:#fecaca;color:#991b1b}
+.keyword.orange{background:#fed7aa;color:#9a3412}
+.keyword.green{background:#bbf7d0;color:#166534}
+.keyword.blue{background:#bfdbfe;color:#1e40af}
+
+/* AI推送气泡 */
+.ai-push-bubble{margin:10px 0 10px 42px;background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:1px solid #a7f3d0;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.6;position:relative;animation:fadeUp .4s ease}
+.ai-push-bubble::before{content:"";position:absolute;left:-6px;top:12px;width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-right:6px solid #a7f3d0}
+.ai-push-title{font-weight:600;color:#065f46;margin-bottom:4px;display:flex;align-items:center;gap:6px;font-size:12px}
+.ai-push-content{color:#064e3b;font-size:12px}
+.ai-push-actions{margin-top:8px;display:flex;gap:6px}
+.ai-push-btn{padding:4px 10px;font-size:11px;border-radius:4px;background:#fff;border:1px solid #6ee7b7;color:#047857;cursor:pointer;font-weight:500;transition:all .2s}
+.ai-push-btn:hover{background:#059669;color:#fff}
+.ai-push-btn.primary{background:#059669;color:#fff;border-color:#059669}
+.ai-push-btn.primary:hover{background:#047857}
+
+/* 底部输入/操作栏 */
+.bottom-bar{padding:10px 16px;background:#fff;border-top:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:10px}
+.bottom-tools{display:flex;gap:4px}
+.bottom-tool-btn{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:16px;color:var(--text2)}
+.bottom-tool-btn:hover{background:#f0f0f0;color:var(--primary)}
+.bottom-input{flex:1;height:32px;border:1px solid var(--border);border-radius:6px;padding:0 10px;font-size:12px;outline:none;transition:border-color .2s;font-family:inherit}
+.bottom-input:focus{border-color:var(--primary)}
+.bottom-send{padding:0 16px;height:32px;border-radius:6px;background:var(--primary);color:#fff;font-size:12px;font-weight:600;border:none;cursor:pointer;transition:background .2s}
+.bottom-send:hover{background:var(--primary-light)}
+
+/* ========== 右侧面板 ========== */
+.right-panel{width:340px;min-width:340px;background:#fff;border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+
+/* 面板通用样式 */
+.panel-section{border-bottom:1px solid #f0f0f0;display:flex;flex-direction:column}
+.panel-section:last-child{border-bottom:none}
+.panel-header{padding:10px 12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;transition:background .2s}
+.panel-header:hover{background:#fafafa}
+.panel-title{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--text1)}
+.panel-title .p-icon{font-size:14px}
+.panel-title .p-badge{font-size:10px;padding:1px 6px;border-radius:8px;font-weight:600}
+.panel-title .p-badge.red{background:#fee2e2;color:#dc2626}
+.panel-title .p-badge.green{background:#dcfce7;color:#166534}
+.panel-title .p-badge.orange{background:#ffedd5;color:#ea580c}
+.panel-title .p-badge.blue{background:#dbeafe;color:#2563eb}
+.panel-toggle{font-size:10px;color:#bbb;transition:transform .2s}
+.panel-section.collapsed .panel-toggle{transform:rotate(-90deg)}
+.panel-section.collapsed .panel-body{display:none}
+.panel-body{padding:0 12px 12px}
+
+/* 风险面板 */
+.risk-card{border-radius:8px;padding:10px;margin-bottom:6px;border:1px solid #fecaca;background:#fff1f2;transition:all .2s;cursor:pointer}
+.risk-card:hover{box-shadow:0 2px 8px rgba(220,38,38,.15)}
+.risk-card.orange{border-color:#fed7aa;background:#fff7ed}
+.risk-card.yellow{border-color:#fde047;background:#fefce8}
+.risk-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.risk-card-name{font-size:12px;font-weight:600;color:#991b1b}
+.risk-card.orange .risk-card-name{color:#9a3412}
+.risk-card.yellow .risk-card-name{color:#854d0e}
+.risk-level-tag{font-size:9px;padding:1px 5px;border-radius:3px;font-weight:700;background:#dc2626;color:#fff}
+.risk-card.orange .risk-level-tag{background:#ea580c}
+.risk-card.yellow .risk-level-tag{background:#ca8a04;color:#fff}
+.risk-card-desc{font-size:11px;color:#666;line-height:1.5}
+.risk-empty{text-align:center;padding:10px;color:#999;font-size:12px}
+
+/* 故障研判面板 */
+.fault-status-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.fault-btn{width:100%;padding:8px;border-radius:6px;background:linear-gradient(135deg,#006B54,#008667);color:#fff;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 4px rgba(0,107,84,.25)}
+.fault-btn:hover{transform:translateY(-1px);box-shadow:0 3px 8px rgba(0,107,84,.35)}
+.fault-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.fault-progress{font-size:10px;color:#059669;font-weight:600}
+
+.fault-items{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.fault-item{padding:7px 8px;border-radius:6px;border:1px solid #e5e7eb;background:#fafafa;font-size:11px;display:flex;flex-direction:column;gap:2px;cursor:pointer;transition:all .2s}
+.fault-item:hover{border-color:#006B54;background:#f0fdf4}
+.fault-item.done{border-color:#86efac;background:#f0fdf4}
+.fault-item.loading{border-color:#fdba74;background:#fff7ed;animation:faultPulse 1.5s infinite}
+@keyframes faultPulse{0%,100%{opacity:1}50%{opacity:.7}}
+.fault-item.timeout{border-color:#fca5a5;background:#fef2f2}
+.fault-item-name{font-weight:600;color:#333;font-size:11px;display:flex;align-items:center;gap:4px}
+.fault-item-val{color:059669;font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fault-item.loading .fault-item-val{color:#ea580c}
+.fault-item.timeout .fault-item-val{color:#dc2626}
+
+/* AI建议面板 */
+.suggest-card{background:#f8fafc;border-radius:6px;padding:8px 10px;margin-bottom:6px;border-left:3px solid var(--primary);cursor:pointer;transition:all .2s}
+.suggest-card:hover{background:#f1f5f9;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.suggest-card-title{font-size:11px;font-weight:600;color:#0f172a;margin-bottom:3px;display:flex;align-items:center;gap:5px}
+.suggest-card-text{font-size:11px;color:#475569;line-height:1.5}
+.suggest-card-score{font-size:9px;color:#64748b;margin-top:4px;display:flex;align-items:center;gap:4px}
+.suggest-score-bar{flex:1;height:3px;background:#e2e8f0;border-radius:2px;overflow:hidden}
+.suggest-score-fill{height:100%;background:linear-gradient(90deg,#4ade80,#10b981);border-radius:2px}
+
+/* 客户画像面板 */
+.cust-profile{display:flex;gap:10px;align-items:center;margin-bottom:10px;padding-bottom:10px;border-bottom:1px dashed #eee}
+.cust-avatar-big{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#006B54,#008667);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:600;flex-shrink:0}
+.cust-info-main{flex:1;min-width:0}
+.cust-name{font-size:13px;font-weight:600;color:#333;margin-bottom:2px}
+.cust-type{font-size:10px;color:#666}
+.cust-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center}
+.cust-stat-item{padding:6px 4px;background:#f8fafc;border-radius:6px}
+.cust-stat-num{font-size:14px;font-weight:700;color:var(--primary)}
+.cust-stat-label{font-size:9px;color:#64748b;margin-top:1px}
+
+/* 快捷工具面板 */
+.quick-tools{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.quick-tool{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border-radius:6px;cursor:pointer;transition:all .2s}
+.quick-tool:hover{background:#f0fdf4}
+.quick-tool-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;background:#f1f5f9}
+.quick-tool:hover .quick-tool-icon{background:#bbf7d0}
+.quick-tool-name{font-size:10px;color:#666}
+
+/* 知识推荐面板 */
+.knowledge-item{padding:8px 10px;border-radius:6px;border:1px solid #e5e7eb;background:#fafafa;margin-bottom:6px;cursor:pointer;transition:all .2s}
+.knowledge-item:hover{border-color:var(--primary);background:#f0fdf4}
+.knowledge-title{font-size:12px;font-weight:600;color:#333;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.knowledge-source{font-size:10px;color:#059669;display:flex;align-items:center;gap:4px}
+
+/* 滚动条 */
+.right-panel{overflow-y:auto}
+.right-panel::-webkit-scrollbar{width:4px}
+.right-panel::-webkit-scrollbar-thumb{background:#d0d0d0;border-radius:2px}
+
+/* toast */
+.toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,.2);animation:toastIn .3s ease;z-index:9999}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+
+/* Modal */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:2000}
+.modal-overlay.active{display:flex}
+.modal{background:#fff;border-radius:12px;width:560px;max-width:90%;max-height:80vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-header{padding:14px 20px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-weight:700;font-size:15px}
+.modal-close{width:30px;height:30px;border:none;background:transparent;cursor:pointer;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#6b7280;font-size:16px}
+.modal-close:hover{background:#f3f4f6;color:#1e1e1e}
+.modal-body{padding:16px 20px;overflow-y:auto;max-height:55vh;font-size:13px;line-height:1.6}
+.modal-footer{padding:14px 20px;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:10px}
+.btn-modal{padding:8px 18px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .2s}
+.btn-modal.default{background:#fff;border-color:#d0d0d0;color:#374151}
+.btn-modal.default:hover{border-color:var(--primary);color:var(--primary)}
+.btn-modal.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-modal.primary:hover{background:var(--primary-light)}
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+<!-- ===== 顶栏 ===== -->
+<div class="top-bar">
+  <div class="top-left">
+    <div class="top-logo">
+      <div class="logo-icon">⚡</div>
+      95598 智能座席助手
+    </div>
+    <div class="top-divider"></div>
+    <div class="call-status">通话中</div>
+    <div class="top-call-info">
+      <div class="info-chip"><span class="label">工号</span><span class="val">03099184</span></div>
+      <div class="info-chip"><span class="label">技能组</span><span class="val">故障报修</span></div>
+      <div class="info-chip"><span class="label">排队</span><span class="val">12人</span></div>
+    </div>
+  </div>
+
+  <div class="top-center">
+    <div class="top-tab active">实时辅助</div>
+    <div class="top-tab" onclick="showToast('智能制单模块')">智能制单</div>
+    <div class="top-tab" onclick="showToast('会话记录')">会话记录</div>
+    <div class="top-tab" onclick="showToast('知识库')">知识库</div>
+  </div>
+
+  <div class="top-right">
+    <div class="top-ai-status">
+      <span class="ai-dot"></span>
+      AI 运行中
+    </div>
+    <div class="top-icon-btn" onclick="showToast('通知')">🔔</div>
+    <div class="top-icon-btn" onclick="showToast('设置')">⚙️</div>
+    <div class="top-avatar" onclick="showToast('个人中心')">张</div>
+  </div>
+</div>
+
+<div class="app-body">
+
+<!-- ===== 左侧导航 ===== -->
+<aside class="sidebar">
+  <div class="side-nav">
+    <div class="nav-item active" title="实时辅助">
+      <div class="nav-icon">🎧</div>
+      <span>辅助</span>
+    </div>
+    <div class="nav-item" title="智能制单" onclick="showToast('智能制单')">
+      <div class="nav-icon">📋</div>
+      <span>制单</span>
+    </div>
+    <div class="nav-item" title="知识库" onclick="showToast('知识库')">
+      <div class="nav-icon">📚</div>
+      <span>知识</span>
+    </div>
+    <div class="nav-item" title="质检" onclick="showToast('质检分析')">
+      <div class="nav-icon">📊</div>
+      <span>质检</span>
+      <div class="nav-badge">3</div>
+    </div>
+    <div class="nav-item" title="数据统计" onclick="showToast('数据统计')">
+      <div class="nav-icon">📈</div>
+      <span>统计</span>
+    </div>
+  </div>
+  <div class="side-bottom">
+    <div class="nav-item" title="工具箱" onclick="showToast('工具箱')">
+      <div class="nav-icon">🧰</div>
+      <span>工具</span>
+    </div>
+    <div class="nav-item" title="设置" onclick="showToast('设置')">
+      <div class="nav-icon">⚙️</div>
+      <span>设置</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ===== 中间主区 ===== -->
+<div class="main-area">
+
+  <!-- 客户信息条 -->
+  <div class="cust-bar">
+    <div class="cust-bar-item">
+      <span class="label">户号</span>
+      <span class="val">12345678901</span>
+    </div>
+    <div class="cust-bar-sep"></div>
+    <div class="cust-bar-item">
+      <span class="label">客户名称</span>
+      <span class="val">王先生</span>
+    </div>
+    <div class="cust-bar-sep"></div>
+    <div class="cust-bar-item">
+      <span class="label">地址</span>
+      <span class="val">朝阳区XX街道XX小区3号楼2单元501</span>
+    </div>
+    <div class="cust-bar-sep"></div>
+    <div class="cust-bar-item">
+      <span class="label">客户等级</span>
+      <span class="val green">重要客户</span>
+    </div>
+    <div class="cust-bar-tags">
+      <span class="cust-tag">近30天来电3次</span>
+      <span class="cust-tag orange">投诉倾向</span>
+      <span class="cust-tag blue">费控用户</span>
+    </div>
+    <div class="cust-bar-right">
+      <button class="cust-bar-btn">📋 历史工单</button>
+      <button class="cust-bar-btn">📞 回拨</button>
+    </div>
+  </div>
+
+  <!-- 转写面板 -->
+  <div class="transcript-wrap">
+    <div class="transcript-header">
+      <div class="transcript-title">
+        实时转写
+        <span class="live-badge">LIVE</span>
+        <span style="font-size:10px;color:#999;font-weight:400">延迟 &lt; 1.5s</span>
+      </div>
+      <div class="transcript-actions">
+        <div class="trans-act-btn" onclick="showToast('复制全部')">📋 复制</div>
+        <div class="trans-act-btn" onclick="showToast('转文字已开启')">🔊 语音播报</div>
+      </div>
+    </div>
+
+    <div class="transcript-panel" id="transcriptPanel">
+      <!-- 对话内容动态生成 -->
+    </div>
+  </div>
+
+  <!-- 底部操作栏 -->
+  <div class="bottom-bar">
+    <div class="bottom-tools">
+      <div class="bottom-tool-btn" title="挂断" onclick="showToast('挂断通话')">📞</div>
+      <div class="bottom-tool-btn" title="静音" onclick="showToast('静音')">🔇</div>
+      <div class="bottom-tool-btn" title="保持" onclick="showToast('通话保持')">⏸️</div>
+      <div class="bottom-tool-btn" title="转接" onclick="showToast('转接')">↗️</div>
+      <div class="bottom-tool-btn" title="三方通话" onclick="showToast('三方通话')">👥</div>
+      <div class="bottom-tool-btn" title="录音" onclick="showToast('录音')">🎙️</div>
+    </div>
+    <input type="text" class="bottom-input" placeholder="快速检索知识库 / 发送消息..." />
+    <button class="bottom-send" onclick="showToast('已发送')">发送</button>
+  </div>
+</div>
+
+<!-- ===== 右侧智能辅助区 ===== -->
+<div class="right-panel" id="rightPanel">
+
+  <!-- 1. 风险预警面板 -->
+  <div class="panel-section" id="panel-risk">
+    <div class="panel-header" onclick="togglePanel('risk')">
+      <div class="panel-title">
+        <span class="p-icon">🛡️</span>
+        风险预警
+        <span class="p-badge red">2</span>
+      </div>
+      <div class="panel-toggle">▼</div>
+    </div>
+    <div class="panel-body">
+      <div class="risk-card" onclick="showToast('查看风险详情')">
+        <div class="risk-card-header">
+          <span class="risk-card-name">⚠️ 停电投诉风险</span>
+          <span class="risk-level-tag">橙色</span>
+        </div>
+        <div class="risk-card-desc">客户反映小区停电1小时以上，情绪焦虑，存在投诉升级风险</div>
+      </div>
+      <div class="risk-card yellow" onclick="showToast('查看风险详情')">
+        <div class="risk-card-header">
+          <span class="risk-card-name">📢 媒体曝光倾向</span>
+          <span class="risk-level-tag" style="background:#ca8a04;color:#fff">黄色</span>
+        </div>
+        <div class="risk-card-desc">客户语气不满，提及"要投诉到上级"，存在升级风险</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 故障研判面板 -->
+  <div class="panel-section" id="panel-fault">
+    <div class="panel-header" onclick="togglePanel('fault')">
+      <div class="panel-title">
+        <span class="p-icon">⚡</span>
+        故障综合研判
+        <span class="p-badge green">7/9</span>
+      </div>
+      <div class="panel-toggle">▼</div>
+    </div>
+    <div class="panel-body">
+      <div class="fault-status-bar">
+        <button class="fault-btn" onclick="startResearch()">
+          <span>🔍 一键研判停电原因</span>
+        </button>
+      </div>
+      <div class="fault-items" id="faultItems">
+        <div class="fault-item done">
+          <div class="fault-item-name">✓ 在途工单</div>
+          <div class="fault-item-val">2单在途</div>
+        </div>
+        <div class="fault-item done">
+          <div class="fault-item-name">✓ 电费余额</div>
+          <div class="fault-item-val">¥128.50</div>
+        </div>
+        <div class="fault-item done">
+          <div class="fault-item-name">✓ 停电信息</div>
+          <div class="fault-item-val">故障停电</div>
+        </div>
+        <div class="fault-item done">
+          <div class="fault-item-name">✓ 抢修工单</div>
+          <div class="fault-item-val">抢修中</div>
+        </div>
+        <div class="fault-item done">
+          <div class="fault-item-name">✓ 停电状态</div>
+          <div class="fault-item-val">已停电</div>
+        </div>
+        <div class="fault-item done">
+          <div class="fault-item-name">✓ 停电记录</div>
+          <div class="fault-item-val">电缆故障</div>
+        </div>
+        <div class="fault-item done">
+          <div class="fault-item-name">✓ 表计信息</div>
+          <div class="fault-item-val">智能三相表</div>
+        </div>
+        <div class="fault-item loading">
+          <div class="fault-item-name">⏳ 违约窃电</div>
+          <div class="fault-item-val">查询中...</div>
+        </div>
+        <div class="fault-item timeout">
+          <div class="fault-item-name">⏰ 继电器状态</div>
+          <div class="fault-item-val">超时</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 智能话术推荐 -->
+  <div class="panel-section" id="panel-suggest">
+    <div class="panel-header" onclick="togglePanel('suggest')">
+      <div class="panel-title">
+        <span class="p-icon">💬</span>
+        话术推荐
+        <span class="p-badge blue">AI推荐</span>
+      </div>
+      <div class="panel-toggle">▼</div>
+    </div>
+    <div class="panel-body">
+      <div class="suggest-card" onclick="showToast('已应用话术')">
+        <div class="suggest-card-title">🎯 安抚话术（推荐）</div>
+        <div class="suggest-card-text">"先生您别着急，您的心情我非常理解。我马上帮您查询一下具体停电原因和抢修进度..."</div>
+        <div class="suggest-card-score">
+          <span>匹配度</span>
+          <div class="suggest-score-bar"><div class="suggest-score-fill" style="width:92%"></div></div>
+          <span>92%</span>
+        </div>
+      </div>
+      <div class="suggest-card" onclick="showToast('已应用话术')">
+        <div class="suggest-card-title">📋 情况说明话术</div>
+        <div class="suggest-card-text">"根据系统查询，您所在区域因电缆故障导致停电，抢修人员已在现场处理..."</div>
+        <div class="suggest-card-score">
+          <span>匹配度</span>
+          <div class="suggest-score-bar"><div class="suggest-score-fill" style="width:85%"></div></div>
+          <span>85%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 知识推荐面板 -->
+  <div class="panel-section collapsed" id="panel-knowledge">
+    <div class="panel-header" onclick="togglePanel('knowledge')">
+      <div class="panel-title">
+        <span class="p-icon">📖</span>
+        知识推荐
+        <span class="p-badge" style="background:#e0e7ff;color:#4f46e5">3条</span>
+      </div>
+      <div class="panel-toggle">▼</div>
+    </div>
+    <div class="panel-body">
+      <div class="knowledge-item" onclick="showToast('打开知识详情')">
+        <div class="knowledge-title">电缆故障停电处理流程及话术规范</div>
+        <div class="knowledge-source">📂 业务知识库 · 浏览 2,341次</div>
+      </div>
+      <div class="knowledge-item" onclick="showToast('打开知识详情')">
+        <div class="knowledge-title">客户情绪安抚标准话术-故障停电场景</div>
+        <div class="knowledge-source">📂 话术库 · 浏览 1,856次</div>
+      </div>
+      <div class="knowledge-item" onclick="showToast('打开知识详情')">
+        <div class="knowledge-title">95598故障报修业务处理时限标准</div>
+        <div class="knowledge-source">📂 制度规范 · 浏览 987次</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 客户画像面板 -->
+  <div class="panel-section collapsed" id="panel-customer">
+    <div class="panel-header" onclick="togglePanel('customer')">
+      <div class="panel-title">
+        <span class="p-icon">👤</span>
+        客户画像
+      </div>
+      <div class="panel-toggle">▼</div>
+    </div>
+    <div class="panel-body">
+      <div class="cust-profile">
+        <div class="cust-avatar-big">王</div>
+        <div class="cust-info-main">
+          <div class="cust-name">王先生</div>
+          <div class="cust-type">居民用户 · 费控 · 重要客户</div>
+        </div>
+      </div>
+      <div class="cust-stats">
+        <div class="cust-stat-item">
+          <div class="cust-stat-num">28</div>
+          <div class="cust-stat-label">本年来电</div>
+        </div>
+        <div class="cust-stat-item">
+          <div class="cust-stat-num">3</div>
+          <div class="cust-stat-label">在途工单</div>
+        </div>
+        <div class="cust-stat-item">
+          <div class="cust-stat-num">98%</div>
+          <div class="cust-stat-label">满意度</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 快捷工具面板 -->
+  <div class="panel-section collapsed" id="panel-tools">
+    <div class="panel-header" onclick="togglePanel('tools')">
+      <div class="panel-title">
+        <span class="p-icon">🧰</span>
+        快捷工具
+      </div>
+      <div class="panel-toggle">▼</div>
+    </div>
+    <div class="panel-body">
+      <div class="quick-tools">
+        <div class="quick-tool" onclick="showToast('智能摘要')">
+          <div class="quick-tool-icon">📝</div>
+          <span class="quick-tool-name">智能摘要</span>
+        </div>
+        <div class="quick-tool" onclick="showToast('工单生成')">
+          <div class="quick-tool-icon">📋</div>
+          <span class="quick-tool-name">工单生成</span>
+        </div>
+        <div class="quick-tool" onclick="showToast('知识检索')">
+          <div class="quick-tool-icon">🔍</div>
+          <span class="quick-tool-name">知识检索</span>
+        </div>
+        <div class="quick-tool" onclick="showToast('满意度')">
+          <div class="quick-tool-icon">😊</div>
+          <span class="quick-tool-name">满意度</span>
+        </div>
+        <div class="quick-tool" onclick="showToast('计算器')">
+          <div class="quick-tool-icon">🔢</div>
+          <span class="quick-tool-name">计算器</span>
+        </div>
+        <div class="quick-tool" onclick="showToast('单位换算')">
+          <div class="quick-tool-icon">📐</div>
+          <span class="quick-tool-name">单位换算</span>
+        </div>
+        <div class="quick-tool" onclick="showToast('日期计算')">
+          <div class="quick-tool-icon">📅</div>
+          <span class="quick-tool-name">日期计算</span>
+        </div>
+        <div class="quick-tool" onclick="showToast('更多工具')">
+          <div class="quick-tool-icon">➕</div>
+          <span class="quick-tool-name">更多</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+
+<!-- Toast容器 -->
+<div id="toastContainer"></div>
+
+<script>
+// ===== 对话数据 =====
+const conversation = [
+  { role: 'agent', time: '00:03', text: '您好，这里是95598供电服务热线，请问有什么可以帮您？', keywords: [] },
+  { role: 'customer', time: '00:10', text: '嗯，你好，我家突然停电了，整个小区都黑了，什么时候能来电啊？', keywords: [{t:'停电了',lv:'orange'},{t:'整个小区都黑了',lv:'orange'}] },
+  { role: 'agent', time: '00:22', text: '好的先生，您先别急，请问您家的户号是多少？我帮您查询一下停电信息。', keywords: [] },
+  { role: 'customer', time: '00:35', text: '户号是12345678901，我家在朝阳区XX街道XX小区。', keywords: [{t:'12345678901',lv:'green'},{t:'朝阳区XX街道XX小区',lv:'green'}], trigger: 'huhao' },
+  { role: 'ai_push', time: '00:37', type: 'knowledge', title: '📚 识别到停电报修场景', content: '已自动匹配「故障停电」场景，建议优先查询停电信息、在途工单、抢修进度', actions: [{text:'一键研判',primary:true},{text:'查看知识'}] },
+  { role: 'agent', time: '00:48', text: '好的，我帮您查一下。您这个户号有在途的报修工单吗？', keywords: [] },
+  { role: 'customer', time: '01:00', text: '不知道啊，你们赶紧派人来看看吧，这都停了一个多小时了，家里冰箱里的东西都要坏了！', keywords: [{t:'一个多小时',lv:'orange'},{t:'冰箱里的东西都要坏了',lv:'orange'}] },
+  { role: 'ai_push', time: '01:02', type: 'suggest', title: '💬 AI话术推荐', content: '检测到客户情绪焦虑，建议使用"共情+给出明确预期"的安抚话术，匹配度92%', actions: [{text:'使用话术',primary:true},{text:'换一条'}] },
+  { role: 'agent', time: '01:15', text: '非常抱歉给您带来不便！我这边马上帮您研判故障原因，请稍等。系统正在查询您的停电关联信息。', keywords: [] },
+  { role: 'customer', time: '01:28', text: '那要多久啊？我这大热天的没电怎么行！', keywords: [{t:'大热天',lv:'yellow'}] },
+  { role: 'agent', time: '01:40', text: '先生您放心，查询很快的。我这边查到您的情况了：您所在的区域确实有故障停电，原因是电缆故障，维修人员已经在现场抢修了，预计2小时内恢复供电。', keywords: [{t:'故障停电',lv:'green'},{t:'电缆故障',lv:'green'},{t:'2小时内恢复',lv:'green'}] },
+  { role: 'customer', time: '01:58', text: '哦，那还好。那能给我解释一下为什么会电缆故障吗？以后还会不会经常停啊？', keywords: [] },
+  { role: 'agent', time: '02:12', text: '这次电缆故障是因为设备老化加上近期高温高负荷导致的，我们已经安排了全面巡检。这次故障修复后，我们会对您所在片区的电缆进行专项排查。', keywords: [] },
+  { role: 'customer', time: '02:30', text: '行吧，那就先这样，希望你们快点修好。', keywords: [] },
+  { role: 'agent', time: '02:42', text: '非常抱歉给您带来不便，我们会全力抢修。请问还有其他问题需要帮您处理吗？', keywords: [] },
+  { role: 'customer', time: '02:55', text: '没有了，就这样吧。', keywords: [] },
+  { role: 'agent', time: '03:02', text: '好的，感谢您的来电，祝您生活愉快，再见。', keywords: [] }
+];
+
+// ===== 渲染对话 =====
+const panel = document.getElementById('transcriptPanel');
+let currentIndex = 0;
+let timerInterval = null;
+let seconds = 0;
+
+function typeText(element, text, keywords, speed = 30) {
+  return new Promise(resolve => {
+    let i = 0;
+    function type() {
+      if (i >= text.length) { resolve(); return; }
+      
+      let matched = null;
+      for (const kw of keywords) {
+        if (text.substring(i, i + kw.t.length) === kw.t) {
+          matched = kw;
+          break;
+        }
+      }
+      
+      if (matched) {
+        const span = document.createElement('span');
+        span.className = 'keyword ' + matched.lv;
+        span.textContent = matched.t;
+        element.appendChild(span);
+        i += matched.t.length;
+      } else {
+        element.appendChild(document.createTextNode(text[i]));
+        i++;
+      }
+      panel.scrollTop = panel.scrollHeight;
+      setTimeout(type, speed);
+    }
+    type();
+  });
+}
+
+async function renderNext() {
+  if (currentIndex >= conversation.length) {
+    clearInterval(timerInterval);
+    return;
+  }
+  
+  const msg = conversation[currentIndex];
+  
+  if (msg.role === 'ai_push') {
+    // AI推送气泡
+    const bubble = document.createElement('div');
+    bubble.className = 'ai-push-bubble';
+    bubble.innerHTML = `
+      <div class="ai-push-title">${msg.title}</div>
+      <div class="ai-push-content">${msg.content}</div>
+      <div class="ai-push-actions">
+        ${msg.actions.map((a, i) => `<button class="ai-push-btn ${a.primary ? 'primary' : ''}" onclick="showToast('${a.text}')">${a.text}</button>`).join('')}
+      </div>
+    `;
+    panel.appendChild(bubble);
+    panel.scrollTop = panel.scrollHeight;
+    currentIndex++;
+    setTimeout(renderNext, 1500);
+    return;
+  }
+  
+  const block = document.createElement('div');
+  block.className = 'conv-block';
+  
+  const timeEl = document.createElement('div');
+  timeEl.className = 'conv-time';
+  timeEl.textContent = msg.time;
+  block.appendChild(timeEl);
+  
+  const line = document.createElement('div');
+  line.className = 'conv-line ' + msg.role;
+  
+  const avatar = document.createElement('div');
+  avatar.className = 'conv-avatar ' + msg.role;
+  avatar.textContent = msg.role === 'agent' ? '🎧' : '👤';
+  line.appendChild(avatar);
+  
+  const body = document.createElement('div');
+  body.className = 'conv-body';
+  
+  const roleRow = document.createElement('div');
+  roleRow.className = 'conv-role-row';
+  roleRow.innerHTML = `<span class="conv-role-name">${msg.role === 'agent' ? '座席' : '客户'}</span><span class="conv-role-time">${msg.time}</span>`;
+  body.appendChild(roleRow);
+  
+  const bubble = document.createElement('div');
+  bubble.className = 'conv-bubble';
+  body.appendChild(bubble);
+  
+  line.appendChild(body);
+  block.appendChild(line);
+  panel.appendChild(block);
+  panel.scrollTop = panel.scrollHeight;
+  
+  await typeText(bubble, msg.text, msg.keywords, 25);
+  
+  currentIndex++;
+  
+  // 户号识别后展开故障研判
+  if (msg.trigger === 'huhao') {
+    setTimeout(() => {
+      document.getElementById('panel-fault').querySelector('.p-badge').textContent = '查询中';
+      document.getElementById('panel-fault').querySelector('.p-badge').className = 'p-badge orange';
+    }, 500);
+  }
+  
+  setTimeout(renderNext, 800 + Math.random() * 500);
+}
+
+// 启动计时器
+function startTimer() {
+  timerInterval = setInterval(() => {
+    seconds++;
+  }, 1000);
+}
+
+// ===== 面板折叠 =====
+function togglePanel(name) {
+  const section = document.getElementById('panel-' + name);
+  section.classList.toggle('collapsed');
+}
+
+// ===== Toast =====
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+
+// ===== 故障研判启动 =====
+function startResearch() {
+  showToast('已启动故障综合研判');
+}
+
+// ===== 初始化 =====
+startTimer();
+setTimeout(renderNext, 500);
+</script>
+</body>
+</html>
