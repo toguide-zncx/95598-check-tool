@@ -207,13 +207,33 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
 .cust-stat-num{font-size:14px;font-weight:700;color:var(--primary)}
 .cust-stat-label{font-size:9px;color:#64748b;margin-top:1px}
 
-/* 快捷工具面板 */
-.quick-tools{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.quick-tool{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border-radius:6px;cursor:pointer;transition:all .2s}
-.quick-tool:hover{background:#f0fdf4}
-.quick-tool-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;background:#f1f5f9}
-.quick-tool:hover .quick-tool-icon{background:#bbf7d0}
-.quick-tool-name{font-size:10px;color:#666}
+/* AI工具箱面板 */
+.ai-tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ai-tool-card{padding:10px 10px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
+.ai-tool-card::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--primary);opacity:0;transition:opacity .25s}
+.ai-tool-card:hover{border-color:var(--primary);transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,107,84,.15)}
+.ai-tool-card:hover::before{opacity:1}
+.ai-tool-card:active{transform:translateY(0)}
+.ai-tool-head{display:flex;align-items:center;gap:7px}
+.ai-tool-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.ai-tool-icon.green{background:#d1fae5;color:#065f46}
+.ai-tool-icon.blue{background:#dbeafe;color:#1e40af}
+.ai-tool-icon.orange{background:#fed7aa;color:#9a3412}
+.ai-tool-icon.purple{background:#e9d5ff;color:#7c3aed}
+.ai-tool-icon.teal{background:#99f6e4;color:#115e59}
+.ai-tool-icon.red{background:#fecaca;color:#991b1b}
+.ai-tool-name{font-size:12px;font-weight:600;color:#333}
+.ai-tool-desc{font-size:10px;color:#999;line-height:1.4}
+.ai-tool-tag{font-size:9px;padding:1px 5px;border-radius:3px;font-weight:500;display:inline-block}
+.ai-tool-tag.hot{background:#fee2e2;color:#dc2626}
+.ai-tool-tag.new{background:#dbeafe;color:#2563eb}
+.ai-tool-tag.comm{background:#dcfce7;color:#166534}
+.ai-more-card{border:1px dashed #d1d5db;background:#fafafa;align-items:center;justify-content:center;display:flex;flex-direction:column;gap:4px;padding:16px 10px}
+.ai-more-card:hover{border-color:var(--primary);background:#f0fdf4}
+.ai-more-card .more-icon{font-size:20px;color:#999}
+.ai-more-card:hover .more-icon{color:var(--primary)}
+.ai-more-card .more-text{font-size:11px;color:#999}
+.ai-more-card:hover .more-text{color:var(--primary)}
 
 /* 知识推荐面板 */
 .knowledge-item{padding:8px 10px;border-radius:6px;border:1px solid #e5e7eb;background:#fafafa;margin-bottom:6px;cursor:pointer;transition:all .2s}
@@ -245,6 +265,29 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
 .btn-modal.default:hover{border-color:var(--primary);color:var(--primary)}
 .btn-modal.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
 .btn-modal.primary:hover{background:var(--primary-light)}
+
+/* 工具模态框内容样式 */
+.tool-modal-body{padding:0}
+.tool-modal-header{padding:14px 20px;background:linear-gradient(135deg,#006B54,#008667);color:#fff;display:flex;align-items:center;gap:10px}
+.tool-modal-header .tm-icon{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:16px}
+.tool-modal-header .tm-title{font-size:15px;font-weight:600}
+.tool-modal-header .tm-close{margin-left:auto;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;background:transparent;border:none;color:#fff;opacity:.8}
+.tool-modal-header .tm-close:hover{background:rgba(255,255,255,.2);opacity:1}
+.tool-modal-content{padding:16px 20px;max-height:45vh;overflow-y:auto}
+.tool-result-area{background:#f8fafc;border-radius:8px;padding:14px;margin-bottom:14px;border:1px solid #e2e8f0;min-height:100px}
+.tool-result-area.loading{display:flex;align-items:center;justify-content:center;gap:10px;color:#64748b;font-size:13px}
+.tool-result-area.loading::before{content:"";width:16px;height:16px;border:2px solid #cbd5e1;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tool-action-row{display:flex;gap:8px;margin-top:12px}
+.tool-input{width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;outline:none;font-family:inherit;transition:border-color .2s}
+.tool-input:focus{border-color:var(--primary)}
+.tool-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:6px;display:block}
+.tool-select{width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;outline:none;background:#fff;font-family:inherit}
+.tool-summary-item{padding:8px 0;border-bottom:1px dashed #e5e7eb;display:flex;gap:10px}
+.tool-summary-item:last-child{border-bottom:none}
+.tool-summary-label{font-size:12px;color:#6b7280;min-width:70px;flex-shrink:0}
+.tool-summary-val{font-size:12px;color:#1f2937;flex:1;line-height:1.5}
+.tool-summary-val.highlight{color:var(--primary);font-weight:600}
 </style>
 </head>
 <body>
@@ -267,10 +310,10 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
   </div>
 
   <div class="top-center">
-    <div class="top-tab active">实时辅助</div>
-    <div class="top-tab" onclick="showToast('智能制单模块')">智能制单</div>
-    <div class="top-tab" onclick="showToast('会话记录')">会话记录</div>
-    <div class="top-tab" onclick="showToast('知识库')">知识库</div>
+    <div class="top-tab active" onclick="switchTopTab(this)">实时辅助</div>
+    <div class="top-tab" onclick="switchTopTab(this)">智能制单</div>
+    <div class="top-tab" onclick="switchTopTab(this)">会话记录</div>
+    <div class="top-tab" onclick="switchTopTab(this)">知识库</div>
   </div>
 
   <div class="top-right">
@@ -289,34 +332,34 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
 <!-- ===== 左侧导航 ===== -->
 <aside class="sidebar">
   <div class="side-nav">
-    <div class="nav-item active" title="实时辅助">
+    <div class="nav-item active" title="实时辅助" onclick="switchNav(this)">
       <div class="nav-icon">🎧</div>
       <span>辅助</span>
     </div>
-    <div class="nav-item" title="智能制单" onclick="showToast('智能制单')">
+    <div class="nav-item" title="智能制单" onclick="switchNav(this)">
       <div class="nav-icon">📋</div>
       <span>制单</span>
     </div>
-    <div class="nav-item" title="知识库" onclick="showToast('知识库')">
+    <div class="nav-item" title="知识库" onclick="switchNav(this)">
       <div class="nav-icon">📚</div>
       <span>知识</span>
     </div>
-    <div class="nav-item" title="质检" onclick="showToast('质检分析')">
+    <div class="nav-item" title="质检" onclick="switchNav(this)">
       <div class="nav-icon">📊</div>
       <span>质检</span>
       <div class="nav-badge">3</div>
     </div>
-    <div class="nav-item" title="数据统计" onclick="showToast('数据统计')">
+    <div class="nav-item" title="数据统计" onclick="switchNav(this)">
       <div class="nav-icon">📈</div>
       <span>统计</span>
     </div>
   </div>
   <div class="side-bottom">
-    <div class="nav-item" title="工具箱" onclick="showToast('工具箱')">
+    <div class="nav-item" title="工具箱" onclick="switchNav(this);togglePanel('aitools')">
       <div class="nav-icon">🧰</div>
       <span>工具</span>
     </div>
-    <div class="nav-item" title="设置" onclick="showToast('设置')">
+    <div class="nav-item" title="设置" onclick="switchNav(this);showToast('设置面板')">
       <div class="nav-icon">⚙️</div>
       <span>设置</span>
     </div>
@@ -512,7 +555,87 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
     </div>
   </div>
 
-  <!-- 4. 知识推荐面板 -->
+  <!-- 4. AI工具箱面板 -->
+  <div class="panel-section" id="panel-aitools">
+    <div class="panel-header" onclick="togglePanel('aitools')">
+      <div class="panel-title">
+        <span class="p-icon">🤖</span>
+        AI工具箱
+        <span class="p-badge" style="background:#e0e7ff;color:#4f46e5">6个工具</span>
+      </div>
+      <div class="panel-toggle">▼</div>
+    </div>
+    <div class="panel-body">
+      <div class="ai-tool-grid">
+        <div class="ai-tool-card" onclick="openAiTool('summary')">
+          <div class="ai-tool-head">
+            <div class="ai-tool-icon green">📝</div>
+            <div style="flex:1;min-width:0">
+              <div class="ai-tool-name">智能摘要</div>
+            </div>
+          </div>
+          <div class="ai-tool-desc">自动提取通话核心要点</div>
+          <div><span class="ai-tool-tag hot">常用</span></div>
+        </div>
+        <div class="ai-tool-card" onclick="openAiTool('ticket')">
+          <div class="ai-tool-head">
+            <div class="ai-tool-icon blue">📋</div>
+            <div style="flex:1;min-width:0">
+              <div class="ai-tool-name">工单生成</div>
+            </div>
+          </div>
+          <div class="ai-tool-desc">一键生成标准化工单</div>
+          <div><span class="ai-tool-tag hot">热门</span></div>
+        </div>
+        <div class="ai-tool-card" onclick="openAiTool('knowledge')">
+          <div class="ai-tool-head">
+            <div class="ai-tool-icon orange">🔍</div>
+            <div style="flex:1;min-width:0">
+              <div class="ai-tool-name">知识检索</div>
+            </div>
+          </div>
+          <div class="ai-tool-desc">精准搜索业务知识库</div>
+          <div><span class="ai-tool-tag comm">常用</span></div>
+        </div>
+        <div class="ai-tool-card" onclick="openAiTool('quality')">
+          <div class="ai-tool-head">
+            <div class="ai-tool-icon purple">📊</div>
+            <div style="flex:1;min-width:0">
+              <div class="ai-tool-name">质检分析</div>
+            </div>
+          </div>
+          <div class="ai-tool-desc">实时质检评分与建议</div>
+          <div><span class="ai-tool-tag new">新</span></div>
+        </div>
+        <div class="ai-tool-card" onclick="openAiTool('emotion')">
+          <div class="ai-tool-head">
+            <div class="ai-tool-icon teal">😊</div>
+            <div style="flex:1;min-width:0">
+              <div class="ai-tool-name">情绪识别</div>
+            </div>
+          </div>
+          <div class="ai-tool-desc">客户情绪实时分析</div>
+          <div><span class="ai-tool-tag comm">常用</span></div>
+        </div>
+        <div class="ai-tool-card" onclick="openAiTool('speech')">
+          <div class="ai-tool-head">
+            <div class="ai-tool-icon red">💬</div>
+            <div style="flex:1;min-width:0">
+              <div class="ai-tool-name">话术推荐</div>
+            </div>
+          </div>
+          <div class="ai-tool-desc">智能匹配最佳应答话术</div>
+          <div><span class="ai-tool-tag hot">高频</span></div>
+        </div>
+        <div class="ai-tool-card ai-more-card" onclick="showToast('更多AI工具开发中...')">
+          <div class="more-icon">➕</div>
+          <div class="more-text">更多工具</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 知识推荐面板 -->
   <div class="panel-section collapsed" id="panel-knowledge">
     <div class="panel-header" onclick="togglePanel('knowledge')">
       <div class="panel-title">
@@ -538,7 +661,7 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
     </div>
   </div>
 
-  <!-- 5. 客户画像面板 -->
+  <!-- 6. 客户画像面板 -->
   <div class="panel-section collapsed" id="panel-customer">
     <div class="panel-header" onclick="togglePanel('customer')">
       <div class="panel-title">
@@ -572,55 +695,26 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
     </div>
   </div>
 
-  <!-- 6. 快捷工具面板 -->
-  <div class="panel-section collapsed" id="panel-tools">
-    <div class="panel-header" onclick="togglePanel('tools')">
-      <div class="panel-title">
-        <span class="p-icon">🧰</span>
-        快捷工具
+</div>
+</div>
+</div>
+
+<!-- AI工具模态框 -->
+<div class="modal-overlay" id="toolModal">
+  <div class="modal" style="width:620px">
+    <div class="tool-modal-body">
+      <div class="tool-modal-header">
+        <div class="tm-icon" id="toolModalIcon">📝</div>
+        <div>
+          <div class="tm-title" id="toolModalTitle">智能摘要</div>
+        </div>
+        <button class="tm-close" onclick="closeToolModal()">✕</button>
       </div>
-      <div class="panel-toggle">▼</div>
-    </div>
-    <div class="panel-body">
-      <div class="quick-tools">
-        <div class="quick-tool" onclick="showToast('智能摘要')">
-          <div class="quick-tool-icon">📝</div>
-          <span class="quick-tool-name">智能摘要</span>
-        </div>
-        <div class="quick-tool" onclick="showToast('工单生成')">
-          <div class="quick-tool-icon">📋</div>
-          <span class="quick-tool-name">工单生成</span>
-        </div>
-        <div class="quick-tool" onclick="showToast('知识检索')">
-          <div class="quick-tool-icon">🔍</div>
-          <span class="quick-tool-name">知识检索</span>
-        </div>
-        <div class="quick-tool" onclick="showToast('满意度')">
-          <div class="quick-tool-icon">😊</div>
-          <span class="quick-tool-name">满意度</span>
-        </div>
-        <div class="quick-tool" onclick="showToast('计算器')">
-          <div class="quick-tool-icon">🔢</div>
-          <span class="quick-tool-name">计算器</span>
-        </div>
-        <div class="quick-tool" onclick="showToast('单位换算')">
-          <div class="quick-tool-icon">📐</div>
-          <span class="quick-tool-name">单位换算</span>
-        </div>
-        <div class="quick-tool" onclick="showToast('日期计算')">
-          <div class="quick-tool-icon">📅</div>
-          <span class="quick-tool-name">日期计算</span>
-        </div>
-        <div class="quick-tool" onclick="showToast('更多工具')">
-          <div class="quick-tool-icon">➕</div>
-          <span class="quick-tool-name">更多</span>
-        </div>
+      <div class="tool-modal-content" id="toolModalContent">
+        <!-- 动态内容 -->
       </div>
     </div>
   </div>
-
-</div>
-</div>
 </div>
 
 <!-- Toast容器 -->
@@ -769,7 +863,22 @@ function startTimer() {
 // ===== 面板折叠 =====
 function togglePanel(name) {
   const section = document.getElementById('panel-' + name);
-  section.classList.toggle('collapsed');
+  if (section) {
+    section.classList.toggle('collapsed');
+  }
+}
+
+// ===== 左侧导航切换 =====
+function switchNav(el) {
+  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ===== 顶部Tab切换 =====
+function switchTopTab(el) {
+  document.querySelectorAll('.top-tab').forEach(tab => tab.classList.remove('active'));
+  el.classList.add('active');
+  showToast('已切换到「' + el.textContent + '」');
 }
 
 // ===== Toast =====
@@ -782,8 +891,379 @@ function showToast(msg) {
 }
 
 // ===== 故障研判启动 =====
+let researching = false;
 function startResearch() {
-  showToast('已启动故障综合研判');
+  if (researching) return;
+  researching = true;
+  
+  const btn = document.querySelector('.fault-btn');
+  const items = document.querySelectorAll('#faultItems .fault-item');
+  const badge = document.querySelector('#panel-fault .p-badge');
+  
+  btn.disabled = true;
+  btn.innerHTML = '<span>⏳ 正在研判中...</span>';
+  badge.textContent = '0/9';
+  badge.className = 'p-badge orange';
+  
+  // 重置所有项
+  items.forEach(item => {
+    item.className = 'fault-item loading';
+    const val = item.querySelector('.fault-item-val');
+    if (val) val.textContent = '查询中...';
+  });
+  
+  // 模拟逐项完成
+  const delays = [800, 1200, 1600, 2000, 2400, 2800, 3200, 5000, 8500];
+  const results = [
+    { name: '在途工单', val: '2单在途', status: 'done' },
+    { name: '电费余额', val: '¥128.50', status: 'done' },
+    { name: '停电信息', val: '故障停电', status: 'done' },
+    { name: '抢修工单', val: '抢修中', status: 'done' },
+    { name: '违约窃电', val: '无异常', status: 'done' },
+    { name: '停电状态', val: '已停电', status: 'done' },
+    { name: '停电记录', val: '电缆故障', status: 'done' },
+    { name: '表计信息', val: '智能三相表', status: 'done' },
+    { name: '继电器状态', val: '超时', status: 'timeout' }
+  ];
+  
+  let doneCount = 0;
+  results.forEach((r, i) => {
+    setTimeout(() => {
+      const item = items[i];
+      item.className = 'fault-item ' + r.status;
+      const val = item.querySelector('.fault-item-val');
+      if (val) val.textContent = r.val;
+      const nameEl = item.querySelector('.fault-item-name');
+      if (nameEl) {
+        nameEl.textContent = (r.status === 'done' ? '✓ ' : (r.status === 'timeout' ? '⏰ ' : '⏳ ')) + r.name;
+      }
+      
+      doneCount++;
+      if (r.status !== 'timeout') {
+        badge.textContent = doneCount + '/9';
+      }
+      
+      if (i === results.length - 1) {
+        btn.disabled = false;
+        btn.innerHTML = '<span>🔍 重新研判</span>';
+        badge.textContent = '8/9';
+        badge.className = 'p-badge green';
+        researching = false;
+        showToast('故障研判完成，8项成功 1项超时');
+        
+        // 展开故障研判面板
+        document.getElementById('panel-fault').classList.remove('collapsed');
+      }
+    }, delays[i]);
+  });
+}
+
+// ===== AI工具箱 =====
+const toolConfigs = {
+  summary: {
+    icon: '📝',
+    title: '智能摘要',
+    render: function() {
+      return `
+        <label class="tool-label">当前通话摘要</label>
+        <div class="tool-result-area" id="summaryResult">
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">来电原因</div>
+            <div class="tool-summary-val highlight">故障停电报修</div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">客户诉求</div>
+            <div class="tool-summary-val">查询停电原因及恢复时间，对停电时长表示不满</div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">关键信息</div>
+            <div class="tool-summary-val">户号12345678901，朝阳区XX街道XX小区，电缆故障导致停电</div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">情绪状态</div>
+            <div class="tool-summary-val">焦虑→理解，整体可控</div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">处理结果</div>
+            <div class="tool-summary-val">已告知故障原因和预计恢复时间（2小时内），客户表示理解</div>
+          </div>
+        </div>
+        <div class="tool-action-row">
+          <button class="btn-modal primary" onclick="showToast('摘要已复制')">📋 复制摘要</button>
+          <button class="btn-modal default" onclick="regenerateSummary()">🔄 重新生成</button>
+          <button class="btn-modal default" onclick="showToast('已转工单')">📋 转为工单</button>
+        </div>
+      `;
+    }
+  },
+  ticket: {
+    icon: '📋',
+    title: '工单生成',
+    render: function() {
+      return `
+        <label class="tool-label">工单类型</label>
+        <select class="tool-select" style="margin-bottom:12px">
+          <option>故障报修</option>
+          <option>业务咨询</option>
+          <option>投诉建议</option>
+          <option>用电申请</option>
+          <option>欠费查询</option>
+        </select>
+        <label class="tool-label">AI预填工单内容</label>
+        <div class="tool-result-area" style="min-height:150px">
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">工单标题</div>
+            <div class="tool-summary-val">电缆故障停电报修</div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">客户信息</div>
+            <div class="tool-summary-val">王先生 12345678901 朝阳区XX街道XX小区3号楼2单元501</div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">故障现象</div>
+            <div class="tool-summary-val">客户反映家中及整个小区突然停电，已停电约1小时，家中冰箱食物担心变质</div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">AI研判</div>
+            <div class="tool-summary-val highlight">电缆故障，抢修人员已到场，预计2小时内恢复</div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">紧急程度</div>
+            <div class="tool-summary-val"><span style="color:#dc2626;font-weight:600">★★★ 较高</span></div>
+          </div>
+        </div>
+        <div class="tool-action-row">
+          <button class="btn-modal primary" onclick="submitTicket()">✅ 提交工单</button>
+          <button class="btn-modal default" onclick="showToast('已保存草稿')">💾 保存草稿</button>
+          <button class="btn-modal default" onclick="showToast('打开编辑器')">✏️ 手动编辑</button>
+        </div>
+      `;
+    }
+  },
+  knowledge: {
+    icon: '🔍',
+    title: '知识检索',
+    render: function() {
+      return `
+        <label class="tool-label">搜索关键词</label>
+        <input type="text" class="tool-input" id="kbSearchInput" placeholder="输入关键词搜索知识库..." value="电缆故障停电" style="margin-bottom:12px">
+        <div class="tool-action-row" style="margin-bottom:14px">
+          <button class="btn-modal primary" onclick="searchKnowledge()">🔍 搜索</button>
+        </div>
+        <label class="tool-label">搜索结果（共 12 条）</label>
+        <div style="margin-top:6px">
+          <div class="knowledge-item" onclick="showToast('打开知识详情')">
+            <div class="knowledge-title">电缆故障停电处理流程及话术规范</div>
+            <div class="knowledge-source">📂 业务知识库 · 匹配度 95%</div>
+          </div>
+          <div class="knowledge-item" onclick="showToast('打开知识详情')">
+            <div class="knowledge-title">10kV电缆故障定位与抢修作业指导书</div>
+            <div class="knowledge-source">📂 技术规范 · 匹配度 88%</div>
+          </div>
+          <div class="knowledge-item" onclick="showToast('打开知识详情')">
+            <div class="knowledge-title">客户情绪安抚标准话术-故障停电场景</div>
+            <div class="knowledge-source">📂 话术库 · 匹配度 82%</div>
+          </div>
+          <div class="knowledge-item" onclick="showToast('打开知识详情')">
+            <div class="knowledge-title">95598故障报修业务处理时限标准</div>
+            <div class="knowledge-source">📂 制度规范 · 匹配度 76%</div>
+          </div>
+        </div>
+      `;
+    }
+  },
+  quality: {
+    icon: '📊',
+    title: '质检分析',
+    render: function() {
+      return `
+        <label class="tool-label">当前通话实时质检</label>
+        <div class="tool-result-area" style="margin-bottom:14px">
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">综合评分</div>
+            <div class="tool-summary-val highlight" style="font-size:18px">92 分 / 100 分</div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">服务规范</div>
+            <div class="tool-summary-val">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="flex:1;height:6px;background:#e5e7eb;border-radius:3px">
+                  <div style="width:95%;height:100%;background:#10b981;border-radius:3px"></div>
+                </div>
+                <span style="font-weight:600">95%</span>
+              </div>
+            </div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">业务能力</div>
+            <div class="tool-summary-val">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="flex:1;height:6px;background:#e5e7eb;border-radius:3px">
+                  <div style="width:90%;height:100%;background:#10b981;border-radius:3px"></div>
+                </div>
+                <span style="font-weight:600">90%</span>
+              </div>
+            </div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">沟通技巧</div>
+            <div class="tool-summary-val">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="flex:1;height:6px;background:#e5e7eb;border-radius:3px">
+                  <div style="width:88%;height:100%;background:#f59e0b;border-radius:3px"></div>
+                </div>
+                <span style="font-weight:600;color:#f59e0b">88%</span>
+              </div>
+            </div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">风险项</div>
+            <div class="tool-summary-val" style="color:#dc2626">未使用标准结束语前，客户先挂机（扣3分）</div>
+          </div>
+        </div>
+        <div class="tool-action-row">
+          <button class="btn-modal default" onclick="showToast('查看质检详情')">📋 查看详情</button>
+          <button class="btn-modal default" onclick="showToast('查看改进建议')">💡 改进建议</button>
+        </div>
+      `;
+    }
+  },
+  emotion: {
+    icon: '😊',
+    title: '情绪识别',
+    render: function() {
+      return `
+        <label class="tool-label">客户情绪实时变化</label>
+        <div class="tool-result-area" style="margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+            <div style="font-size:36px">😐</div>
+            <div style="flex:1">
+              <div style="font-size:14px;font-weight:600;margin-bottom:4px">当前情绪：平静</div>
+              <div style="font-size:11px;color:#666">整体趋势：从焦虑逐渐平复</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:20px;font-weight:700;color:#10b981">正常</div>
+            </div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">情绪曲线</div>
+            <div class="tool-summary-val">
+              <div style="display:flex;align-items:flex-end;gap:2px;height:40px">
+                <div style="flex:1;background:#10b981;height:40%;border-radius:2px 2px 0 0" title="开场-平静"></div>
+                <div style="flex:1;background:#f59e0b;height:70%;border-radius:2px 2px 0 0" title="反映停电-不满"></div>
+                <div style="flex:1;background:#ef4444;height:90%;border-radius:2px 2px 0 0" title="停电1小时-愤怒"></div>
+                <div style="flex:1;background:#f59e0b;height:65%;border-radius:2px 2px 0 0" title="查询中-焦急"></div>
+                <div style="flex:1;background:#10b981;height:45%;border-radius:2px 2px 0 0" title="告知结果-缓解"></div>
+                <div style="flex:1;background:#10b981;height:35%;border-radius:2px 2px 0 0" title="结束-平静"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:9px;color:#999;margin-top:2px">
+                <span>开场</span><span>反映</span><span>不满</span><span>查询</span><span>答复</span><span>结束</span>
+              </div>
+            </div>
+          </div>
+          <div class="tool-summary-item">
+            <div class="tool-summary-label">情绪关键词</div>
+            <div class="tool-summary-val">
+              <span style="background:#fee2e2;color:#dc2626;padding:2px 6px;border-radius:10px;font-size:10px">着急</span>
+              <span style="background:#fed7aa;color:#ea580c;padding:2px 6px;border-radius:10px;font-size:10px">不满</span>
+              <span style="background:#fef3c7;color:#d97706;padding:2px 6px;border-radius:10px;font-size:10px">担心</span>
+              <span style="background:#d1fae5;color:#059669;padding:2px 6px;border-radius:10px;font-size:10px">理解</span>
+            </div>
+          </div>
+        </div>
+        <div class="tool-action-row">
+          <button class="btn-modal default" onclick="showToast('查看情绪分析报告')">📊 详细分析</button>
+          <button class="btn-modal default" onclick="showToast('查看安抚建议')">💡 安抚建议</button>
+        </div>
+      `;
+    }
+  },
+  speech: {
+    icon: '💬',
+    title: '话术推荐',
+    render: function() {
+      return `
+        <label class="tool-label">当前场景：故障停电安抚</label>
+        <div style="margin-top:6px">
+          <div class="suggest-card" style="border-left-color:var(--primary)">
+            <div class="suggest-card-title">🎯 安抚话术（推荐 · 92分）</div>
+            <div class="suggest-card-text">"先生您别着急，您的心情我非常理解。停电确实给您生活带来不便了，我马上帮您查询一下具体停电原因和抢修进度，争取尽快给您一个准确的答复。"</div>
+            <div class="suggest-card-score">
+              <span>匹配度</span>
+              <div class="suggest-score-bar"><div class="suggest-score-fill" style="width:92%"></div></div>
+              <span>92%</span>
+            </div>
+          </div>
+          <div class="suggest-card">
+            <div class="suggest-card-title">📋 情况说明话术（85分）</div>
+            <div class="suggest-card-text">"根据系统查询，您所在区域因电缆故障导致停电，我们的抢修人员已经在现场进行紧急处理了，预计2小时内可以恢复供电，请您耐心等待一下。"</div>
+            <div class="suggest-card-score">
+              <span>匹配度</span>
+              <div class="suggest-score-bar"><div class="suggest-score-fill" style="width:85%"></div></div>
+              <span>85%</span>
+            </div>
+          </div>
+          <div class="suggest-card">
+            <div class="suggest-card-title">💡 后续跟进话术（78分）</div>
+            <div class="suggest-card-text">"如果恢复供电后您还有其他用电问题，欢迎随时拨打95598，我们24小时为您服务。再次抱歉给您带来不便，感谢您的理解和支持。"</div>
+            <div class="suggest-card-score">
+              <span>匹配度</span>
+              <div class="suggest-score-bar"><div class="suggest-score-fill" style="width:78%"></div></div>
+              <span>78%</span>
+            </div>
+          </div>
+        </div>
+        <div class="tool-action-row">
+          <button class="btn-modal primary" onclick="showToast('已应用推荐话术')">✅ 应用推荐话术</button>
+          <button class="btn-modal default" onclick="showToast('换一批话术')">🔄 换一批</button>
+        </div>
+      `;
+    }
+  }
+};
+
+function openAiTool(toolKey) {
+  const config = toolConfigs[toolKey];
+  if (!config) return;
+  
+  document.getElementById('toolModalIcon').textContent = config.icon;
+  document.getElementById('toolModalTitle').textContent = config.title;
+  document.getElementById('toolModalContent').innerHTML = config.render();
+  document.getElementById('toolModal').classList.add('active');
+}
+
+function closeToolModal() {
+  document.getElementById('toolModal').classList.remove('active');
+}
+
+// 点击遮罩关闭
+document.addEventListener('click', function(e) {
+  if (e.target && e.target.id === 'toolModal') {
+    closeToolModal();
+  }
+});
+
+// 智能摘要重新生成
+function regenerateSummary() {
+  const result = document.getElementById('summaryResult');
+  result.classList.add('loading');
+  result.innerHTML = 'AI 正在重新分析通话内容...';
+  setTimeout(() => {
+    result.classList.remove('loading');
+    showToast('摘要已重新生成');
+    openAiTool('summary');
+  }, 1500);
+}
+
+// 提交工单
+function submitTicket() {
+  showToast('工单已提交，工单号：GD202607170001');
+  setTimeout(closeToolModal, 800);
+}
+
+// 知识检索
+function searchKnowledge() {
+  showToast('正在搜索知识库...');
 }
 
 // ===== 初始化 =====
