@@ -420,19 +420,7 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
     </div>
   </div>
 
-  <!-- 底部操作栏 -->
-  <div class="bottom-bar">
-    <div class="bottom-tools">
-      <div class="bottom-tool-btn" title="挂断" onclick="showToast('挂断通话')">📞</div>
-      <div class="bottom-tool-btn" title="静音" onclick="showToast('静音')">🔇</div>
-      <div class="bottom-tool-btn" title="保持" onclick="showToast('通话保持')">⏸️</div>
-      <div class="bottom-tool-btn" title="转接" onclick="showToast('转接')">↗️</div>
-      <div class="bottom-tool-btn" title="三方通话" onclick="showToast('三方通话')">👥</div>
-      <div class="bottom-tool-btn" title="录音" onclick="showToast('录音')">🎙️</div>
-    </div>
-    <input type="text" class="bottom-input" placeholder="快速检索知识库 / 发送消息..." />
-    <button class="bottom-send" onclick="showToast('已发送')">发送</button>
-  </div>
+
 </div>
 
 <!-- ===== 右侧智能辅助区 ===== -->
@@ -1224,16 +1212,20 @@ const toolConfigs = {
 
 function openAiTool(toolKey) {
   const config = toolConfigs[toolKey];
-  if (!config) return;
+  if (!config) { showToast('工具未找到：' + toolKey); return; }
   
+  const modal = document.getElementById('toolModal');
   document.getElementById('toolModalIcon').textContent = config.icon;
   document.getElementById('toolModalTitle').textContent = config.title;
   document.getElementById('toolModalContent').innerHTML = config.render();
-  document.getElementById('toolModal').classList.add('active');
+  modal.classList.add('active');
+  modal.style.display = 'flex';
 }
 
 function closeToolModal() {
-  document.getElementById('toolModal').classList.remove('active');
+  const modal = document.getElementById('toolModal');
+  modal.classList.remove('active');
+  modal.style.display = 'none';
 }
 
 // 点击遮罩关闭
