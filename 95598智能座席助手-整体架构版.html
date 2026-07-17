@@ -137,53 +137,48 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
 .right-panel{width:340px;min-width:340px;background:#fff;border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 
 /* 面板通用样式 */
-.panel-section{border-bottom:1px solid #f0f0f0;display:flex;flex-direction:column}
+.panel-section{border-bottom:1px solid #f5f5f5;display:flex;flex-direction:column}
 .panel-section:last-child{border-bottom:none}
-.panel-header{padding:10px 12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;transition:background .2s}
+.panel-header{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;transition:background .2s}
 .panel-header:hover{background:#fafafa}
-.panel-title{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--text1)}
-.panel-title .p-icon{font-size:14px}
-.panel-title .p-badge{font-size:10px;padding:1px 6px;border-radius:8px;font-weight:600}
-.panel-title .p-badge.red{background:#fee2e2;color:#dc2626}
-.panel-title .p-badge.green{background:#dcfce7;color:#166534}
-.panel-title .p-badge.orange{background:#ffedd5;color:#ea580c}
-.panel-title .p-badge.blue{background:#dbeafe;color:#2563eb}
-.panel-toggle{font-size:10px;color:#bbb;transition:transform .2s}
+.panel-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#333}
+.panel-title .p-icon{font-size:14px;opacity:.8}
+.panel-title .p-badge{font-size:10px;padding:1px 7px;border-radius:8px;font-weight:500;background:#f1f5f9;color:#64748b}
+.panel-toggle{font-size:10px;color:#ccc;transition:transform .2s}
 .panel-section.collapsed .panel-toggle{transform:rotate(-90deg)}
 .panel-section.collapsed .panel-body{display:none}
-.panel-body{padding:0 12px 12px}
+.panel-body{padding:0 14px 14px}
 
 /* 风险面板 */
-.risk-card{border-radius:8px;padding:10px;margin-bottom:6px;border:1px solid #fecaca;background:#fff1f2;transition:all .2s;cursor:pointer}
-.risk-card:hover{box-shadow:0 2px 8px rgba(220,38,38,.15)}
-.risk-card.orange{border-color:#fed7aa;background:#fff7ed}
-.risk-card.yellow{border-color:#fde047;background:#fefce8}
+.risk-card{border-radius:6px;padding:10px 12px;margin-bottom:8px;background:#fafafa;border-left:3px solid #ef4444;transition:all .2s;cursor:pointer}
+.risk-card:hover{background:#f5f5f5}
+.risk-card.orange{border-left-color:#f59e0b}
+.risk-card.yellow{border-left-color:#eab308}
 .risk-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.risk-card-name{font-size:12px;font-weight:600;color:#991b1b}
-.risk-card.orange .risk-card-name{color:#9a3412}
-.risk-card.yellow .risk-card-name{color:#854d0e}
-.risk-level-tag{font-size:9px;padding:1px 5px;border-radius:3px;font-weight:700;background:#dc2626;color:#fff}
-.risk-card.orange .risk-level-tag{background:#ea580c}
-.risk-card.yellow .risk-level-tag{background:#ca8a04;color:#fff}
-.risk-card-desc{font-size:11px;color:#666;line-height:1.5}
+.risk-card-name{font-size:12px;font-weight:600;color:#333}
+.risk-level-tag{font-size:10px;font-weight:500;color:#ef4444}
+.risk-card.orange .risk-level-tag{color:#f59e0b}
+.risk-card.yellow .risk-level-tag{color:#ca8a04}
+.risk-card-desc{font-size:11px;color:#888;line-height:1.5}
 .risk-empty{text-align:center;padding:10px;color:#999;font-size:12px}
 
 /* 故障研判面板 */
-.fault-status-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.fault-btn{width:100%;padding:8px;border-radius:6px;background:linear-gradient(135deg,#006B54,#008667);color:#fff;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 4px rgba(0,107,84,.25)}
-.fault-btn:hover{transform:translateY(-1px);box-shadow:0 3px 8px rgba(0,107,84,.35)}
-.fault-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
-.fault-progress{font-size:10px;color:#059669;font-weight:600}
+.fault-status-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.fault-btn{width:100%;padding:8px 12px;border-radius:6px;background:#006B54;color:#fff;border:none;font-size:12px;font-weight:500;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.fault-btn:hover{background:#008667}
+.fault-btn:disabled{opacity:.6;cursor:not-allowed}
 
 .fault-items{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.fault-item{padding:7px 8px;border-radius:6px;border:1px solid #e5e7eb;background:#fafafa;font-size:11px;display:flex;flex-direction:column;gap:2px;cursor:pointer;transition:all .2s}
-.fault-item:hover{border-color:#006B54;background:#f0fdf4}
-.fault-item.done{border-color:#86efac;background:#f0fdf4}
-.fault-item.loading{border-color:#fdba74;background:#fff7ed;animation:faultPulse 1.5s infinite}
+.fault-item{padding:8px 10px;border-radius:5px;background:#fafafa;font-size:11px;display:flex;flex-direction:column;gap:2px;cursor:pointer;transition:all .2s}
+.fault-item:hover{background:#f0f0f0}
+.fault-item.done{background:#f0fdf4}
+.fault-item.loading{background:#fff7ed;animation:faultPulse 1.5s infinite}
 @keyframes faultPulse{0%,100%{opacity:1}50%{opacity:.7}}
-.fault-item.timeout{border-color:#fca5a5;background:#fef2f2}
-.fault-item-name{font-weight:600;color:#333;font-size:11px;display:flex;align-items:center;gap:4px}
-.fault-item-val{color:059669;font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fault-item.timeout{background:#fef2f2}
+.fault-item-name{font-weight:500;color:#555;font-size:11px;display:flex;align-items:center;gap:4px}
+.fault-item.done .fault-item-name{color:#333;font-weight:600}
+.fault-item-val{color:#666;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fault-item.done .fault-item-val{color:#059669}
 .fault-item.loading .fault-item-val{color:#ea580c}
 .fault-item.timeout .fault-item-val{color:#dc2626}
 
@@ -207,33 +202,38 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
 .cust-stat-num{font-size:14px;font-weight:700;color:var(--primary)}
 .cust-stat-label{font-size:9px;color:#64748b;margin-top:1px}
 
-/* AI工具箱面板 */
+/* 页面视图通用 */
+.page-view{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+
+/* AI工具箱页面 */
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tool-card{background:#fff;border-radius:12px;padding:24px 20px;cursor:pointer;transition:all .25s;border:1px solid #e5e7eb;display:flex;flex-direction:column;position:relative}
+.tool-card:hover{border-color:#006B54;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,107,84,.12)}
+.tool-card-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#006B54,#008667);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;color:#fff}
+.tool-card-title{font-size:16px;font-weight:600;color:#1f2937;margin-bottom:8px}
+.tool-card-desc{font-size:13px;color:#6b7280;line-height:1.6;margin-bottom:12px;flex:1}
+.tool-card-tag{display:inline-block;font-size:11px;padding:2px 10px;border-radius:12px;background:#f0fdf4;color:#059669;font-weight:500;margin-bottom:16px;align-self:flex-start}
+.tool-card-btn{width:100%;padding:8px 0;border-radius:6px;border:1px solid #006B54;background:#fff;color:#006B54;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;font-family:inherit}
+.tool-card:hover .tool-card-btn{background:#006B54;color:#fff}
+
+/* 空页面 */
+.empty-page{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#999;gap:12px;height:100%}
+.empty-icon{font-size:48px;opacity:.5}
+.empty-title{font-size:18px;font-weight:600;color:#666}
+.empty-desc{font-size:13px;color:#aaa}
+
+/* AI工具箱面板（侧栏版保留样式但不用了） */
 .ai-tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.ai-tool-card{padding:10px 10px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
-.ai-tool-card::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--primary);opacity:0;transition:opacity .25s}
-.ai-tool-card:hover{border-color:var(--primary);transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,107,84,.15)}
-.ai-tool-card:hover::before{opacity:1}
-.ai-tool-card:active{transform:translateY(0)}
-.ai-tool-head{display:flex;align-items:center;gap:7px}
-.ai-tool-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.ai-tool-icon.green{background:#d1fae5;color:#065f46}
-.ai-tool-icon.blue{background:#dbeafe;color:#1e40af}
-.ai-tool-icon.orange{background:#fed7aa;color:#9a3412}
-.ai-tool-icon.purple{background:#e9d5ff;color:#7c3aed}
-.ai-tool-icon.teal{background:#99f6e4;color:#115e59}
-.ai-tool-icon.red{background:#fecaca;color:#991b1b}
+.ai-tool-card{padding:10px;border-radius:6px;background:#fafafa;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:5px}
+.ai-tool-card:hover{background:#f0f0f0}
+.ai-tool-head{display:flex;align-items:center;gap:8px}
+.ai-tool-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:#fff;color:#666;border:1px solid #eee}
 .ai-tool-name{font-size:12px;font-weight:600;color:#333}
-.ai-tool-desc{font-size:10px;color:#999;line-height:1.4}
-.ai-tool-tag{font-size:9px;padding:1px 5px;border-radius:3px;font-weight:500;display:inline-block}
-.ai-tool-tag.hot{background:#fee2e2;color:#dc2626}
-.ai-tool-tag.new{background:#dbeafe;color:#2563eb}
-.ai-tool-tag.comm{background:#dcfce7;color:#166534}
-.ai-more-card{border:1px dashed #d1d5db;background:#fafafa;align-items:center;justify-content:center;display:flex;flex-direction:column;gap:4px;padding:16px 10px}
-.ai-more-card:hover{border-color:var(--primary);background:#f0fdf4}
-.ai-more-card .more-icon{font-size:20px;color:#999}
-.ai-more-card:hover .more-icon{color:var(--primary)}
-.ai-more-card .more-text{font-size:11px;color:#999}
-.ai-more-card:hover .more-text{color:var(--primary)}
+.ai-tool-desc{font-size:10px;color:#aaa;line-height:1.4}
+.ai-more-card{align-items:center;justify-content:center;display:flex;flex-direction:column;gap:4px;padding:16px 10px;border:1px dashed #e5e5e5;background:#fafafa}
+.ai-more-card:hover{background:#f0f0f0}
+.ai-more-card .more-icon{font-size:18px;color:#ccc}
+.ai-more-card .more-text{font-size:10px;color:#aaa}
 
 /* 知识推荐面板 */
 .knowledge-item{padding:8px 10px;border-radius:6px;border:1px solid #e5e7eb;background:#fafafa;margin-bottom:6px;cursor:pointer;transition:all .2s}
@@ -332,34 +332,34 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
 <!-- ===== 左侧导航 ===== -->
 <aside class="sidebar">
   <div class="side-nav">
-    <div class="nav-item active" title="实时辅助" onclick="switchNav(this)">
+    <div class="nav-item active" data-page="assist" onclick="switchPage(this, 'assist')">
       <div class="nav-icon">🎧</div>
       <span>辅助</span>
     </div>
-    <div class="nav-item" title="智能制单" onclick="switchNav(this)">
+    <div class="nav-item" data-page="ticket" onclick="switchPage(this, 'ticket')">
       <div class="nav-icon">📋</div>
       <span>制单</span>
     </div>
-    <div class="nav-item" title="知识库" onclick="switchNav(this)">
+    <div class="nav-item" data-page="knowledge" onclick="switchPage(this, 'knowledge')">
       <div class="nav-icon">📚</div>
       <span>知识</span>
     </div>
-    <div class="nav-item" title="质检" onclick="switchNav(this)">
+    <div class="nav-item" data-page="quality" onclick="switchPage(this, 'quality')">
       <div class="nav-icon">📊</div>
       <span>质检</span>
       <div class="nav-badge">3</div>
     </div>
-    <div class="nav-item" title="数据统计" onclick="switchNav(this)">
+    <div class="nav-item" data-page="stats" onclick="switchPage(this, 'stats')">
       <div class="nav-icon">📈</div>
       <span>统计</span>
     </div>
   </div>
   <div class="side-bottom">
-    <div class="nav-item" title="工具箱" onclick="switchNav(this);togglePanel('aitools')">
+    <div class="nav-item" data-page="tools" onclick="switchPage(this, 'tools')">
       <div class="nav-icon">🧰</div>
       <span>工具</span>
     </div>
-    <div class="nav-item" title="设置" onclick="switchNav(this);showToast('设置面板')">
+    <div class="nav-item" data-page="settings" onclick="switchPage(this, 'settings')">
       <div class="nav-icon">⚙️</div>
       <span>设置</span>
     </div>
@@ -368,6 +368,9 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
 
 <!-- ===== 中间主区 ===== -->
 <div class="main-area">
+
+  <!-- ===== 页面：实时辅助 ===== -->
+  <div class="page-view" id="page-assist">
 
   <!-- 客户信息条 -->
   <div class="cust-bar">
@@ -420,6 +423,104 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
     </div>
   </div>
 
+  </div>
+
+  <!-- ===== 页面：AI工具箱 ===== -->
+  <div class="page-view" id="page-tools" style="display:none;padding:24px 32px;overflow-y:auto">
+    <div style="margin-bottom:20px">
+      <div style="font-size:20px;font-weight:700;color:#1f2937;margin-bottom:6px">AI工具箱</div>
+      <div style="font-size:13px;color:#6b7280">6个AI辅助工具，高效处理各类业务场景</div>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card" onclick="openAiTool('summary')">
+        <div class="tool-card-icon">📝</div>
+        <div class="tool-card-title">智能摘要</div>
+        <div class="tool-card-desc">自动提取通话核心要点，生成结构化摘要</div>
+        <div class="tool-card-tag">文本分析</div>
+        <button class="tool-card-btn">使用</button>
+      </div>
+      <div class="tool-card" onclick="openAiTool('ticket')">
+        <div class="tool-card-icon">📋</div>
+        <div class="tool-card-title">工单生成</div>
+        <div class="tool-card-desc">基于通话内容一键生成标准化工单</div>
+        <div class="tool-card-tag">业务办理</div>
+        <button class="tool-card-btn">使用</button>
+      </div>
+      <div class="tool-card" onclick="openAiTool('knowledge')">
+        <div class="tool-card-icon">🔍</div>
+        <div class="tool-card-title">知识检索</div>
+        <div class="tool-card-desc">精准搜索业务知识库，快速定位答案</div>
+        <div class="tool-card-tag">知识查询</div>
+        <button class="tool-card-btn">使用</button>
+      </div>
+      <div class="tool-card" onclick="openAiTool('quality')">
+        <div class="tool-card-icon">📊</div>
+        <div class="tool-card-title">质检分析</div>
+        <div class="tool-card-desc">实时质检评分与改进建议</div>
+        <div class="tool-card-tag">质量管理</div>
+        <button class="tool-card-btn">使用</button>
+      </div>
+      <div class="tool-card" onclick="openAiTool('emotion')">
+        <div class="tool-card-icon">😊</div>
+        <div class="tool-card-title">情绪识别</div>
+        <div class="tool-card-desc">客户情绪实时分析与趋势追踪</div>
+        <div class="tool-card-tag">情感分析</div>
+        <button class="tool-card-btn">使用</button>
+      </div>
+      <div class="tool-card" onclick="openAiTool('speech')">
+        <div class="tool-card-icon">💬</div>
+        <div class="tool-card-title">话术推荐</div>
+        <div class="tool-card-desc">智能匹配最佳应答话术与沟通建议</div>
+        <div class="tool-card-tag">话术辅助</div>
+        <button class="tool-card-btn">使用</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 页面：制单（占位） ===== -->
+  <div class="page-view" id="page-ticket" style="display:none;padding:24px 32px;overflow-y:auto">
+    <div class="empty-page">
+      <div class="empty-icon">📋</div>
+      <div class="empty-title">智能制单</div>
+      <div class="empty-desc">智能制单模块规划中</div>
+    </div>
+  </div>
+
+  <!-- ===== 页面：知识（占位） ===== -->
+  <div class="page-view" id="page-knowledge" style="display:none;padding:24px 32px;overflow-y:auto">
+    <div class="empty-page">
+      <div class="empty-icon">📚</div>
+      <div class="empty-title">知识库</div>
+      <div class="empty-desc">知识库模块规划中</div>
+    </div>
+  </div>
+
+  <!-- ===== 页面：质检（占位） ===== -->
+  <div class="page-view" id="page-quality" style="display:none;padding:24px 32px;overflow-y:auto">
+    <div class="empty-page">
+      <div class="empty-icon">📊</div>
+      <div class="empty-title">质检分析</div>
+      <div class="empty-desc">质检模块规划中</div>
+    </div>
+  </div>
+
+  <!-- ===== 页面：统计（占位） ===== -->
+  <div class="page-view" id="page-stats" style="display:none;padding:24px 32px;overflow-y:auto">
+    <div class="empty-page">
+      <div class="empty-icon">📈</div>
+      <div class="empty-title">数据统计</div>
+      <div class="empty-desc">数据统计模块规划中</div>
+    </div>
+  </div>
+
+  <!-- ===== 页面：设置（占位） ===== -->
+  <div class="page-view" id="page-settings" style="display:none;padding:24px 32px;overflow-y:auto">
+    <div class="empty-page">
+      <div class="empty-icon">⚙️</div>
+      <div class="empty-title">设置</div>
+      <div class="empty-desc">设置面板规划中</div>
+    </div>
+  </div>
 
 </div>
 
@@ -543,87 +644,7 @@ body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#eef1f5;c
     </div>
   </div>
 
-  <!-- 4. AI工具箱面板 -->
-  <div class="panel-section" id="panel-aitools">
-    <div class="panel-header" onclick="togglePanel('aitools')">
-      <div class="panel-title">
-        <span class="p-icon">🤖</span>
-        AI工具箱
-        <span class="p-badge" style="background:#e0e7ff;color:#4f46e5">6个工具</span>
-      </div>
-      <div class="panel-toggle">▼</div>
-    </div>
-    <div class="panel-body">
-      <div class="ai-tool-grid">
-        <div class="ai-tool-card" onclick="openAiTool('summary')">
-          <div class="ai-tool-head">
-            <div class="ai-tool-icon green">📝</div>
-            <div style="flex:1;min-width:0">
-              <div class="ai-tool-name">智能摘要</div>
-            </div>
-          </div>
-          <div class="ai-tool-desc">自动提取通话核心要点</div>
-          <div><span class="ai-tool-tag hot">常用</span></div>
-        </div>
-        <div class="ai-tool-card" onclick="openAiTool('ticket')">
-          <div class="ai-tool-head">
-            <div class="ai-tool-icon blue">📋</div>
-            <div style="flex:1;min-width:0">
-              <div class="ai-tool-name">工单生成</div>
-            </div>
-          </div>
-          <div class="ai-tool-desc">一键生成标准化工单</div>
-          <div><span class="ai-tool-tag hot">热门</span></div>
-        </div>
-        <div class="ai-tool-card" onclick="openAiTool('knowledge')">
-          <div class="ai-tool-head">
-            <div class="ai-tool-icon orange">🔍</div>
-            <div style="flex:1;min-width:0">
-              <div class="ai-tool-name">知识检索</div>
-            </div>
-          </div>
-          <div class="ai-tool-desc">精准搜索业务知识库</div>
-          <div><span class="ai-tool-tag comm">常用</span></div>
-        </div>
-        <div class="ai-tool-card" onclick="openAiTool('quality')">
-          <div class="ai-tool-head">
-            <div class="ai-tool-icon purple">📊</div>
-            <div style="flex:1;min-width:0">
-              <div class="ai-tool-name">质检分析</div>
-            </div>
-          </div>
-          <div class="ai-tool-desc">实时质检评分与建议</div>
-          <div><span class="ai-tool-tag new">新</span></div>
-        </div>
-        <div class="ai-tool-card" onclick="openAiTool('emotion')">
-          <div class="ai-tool-head">
-            <div class="ai-tool-icon teal">😊</div>
-            <div style="flex:1;min-width:0">
-              <div class="ai-tool-name">情绪识别</div>
-            </div>
-          </div>
-          <div class="ai-tool-desc">客户情绪实时分析</div>
-          <div><span class="ai-tool-tag comm">常用</span></div>
-        </div>
-        <div class="ai-tool-card" onclick="openAiTool('speech')">
-          <div class="ai-tool-head">
-            <div class="ai-tool-icon red">💬</div>
-            <div style="flex:1;min-width:0">
-              <div class="ai-tool-name">话术推荐</div>
-            </div>
-          </div>
-          <div class="ai-tool-desc">智能匹配最佳应答话术</div>
-          <div><span class="ai-tool-tag hot">高频</span></div>
-        </div>
-        <div class="ai-tool-card ai-more-card" onclick="showToast('更多AI工具开发中...')">
-          <div class="more-icon">➕</div>
-          <div class="more-text">更多工具</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 5. 知识推荐面板 -->
+  <!-- 4. 知识推荐面板 -->
   <div class="panel-section collapsed" id="panel-knowledge">
     <div class="panel-header" onclick="togglePanel('knowledge')">
       <div class="panel-title">
@@ -856,17 +877,46 @@ function togglePanel(name) {
   }
 }
 
-// ===== 左侧导航切换 =====
-function switchNav(el) {
+// ===== 页面切换 =====
+function switchPage(el, pageName) {
+  // 导航激活态
   document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
   el.classList.add('active');
+  
+  // 隐藏所有页面
+  document.querySelectorAll('.page-view').forEach(p => p.style.display = 'none');
+  
+  // 显示目标页面
+  const target = document.getElementById('page-' + pageName);
+  if (target) {
+    target.style.display = 'flex';
+  }
+  
+  // 辅助页显示右侧面板，其他页面隐藏右侧
+  const rightPanel = document.querySelector('.right-panel');
+  if (pageName === 'assist') {
+    rightPanel.style.display = 'flex';
+  } else {
+    rightPanel.style.display = 'none';
+  }
 }
 
 // ===== 顶部Tab切换 =====
 function switchTopTab(el) {
   document.querySelectorAll('.top-tab').forEach(tab => tab.classList.remove('active'));
   el.classList.add('active');
-  showToast('已切换到「' + el.textContent + '」');
+  
+  const tabName = el.textContent.trim();
+  const pageMap = {
+    '实时辅助': 'assist',
+    '智能制单': 'ticket',
+    '会话记录': 'stats',
+    '知识库': 'knowledge'
+  };
+  if (pageMap[tabName]) {
+    const navItem = document.querySelector('.nav-item[data-page="' + pageMap[tabName] + '"]');
+    if (navItem) switchPage(navItem, pageMap[tabName]);
+  }
 }
 
 // ===== Toast =====
