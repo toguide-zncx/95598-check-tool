@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>95598座席助手产品矩阵图</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", -apple-system, sans-serif;
+  background: #f5f7fa;
+  padding: 30px 40px;
+  color: #222;
+  -webkit-font-smoothing: antialiased;
+}
+.matrix-page {
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px 36px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* ===== 标题区 ===== */
+.seat-matrix-header {
+  text-align: center;
+  margin-bottom: 18px;
+  position: relative;
+  padding: 8px 0;
+}
+.seat-matrix-header::before,
+.seat-matrix-header::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 22%;
+  height: 1px;
+}
+.seat-matrix-header::before {
+  left: 5%;
+  background: linear-gradient(90deg, transparent 0%, #008667 100%);
+}
+.seat-matrix-header::after {
+  right: 5%;
+  background: linear-gradient(90deg, #008667 0%, transparent 100%);
+}
+.seat-matrix-title {
+  font-size: 30px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #006B54 0%, #00A870 50%, #006B54 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+  letter-spacing: 4px;
+  display: inline-block;
+  position: relative;
+}
+.seat-matrix-title::before {
+  content: "🎧";
+  margin-right: 12px;
+  -webkit-text-fill-color: initial;
+}
+.seat-matrix-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-top: 4px;
+  font-weight: 400;
+}
+.seat-matrix-subtitle span {
+  color: #008667;
+  font-weight: 600;
+  padding: 3px 10px;
+  background: linear-gradient(135deg, #f0f9f4 0%, #e8f5f0 100%);
+  border-radius: 12px;
+  margin: 0 3px;
+  font-size: 12px;
+}
+
+/* ===== 核心价值区 ===== */
+.core-values {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.core-value-item {
+  background: linear-gradient(160deg, #ffffff 0%, #e8f5ee 100%);
+  border: 1px solid #b8dccb;
+  border-radius: 12px;
+  padding: 14px 10px 12px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,107,84,0.08), inset 0 1px 0 rgba(255,255,255,0.8);
+}
+.core-value-item::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #006B54, #00A870, #4CAF50);
+}
+.core-value-icon {
+  font-size: 30px;
+  margin-bottom: 6px;
+  filter: drop-shadow(0 2px 6px rgba(0,107,84,0.3));
+  position: relative;
+  z-index: 1;
+}
+.core-value-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #004d3d;
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 1;
+}
+.core-value-desc {
+  font-size: 11px;
+  color: #444;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== 产品定位 ===== */
+.product-position {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #f0f7ff 0%, #e8f0fe 100%);
+  border-radius: 10px;
+  border: 1px solid #c5daf5;
+}
+.position-icon {
+  font-size: 28px;
+}
+.position-text {
+  font-size: 14px;
+  color: #1a365d;
+  line-height: 1.6;
+}
+.position-text strong {
+  color: #0d47a1;
+  font-weight: 700;
+}
+
+/* ===== 进度图例 ===== */
+.matrix-legend {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+.legend-progress {
+  margin-right: auto;
+  font-size: 13px;
+  color: #333;
+  font-weight: 600;
+}
+.legend-progress strong {
+  color: #006B54;
+  font-size: 15px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #555;
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.legend-dot.done { background: #4CAF50; }
+.legend-dot.doing { background: #1976D2; }
+.legend-dot.planning { background: #BDBDBD; }
+
+/* ===== 模块卡片 ===== */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+.module-card {
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px 12px 12px;
+  position: relative;
+  transition: all .3s ease;
+}
+.module-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 10px 10px 0 0;
+  background: #e0e0e0;
+}
+.module-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+.module-num {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #757575 0%, #9E9E9E 100%);
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+.module-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 6px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+.status-badge {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 1px 6px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+.module-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.module-list li {
+  font-size: 11px;
+  color: #555;
+  padding: 2px 0;
+  padding-left: 12px;
+  position: relative;
+  line-height: 1.5;
+}
+.module-list li::before {
+  content: "·";
+  position: absolute;
+  left: 3px;
+  color: #999;
+  font-weight: bold;
+}
+
+/* 已完成 */
+.module-card.status-done {
+  background: linear-gradient(180deg, #f0f9f4 0%, #e8f5ee 100%);
+  border-color: #b8dccb;
+}
+.module-card.status-done::before {
+  background: linear-gradient(90deg, #4CAF50, #66BB6A, #81C784);
+}
+.module-card.status-done .module-num {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+}
+.module-card.status-done .module-title {
+  color: #2E7D32;
+  border-bottom-color: #c8e6c9;
+}
+.module-card.status-done .status-badge {
+  background: #E8F5E9;
+  color: #2E7D32;
+  border: 1px solid #A5D6A7;
+}
+
+/* 进行中 */
+.module-card.status-doing {
+  background: linear-gradient(180deg, #f0f7ff 0%, #e8f0ff 100%);
+  border-color: #a8c8dc;
+}
+.module-card.status-doing::before {
+  background: linear-gradient(90deg, #1976D2, #2196F3, #42A5F5);
+}
+.module-card.status-doing .module-num {
+  background: linear-gradient(135deg, #1976D2 0%, #2196F3 100%);
+}
+.module-card.status-doing .module-title {
+  color: #1565C0;
+  border-bottom-color: #b8d4e8;
+}
+.module-card.status-doing .status-badge {
+  background: #E3F2FD;
+  color: #1565C0;
+  border: 1px solid #90CAF9;
+}
+
+/* 规划中 */
+.module-card.status-planning .module-title {
+  color: #666;
+}
+.module-card.status-planning .status-badge {
+  background: #F5F5F5;
+  color: #888;
+  border: 1px solid #E0E0E0;
+}
+
+/* ===== 在线帮查网格 ===== */
+.help-center-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  margin-top: 2px;
+}
+.help-center-item {
+  font-size: 11px;
+  color: #555;
+  padding: 4px 6px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.help-center-item .icon {
+  font-size: 13px;
+}
+
+/* ===== AI工具箱网格 ===== */
+.ai-toolbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  margin-top: 2px;
+}
+.ai-tool-item {
+  font-size: 11px;
+  color: #555;
+  padding: 4px 6px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.ai-tool-item .tool-icon {
+  font-size: 13px;
+}
+
+/* ===== 分布式部署架构 ===== */
+.deploy-card {
+  background: linear-gradient(135deg, #f0f7ff 0%, #e3f2fd 50%, #f0f7ff 100%) !important;
+  border: 1px solid #90CAF9 !important;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px !important;
+}
+.deploy-card::before {
+  background: linear-gradient(90deg, #1565C0, #1976D2, #42A5F5, #1976D2, #1565C0) !important;
+}
+.deploy-icon {
+  font-size: 42px;
+  filter: drop-shadow(0 2px 8px rgba(21,101,192,0.3));
+}
+.deploy-info {
+  flex: 1;
+}
+.deploy-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0D47A1;
+  margin-bottom: 5px;
+}
+.deploy-desc {
+  font-size: 12px;
+  color: #424242;
+  line-height: 1.7;
+}
+
+/* ===== 底部条 ===== */
+.seat-matrix-footer {
+  text-align: center;
+  margin-top: 18px;
+  padding: 12px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,107,84,0.06) 50%, transparent 100%);
+  border-radius: 8px;
+  font-size: 14px;
+  color: #004d3d;
+  font-weight: 500;
+  position: relative;
+}
+.seat-matrix-footer::before,
+.seat-matrix-footer::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #006B54 100%);
+}
+.seat-matrix-footer::before {
+  left: 15%;
+}
+.seat-matrix-footer::after {
+  right: 15%;
+  background: linear-gradient(90deg, #006B54 0%, transparent 100%);
+}
+.seat-matrix-footer .emoji {
+  margin-right: 8px;
+}
+.seat-matrix-footer strong {
+  color: #006B54;
+}
+
+/* 行间距 */
+.row-gap {
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<div class="matrix-page">
+  <!-- 标题 -->
+  <div class="seat-matrix-header">
+    <div class="seat-matrix-title">95598 座席助手产品矩阵图</div>
+    <div class="seat-matrix-subtitle">
+      <span>智能语音</span> + <span>实时转写</span> + <span>风险识别</span> + <span>在线帮查</span> + <span>AI辅助</span>
+      &nbsp;全面提升座席服务效率与风险防控能力
+    </div>
+  </div>
+
+  <!-- 核心价值 -->
+  <div class="core-values">
+    <div class="core-value-item">
+      <div class="core-value-icon">⚡</div>
+      <div class="core-value-title">实时转写零延迟</div>
+      <div class="core-value-desc">端侧实时语音转写<br>毫秒级响应体验</div>
+    </div>
+    <div class="core-value-item">
+      <div class="core-value-icon">🛡️</div>
+      <div class="core-value-title">风险识别更精准</div>
+      <div class="core-value-desc">20类风险标签全覆盖<br>三级预警智能升级</div>
+    </div>
+    <div class="core-value-item">
+      <div class="core-value-icon">🔍</div>
+      <div class="core-value-title">在线帮查更高效</div>
+      <div class="core-value-desc">多源数据一键查询<br>业务办理秒级响应</div>
+    </div>
+    <div class="core-value-item">
+      <div class="core-value-icon">🤖</div>
+      <div class="core-value-title">AI辅助更智能</div>
+      <div class="core-value-desc">知识推荐话术生成<br>工单填单全程辅助</div>
+    </div>
+    <div class="core-value-item">
+      <div class="core-value-icon">📈</div>
+      <div class="core-value-title">座席成长更快</div>
+      <div class="core-value-desc">能力画像精准定位<br>培训建议量身定制</div>
+    </div>
+    <div class="core-value-item">
+      <div class="core-value-icon">🔐</div>
+      <div class="core-value-title">数据安全可控</div>
+      <div class="core-value-desc">端侧处理隐私保护<br>数据不出本地终端</div>
+    </div>
+  </div>
+
+  <!-- 产品定位 -->
+  <div class="product-position">
+    <div class="position-icon">🎯</div>
+    <div class="position-text">
+      <strong>产品定位：</strong>
+      以边缘计算终端为底座，以AI大模型为核心引擎，面向95598座席提供<strong>实时转写、风险预警、智能辅助、知识推荐、质检分析</strong>等全场景智能化能力，
+      打造"感知-理解-决策-执行"闭环的座席智能助手，助力客服中心降本增效、提质控险。
+    </div>
+  </div>
+
+  <!-- 进度图例 -->
+  <div class="matrix-legend">
+    <div class="legend-progress">整体进度：<strong>1/18</strong> 已完成 · 4/18 进行中</div>
+    <div class="legend-item"><span class="legend-dot done"></span>已完成</div>
+    <div class="legend-item"><span class="legend-dot doing"></span>进行中</div>
+    <div class="legend-item"><span class="legend-dot planning"></span>规划中</div>
+  </div>
+
+  <!-- 第一行 5列 -->
+  <div class="modules-grid">
+    <div class="module-card status-done">
+      <span class="module-num">01</span>
+      <div class="module-title">实时座席工作台<span class="status-badge">✓ 已完成</span></div>
+      <ul class="module-list">
+        <li>语音实时转写（全双工）</li>
+        <li>主叫识别与通话计时</li>
+        <li>历史通话记录（近15天）</li>
+        <li>转写结果开关与复制导出</li>
+        <li>通话信息差步提醒</li>
+        <li>事件标记与备注</li>
+      </ul>
+    </div>
+    <div class="module-card status-doing">
+      <span class="module-num">02</span>
+      <div class="module-title">风险预警与升级<span class="status-badge">◐ 进行中</span></div>
+      <ul class="module-list">
+        <li>实时风险识别（20个标签）</li>
+        <li>红/橙/黄三级预警</li>
+        <li>风险触发标准提示</li>
+      </ul>
+    </div>
+    <div class="module-card status-doing">
+      <span class="module-num">03</span>
+      <div class="module-title">风险规则管理<span class="status-badge">◐ 进行中</span></div>
+      <ul class="module-list">
+        <li>风险标签配置（20个）</li>
+        <li>风险触发规则配置</li>
+        <li>分组策略调整</li>
+        <li>预警阈值管理</li>
+        <li>规则版本管理</li>
+      </ul>
+    </div>
+    <div class="module-card status-doing">
+      <span class="module-num">04</span>
+      <div class="module-title">在线帮查中心<span class="status-badge">◐ 进行中</span></div>
+      <div class="help-center-grid">
+        <div class="help-center-item"><span class="icon">⚡</span>停电研判</div>
+        <div class="help-center-item"><span class="icon">👤</span>户号查询</div>
+        <div class="help-center-item"><span class="icon">💰</span>电费查询</div>
+        <div class="help-center-item"><span class="icon">📋</span>业务查询</div>
+        <div class="help-center-item"><span class="icon">📖</span>政策查询</div>
+      </div>
+    </div>
+    <div class="module-card status-doing">
+      <span class="module-num">05</span>
+      <div class="module-title">AI工具箱<span class="status-badge">◐ 进行中</span></div>
+      <div class="ai-toolbox-grid">
+        <div class="ai-tool-item"><span class="tool-icon">📉</span><span class="tool-name">客户流失分析</span></div>
+        <div class="ai-tool-item"><span class="tool-icon">🎧</span><span class="tool-name">录音质检系统</span></div>
+        <div class="ai-tool-item"><span class="tool-icon">⚠️</span><span class="tool-name">风险录音提取</span></div>
+        <div class="ai-tool-item"><span class="tool-icon">📋</span><span class="tool-name">招投标筛查</span></div>
+        <div class="ai-tool-item"><span class="tool-icon">📊</span><span class="tool-name">周报看板生成</span></div>
+        <div class="ai-tool-item"><span class="tool-icon">✅</span><span class="tool-name">合规性自动检验</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第二行 5列 -->
+  <div class="modules-grid row-gap">
+    <div class="module-card status-planning">
+      <span class="module-num">06</span>
+      <div class="module-title">智能应答推荐<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>语义理解与意图识别</li>
+        <li>知识内容关联推荐</li>
+        <li>应答话术一键插入</li>
+        <li>FAQ智能匹配</li>
+        <li>高频问题快捷回复</li>
+        <li>个性化话术水印</li>
+      </ul>
+    </div>
+    <div class="module-card status-planning">
+      <span class="module-num">07</span>
+      <div class="module-title">客户诉求识别<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>客户意图分类识别</li>
+        <li>诉求重点自动提取</li>
+        <li>关键信息标注建议</li>
+        <li>舆情识别监测</li>
+        <li>多轮对话上下文理解</li>
+        <li>诉求变化追踪</li>
+      </ul>
+    </div>
+    <div class="module-card status-planning">
+      <span class="module-num">08</span>
+      <div class="module-title">工单智能填单<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>关键信息自动提取</li>
+        <li>工单字段智能填充</li>
+        <li>缺失信息提醒补全</li>
+        <li>工单模板智能匹配</li>
+        <li>一键生成工单草稿</li>
+        <li>提交校验与查重</li>
+      </ul>
+    </div>
+    <div class="module-card status-planning">
+      <span class="module-num">09</span>
+      <div class="module-title">通话摘要与回顾<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>通话自动摘要</li>
+        <li>关键信息提取</li>
+        <li>处理结果归档</li>
+        <li>后续事项跟进</li>
+        <li>摘要一键复制导出</li>
+        <li>间隔时间展示</li>
+      </ul>
+    </div>
+    <div class="module-card status-planning">
+      <span class="module-num">10</span>
+      <div class="module-title">历史客户画像<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>基本信息与业务画像</li>
+        <li>历史通话记录汇总</li>
+        <li>办理业务记录统计</li>
+        <li>风险等级标签统计</li>
+        <li>客户画像与需求分析</li>
+        <li>画像标签细分</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 第三行 5列 -->
+  <div class="modules-grid row-gap">
+    <div class="module-card status-planning">
+      <span class="module-num">11</span>
+      <div class="module-title">服务质检<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>话术准确度检测</li>
+        <li>服务规范度评估</li>
+        <li>客户满意度预判</li>
+        <li>通话质量评分</li>
+        <li>问题定位与改进建议</li>
+        <li>质检结果回调</li>
+      </ul>
+    </div>
+    <div class="module-card status-planning">
+      <span class="module-num">12</span>
+      <div class="module-title">座席能力分析<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>个人服务指标统计</li>
+        <li>能力画像雷达图</li>
+        <li>环比趋势分析</li>
+        <li>薄弱点识别提示</li>
+        <li>能力提升建议</li>
+        <li>培训课程推荐</li>
+      </ul>
+    </div>
+    <div class="module-card status-planning">
+      <span class="module-num">13</span>
+      <div class="module-title">班组运营看板<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>班组服务指标总览</li>
+        <li>实时预警与队列监控</li>
+        <li>风险预警分布统计</li>
+        <li>工单处理效率分析</li>
+        <li>快速运营趋势分析</li>
+        <li>运营日报/周报导出</li>
+      </ul>
+    </div>
+    <div class="module-card status-planning">
+      <span class="module-num">14</span>
+      <div class="module-title">知识席管理<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>知识分类与标签管理</li>
+        <li>知识内容管理与发布</li>
+        <li>多版本管理与回退</li>
+        <li>热门问题分析</li>
+        <li>RAG检索优化</li>
+      </ul>
+    </div>
+    <div class="module-card status-planning">
+      <span class="module-num">15</span>
+      <div class="module-title">话术与质检规则<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>标准话术库管理</li>
+        <li>话术版本与发布</li>
+        <li>质检规则配置</li>
+        <li>评分细则设置</li>
+        <li>规则生效周期管理</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 第四行 -->
+  <div class="modules-grid row-gap" style="grid-template-columns: repeat(4, 1fr) 2fr;">
+    <div class="module-card status-planning">
+      <span class="module-num">16</span>
+      <div class="module-title">系统运行监控<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>系统运行状态监控</li>
+        <li>服务健康度总览</li>
+        <li>API服务监控</li>
+        <li>接口调用监控</li>
+        <li>日志审计与分析</li>
+      </ul>
+    </div>
+    <div class="module-card status-planning">
+      <span class="module-num">17</span>
+      <div class="module-title">开放集成中心<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>标准API接口</li>
+        <li>Webhook推送</li>
+        <li>第三方系统对接</li>
+        <li>统一身份认证</li>
+        <li>数据导入导出</li>
+      </ul>
+    </div>
+    <div class="module-card status-planning">
+      <span class="module-num">18</span>
+      <div class="module-title">系统设置与管理<span class="status-badge">规划中</span></div>
+      <ul class="module-list">
+        <li>基础参数配置</li>
+        <li>功能开关管理</li>
+        <li>客户端更新分发</li>
+        <li>权限分配与管理</li>
+        <li>操作日志审计</li>
+      </ul>
+    </div>
+    <div class="module-card deploy-card" style="grid-column: span 2;">
+      <div class="deploy-icon">🌐</div>
+      <div class="deploy-info">
+        <div class="deploy-title">分布式部署架构（座席终端）</div>
+        <div class="deploy-desc">
+          全栈式就近接入 · 保障端到端低时延 · 网络质量自适应 · 智能策略优先<br>
+          支持全国多节点部署，座席终端本地化处理，数据安全可控
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部条 -->
+  <div class="seat-matrix-footer">
+    <span class="emoji">🎧</span>
+    95598 座席助手，让每一次通话更智能，让每一份服务更安心
+  </div>
+</div>
+</body>
+</html>
