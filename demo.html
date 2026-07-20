@@ -2220,17 +2220,20 @@ a { text-decoration:none; color:inherit; }
 }
 
 /* ===== AI工具箱 重点卡片 ===== */
-.module-card.ai-toolbox-card {
-  background: linear-gradient(135deg, #f0f9f4 0%, #e6f7ef 50%, #f0f9f4 100%);
-  border: 1px solid #b8e0cc;
+.module-card.ai-toolbox-card.status-doing {
+  background: linear-gradient(180deg, #f0f7ff 0%, #e8f0ff 100%);
+  border-color: #a8c8dc;
 }
-.module-card.ai-toolbox-card::before {
-  height: 3px;
-  background: linear-gradient(90deg, #006B54, #00A870, #4CAF50, #00A870, #006B54);
+.module-card.ai-toolbox-card.status-doing::before {
+  background: linear-gradient(90deg, #1976D2, #2196F3, #42A5F5);
 }
-.module-card.ai-toolbox-card .module-num {
-  background: linear-gradient(135deg, #FF8C00 0%, #FFA726 100%);
-  box-shadow: 0 2px 8px rgba(255,140,0,0.3);
+.module-card.ai-toolbox-card.status-doing .module-num {
+  background: linear-gradient(135deg, #1976D2 0%, #2196F3 100%);
+  box-shadow: none;
+}
+.module-card.ai-toolbox-card.status-doing .module-title {
+  color: #1565C0;
+  border-bottom-color: #b8d4e8;
 }
 .ai-toolbox-label {
   display: inline-block;
@@ -2473,7 +2476,7 @@ a { text-decoration:none; color:inherit; }
 
   <!-- 进度图例 -->
   <div class="matrix-legend">
-    <div class="legend-progress">整体进度：<strong>1/18</strong> 已完成 · 2/18 进行中</div>
+    <div class="legend-progress">整体进度：<strong>1/18</strong> 已完成 · 4/18 进行中</div>
     <div class="legend-item"><span class="legend-dot done"></span>已完成</div>
     <div class="legend-item"><span class="legend-dot doing"></span>进行中</div>
     <div class="legend-item"><span class="legend-dot planning"></span>规划中</div>
@@ -2500,8 +2503,56 @@ a { text-decoration:none; color:inherit; }
             <li>事件标记与备注</li>
           </ul>
         </div>
-        <div class="module-card status-planning">
+        <div class="module-card status-doing">
           <span class="module-num">02</span>
+          <div class="module-title">风险预警与升级<span class="status-badge">◐ 进行中</span></div>
+          <ul class="module-list">
+            <li>实时风险识别（20个标签）</li>
+            <li>红/橙/黄三级预警</li>
+            <li>风险触发标准提示</li>
+          </ul>
+        </div>
+        <div class="module-card status-doing">
+          <span class="module-num">03</span>
+          <div class="module-title">风险规则管理<span class="status-badge">◐ 进行中</span></div>
+          <ul class="module-list">
+            <li>风险标签配置（20个）</li>
+            <li>风险触发规则配置</li>
+            <li>分组策略调整</li>
+            <li>预警阈值管理</li>
+            <li>规则版本管理</li>
+          </ul>
+        </div>
+        <div class="module-card status-doing">
+          <span class="module-num">04</span>
+          <div class="module-title">在线帮查中心<span class="status-badge">◐ 进行中</span></div>
+          <div class="help-center-grid">
+            <div class="help-center-item"><span class="icon">⚡</span>停电研判</div>
+            <div class="help-center-item"><span class="icon">👤</span>户号查询</div>
+            <div class="help-center-item"><span class="icon">💰</span>电费查询</div>
+            <div class="help-center-item"><span class="icon">📋</span>业务查询</div>
+            <div class="help-center-item"><span class="icon">📖</span>政策查询</div>
+
+          </div>
+        </div>
+        <div class="module-card ai-toolbox-card status-doing">
+          <span class="module-num">05</span>
+          <div class="module-title">AI工具箱<span class="status-badge">◐ 进行中</span></div>
+          <div class="ai-toolbox-grid">
+            <div class="ai-tool-item"><span class="tool-icon">📉</span><span class="tool-name">客户流失原因分析</span></div>
+            <div class="ai-tool-item"><span class="tool-icon">🎧</span><span class="tool-name">录音质检系统</span></div>
+            <div class="ai-tool-item"><span class="tool-icon">⚠️</span><span class="tool-name">风险录音提取</span></div>
+            <div class="ai-tool-item"><span class="tool-icon">📋</span><span class="tool-name">招投标筛查工具</span></div>
+            <div class="ai-tool-item"><span class="tool-icon">📊</span><span class="tool-name">周报看板生成</span></div>
+            <div class="ai-tool-item"><span class="tool-icon">✅</span><span class="tool-name">合规性自动检验</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 第二行 5列 -->
+      <div class="modules-grid" style="margin-top:10px;">
+        <div class="module-card status-planning">
+          <span class="module-num">06</span>
           <div class="module-title">智能应答推荐<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>语义理解与意图识别</li>
@@ -2513,7 +2564,7 @@ a { text-decoration:none; color:inherit; }
           </ul>
         </div>
         <div class="module-card status-planning">
-          <span class="module-num">03</span>
+          <span class="module-num">07</span>
           <div class="module-title">客户诉求识别<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>客户意图分类识别</li>
@@ -2524,20 +2575,8 @@ a { text-decoration:none; color:inherit; }
             <li>诉求变化追踪</li>
           </ul>
         </div>
-        <div class="module-card status-doing">
-          <span class="module-num">04</span>
-          <div class="module-title">风险预警与升级<span class="status-badge">◐ 进行中</span></div>
-          <ul class="module-list">
-            <li>实时风险识别（20个标签）</li>
-            <li>红/橙/黄三级预警</li>
-            <li>风险触发标准提示</li>
-            <li>风险场景语音提醒</li>
-            <li>升级建议与处理指引</li>
-            <li>风险处置流程与通知</li>
-          </ul>
-        </div>
         <div class="module-card status-planning">
-          <span class="module-num">05</span>
+          <span class="module-num">08</span>
           <div class="module-title">工单智能填单<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>关键信息自动提取</li>
@@ -2548,12 +2587,8 @@ a { text-decoration:none; color:inherit; }
             <li>提交校验与查重</li>
           </ul>
         </div>
-      </div>
-
-      <!-- 第二行 5列 -->
-      <div class="modules-grid" style="margin-top:10px;">
         <div class="module-card status-planning">
-          <span class="module-num">06</span>
+          <span class="module-num">09</span>
           <div class="module-title">通话摘要与回顾<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>通话自动摘要</li>
@@ -2565,7 +2600,7 @@ a { text-decoration:none; color:inherit; }
           </ul>
         </div>
         <div class="module-card status-planning">
-          <span class="module-num">07</span>
+          <span class="module-num">10</span>
           <div class="module-title">历史客户画像<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>基本信息与业务画像</li>
@@ -2576,8 +2611,12 @@ a { text-decoration:none; color:inherit; }
             <li>画像标签细分</li>
           </ul>
         </div>
+      </div>
+
+      <!-- 第三行 5列 -->
+      <div class="modules-grid" style="margin-top:10px;">
         <div class="module-card status-planning">
-          <span class="module-num">08</span>
+          <span class="module-num">11</span>
           <div class="module-title">服务质检<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>话术准确度检测</li>
@@ -2589,7 +2628,7 @@ a { text-decoration:none; color:inherit; }
           </ul>
         </div>
         <div class="module-card status-planning">
-          <span class="module-num">09</span>
+          <span class="module-num">12</span>
           <div class="module-title">座席能力分析<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>个人服务指标统计</li>
@@ -2601,7 +2640,7 @@ a { text-decoration:none; color:inherit; }
           </ul>
         </div>
         <div class="module-card status-planning">
-          <span class="module-num">10</span>
+          <span class="module-num">13</span>
           <div class="module-title">班组运营看板<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>班组服务指标总览</li>
@@ -2612,24 +2651,8 @@ a { text-decoration:none; color:inherit; }
             <li>运营日报/周报导出</li>
           </ul>
         </div>
-      </div>
-
-      <!-- 第三行 6列 -->
-      <div class="modules-grid row-6col">
-        <div class="module-card status-doing">
-          <span class="module-num">11</span>
-          <div class="module-title">在线帮查中心<span class="status-badge">◐ 进行中</span></div>
-          <div class="help-center-grid">
-            <div class="help-center-item"><span class="icon">⚡</span>停电研判</div>
-            <div class="help-center-item"><span class="icon">👤</span>户号查询</div>
-            <div class="help-center-item"><span class="icon">💰</span>电费查询</div>
-            <div class="help-center-item"><span class="icon">📋</span>业务查询</div>
-            <div class="help-center-item"><span class="icon">📖</span>政策查询</div>
-            <div class="help-center-item"><span class="icon">🔧</span>设备查询</div>
-          </div>
-        </div>
         <div class="module-card status-planning">
-          <span class="module-num">12</span>
+          <span class="module-num">14</span>
           <div class="module-title">知识席管理<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>知识分类与标签管理</li>
@@ -2640,18 +2663,7 @@ a { text-decoration:none; color:inherit; }
           </ul>
         </div>
         <div class="module-card status-planning">
-          <span class="module-num">13</span>
-          <div class="module-title">风险规则管理<span class="status-badge">规划中</span></div>
-          <ul class="module-list">
-            <li>风险标签配置（20个）</li>
-            <li>风险触发规则配置</li>
-            <li>分组策略调整</li>
-            <li>预警阈值管理</li>
-            <li>规则版本管理</li>
-          </ul>
-        </div>
-        <div class="module-card status-planning">
-          <span class="module-num">14</span>
+          <span class="module-num">15</span>
           <div class="module-title">话术与质检规则<span class="status-badge">规划中</span></div>
           <ul class="module-list">
             <li>标准话术库管理</li>
@@ -2661,18 +2673,10 @@ a { text-decoration:none; color:inherit; }
             <li>规则生效周期管理</li>
           </ul>
         </div>
-        <div class="module-card ai-toolbox-card status-planning">
-          <span class="module-num">15</span>
-          <div class="module-title">AI工具箱<span class="status-badge">规划中</span></div>
-          <div class="ai-toolbox-grid">
-            <div class="ai-tool-item"><span class="tool-icon">📉</span><span class="tool-name">客户流失原因分析</span></div>
-            <div class="ai-tool-item"><span class="tool-icon">🎧</span><span class="tool-name">录音质检系统</span></div>
-            <div class="ai-tool-item"><span class="tool-icon">⚠️</span><span class="tool-name">风险录音提取</span></div>
-            <div class="ai-tool-item"><span class="tool-icon">📋</span><span class="tool-name">招投标筛查工具</span></div>
-            <div class="ai-tool-item"><span class="tool-icon">📊</span><span class="tool-name">周报看板生成</span></div>
-            <div class="ai-tool-item"><span class="tool-icon">✅</span><span class="tool-name">合规性自动检验</span></div>
-          </div>
-        </div>
+      </div>
+
+      <!-- 第四行 5列（最后一个是分布式部署架构） -->
+      <div class="modules-grid" style="margin-top:10px;">
         <div class="module-card status-planning">
           <span class="module-num">16</span>
           <div class="module-title">系统运行监控<span class="status-badge">规划中</span></div>
@@ -2684,10 +2688,6 @@ a { text-decoration:none; color:inherit; }
             <li>日志审计与分析</li>
           </ul>
         </div>
-      </div>
-
-      <!-- 第四行 4列（最后一个是分布式部署架构） -->
-      <div class="modules-grid row-4col">
         <div class="module-card status-planning">
           <span class="module-num">17</span>
           <div class="module-title">开放集成中心<span class="status-badge">规划中</span></div>
