@@ -970,9 +970,9 @@ chartProblemType.setOption({
   yAxis: { type: 'value' },
   series: [
     { name: '南中心', type: 'bar', stack: 'total', data: [462, 17, 54, 0, 0], itemStyle: { color: '#667eea' }, barWidth: 22,
-      label: { show: true, position: 'inside', color: 'white', fontSize: 10, formatter: function(p) { return p.value > 0 ? p.value + '个' : ''; } } },
+      label: { show: true, position: 'top', color: '#667eea', fontSize: 11, fontWeight: 'bold', formatter: function(p) { return p.value > 0 ? p.value + '个' : ''; } } },
     { name: '北中心', type: 'bar', stack: 'total', data: [0, 0, 0, 9, 19], itemStyle: { color: '#764ba2' }, barWidth: 22,
-      label: { show: true, position: 'inside', color: 'white', fontSize: 10, formatter: function(p) { return p.value > 0 ? p.value + '个' : ''; } } }
+      label: { show: true, position: 'top', color: '#764ba2', fontSize: 11, fontWeight: 'bold', formatter: function(p) { return p.value > 0 ? p.value + '个' : ''; } } }
   ]
 });
 
